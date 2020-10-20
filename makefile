@@ -2,13 +2,12 @@
 CXX = g++
 
 # Link
-LINK =
+LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
 
 # Include Directory
-IDIR = -Iinclude
+IDIR = -Iinclude -I"C:\workdir\TEMP\vcpkg\installed\x64-windows\include"
 
 # Optimizing Flags
-OPT = -O3 -march=native
 OPT = -O3 -march=native
 debug: OPT = -O0
 

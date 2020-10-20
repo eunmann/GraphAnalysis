@@ -73,5 +73,9 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "filesystem": "cpp"
-    }
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/include",
+        "C:\\workdir\\TEMP\\vcpkg\\installed\\x64-windows\\include"
+    ]
 }
