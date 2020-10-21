@@ -33,9 +33,10 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
-pm_files = test_memory_simple_struct test_memory_simple_struct_2
 
 # Clean
+pm_files = test_memory_simple_struct test_memory_simple_struct_2
+
 ifeq ($(OS),Windows_NT)
 	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe $(pm_files)
 	CLN_PM = del /f /q $(pm_files)
@@ -48,16 +49,20 @@ endif
 main: $(obj)
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $@ $^ $(LINK)
 
-debug: $(obj)
+debug: $(obj) 
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $@ $^ $(LINK)
 
 assembly: $(asm)
 
-obj/%.o: src/%.cpp
+obj/%.o: src/%.cpp | dir_make
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -c -o $@ $^ $(LINK)
 
-asm/%.s: src/%.cpp
+asm/%.s: src/%.cpp | dir_make
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -S -o $@ $^ $(LINK)
+
+dir_make:
+	@mkdir -p asm
+	@mkdir -p obj
 
 .PHONY: clean
 
