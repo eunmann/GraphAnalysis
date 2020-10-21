@@ -107,6 +107,7 @@ void simpleStructWrite2() {
 }
 
 void simpleStructRead2() {
+    /* Open up the memory, using a path and an layout name */
     PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store));
     if (pop == NULL) {
         perror("pmemobj_open");

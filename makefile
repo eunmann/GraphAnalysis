@@ -33,7 +33,6 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
-
 # Clean
 pm_files = test_memory_simple_struct test_memory_simple_struct_2
 
