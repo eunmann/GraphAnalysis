@@ -2,10 +2,18 @@
 CXX = g++
 
 # Link
-LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
+ifeq ($(OS),Windows_NT)
+	LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
+else
+	LINK = -lpmemobj
+endif
 
 # Include Directory
-IDIR = -Iinclude -I"C:\workdir\TEMP\vcpkg\installed\x64-windows\include"
+IDIR = -Iinclude
+
+ifeq ($(OS),Windows_NT)
+	IDIR += -I"C:\workdir\TEMP\vcpkg\installed\x64-windows\include"
+endif
 
 # Optimizing Flags
 OPT = -O3 -march=native
@@ -24,6 +32,13 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 
 obj = $(objCPP)
 asm = $(asmCPP)
+
+# Clean
+ifeq ($(OS),Windows_NT)
+	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe
+else
+	CLN = rm -rf $(obj) $(asm) main debug
+endif
 
 # Compile
 main: $(obj)
@@ -44,4 +59,4 @@ asm/%.s: src/%.cpp
 
 # Clean
 clean:
-	del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe
+	$(CLN)

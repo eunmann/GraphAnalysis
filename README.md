@@ -19,6 +19,9 @@ The command to build is:
 user@dir:~$ make
 ```
 
+<span style="color:red">Windows does not compile at the moment! There are linking errors.<span>
+
+
 To build in debug mode:
 ```console
 user@dir:~$ make debug
@@ -34,9 +37,14 @@ user@dir:~$ make assembly
 Run
 ---
 ___
-To run the program, run:
+To run the program linux, run:
 ```console
-user@dir:~$ main.exe
+user@dir:~$ ./main
+```
+
+To run the program Windows, run:
+```console
+user@dir:~$ ./main.exe
 ```
 
 Clean
@@ -46,4 +54,3 @@ To delete all built files, run:
 ```console
 user@dir:~$ make clean
 ```
-Note that in the makefile that it uses the windows command "del". This will need to be changed if running on a Unix machine.

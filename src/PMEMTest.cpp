@@ -6,7 +6,7 @@
 namespace PMEMTest {
 void simpleStructWrite() {
     /* Create the memory interface (just like creating a file) */
-    PMEMobjpool* pop = pmemobj_create(L"./test_memory_simple_struct", L"intro_0", PMEMOBJ_MIN_POOL, 0666);
+    PMEMobjpool* pop = pmemobj_create("./test_memory_simple_struct", "intro_0", PMEMOBJ_MIN_POOL, 0666);
     if (pop == NULL) {
         perror("pmemobj_create");
         return;
@@ -30,7 +30,7 @@ void simpleStructWrite() {
 }
 
 void simpleStructRead() {
-    PMEMobjpool* pop = pmemobj_open(L"./test_memory_simple_struct", L"intro_0");
+    PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct", "intro_0");
     if (pop == NULL) {
         perror("pmemobj_open");
         return;
