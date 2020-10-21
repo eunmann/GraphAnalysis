@@ -33,11 +33,15 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
+pm_files = test_memory_simple_struct test_memory_simple_struct_2
+
 # Clean
 ifeq ($(OS),Windows_NT)
-	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe
+	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe $(pm_files)
+	CLN_PM = del /f /q $(pm_files)
 else
-	CLN = rm -rf $(obj) $(asm) main debug
+	CLN = rm -rf $(obj) $(asm) main debug $(pm_files)
+	CLN_PM = rm -rf $(pm_files)
 endif
 
 # Compile
@@ -60,3 +64,6 @@ asm/%.s: src/%.cpp
 # Clean
 clean:
 	$(CLN)
+
+clean_pm:
+	$(CLN_PM)
