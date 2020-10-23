@@ -63,7 +63,7 @@ dir_make:
 	@mkdir -p asm
 	@mkdir -p obj
 
-.PHONY: clean
+.PHONY: clean clean_pm
 
 # Clean
 clean:
