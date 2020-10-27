@@ -1,22 +1,41 @@
 #pragma once
-#include <inttypes.h>
 
 #include <functional>
 
+template<class T>
 class Graph {
-   private:
-    uint32_t* arr;
+public:
+	const uint32_t numOfNodes;
 
-   public:
-    const uint32_t numOfNodes;
+	Graph(const uint32_t numOfNodes, T* arr) :
+		numOfNodes(numOfNodes),
+		arr(arr) {}
 
-    Graph(const uint32_t numOfNodes);
 
-    const uint32_t weight(const uint32_t i, const uint32_t j);
-    uint32_t& operator()(const uint32_t i, const uint32_t j);
-    void set(const uint32_t weight, const uint32_t i, const uint32_t j);
-    void forEach(std::function<void(uint32_t& v, const uint32_t i, const uint32_t j)> func);
+	const T weight(const uint32_t i, const uint32_t j) {
+		return this->arr[this->index(i, j)];
+	}
 
-   private:
-    const uint32_t index(const uint32_t i, const uint32_t j);
+	T& operator()(const uint32_t i, const uint32_t j) {
+		return this->arr[this->index(i, j)];
+	}
+
+	void set(const T weight, const uint32_t i, const uint32_t j) {
+		this->arr[this->index(i, j)] = weight;
+	}
+
+	void forEach(std::function<void(T& v, const uint32_t i, const uint32_t j)> func) {
+		for (uint32_t i = 0; i < this->numOfNodes; i++) {
+			for (uint32_t j = 0; j < this->numOfNodes; j++) {
+				func(this->arr[this->index(i, j)], i, j);
+			}
+		}
+	}
+
+private:
+	T* arr;
+
+	const uint32_t index(const uint32_t i, const uint32_t j) {
+		return this->numOfNodes * i + j;
+	}
 };

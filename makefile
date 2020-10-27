@@ -5,7 +5,7 @@ CXX = g++
 ifeq ($(OS),Windows_NT)
 	LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
 else
-	LINK = -lpmemobj
+	LINK = -lpmemobj -lmemkind
 endif
 
 # Include Directory
@@ -34,7 +34,7 @@ obj = $(objCPP)
 asm = $(asmCPP)
 
 # Clean
-pm_files = test_memory_simple_struct test_memory_simple_struct_2
+pm_files = test_memory_simple_struct test_memory_simple_struct_2 pmem_as_volatile
 
 ifeq ($(OS),Windows_NT)
 	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe $(pm_files)
@@ -60,8 +60,7 @@ asm/%.s: src/%.cpp | dir_make
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -S -o $@ $^ $(LINK)
 
 dir_make:
-	@mkdir -p asm
-	@mkdir -p obj
+	@mkdir -p asm obj tmp
 
 .PHONY: clean clean_pm
 
