@@ -6,9 +6,9 @@ This project conducts an experiment of a graph algorithm's performance on persis
 Dependencies
 ---
 ___
-C++17 compliant compiler. (g++ 9.2.0 was used for this project) \
-[PDMK](https://github.com/pmem/pmdk/) \
-Make sure to modify the include and link paths in the makefile for your system.
+C++17 compliant compiler. (g++ 9.3.0 was used for this project) \
+[PDMK](https://github.com/pmem/pmdk/) (libpmemobj) \
+[Memkind](https://github.com/memkind/memkind)
 
 Build
 ---

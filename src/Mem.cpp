@@ -1,7 +1,7 @@
 #include "Mem.hpp"
 
 #include <stdio.h>
-#include <algorithm>
+#include <memkind.h>
 
 namespace Mem {
 
@@ -15,19 +15,5 @@ namespace Mem {
 
 	void* malloc(size_t size) {
 		return memkind_malloc(MEMKIND_DEFAULT, size);
-	}
-
-	MemBlock create_mem(size_t size) {
-		MemBlock memBlock;
-		MEMKIND_CALL(memkind_create_pmem("./tmp/", MEMKIND_PMEM_MIN_SIZE, &memBlock.pmem_kind));
-		return memBlock;
-	}
-
-	void mem_free(MemBlock& memBlock, void* ptr) {
-		memkind_free(memBlock.pmem_kind, ptr);
-	}
-
-	void delete_mem(MemBlock& memBlock) {
-		MEMKIND_CALL(memkind_destroy_kind(memBlock.pmem_kind));
 	}
 }

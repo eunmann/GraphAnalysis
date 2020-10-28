@@ -34,7 +34,7 @@ obj = $(objCPP)
 asm = $(asmCPP)
 
 # Clean
-pm_files = test_memory_simple_struct test_memory_simple_struct_2 pmem_as_volatile
+pm_files = test_memory_simple_struct test_memory_simple_struct_2
 
 ifeq ($(OS),Windows_NT)
 	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe $(pm_files)

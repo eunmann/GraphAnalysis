@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include <memkind.h>
-#include "Mem.hpp"
+#include "MemPool.hpp"
 
 namespace PMEMTest {
 	void simpleStructWrite() {
@@ -170,8 +170,8 @@ namespace PMEMTest {
 
 	void persistentMemoryAsVolatileAPI() {
 		size_t alloc_size = 1024;
-		Mem::MemBlock memBlock = Mem::create_mem(alloc_size);
-		char* string = Mem::mem_malloc<char*>(memBlock, alloc_size);
+		Mem::MemPool memPool = Mem::MemPool(alloc_size);
+		char* string = memPool.malloc<char*>(alloc_size);
 
 		snprintf(string, alloc_size, "This is using an easier API");
 		printf("%s\n", string);
@@ -180,7 +180,6 @@ namespace PMEMTest {
 
 		printf("%s\n", string);
 
-		Mem::mem_free(memBlock, string);
-		Mem::delete_mem(memBlock);
+		memPool.free_ptr(string);
 	}
-}  // namespace PMEMTest
+}

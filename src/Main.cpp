@@ -5,7 +5,7 @@
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
 #include <inttypes.h>
-#include "Mem.hpp"
+#include "MemPool.hpp"
 
 void PMEMTests() {
 	printf("First test, simple struct write and read.\n");
@@ -32,7 +32,7 @@ void GraphTest() {
 		Graph<uint64_t> g(numberOfNodes, arr);
 
 		uint64_t t = 0;
-		g.forEach([&](uint64_t v, const uint32_t i, const uint32_t j) {
+		g.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
 			t += i + j;
 			});
 
@@ -43,19 +43,20 @@ void GraphTest() {
 	{
 		BlockTimer timer("Graph using Persistent Memory");
 		const size_t alloc_size = sizeof(uint64_t) * numberOfNodes * numberOfNodes;
-		Mem::MemBlock memBlock = Mem::create_mem(alloc_size);
-		uint64_t* arr2 = Mem::mem_malloc<uint64_t*>(memBlock, alloc_size);
+		Mem::MemPool memPool = Mem::MemPool(alloc_size);
+		uint64_t* arr2 = memPool.malloc<uint64_t*>(alloc_size);
 
 		Graph<uint64_t> g2(numberOfNodes, arr2);
 		uint64_t t = 0;
-		g2.forEach([&](uint64_t v, const uint32_t i, const uint32_t j) {
+		g2.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
 			t += i + j;
 			});
 
 		printf("t: %ld\n", t);
 
-		Mem::mem_free(memBlock, arr2);
-		Mem::delete_mem(memBlock);
+		memPool.free_ptr(arr2);
+		/* This function is actually called on destruction, so this is not required */
+		memPool.free_pool();
 	}
 }
 
