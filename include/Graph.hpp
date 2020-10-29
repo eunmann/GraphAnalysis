@@ -57,7 +57,7 @@ public:
 	void forEach(std::function<void(T& v, const uint32_t i, const uint32_t j)> func) {
 		for (uint32_t i = 0; i < this->numVertices; i++) {
 			for (uint32_t j = 0; j < this->numVertices; j++) {
-				func(this->arr[this->index(i, j)], i, j);
+				func((*this)(i, j), i, j);
 			}
 		}
 	}

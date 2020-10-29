@@ -24,7 +24,7 @@ void PMEMTests() {
 }
 
 void GraphTest() {
-	const uint32_t numberOfNodes = 1 << 16;
+	const uint32_t numberOfNodes = 1 << 12;
 	{
 		BlockTimer timer("Graph using DRAM");
 		uint64_t* arr = new uint64_t[numberOfNodes * numberOfNodes];
@@ -33,6 +33,7 @@ void GraphTest() {
 
 		uint64_t t = 0;
 		g.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
+			v = 0;
 			t += i + j;
 			});
 
@@ -44,11 +45,17 @@ void GraphTest() {
 		BlockTimer timer("Graph using Persistent Memory");
 		const size_t alloc_size = sizeof(uint64_t) * numberOfNodes * numberOfNodes;
 		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		uint64_t* arr2 = memPool.malloc<uint64_t*>(alloc_size);
+		uint64_t* arr2 = memPool.malloc<uint64_t*>(numberOfNodes * numberOfNodes);
+
+		if (arr2 == nullptr) {
+			printf("Error allocating memory for graph in persistent memory\n");
+			return;
+		}
 
 		Graph<uint64_t> g2(numberOfNodes, arr2);
 		uint64_t t = 0;
 		g2.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
+			v = 0;
 			t += i + j;
 			});
 
@@ -64,6 +71,8 @@ int main(int argc, char** argv) {
 	Timer timer("Time Elapsed");
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
+
+	PMEMTests();
 
 	GraphTest();
 

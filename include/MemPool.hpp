@@ -23,12 +23,12 @@ namespace Mem {
 		~MemPool();
 
 		/**
-		 * @param size The size of memory in bytes
-		 * @return A pointer within the allocated memory pool of size
+		 * @param num_ele The number of elements to allocate
+		 * @return A pointer within the allocated memory pool
 		 */
 		template<class T>
-		T malloc(size_t size) {
-			return static_cast<T>(memkind_malloc(this->pmem_kind, size));
+		T malloc(size_t num_ele) {
+			return static_cast<T>(memkind_malloc(this->pmem_kind, sizeof(T) * num_ele));
 		}
 
 		/**
