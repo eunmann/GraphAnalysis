@@ -45,7 +45,7 @@ void GraphTest() {
 		BlockTimer timer("Graph using Persistent Memory");
 		const size_t alloc_size = sizeof(uint64_t) * numberOfNodes * numberOfNodes;
 		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		uint64_t* arr2 = memPool.malloc<uint64_t*>(numberOfNodes * numberOfNodes);
+		uint64_t* arr2 = memPool.malloc<uint64_t>(numberOfNodes * numberOfNodes);
 
 		if (arr2 == nullptr) {
 			printf("Error allocating memory for graph in persistent memory\n");

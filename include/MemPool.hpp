@@ -27,8 +27,8 @@ namespace Mem {
 		 * @return A pointer within the allocated memory pool
 		 */
 		template<class T>
-		T malloc(size_t num_ele) {
-			return static_cast<T>(memkind_malloc(this->pmem_kind, sizeof(T) * num_ele));
+		T* malloc(size_t num_ele) {
+			return static_cast<T*>(memkind_malloc(this->pmem_kind, sizeof(T) * num_ele));
 		}
 
 		/**

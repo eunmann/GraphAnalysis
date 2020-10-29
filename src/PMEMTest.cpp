@@ -171,7 +171,7 @@ namespace PMEMTest {
 	void persistentMemoryAsVolatileAPI() {
 		size_t alloc_size = 1024;
 		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		char* string = memPool.malloc<char*>(alloc_size);
+		char* string = memPool.malloc<char>(alloc_size);
 
 		snprintf(string, alloc_size, "This is using an easier API");
 		printf("%s\n", string);
