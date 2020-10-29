@@ -1,0 +1,5 @@
+10/29/2020
+	Run tests on the machine to make sure that persistent memory is being used
+		Maybe reproduce the experiemnt from the papaer to ensure we are using persistent memroy 
+	Use undirected graphs for ease.
+	Store by row: http://netlib.org/linalg/html_templates/node91.html

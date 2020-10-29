@@ -72,8 +72,6 @@ int main(int argc, char** argv) {
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
-	PMEMTests();
-
 	GraphTest();
 
 	timer.end();

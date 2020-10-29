@@ -8,6 +8,8 @@
 #include <memkind.h>
 #include "MemPool.hpp"
 
+#include <libpmemobj.h>
+
 namespace PMEMTest {
 	void simpleStructWrite() {
 		/* Create the memory interface (just like creating a file) */
@@ -171,7 +173,7 @@ namespace PMEMTest {
 	void persistentMemoryAsVolatileAPI() {
 		size_t alloc_size = 1024;
 		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		char* string = memPool.malloc<char>(alloc_size);
+		char* string = memPool.malloc<char>(alloc_size / sizeof(char));
 
 		snprintf(string, alloc_size, "This is using an easier API");
 		printf("%s\n", string);
