@@ -2,18 +2,10 @@
 CXX = g++
 
 # Link
-ifeq ($(OS),Windows_NT)
-	LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
-else
-	LINK = -lpmemobj -lpmem
-endif
+LINK = -lpmemobj -lpmem
 
 # Include Directory
 IDIR = -Iinclude
-
-ifeq ($(OS),Windows_NT)
-	IDIR += -I"C:\workdir\TEMP\vcpkg\installed\x64-windows\include"
-endif
 
 # Optimizing Flags
 OPT = -O3 -march=native
@@ -35,14 +27,6 @@ asm = $(asmCPP)
 
 # Clean
 pm_files = test_memory_simple_struct test_memory_simple_struct_2
-
-ifeq ($(OS),Windows_NT)
-	CLN = del /f /q $(subst /,\,$(obj)) $(subst /,\,$(asm)) main.exe debug.exe $(pm_files)
-	CLN_PM = del /f /q $(pm_files)
-else
-	CLN = rm -rf $(obj) $(asm) main debug $(pm_files)
-	CLN_PM = rm -rf $(pm_files)
-endif
 
 # Compile
 main: $(obj)
@@ -66,7 +50,4 @@ dir_make:
 
 # Clean
 clean:
-	$(CLN)
-
-clean_pm:
-	$(CLN_PM)
+	rm -rf $(obj) $(asm) main debug $(pm_files)

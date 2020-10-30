@@ -18,10 +18,10 @@ namespace PMEMTest {
 	POBJ_LAYOUT_ROOT(string_store, struct my_root_2);
 	POBJ_LAYOUT_END(string_store);
 
-	void simpleStructWrite();
-	void simpleStructRead();
-	void simpleStructWrite2();
-	void simpleStructRead2();
+	void libpmemobj_example_write_1();
+	void libpmemobj_example_read_1();
+	void libpmemobj_example_write_2();
+	void libpmemobj_example_read_2();
 
 	void persistentMemoryAsVolatileAPI();
 }

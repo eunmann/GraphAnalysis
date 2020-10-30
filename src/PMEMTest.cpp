@@ -10,7 +10,7 @@
 #include <libpmemobj.h>
 
 namespace PMEMTest {
-	void simpleStructWrite() {
+	void libpmemobj_example_write_1() {
 		/* Create the memory interface (just like creating a file) */
 		PMEMobjpool* pop = pmemobj_create("./test_memory_simple_struct", "intro_0", PMEMOBJ_MIN_POOL, 0666);
 		if (pop == NULL) {
@@ -35,7 +35,7 @@ namespace PMEMTest {
 		pmemobj_close(pop);
 	}
 
-	void simpleStructRead() {
+	void libpmemobj_example_read_1() {
 		/* Open up the memory, using a path and an layout name */
 		PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct", "intro_0");
 		if (pop == NULL) {
@@ -56,7 +56,7 @@ namespace PMEMTest {
 		pmemobj_close(pop);
 	}
 
-	void simpleStructWrite2() {
+	void libpmemobj_example_write_2() {
 		/* Create the memory interface (just like creating a file) */
 		PMEMobjpool* pop = pmemobj_create("./test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store), PMEMOBJ_MIN_POOL, 0666);
 		if (pop == NULL) {
@@ -109,7 +109,7 @@ namespace PMEMTest {
 		pmemobj_close(pop);
 	}
 
-	void simpleStructRead2() {
+	void libpmemobj_example_read_2() {
 		/* Open up the memory, using a path and an layout name */
 		PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store));
 		if (pop == NULL) {

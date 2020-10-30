@@ -6,17 +6,16 @@
 #include "BlockTimer.hpp"
 #include <inttypes.h>
 #include "PMEM.hpp"
-#include "Mem.hpp"
 #include <random>
 
 void PMEMTests() {
 	printf("First test, simple struct write and read.\n");
-	PMEMTest::simpleStructWrite();
-	PMEMTest::simpleStructRead();
+	PMEMTest::libpmemobj_example_write_1();
+	PMEMTest::libpmemobj_example_read_1();
 
 	printf("Second test, simple struct write and read with type safety.\n");
-	PMEMTest::simpleStructWrite2();
-	PMEMTest::simpleStructRead2();
+	PMEMTest::libpmemobj_example_write_2();
+	PMEMTest::libpmemobj_example_read_2();
 
 	printf("Third test, this is using an API that I made.\n");
 	PMEMTest::persistentMemoryAsVolatileAPI();
@@ -115,7 +114,7 @@ int main(int argc, char** argv) {
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
-	const size_t alloc_size = 1 * 1e9;
+	const size_t alloc_size = 1 * 1e6;
 	printf("Allocation Size: %lu\n", alloc_size);
 
 	{

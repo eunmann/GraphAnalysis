@@ -6,6 +6,7 @@ This project conducts an experiment of a graph algorithm's performance on persis
 Dependencies
 ---
 ___
+Linux OS \
 C++17 compliant compiler. (g++ 9.3.0 was used for this project) \
 [PDMK](https://github.com/pmem/pmdk/) (libpmemobj) \
 [Memkind](https://github.com/memkind/memkind)
@@ -18,9 +19,6 @@ The command to build is:
 ```console
 user@dir:~$ make
 ```
-
-<span style="color:red">Windows does not compile at the moment! There are linking errors.<span>
-
 
 To build in debug mode:
 ```console
