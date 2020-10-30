@@ -6,6 +6,8 @@
 #include "BlockTimer.hpp"
 #include <inttypes.h>
 #include "MemPool.hpp"
+#include "Mem.hpp"
+#include <random>
 
 void PMEMTests() {
 	printf("First test, simple struct write and read.\n");
@@ -67,12 +69,81 @@ void GraphTest() {
 	}
 }
 
+void memoryTest(char* arr, const uint64_t size) {
+
+	std::default_random_engine generator;
+	std::uniform_int_distribution<uint64_t> distribution(0, size);
+	auto indexGen = std::bind(distribution, generator);
+	uint64_t sum = 0;
+
+	BlockTimer timer("Memory Test");
+
+	/* Read straight through */
+	{
+		BlockTimer rs_timer("Read Straight");
+		for (uint64_t i = 0; i < size; i++) {
+			sum += arr[i];
+		}
+		printf("Sum: %lu\n", sum);
+	}
+
+	/* Read Random */
+	{
+		BlockTimer rr_timer("Read Random");
+		sum = 0;
+		for (uint64_t i = 0; i < size; i++) {
+			sum += arr[indexGen()];
+		}
+		printf("Sum: %lu\n", sum);
+	}
+
+	/* Write straight */
+	{
+		BlockTimer ws_timer("Write Straight");
+		for (uint64_t i = 0; i < size; i++) {
+			arr[i] = 0;
+		}
+	}
+
+	/* Write Random */
+	{
+		BlockTimer wr_timer("Write Random");
+		for (uint64_t i = 0; i < size; i++) {
+			arr[indexGen()] = 0;
+		}
+	}
+}
+
 int main(int argc, char** argv) {
 	Timer timer("Time Elapsed");
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
-	GraphTest();
+	printf("Persistent Memory Available: %s\n", Mem::persistent_memory_available() ? "true" : "false");
+
+	const size_t alloc_size = 500 * 1e6;
+	printf("Allocation Size: %lu\n", alloc_size);
+
+	{
+		printf("DRAM\n");
+		char* array = new char[alloc_size];
+		memoryTest(array, alloc_size);
+		delete array;
+	}
+
+	{
+		printf("Persistent Memory\n");
+		Mem::MemPool memPool = Mem::MemPool(alloc_size);
+		char* array = Mem::p_new<char>(alloc_size);
+
+		printf("Memory Kind: %s\n", memkind_detect_kind(array) == MEMKIND_DAX_KMEM ? "Persistent" : "DRAM");
+		if (array == nullptr) {
+			printf("Trouble allocating persistent memory\n");
+			return 0;
+		}
+		memoryTest(array, alloc_size);
+		memPool.free_ptr(array);
+	}
 
 	timer.end();
 	timer.print();

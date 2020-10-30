@@ -1,0 +1,1 @@
+./main > Output.txt

@@ -10,8 +10,10 @@ namespace Mem {
 	 * @param statement The statement that caused the error
 	 * @param filename The file where the statement is contained
 	 * @param line The line number of the statement within the file
+	 *
+	 * @return The given error code err
 	 */
-	void print_memkind_error(int err, const char* statement, const char* filename, int line);
+	int print_memkind_error(int err, const char* statement, const char* filename, int line);
 
 	/**
 	 * Allocates memory from persistent memory without the need of creating file-backed memory
@@ -20,11 +22,18 @@ namespace Mem {
 	 * @return A pointer to the allocated memory or NULL if there was an error
 	 */
 	void* malloc(size_t size);
+
+	template<class T>
+	T* p_new(size_t num_ele) {
+		return static_cast<T*>(Mem::malloc(sizeof(T) * num_ele));
+	}
+
+	bool persistent_memory_available();
 }
 
 /**
  * A macro to wrap Mem::print_memkind_error
  */
 #define MEMKIND_CALL(statement) { \
-	Mem::print_memkind_error(statement, #statement, __FILE__, __LINE__); \
+	Mem::print_memkind_error(statement, #statement, __FILE__, __LINE__);\
 }

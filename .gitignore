@@ -39,3 +39,6 @@ debug
 # Test Persistent Memory Files
 test_memory_simple_struct
 test_memory_simple_struct_2
+
+# Output
+Output.txt
