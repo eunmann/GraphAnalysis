@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include "PMEM.hpp"
 #include <random>
+#include <string>
 
 void PMEMTests() {
 	printf("First test, simple struct write and read.\n");
@@ -114,7 +115,12 @@ int main(int argc, char** argv) {
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
-	const size_t alloc_size = 1 * 1e6;
+	size_t alloc_size = 1 * 1e9;
+
+	if (argc > 1) {
+		alloc_size = std::stol(std::string(argv[1]));
+	}
+
 	printf("Allocation Size: %lu\n", alloc_size);
 
 	{
