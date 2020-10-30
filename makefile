@@ -5,7 +5,7 @@ CXX = g++
 ifeq ($(OS),Windows_NT)
 	LINK = -L"C:\workdir\TEMP\vcpkg\installed\x64-windows\lib\" -llibpmemobj
 else
-	LINK = -lpmemobj -lmemkind
+	LINK = -lpmemobj -lpmem
 endif
 
 # Include Directory

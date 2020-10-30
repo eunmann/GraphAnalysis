@@ -5,7 +5,7 @@
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
 #include <inttypes.h>
-#include "MemPool.hpp"
+#include "PMEM.hpp"
 #include "Mem.hpp"
 #include <random>
 
@@ -18,10 +18,7 @@ void PMEMTests() {
 	PMEMTest::simpleStructWrite2();
 	PMEMTest::simpleStructRead2();
 
-	printf("Third test, using persistent memory like volatile memory.\n");
-	PMEMTest::persistentMemoryAsVolatile();
-
-	printf("Fourth test, this is using an API that I made.\n");
+	printf("Third test, this is using an API that I made.\n");
 	PMEMTest::persistentMemoryAsVolatileAPI();
 }
 
@@ -46,8 +43,8 @@ void GraphTest() {
 	{
 		BlockTimer timer("Graph using Persistent Memory");
 		const size_t alloc_size = sizeof(uint64_t) * numberOfNodes * numberOfNodes;
-		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		uint64_t* arr2 = memPool.malloc<uint64_t>(numberOfNodes * numberOfNodes);
+		Mem::PMEM pmem = Mem::PMEM(alloc_size);
+		uint64_t* arr2 = pmem.as<uint64_t*>();
 
 		if (arr2 == nullptr) {
 			printf("Error allocating memory for graph in persistent memory\n");
@@ -63,9 +60,8 @@ void GraphTest() {
 
 		printf("t: %ld\n", t);
 
-		memPool.free_ptr(arr2);
 		/* This function is actually called on destruction, so this is not required */
-		memPool.free_pool();
+		pmem.free();
 	}
 }
 
@@ -119,9 +115,7 @@ int main(int argc, char** argv) {
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
-	printf("Persistent Memory Available: %s\n", Mem::persistent_memory_available() ? "true" : "false");
-
-	const size_t alloc_size = 500 * 1e6;
+	const size_t alloc_size = 1 * 1e9;
 	printf("Allocation Size: %lu\n", alloc_size);
 
 	{
@@ -133,16 +127,18 @@ int main(int argc, char** argv) {
 
 	{
 		printf("Persistent Memory\n");
-		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		char* array = Mem::p_new<char>(alloc_size);
+		Mem::PMEM pmem = Mem::PMEM(alloc_size);
+		char* array = pmem.as<char*>();
 
-		printf("Memory Kind: %s\n", memkind_detect_kind(array) == MEMKIND_DAX_KMEM ? "Persistent" : "DRAM");
+		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
+		printf("Mapped length: %lu\n", pmem.mapped_length());
+
 		if (array == nullptr) {
 			printf("Trouble allocating persistent memory\n");
 			return 0;
 		}
 		memoryTest(array, alloc_size);
-		memPool.free_ptr(array);
+		pmem.free();
 	}
 
 	timer.end();

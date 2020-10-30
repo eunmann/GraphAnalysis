@@ -5,8 +5,7 @@
 
 #include <iostream>
 
-#include <memkind.h>
-#include "MemPool.hpp"
+#include "PMEM.hpp"
 
 #include <libpmemobj.h>
 
@@ -131,49 +130,10 @@ namespace PMEMTest {
 		pmemobj_close(pop);
 	}
 
-	void persistentMemoryAsVolatile() {
-
-		char* string = nullptr;
-		const size_t alloc_size = 1024;
-
-		/* Malloc and free without a memory mapped file */
-		string = static_cast<char*>(memkind_malloc(MEMKIND_DEFAULT, alloc_size));
-
-		snprintf(string, alloc_size, "This is a string!!!!");
-		printf("%s\n", string);
-
-		memkind_free(MEMKIND_DEFAULT, string);
-		string = nullptr;
-
-		/* Malloc and free with a memory mapped file */
-		struct memkind* pmem_kind = nullptr;
-		int err = memkind_create_pmem("./tmp/", MEMKIND_PMEM_MIN_SIZE, &pmem_kind);
-		if (err) {
-			char error_message[MEMKIND_ERROR_MESSAGE_SIZE];
-			memkind_error_message(err, error_message, MEMKIND_ERROR_MESSAGE_SIZE);
-			fprintf(stderr, "%s\n", error_message);
-		}
-
-		string = static_cast<char*>(memkind_malloc(pmem_kind, alloc_size));
-
-		snprintf(string, alloc_size, "This is a different string from before!!!!");
-		printf("%s\n", string);
-
-		memkind_free(pmem_kind, string);
-		string = nullptr;
-
-		err = memkind_destroy_kind(pmem_kind);
-		if (err) {
-			char error_message[MEMKIND_ERROR_MESSAGE_SIZE];
-			memkind_error_message(err, error_message, MEMKIND_ERROR_MESSAGE_SIZE);
-			fprintf(stderr, "%s\n", error_message);
-		}
-	}
-
 	void persistentMemoryAsVolatileAPI() {
 		size_t alloc_size = 1024;
-		Mem::MemPool memPool = Mem::MemPool(alloc_size);
-		char* string = memPool.malloc<char>(alloc_size / sizeof(char));
+		Mem::PMEM pmem = Mem::PMEM(alloc_size);
+		char* string = pmem.as<char*>();
 
 		snprintf(string, alloc_size, "This is using an easier API");
 		printf("%s\n", string);
@@ -182,6 +142,6 @@ namespace PMEMTest {
 
 		printf("%s\n", string);
 
-		memPool.free_ptr(string);
+		pmem.free();
 	}
 }

@@ -23,6 +23,5 @@ namespace PMEMTest {
 	void simpleStructWrite2();
 	void simpleStructRead2();
 
-	void persistentMemoryAsVolatile();
 	void persistentMemoryAsVolatileAPI();
 }

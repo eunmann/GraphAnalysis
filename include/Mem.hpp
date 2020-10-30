@@ -2,33 +2,6 @@ typedef unsigned long size_t;
 
 namespace Mem {
 
-	/**
-	 * A function to wrap memkind function calls with. If there was an error, it will print
-	 * that error with a message.
-	 *
-	 * @param err The memkind error code
-	 * @param statement The statement that caused the error
-	 * @param filename The file where the statement is contained
-	 * @param line The line number of the statement within the file
-	 *
-	 * @return The given error code err
-	 */
-	int print_memkind_error(int err, const char* statement, const char* filename, int line);
-
-	/**
-	 * Allocates memory from persistent memory without the need of creating file-backed memory
-	 *
-	 * @param size The size in bytes of memory to allocate (this needs to be a multiple of 8)
-	 * @return A pointer to the allocated memory or NULL if there was an error
-	 */
-	void* malloc(size_t size);
-
-	template<class T>
-	T* p_new(size_t num_ele) {
-		return static_cast<T*>(Mem::malloc(sizeof(T) * num_ele));
-	}
-
-	bool persistent_memory_available();
 }
 
 /**
