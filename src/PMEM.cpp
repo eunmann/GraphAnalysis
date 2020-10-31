@@ -7,7 +7,7 @@ namespace Mem {
 	PMEM::PMEM(size_t alloc_size) : pmem_ptr(nullptr) {
 
 		/* TODO(EMU): Directory is hardcoded, this should be passed in */
-		this->pmem_ptr = pmem_map_file("./tmp/", alloc_size, PMEM_FILE_CREATE | PMEM_FILE_TMPFILE, 666, &this->mapped_len, &this->is_pmem);
+		this->pmem_ptr = pmem_map_file("./pmem_file_test", alloc_size, PMEM_FILE_CREATE, 0666, &this->mapped_len, &this->is_pmem);
 
 		if (this->pmem_ptr == nullptr) {
 			printf("Somethign went wrogn with pool allocation.\n");
