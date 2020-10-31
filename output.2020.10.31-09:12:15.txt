@@ -1,0 +1,22 @@
+Graph Analysis for a Graph Algorithm on Persistent Memory Machines
+by Evan Unmann
+Allocation Size: 1000000000
+DRAM
+Sum: 0
+[ Read Straight | 201.403 ms ]
+Sum: 0
+[ Read Random | 16.806 s ]
+[ Write Straight | 413.192 ms ]
+[ Write Random | 20.279 s ]
+[ Memory Test | 37.699 s ]
+Persistent Memory
+Is persistent: True
+Mapped length: 1000000000
+Sum: 0
+[ Read Straight | 92.760 ms ]
+Sum: 0
+[ Read Random | 15.882 s ]
+[ Write Straight | 579.055 ms ]
+[ Write Random | 1.262 min ]
+[ Memory Test | 1.538 min ]
+[ Time Elapsed | 2.167 min ]
