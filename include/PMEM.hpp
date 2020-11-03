@@ -1,6 +1,13 @@
+#include <string>
+
 typedef unsigned long size_t;
 
 namespace Mem {
+
+	enum PMEM_FILE {
+		CREATE,
+		TEMP
+	};
 
 	/**
 	 * Manages a pool of memory allocated from persistent memory
@@ -13,7 +20,7 @@ namespace Mem {
 		 *
 		 * @param alloc_size The amount of memory to try to allocate in bytes
 		 */
-		PMEM(size_t alloc_size);
+		PMEM(std::string path, PMEM_FILE flag, size_t alloc_size);
 
 		/**
 		 * Destructor which will free the persistent memory upon destruction

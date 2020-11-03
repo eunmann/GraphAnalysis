@@ -54,7 +54,7 @@ public:
 	 * @param func The function to execute, it takes a reference to the weight, the starting
 	 * vertex i and the destination vertex j as parameters.
 	 */
-	void forEach(std::function<void(T& v, const uint32_t i, const uint32_t j)> func) {
+	void for_each(std::function<void(T& v, const uint32_t i, const uint32_t j)> func) {
 		for (uint32_t i = 0; i < this->numVertices; i++) {
 			for (uint32_t j = 0; j < this->numVertices; j++) {
 				func((*this)(i, j), i, j);

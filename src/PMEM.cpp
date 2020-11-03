@@ -4,13 +4,17 @@
 
 namespace Mem {
 
-	PMEM::PMEM(size_t alloc_size) : pmem_ptr(nullptr) {
+	PMEM::PMEM(std::string path, PMEM_FILE flag, size_t alloc_size) : pmem_ptr(nullptr) {
 
-		/* TODO(EMU): Directory is hardcoded, this should be passed in */
-		this->pmem_ptr = pmem_map_file("/pmem/", alloc_size, PMEM_FILE_CREATE | PMEM_FILE_TMPFILE, 0666, &this->mapped_len, &this->is_pmem);
+		int pmem_flag = PMEM_FILE_CREATE;
+		if (flag == PMEM_FILE::TEMP) {
+			pmem_flag |= PMEM_FILE_TMPFILE;
+		}
+
+		this->pmem_ptr = pmem_map_file(path.c_str(), alloc_size, pmem_flag, 0666, &this->mapped_len, &this->is_pmem);
 
 		if (this->pmem_ptr == nullptr) {
-			printf("Somethign went wrogn with pool allocation.\n");
+			printf("Unable to mmap at %s of size %lu.\n", path.c_str(), alloc_size);
 		}
 	}
 

@@ -12,7 +12,7 @@
 namespace PMEMTest {
 	void libpmemobj_example_write_1() {
 		/* Create the memory interface (just like creating a file) */
-		PMEMobjpool* pop = pmemobj_create("./test_memory_simple_struct", "intro_0", PMEMOBJ_MIN_POOL, 0666);
+		PMEMobjpool* pop = pmemobj_create("./tmp/test_memory_simple_struct", "intro_0", PMEMOBJ_MIN_POOL, 0666);
 		if (pop == NULL) {
 			perror("pmemobj_create");
 			return;
@@ -37,7 +37,7 @@ namespace PMEMTest {
 
 	void libpmemobj_example_read_1() {
 		/* Open up the memory, using a path and an layout name */
-		PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct", "intro_0");
+		PMEMobjpool* pop = pmemobj_open("./tmp/test_memory_simple_struct", "intro_0");
 		if (pop == NULL) {
 			perror("pmemobj_open");
 			return;
@@ -58,7 +58,7 @@ namespace PMEMTest {
 
 	void libpmemobj_example_write_2() {
 		/* Create the memory interface (just like creating a file) */
-		PMEMobjpool* pop = pmemobj_create("./test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store), PMEMOBJ_MIN_POOL, 0666);
+		PMEMobjpool* pop = pmemobj_create("./tmp/test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store), PMEMOBJ_MIN_POOL, 0666);
 		if (pop == NULL) {
 			perror("pmemobj_create");
 			return;
@@ -111,7 +111,7 @@ namespace PMEMTest {
 
 	void libpmemobj_example_read_2() {
 		/* Open up the memory, using a path and an layout name */
-		PMEMobjpool* pop = pmemobj_open("./test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store));
+		PMEMobjpool* pop = pmemobj_open("./tmp/test_memory_simple_struct_2", POBJ_LAYOUT_NAME(string_store));
 		if (pop == NULL) {
 			perror("pmemobj_open");
 			return;
@@ -132,7 +132,7 @@ namespace PMEMTest {
 
 	void persistentMemoryAsVolatileAPI() {
 		size_t alloc_size = 1024;
-		Mem::PMEM pmem = Mem::PMEM(alloc_size);
+		Mem::PMEM pmem = Mem::PMEM("/pmem/", Mem::PMEM_FILE::TEMP, alloc_size);
 		char* string = pmem.as<char*>();
 
 		snprintf(string, alloc_size, "This is using an easier API");

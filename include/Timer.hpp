@@ -34,7 +34,7 @@ public:
 	/**
 	 * @return The number of nanoseconds that have elapsed
 	 */
-	int64_t getTimeElapsed();
+	int64_t get_time_elapsed();
 
 	/**
 	 * Prints the elapsed time with a message if given in the constructor

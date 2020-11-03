@@ -25,9 +25,6 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
-# Clean
-pm_files = test_memory_simple_struct test_memory_simple_struct_2
-
 # Compile
 main: $(obj)
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $@ $^ $(LINK)
@@ -50,4 +47,4 @@ dir_make:
 
 # Clean
 clean:
-	rm -rf $(obj) $(asm) main debug $(pm_files)
+	rm -rf $(obj) $(asm) main debug

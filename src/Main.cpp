@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-#include "Graph.hpp"
+#include "GraphCRS.hpp"
+#include "GraphGenerator.hpp"
 #include "PMEMTest.hpp"
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
@@ -9,7 +10,7 @@
 #include <random>
 #include <string>
 
-void PMEMTests() {
+void PMEM_tests() {
 	printf("First test, simple struct write and read.\n");
 	PMEMTest::libpmemobj_example_write_1();
 	PMEMTest::libpmemobj_example_read_1();
@@ -22,50 +23,18 @@ void PMEMTests() {
 	PMEMTest::persistentMemoryAsVolatileAPI();
 }
 
-void GraphTest() {
-	const uint32_t numberOfNodes = 1 << 12;
-	{
-		BlockTimer timer("Graph using DRAM");
-		uint64_t* arr = new uint64_t[numberOfNodes * numberOfNodes];
+void graph_test() {
+	const uint32_t num_vertices = 4;
+	const uint32_t max_degree = 2;
+	const float min_value = 1;
+	const float max_value = 2;
 
-		Graph<uint64_t> g(numberOfNodes, arr);
-
-		uint64_t t = 0;
-		g.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
-			v = 0;
-			t += i + j;
-			});
-
-		printf("t: %ld\n", t);
-		delete arr;
-	}
-
-	{
-		BlockTimer timer("Graph using Persistent Memory");
-		const size_t alloc_size = sizeof(uint64_t) * numberOfNodes * numberOfNodes;
-		Mem::PMEM pmem = Mem::PMEM(alloc_size);
-		uint64_t* arr2 = pmem.as<uint64_t*>();
-
-		if (arr2 == nullptr) {
-			printf("Error allocating memory for graph in persistent memory\n");
-			return;
-		}
-
-		Graph<uint64_t> g2(numberOfNodes, arr2);
-		uint64_t t = 0;
-		g2.forEach([&](uint64_t& v, const uint32_t i, const uint32_t j) {
-			v = 0;
-			t += i + j;
-			});
-
-		printf("t: %ld\n", t);
-
-		/* This function is actually called on destruction, so this is not required */
-		pmem.free();
-	}
+	GraphCRS g = GraphGenerator::create_graph_crs(num_vertices, max_degree, min_value, max_value);
+	g.print();
+	g.save("./tmp/graph_test.csv");
 }
 
-void memoryTest(char* arr, const uint64_t size) {
+void memory_test(char* arr, const uint64_t size) {
 
 	std::default_random_engine generator;
 	std::uniform_int_distribution<uint64_t> distribution(0, size);
@@ -110,6 +79,33 @@ void memoryTest(char* arr, const uint64_t size) {
 	}
 }
 
+void pmem_vs_dram_test(const uint64_t alloc_size) {
+	printf("Allocation Size: %lu\n", alloc_size);
+
+	{
+		printf("DRAM\n");
+		char* array = new char[alloc_size];
+		memory_test(array, alloc_size);
+		delete array;
+	}
+
+	{
+		printf("Persistent Memory\n");
+		Mem::PMEM pmem = Mem::PMEM("/pmem/", Mem::PMEM_FILE::TEMP, alloc_size);
+		char* array = pmem.as<char*>();
+
+		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
+		printf("Mapped length: %lu\n", pmem.mapped_length());
+
+		if (array == nullptr) {
+			printf("Trouble allocating persistent memory\n");
+			return;
+		}
+		memory_test(array, alloc_size);
+		pmem.free();
+	}
+}
+
 int main(int argc, char** argv) {
 	Timer timer("Time Elapsed");
 	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
@@ -121,30 +117,8 @@ int main(int argc, char** argv) {
 		alloc_size = std::stol(std::string(argv[1]));
 	}
 
-	printf("Allocation Size: %lu\n", alloc_size);
+	graph_test();
 
-	{
-		printf("DRAM\n");
-		char* array = new char[alloc_size];
-		memoryTest(array, alloc_size);
-		delete array;
-	}
-
-	{
-		printf("Persistent Memory\n");
-		Mem::PMEM pmem = Mem::PMEM(alloc_size);
-		char* array = pmem.as<char*>();
-
-		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
-		printf("Mapped length: %lu\n", pmem.mapped_length());
-
-		if (array == nullptr) {
-			printf("Trouble allocating persistent memory\n");
-			return 0;
-		}
-		memoryTest(array, alloc_size);
-		pmem.free();
-	}
 
 	timer.end();
 	timer.print();
