@@ -40,11 +40,6 @@ To run the program linux, run:
 user@dir:~$ ./main
 ```
 
-To run the program Windows, run:
-```console
-user@dir:~$ ./main.exe
-```
-
 Clean
 ---
 ___
