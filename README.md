@@ -15,7 +15,6 @@ Build
 ---
 ___
 To build the program:
-The command to build is:
 ```console
 user@dir:~$ make
 ```
@@ -35,9 +34,14 @@ user@dir:~$ make assembly
 Run
 ---
 ___
-To run the program linux, run:
+To run the program, run:
 ```console
 user@dir:~$ ./main
+```
+
+To run the debug program, run:
+```console
+user@dir:~$ ./debug
 ```
 
 Clean
