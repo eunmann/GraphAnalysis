@@ -24,11 +24,6 @@ namespace PMEM {
 		 */
 		ptr(std::string path, FILE flag, size_t alloc_size);
 
-		/**
-		 * Destructor which will free the persistent memory upon destruction
-		 */
-		~ptr();
-
 		template<class T>
 		T as() {
 			return static_cast<T>(this->p);
@@ -38,7 +33,11 @@ namespace PMEM {
 
 		int is_persistent();
 
-		size_t mapped_length();
+		size_t mapped_len();
+
+		void resize(const size_t alloc_size);
+
+		std::string path();
 
 		/**
 		 * Frees the persistent memory allocated by this MemPool
@@ -46,8 +45,10 @@ namespace PMEM {
 		void free();
 
 	private:
-		size_t mapped_len;
-		int is_pmem;
 		void* p;
+		size_t m_mapped_len;
+		int is_pmem;
+		std::string m_path;
+		int flags;
 	};
 }

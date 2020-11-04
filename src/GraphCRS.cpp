@@ -38,6 +38,8 @@ const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) {
 			return rs;
 		}
 	}
+
+	return -1;
 }
 
 void GraphCRS::save(std::string path) {

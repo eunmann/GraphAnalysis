@@ -1,33 +1,30 @@
 #include "PMEM/ptr.hpp"
 #include <libpmem.h>
 #include <stdio.h>
+#include <string.h>
 
 namespace PMEM {
 
-	ptr::ptr(std::string path, FILE flag, size_t alloc_size) : p(nullptr) {
+	ptr::ptr(std::string path, FILE flag, size_t alloc_size) :
+		p(nullptr),
+		m_mapped_len(0),
+		is_pmem(0),
+		m_path(path),
+		flags(PMEM_FILE_CREATE) {
 
-		int pmem_flag = PMEM_FILE_CREATE;
-		if (flag == FILE::TEMP) {
-			pmem_flag |= PMEM_FILE_TMPFILE;
+		if (this->flags == FILE::TEMP) {
+			this->flags |= PMEM_FILE_TMPFILE;
 		}
 
-		this->p = pmem_map_file(path.c_str(), alloc_size, pmem_flag, 0666, &this->mapped_len, &this->is_pmem);
-
-		if (this->p == nullptr) {
-			printf("Unable to mmap at %s of size %lu.\n", path.c_str(), alloc_size);
-		}
-	}
-
-	ptr::~ptr() {
-		this->free();
+		this->resize(alloc_size);
 	}
 
 	void ptr::persist() {
 		if (this->is_pmem) {
-			pmem_persist(this->p, this->mapped_len);
+			pmem_persist(this->p, this->m_mapped_len);
 		}
 		else {
-			pmem_msync(this->p, this->mapped_len);
+			pmem_msync(this->p, this->m_mapped_len);
 		}
 	}
 
@@ -35,14 +32,38 @@ namespace PMEM {
 		return this->is_pmem;
 	}
 
-	size_t ptr::mapped_length() {
-		return this->mapped_len;
+	size_t ptr::mapped_len() {
+		return this->m_mapped_len;
 	}
 
 	void ptr::free() {
 		if (this->p != nullptr) {
-			pmem_unmap(this->p, this->mapped_len);
+			pmem_unmap(this->p, this->m_mapped_len);
 			this->p = nullptr;
 		}
+	}
+
+	void ptr::resize(const size_t alloc_size) {
+
+		if (this->p == nullptr) {
+			this->p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &this->m_mapped_len, &this->is_pmem);
+		}
+		else {
+			size_t t_mapped_len = 0;
+			void* t_p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &t_mapped_len, &this->is_pmem);
+
+			memcpy(t_p, this->p, this->m_mapped_len > t_mapped_len ? t_mapped_len : this->m_mapped_len);
+			pmem_unmap(this->p, this->m_mapped_len);
+			this->p = t_p;
+			this->m_mapped_len = t_mapped_len;
+		}
+
+		if (this->p == nullptr) {
+			printf("Unable to mmap at %s of size %lu.\n", this->m_path.c_str(), alloc_size);
+		}
+	}
+
+	std::string ptr::path() {
+		return this->m_path;
 	}
 }

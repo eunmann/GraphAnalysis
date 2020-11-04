@@ -1,7 +1,7 @@
 #pragma once
 
 #include <inttypes.h>
-#include <PMEM/array.hpp>
+#include <PMEM/vector.hpp>
 #include <functional>
 #include <string>
 
@@ -15,9 +15,9 @@ namespace PMEM {
 
 		GraphCRS(std::string path);
 
-		GraphCRS(PMEM::array<float> val,
-			PMEM::array<uint32_t> col_ind,
-			PMEM::array<uint32_t> row_ind);
+		GraphCRS(PMEM::vector<float> val,
+			PMEM::vector<uint32_t> col_ind,
+			PMEM::vector<uint32_t> row_ind);
 
 		/**
 		 * @param i Index of the start vertex
@@ -76,10 +76,15 @@ namespace PMEM {
 		 */
 		void print();
 
+		/**
+		 * Free memory
+		 */
+		void free();
+
 	private:
-		PMEM::array<float> val;
-		PMEM::array<uint32_t> col_ind;
-		PMEM::array<uint32_t> row_ind;
+		PMEM::vector<float> val;
+		PMEM::vector<uint32_t> col_ind;
+		PMEM::vector<uint32_t> row_ind;
 
 		/**
 		 * Transforms a 2 dimensional index into arr into a single dimensinal index

@@ -29,7 +29,7 @@ void graph_test() {
 	const float min_value = 1;
 	const float max_value = 2;
 
-	GraphCRS g = GraphGenerator::create_graph_crs(num_vertices, max_degree, min_value, max_value);
+	PMEM::GraphCRS g = GraphGenerator::create_graph_crs_pmem(num_vertices, max_degree, min_value, max_value);
 	g.print();
 	g.save("./tmp/graph_test.csv");
 }
@@ -95,7 +95,7 @@ void pmem_vs_dram_test(const uint64_t alloc_size) {
 		char* array = pmem.as<char*>();
 
 		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
-		printf("Mapped length: %lu\n", pmem.mapped_length());
+		printf("Mapped length: %lu\n", pmem.mapped_len());
 
 		if (array == nullptr) {
 			printf("Trouble allocating persistent memory\n");
@@ -116,6 +116,20 @@ int main(int argc, char** argv) {
 	if (argc > 1) {
 		alloc_size = std::stol(std::string(argv[1]));
 	}
+
+	PMEM::vector<int> t("/tmp/", 10);
+
+	printf("Size: %lu\n", t.size());
+
+	for (uint32_t i = 0; i < 10; i++) {
+		t[i] = i;
+	}
+
+	printf("Size: %lu\n", t.size());
+	for (uint32_t i = 0; i < t.size(); i++) {
+		printf("[%u,%d]-", i, t[i]);
+	}
+	printf("\n");
 
 	graph_test();
 

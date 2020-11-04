@@ -5,9 +5,9 @@
 
 namespace PMEM {
 
-	GraphCRS::GraphCRS(PMEM::array<float> val,
-		PMEM::array<uint32_t> col_ind,
-		PMEM::array<uint32_t> row_ind) : val(val),
+	GraphCRS::GraphCRS(PMEM::vector<float> val,
+		PMEM::vector<uint32_t> col_ind,
+		PMEM::vector<uint32_t> row_ind) : val(val),
 		col_ind(col_ind),
 		row_ind(row_ind) {
 
@@ -40,6 +40,8 @@ namespace PMEM {
 				return rs;
 			}
 		}
+
+		return -1;
 	}
 
 	void GraphCRS::save(std::string path) {
@@ -137,5 +139,11 @@ namespace PMEM {
 		output += '\n';
 
 		printf("%s", output.c_str());
+	}
+
+	void GraphCRS::free() {
+		this->val.free();
+		this->col_ind.free();
+		this->row_ind.free();
 	}
 }
