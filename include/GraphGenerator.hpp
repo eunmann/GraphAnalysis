@@ -1,5 +1,6 @@
-#include "GraphCRS.hpp"
+#pragma once
 
+#include "GraphCRS.hpp"
 
 class GraphGenerator {
 

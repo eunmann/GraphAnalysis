@@ -16,7 +16,7 @@ CXXFLAGS = -Wall -std=c++17
 debug: CXXFLAGS += -g
 
 # Source
-srcCPP = $(wildcard ./src/*.cpp)
+srcCPP = $(wildcard ./src/*.cpp) $(wildcard ./src/*/*.cpp)
 _objCPP = $(srcCPP:.cpp=.o)
 _asmCPP = $(srcCPP:.cpp=.s)
 objCPP = $(subst src,obj,$(_objCPP))
@@ -41,7 +41,7 @@ asm/%.s: src/%.cpp | dir_make
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -S -o $@ $^ $(LINK)
 
 dir_make:
-	@mkdir -p asm obj tmp
+	@mkdir -p asm obj tmp asm/PMEM obj/PMEM
 
 .PHONY: clean clean_pm
 

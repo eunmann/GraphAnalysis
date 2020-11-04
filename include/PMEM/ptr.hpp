@@ -1,10 +1,12 @@
+#pragma once
+
 #include <string>
 
 typedef unsigned long size_t;
 
-namespace Mem {
+namespace PMEM {
 
-	enum PMEM_FILE {
+	enum FILE {
 		CREATE,
 		TEMP
 	};
@@ -12,7 +14,7 @@ namespace Mem {
 	/**
 	 * Manages a pool of memory allocated from persistent memory
 	 */
-	class PMEM {
+	class ptr {
 
 	public:
 		/**
@@ -20,16 +22,16 @@ namespace Mem {
 		 *
 		 * @param alloc_size The amount of memory to try to allocate in bytes
 		 */
-		PMEM(std::string path, PMEM_FILE flag, size_t alloc_size);
+		ptr(std::string path, FILE flag, size_t alloc_size);
 
 		/**
 		 * Destructor which will free the persistent memory upon destruction
 		 */
-		~PMEM();
+		~ptr();
 
 		template<class T>
 		T as() {
-			return static_cast<T>(this->pmem_ptr);
+			return static_cast<T>(this->p);
 		}
 
 		void persist();
@@ -46,6 +48,6 @@ namespace Mem {
 	private:
 		size_t mapped_len;
 		int is_pmem;
-		void* pmem_ptr;
+		void* p;
 	};
 }

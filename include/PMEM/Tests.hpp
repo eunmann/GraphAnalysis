@@ -1,6 +1,8 @@
+#pragma once
+
 #include <libpmemobj.h>
 
-namespace PMEMTest {
+namespace PMEM::Tests {
 	/* Define a format for the saved memory */
 	const int MAX_BUF_LEN = 10;
 
@@ -23,5 +25,6 @@ namespace PMEMTest {
 	void libpmemobj_example_write_2();
 	void libpmemobj_example_read_2();
 
-	void persistentMemoryAsVolatileAPI();
+	void pmem_as_volatile_API();
+	void pmemobj_vectors();
 }

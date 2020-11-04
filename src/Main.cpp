@@ -2,25 +2,25 @@
 
 #include "GraphCRS.hpp"
 #include "GraphGenerator.hpp"
-#include "PMEMTest.hpp"
+#include "PMEM/Tests.hpp"
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
 #include <inttypes.h>
-#include "PMEM.hpp"
+#include "PMEM/ptr.hpp"
 #include <random>
 #include <string>
 
 void PMEM_tests() {
 	printf("First test, simple struct write and read.\n");
-	PMEMTest::libpmemobj_example_write_1();
-	PMEMTest::libpmemobj_example_read_1();
+	PMEM::Tests::libpmemobj_example_write_1();
+	PMEM::Tests::libpmemobj_example_read_1();
 
 	printf("Second test, simple struct write and read with type safety.\n");
-	PMEMTest::libpmemobj_example_write_2();
-	PMEMTest::libpmemobj_example_read_2();
+	PMEM::Tests::libpmemobj_example_write_2();
+	PMEM::Tests::libpmemobj_example_read_2();
 
 	printf("Third test, this is using an API that I made.\n");
-	PMEMTest::persistentMemoryAsVolatileAPI();
+	PMEM::Tests::pmem_as_volatile_API();
 }
 
 void graph_test() {
@@ -91,7 +91,7 @@ void pmem_vs_dram_test(const uint64_t alloc_size) {
 
 	{
 		printf("Persistent Memory\n");
-		Mem::PMEM pmem = Mem::PMEM("/pmem/", Mem::PMEM_FILE::TEMP, alloc_size);
+		PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, alloc_size);
 		char* array = pmem.as<char*>();
 
 		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
@@ -118,7 +118,6 @@ int main(int argc, char** argv) {
 	}
 
 	graph_test();
-
 
 	timer.end();
 	timer.print();
