@@ -37,7 +37,6 @@
 	
 	Continue to read the papers from last week
 	
-
 10/29/2020
 	Run tests on the machine to make sure that persistent memory is being used
 		Maybe reproduce the experiemnt from the papaer to ensure we are using persistent memroy 
