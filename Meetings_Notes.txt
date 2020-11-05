@@ -1,0 +1,45 @@
+10/2/2020
+
+	/data/graph
+	/src/page_rank/omp-pr.cpp
+	/src/coloring/omp/coloring-omp.cpp ( greedy coloring algorithm )
+
+	Abdullah Al Raqibul Islam, Dong Dai:
+	Understand the overheads of storage data structures on persistent memory. PPoPP 2020: 435-436
+	Look at references and check them out to learn more about persistent memory
+
+	Using the VPN allows access to papers from IEEE, and other websites
+
+10/8/2020
+
+	write optimized data structures: b-epsilon trees. Michael Bender, Martin Farach-Colton
+
+	Baseline: 
+		 Naive Approach: Use persistent memory as read only and dram as writeable memory. This might be okay for certain algorithms that write as much. 
+		
+	Multithreaded page rank Page Rank
+	
+	Betweenness and Closeness: https://ieeexplore.ieee.org/document/6406265
+		See if there is improvement on the storgae component of this
+		(Computing betweenness centrality in external memory) https://ieeexplore.ieee.org/document/6691597
+	
+	Maybe do Sparse x Sparse matrix mulitplication (https://people.eecs.berkeley.edu/~aydin/spgemm_sisc12.pdf)
+		Authors are very good at this type of problem
+
+10/15/2020
+
+	I was having trouble with SHH'ing into the persistent memory machine
+	
+	Installl the libraries on Windows 10 and test the compiler.
+	Do the same for Linux
+	
+	Ask Dong and Raqibul how they build and if they use the Intel libraries pmemobj
+	
+	Continue to read the papers from last week
+	
+
+10/29/2020
+	Run tests on the machine to make sure that persistent memory is being used
+		Maybe reproduce the experiemnt from the papaer to ensure we are using persistent memroy 
+	Use undirected graphs for ease.
+	Store by row: http://netlib.org/linalg/html_templates/node91.html
