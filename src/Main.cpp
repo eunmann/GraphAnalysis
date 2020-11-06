@@ -117,21 +117,7 @@ int main(int argc, char** argv) {
 		alloc_size = std::stol(std::string(argv[1]));
 	}
 
-	PMEM::vector<int> t("/tmp/", 10);
-
-	printf("Size: %lu\n", t.size());
-
-	for (uint32_t i = 0; i < 10; i++) {
-		t[i] = i;
-	}
-
-	printf("Size: %lu\n", t.size());
-	for (uint32_t i = 0; i < t.size(); i++) {
-		printf("[%u,%d]-", i, t[i]);
-	}
-	printf("\n");
-
-	graph_test();
+	pmem_vs_dram_test(alloc_size);
 
 	timer.end();
 	timer.print();

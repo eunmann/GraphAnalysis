@@ -38,3 +38,6 @@ debug
 
 # Temporary Folder
 tmp/*
+
+# Results in cwd
+output.*
