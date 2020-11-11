@@ -57,10 +57,6 @@ namespace PMEM {
 		 */
 		void save(std::string path);
 
-		/**
-		 * Returns a byte representation of the graph
-		 */
-		char* to_bytes();
 
 		/**
 		 * Converts the graph to a string in CVS format, where the firt row are

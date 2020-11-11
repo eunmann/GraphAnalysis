@@ -55,11 +55,6 @@ public:
 	void save(std::string path);
 
 	/**
-	 * Returns a byte representation of the graph
-	 */
-	char* to_bytes();
-
-	/**
 	 * Converts the graph to a string in CVS format, where the first row are
 	 * the values, the second row is the col_ind, and the third row is the
 	 * row_ind
