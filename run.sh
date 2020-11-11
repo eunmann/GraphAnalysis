@@ -11,6 +11,6 @@ echo Starting main
 echo Allocation Size: $alloc_size
 echo Output File: $final_name
 
-./main $alloc_size > $final_name
+./graph_analysis $alloc_size > $final_name
 
 echo Done

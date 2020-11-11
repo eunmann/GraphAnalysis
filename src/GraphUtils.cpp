@@ -114,7 +114,7 @@ namespace GraphUtils {
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
-			return;
+			return GraphCRS(std::vector<float>(), std::vector<uint32_t>(), std::vector<uint32_t>());
 		}
 
 		if (std::equal(path.end() - 4, path.end(), ".csv")) {
@@ -131,6 +131,7 @@ namespace GraphUtils {
 			file.close();
 
 			/* TODO(EMU): Finish converting the string into a graph */
+			return GraphCRS(std::vector<float>(), std::vector<uint32_t>(), std::vector<uint32_t>());
 		}
 		else {
 			uint32_t size;
@@ -139,13 +140,11 @@ namespace GraphUtils {
 			val.reserve(size);
 			file.read(reinterpret_cast<char*>(&val[0]), sizeof(float) * size);
 
-			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			std::vector<uint32_t> col_ind;
 			col_ind.reserve(size);
 			file.read(reinterpret_cast<char*>(&col_ind[0]), sizeof(uint32_t) * size);
 
-			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			std::vector<uint32_t> row_ind;
 			row_ind.reserve(size);
@@ -159,7 +158,7 @@ namespace GraphUtils {
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
-			return;
+			return PMEM::GraphCRS(PMEM::vector<float>(directory, 0), PMEM::vector<uint32_t>(directory, 0), PMEM::vector<uint32_t>(directory, 0));
 		}
 
 		if (std::equal(path.end() - 4, path.end(), ".csv")) {
@@ -176,6 +175,7 @@ namespace GraphUtils {
 			file.close();
 
 			/* TODO(EMU): Finish converting the string into a graph */
+			return PMEM::GraphCRS(PMEM::vector<float>(directory, 0), PMEM::vector<uint32_t>(directory, 0), PMEM::vector<uint32_t>(directory, 0));
 		}
 		else {
 			uint32_t size;
@@ -183,12 +183,10 @@ namespace GraphUtils {
 			PMEM::vector<float> val(directory, size);
 			file.read(reinterpret_cast<char*>(&val[0]), sizeof(float) * size);
 
-			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			PMEM::vector<uint32_t> col_ind(directory, size);
 			file.read(reinterpret_cast<char*>(&col_ind[0]), sizeof(uint32_t) * size);
 
-			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			PMEM::vector<uint32_t> row_ind(directory, size);
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);

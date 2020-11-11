@@ -30,8 +30,7 @@
 *.exe
 *.out
 *.app
-main
-debug
+graph_analysis
 
 # Assembly
 *.s

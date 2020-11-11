@@ -25,12 +25,14 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
+out_name=graph_analysis
+
 # Compile
 main: $(obj)
-	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $@ $^ $(LINK)
+	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $(out_name) $^ $(LINK)
 
 debug: $(obj) 
-	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $@ $^ $(LINK)
+	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -o $(out_name) $^ $(LINK)
 
 assembly: $(asm)
 
@@ -47,4 +49,4 @@ dir_make:
 
 # Clean
 clean:
-	rm -rf $(obj) $(asm) main debug
+	rm -rf $(obj) $(asm) $(out_name)

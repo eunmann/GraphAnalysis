@@ -24,7 +24,7 @@ To build in debug mode:
 user@dir:~$ make debug
 ```
 
-Make sure to clean when switching from release to debug builds
+Make sure to clean when switching between release and debug
 
 To build the assembly:
 ```console
@@ -36,12 +36,7 @@ Run
 ___
 To run the program, run:
 ```console
-user@dir:~$ ./main
-```
-
-To run the debug program, run:
-```console
-user@dir:~$ ./debug
+user@dir:~$ ./graph_analysis
 ```
 
 Clean
