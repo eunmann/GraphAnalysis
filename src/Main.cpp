@@ -1,7 +1,6 @@
 #include <stdio.h>
 
-#include "GraphCRS.hpp"
-#include "GraphGenerator.hpp"
+#include "GraphUtils.hpp"
 #include "PMEM/Tests.hpp"
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
@@ -25,13 +24,15 @@ void PMEM_tests() {
 
 void graph_test() {
 	const uint32_t num_vertices = 4;
+	const uint32_t min_degree = 1;
 	const uint32_t max_degree = 2;
 	const float min_value = 1;
 	const float max_value = 2;
 
-	PMEM::GraphCRS g = GraphGenerator::create_graph_crs_pmem(num_vertices, max_degree, min_value, max_value);
+	PMEM::GraphCRS g = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
 	g.print();
 	g.save("./tmp/graph_test.csv");
+	g.free();
 }
 
 void memory_test(char* arr, const uint64_t size) {
@@ -108,7 +109,7 @@ void pmem_vs_dram_test(const uint64_t alloc_size) {
 
 int main(int argc, char** argv) {
 	Timer timer("Time Elapsed");
-	printf("Graph Analysis for a Graph Algorithm on Persistent Memory Machines\n");
+	printf("Graph Algorithm Performance Analysis on Persistent Memory Machines\n");
 	printf("by Evan Unmann\n");
 
 	size_t alloc_size = 1 * 1e9;
@@ -117,7 +118,7 @@ int main(int argc, char** argv) {
 		alloc_size = std::stol(std::string(argv[1]));
 	}
 
-	pmem_vs_dram_test(alloc_size);
+	graph_test();
 
 	timer.end();
 	timer.print();

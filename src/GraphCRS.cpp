@@ -44,31 +44,33 @@ const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) {
 
 void GraphCRS::save(std::string path) {
 
-	std::string output = this->to_string();
-
 	std::ofstream file(path, std::ios::binary);
 
 	if (file) {
-		file.write(output.c_str(), output.size());
+		if (std::equal(path.end() - 4, path.end(), ".csv")) {
+			std::string output = this->to_string();
+			file.write(output.c_str(), output.size());
+			file.close();
+		}
+		else {
+			/* Write the vector size, then the vector data */
+			uint32_t size = this->val.size();
+			file.write(reinterpret_cast<char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<char*>(&this->val[0]), sizeof(float) * this->val.size());
+
+			size = this->col_ind.size();
+			file.write(reinterpret_cast<char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<char*>(&this->col_ind[0]), sizeof(uint32_t) * this->col_ind.size());
+
+			size = this->row_ind.size();
+			file.write(reinterpret_cast<char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<char*>(&this->row_ind[0]), sizeof(uint32_t) * this->row_ind.size());
+		}
+
 		file.close();
 	}
 }
 
-void GraphCRS::load(std::string path) {
-	std::ifstream file(path, std::ios::binary);
-
-	if (file) {
-		file.seekg(0, std::ios::end);
-		std::string input;
-		input.resize(file.tellg());
-		file.seekg(0, std::ios::beg);
-		file.read(&input[0], input.size());
-		file.close();
-	}
-	else {
-		printf("Unable to load GraphCRS from %s\n", path.c_str());
-	}
-}
 
 std::string GraphCRS::to_string() {
 	std::string output = "";

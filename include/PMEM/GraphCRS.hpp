@@ -4,6 +4,7 @@
 #include <PMEM/vector.hpp>
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace PMEM {
 
@@ -12,8 +13,6 @@ namespace PMEM {
 	 */
 	class GraphCRS {
 	public:
-
-		GraphCRS(std::string path);
 
 		GraphCRS(PMEM::vector<float> val,
 			PMEM::vector<uint32_t> col_ind,
@@ -51,18 +50,17 @@ namespace PMEM {
 		void for_each(std::function<void(float& v, const uint32_t i, const uint32_t j)> func);
 
 		/**
-		 * Saves the graph as a CSV to path
+		 * Saves the graph as a .csv or binary representation (.crs) based on
+		 * path's file extention.
 		 *
 		 * @param path The path to save the file
 		 */
 		void save(std::string path);
 
 		/**
-		 * Loads the graph at path
-		 *
-		 * @param path The path to load the file
+		 * Returns a byte representation of the graph
 		 */
-		void load(std::string path);
+		char* to_bytes();
 
 		/**
 		 * Converts the graph to a string in CVS format, where the firt row are
@@ -80,6 +78,12 @@ namespace PMEM {
 		 * Free memory
 		 */
 		void free();
+
+		/**
+		 * Returns the path of vertices that are on the shortest path from node
+		 * source to node destination
+		 */
+		std::vector<uint32_t> shortest_path(uint32_t source, uint32_t destination);
 
 	private:
 		PMEM::vector<float> val;

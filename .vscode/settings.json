@@ -80,7 +80,8 @@
 		"optional": "cpp",
 		"cinttypes": "cpp",
 		"typeindex": "cpp",
-		"bit": "cpp"
+		"bit": "cpp",
+		"unordered_set": "cpp"
 	},
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/include",

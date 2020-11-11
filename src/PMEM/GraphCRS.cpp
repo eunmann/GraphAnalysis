@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
+#include <queue>
+#include <unordered_set>
+#include <algorithm>
 
 namespace PMEM {
 
@@ -10,7 +14,6 @@ namespace PMEM {
 		PMEM::vector<uint32_t> row_ind) : val(val),
 		col_ind(col_ind),
 		row_ind(row_ind) {
-
 	}
 
 	const float GraphCRS::weight(const uint32_t i, const uint32_t j) {
@@ -46,31 +49,33 @@ namespace PMEM {
 
 	void GraphCRS::save(std::string path) {
 
-		std::string output = this->to_string();
-
 		std::ofstream file(path, std::ios::binary);
 
 		if (file) {
-			file.write(output.c_str(), output.size());
+			if (std::equal(path.end() - 4, path.end(), ".csv")) {
+				std::string output = this->to_string();
+				file.write(output.c_str(), output.size());
+				file.close();
+			}
+			else {
+				/* Write the vector size, then the vector data */
+				uint32_t size = this->val.size();
+				file.write(reinterpret_cast<char*>(&size), sizeof(size));
+				file.write(reinterpret_cast<char*>(&this->val[0]), sizeof(float) * this->val.size());
+
+				size = this->col_ind.size();
+				file.write(reinterpret_cast<char*>(&size), sizeof(size));
+				file.write(reinterpret_cast<char*>(&this->col_ind[0]), sizeof(uint32_t) * this->col_ind.size());
+
+				size = this->row_ind.size();
+				file.write(reinterpret_cast<char*>(&size), sizeof(size));
+				file.write(reinterpret_cast<char*>(&this->row_ind[0]), sizeof(uint32_t) * this->row_ind.size());
+			}
+
 			file.close();
 		}
 	}
 
-	void GraphCRS::load(std::string path) {
-		std::ifstream file(path, std::ios::binary);
-
-		if (file) {
-			file.seekg(0, std::ios::end);
-			std::string input;
-			input.resize(file.tellg());
-			file.seekg(0, std::ios::beg);
-			file.read(&input[0], input.size());
-			file.close();
-		}
-		else {
-			printf("Unable to load GraphCRS from %s\n", path.c_str());
-		}
-	}
 
 	std::string GraphCRS::to_string() {
 		std::string output = "";
@@ -145,5 +150,69 @@ namespace PMEM {
 		this->val.free();
 		this->col_ind.free();
 		this->row_ind.free();
+	}
+
+	std::vector<uint32_t> GraphCRS::shortest_path(uint32_t source, uint32_t destination) {
+
+		/* Distance Map */
+		std::unordered_map<uint32_t, float> distMap;
+		/* Traversal Map*/
+		std::unordered_map<uint32_t, uint32_t> travMap;
+		/* Visited Set */
+		std::unordered_set<uint32_t> visitedSet;
+		/* Priority Queue ordered on smallest to large distance */
+		auto cmp = [&distMap](uint32_t left, uint32_t right) {return distMap[left] < distMap[right];};
+		std::priority_queue <uint32_t, std::vector<uint32_t>, decltype(cmp)> searchQueue(cmp);
+
+		/* Initialize the source node*/
+		distMap[source] = 0;
+		searchQueue.push(source);
+
+		/* Go through all of the nodes in the queue */
+		while (!searchQueue.empty()) {
+
+			/* Get the node with the curently shortest path */
+			uint32_t node = searchQueue.top();
+			searchQueue.pop();
+
+			/* The destination was the current shortest path */
+			if (node == destination) {
+				break;
+			}
+
+			float dist = distMap[node];
+			uint32_t row_index = this->row_ind[node];
+			uint32_t row_index_end = node == this->row_ind.size() ? this->col_ind.size() : this->row_ind[node + 1];
+
+			/* For each neighbor */
+			for (; row_index < row_index_end; row_index++) {
+				uint32_t neighbor = this->col_ind[row_index];
+				float combined_dist = dist + this->val[row_index];
+				if (distMap.find(neighbor) == distMap.end() || combined_dist < distMap[neighbor]) {
+					distMap[neighbor] = combined_dist;
+					travMap[neighbor] = node;
+				}
+
+				if (visitedSet.find(neighbor) == visitedSet.end()) {
+					searchQueue.push(neighbor);
+				}
+			}
+
+			visitedSet.insert(node);
+		}
+
+		/* Use the traversal map to build the path from destination to source */
+		std::vector<uint32_t> path;
+		uint32_t target = destination;
+		if (travMap.find(target) != travMap.end() || target == source) {
+			while (target != source) {
+				path.push_back(target);
+				target = travMap[target];
+			}
+		}
+
+		std::reverse(path.begin(), path.end());
+
+		return path;
 	}
 }

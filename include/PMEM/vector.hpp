@@ -54,6 +54,8 @@ namespace PMEM {
 			this->m_capacity = 0;
 		}
 
+		/* TODO(EMU): Add a trim function to make capacity equal to size */
+
 	private:
 		T* data;
 		PMEM::ptr pmem;

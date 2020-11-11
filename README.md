@@ -1,4 +1,4 @@
-Graph Analysis
+Graph Algorithm Performance Analysis on Persistent Memory Machines
 ===
 
 This project conducts an experiment of a graph algorithm's performance on persistent memory machines.
