@@ -130,10 +130,41 @@ namespace GraphUtils {
 			file.read(&input[0], input.size());
 			file.close();
 
-			/* TODO(EMU): Finish converting the string into a graph */
-			return GraphCRS(std::vector<float>(), std::vector<uint32_t>(), std::vector<uint32_t>());
+			std::vector<float> val;
+			size_t i = 0;
+			size_t end = input.find('\n');
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				val.push_back(std::stof(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			std::vector<uint32_t> col_ind;
+			col_ind.reserve(val.size());
+			end = input.find('\n', i);
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				col_ind.push_back(std::stoi(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			std::vector<uint32_t> row_ind;
+			end = input.size();
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				row_ind.push_back(std::stoi(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			return GraphCRS(val, col_ind, row_ind);
 		}
-		else {
+		else if (std::equal(path.end() - 4, path.end(), ".crs")) {
 			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			std::vector<float> val;
@@ -151,6 +182,10 @@ namespace GraphUtils {
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);
 
 			return GraphCRS(val, col_ind, row_ind);
+		}
+		else {
+			printf("File type not supported: %s\n", path.substr(path.length() - 4).c_str());
+			return GraphCRS(std::vector<float>(), std::vector<uint32_t>(), std::vector<uint32_t>());
 		}
 	}
 
@@ -174,10 +209,40 @@ namespace GraphUtils {
 			file.read(&input[0], input.size());
 			file.close();
 
-			/* TODO(EMU): Finish converting the string into a graph */
-			return PMEM::GraphCRS(PMEM::vector<float>(directory, 0), PMEM::vector<uint32_t>(directory, 0), PMEM::vector<uint32_t>(directory, 0));
+			PMEM::vector<float> val(directory, 64);
+			size_t i = 0;
+			size_t end = input.find('\n');
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				val.push_back(std::stof(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			PMEM::vector<uint32_t> col_ind(directory, val.size());
+			end = input.find('\n', i);
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				col_ind.push_back(std::stoi(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			PMEM::vector<uint32_t> row_ind(directory, 64);
+			end = input.size();
+			while (i < end) {
+				size_t sep_index = input.find(',', i);
+				sep_index = sep_index > end ? end : sep_index;
+				size_t char_len = sep_index - i;
+				row_ind.push_back(std::stoi(input.substr(i, char_len)));
+				i = sep_index + 1;
+			}
+
+			return PMEM::GraphCRS(val, col_ind, row_ind);
 		}
-		else {
+		else if (std::equal(path.end() - 4, path.end(), ".crs")) {
 			uint32_t size;
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			PMEM::vector<float> val(directory, size);
@@ -192,6 +257,10 @@ namespace GraphUtils {
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);
 
 			return PMEM::GraphCRS(val, col_ind, row_ind);
+		}
+		else {
+			printf("File type not supported: %s\n", path.substr(path.length() - 4).c_str());
+			return PMEM::GraphCRS(PMEM::vector<float>(directory, 0), PMEM::vector<uint32_t>(directory, 0), PMEM::vector<uint32_t>(directory, 0));
 		}
 	}
 }

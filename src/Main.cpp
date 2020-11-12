@@ -29,10 +29,32 @@ void graph_test() {
 	const float min_value = 1;
 	const float max_value = 2;
 
-	PMEM::GraphCRS g = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
-	g.print();
-	g.save("./tmp/graph_test.csv");
-	g.free();
+	std::string graph_file_path = "./graph_examples/test_format.csv";
+	std::string simple_graph_path = "./graph_examples/simple_graph.csv";
+
+	printf("First Graph\n");
+	PMEM::GraphCRS g1 = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
+	g1.print();
+	g1.save(graph_file_path);
+	g1.free();
+
+	printf("Second Graph\n");
+	PMEM::GraphCRS g2 = GraphUtils::load_as_pmem(simple_graph_path, "/tmp/");
+	g2.print();
+	std::vector<uint32_t> shortest_path = g2.shortest_path(2, 4);
+
+	if (shortest_path.size() > 0 && shortest_path.size() <= 5) {
+
+		printf("[");
+		for (int i = 0; i < shortest_path.size() - 1; i++) {
+			printf(" %u ->", shortest_path[i]);
+		}
+		printf(" %u ]\n", shortest_path.back());
+	}
+	else {
+		printf("Shortest Path has wrong size [%lu]\n", shortest_path.size());
+	}
+	g2.free();
 }
 
 void memory_test(char* arr, const uint64_t size) {

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
-#include <queue>
 #include <unordered_set>
 #include <algorithm>
 
@@ -155,32 +154,32 @@ namespace PMEM {
 	std::vector<uint32_t> GraphCRS::shortest_path(uint32_t source, uint32_t destination) {
 
 		/* Distance Map */
-		std::unordered_map<uint32_t, float> distMap;
+		std::unordered_map<uint32_t, float> dist_map;
 		/* Traversal Map*/
-		std::unordered_map<uint32_t, uint32_t> travMap;
+		std::unordered_map<uint32_t, uint32_t> trav_map;
 		/* Visited Set */
-		std::unordered_set<uint32_t> visitedSet;
+		std::unordered_set<uint32_t> visited_set;
 		/* Priority Queue ordered on smallest to large distance */
-		auto cmp = [&distMap](uint32_t left, uint32_t right) {return distMap[left] < distMap[right];};
-		std::priority_queue <uint32_t, std::vector<uint32_t>, decltype(cmp)> searchQueue(cmp);
+		auto dist_cmp = [&dist_map](const uint32_t left, const uint32_t right) { return dist_map[left] < dist_map[right];};
+		std::vector<uint32_t> search_queue;
 
 		/* Initialize the source node*/
-		distMap[source] = 0;
-		searchQueue.push(source);
+		dist_map[source] = 0;
+		search_queue.push_back(source);
 
 		/* Go through all of the nodes in the queue */
-		while (!searchQueue.empty()) {
+		while (!search_queue.empty()) {
 
 			/* Get the node with the curently shortest path */
-			uint32_t node = searchQueue.top();
-			searchQueue.pop();
+			uint32_t node = search_queue.front();
+			search_queue.erase(search_queue.begin());
 
 			/* The destination was the current shortest path */
 			if (node == destination) {
 				break;
 			}
 
-			float dist = distMap[node];
+			float dist = dist_map[node];
 			uint32_t row_index = this->row_ind[node];
 			uint32_t row_index_end = node == this->row_ind.size() ? this->col_ind.size() : this->row_ind[node + 1];
 
@@ -188,27 +187,36 @@ namespace PMEM {
 			for (; row_index < row_index_end; row_index++) {
 				uint32_t neighbor = this->col_ind[row_index];
 				float combined_dist = dist + this->val[row_index];
-				if (distMap.find(neighbor) == distMap.end() || combined_dist < distMap[neighbor]) {
-					distMap[neighbor] = combined_dist;
-					travMap[neighbor] = node;
+				if (dist_map.find(neighbor) == dist_map.end() || combined_dist < dist_map[neighbor]) {
+					dist_map[neighbor] = combined_dist;
+					trav_map[neighbor] = node;
 				}
 
-				if (visitedSet.find(neighbor) == visitedSet.end()) {
-					searchQueue.push(neighbor);
+				if (visited_set.find(neighbor) == visited_set.end()) {
+
+					/* Find and remove the neighbor if it was already queued */
+					auto pos = std::find(search_queue.begin(), search_queue.end(), neighbor);
+					if (pos != search_queue.end()) {
+						search_queue.erase(pos);
+					}
+					/* Add the neighbor into the queue */
+					pos = std::upper_bound(search_queue.begin(), search_queue.end(), neighbor, dist_cmp);
+					search_queue.insert(pos, neighbor);
 				}
 			}
 
-			visitedSet.insert(node);
+			visited_set.insert(node);
 		}
 
 		/* Use the traversal map to build the path from destination to source */
 		std::vector<uint32_t> path;
 		uint32_t target = destination;
-		if (travMap.find(target) != travMap.end() || target == source) {
+		if (trav_map.find(target) != trav_map.end() || target == source) {
 			while (target != source) {
 				path.push_back(target);
-				target = travMap[target];
+				target = trav_map[target];
 			}
+			path.push_back(source);
 		}
 
 		std::reverse(path.begin(), path.end());
