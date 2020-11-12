@@ -42,3 +42,13 @@
 		Maybe reproduce the experiemnt from the papaer to ensure we are using persistent memroy 
 	Use undirected graphs for ease.
 	Store by row: http://netlib.org/linalg/html_templates/node91.html
+
+11/12/2020
+	Do not use short path algorithms
+	Algorithms to try:
+		https://www.researchgate.net/publication/310821013_Enterprise_breadth-first_graph_traversal_on_GPUs
+	Read: Direction Optimizing for BFS
+	Work on the memory benchmark
+	Search if the OS might be caching PMEM data in DRAM
+	We can check swap ( free command )
+	

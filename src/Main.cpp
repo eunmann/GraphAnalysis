@@ -59,6 +59,13 @@ void graph_test() {
 
 void memory_test(char* arr, const uint64_t size) {
 
+	/*
+		TODO(EMU):
+		Parallelize this
+		New arrays
+		Each thread gets a generator
+		Also do a measurement for latency
+	*/
 	std::default_random_engine generator;
 	std::uniform_int_distribution<uint64_t> distribution(0, size);
 	auto indexGen = std::bind(distribution, generator);
