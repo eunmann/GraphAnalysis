@@ -34,19 +34,19 @@ public:
 	/**
 	 * @return The number of nanoseconds that have elapsed
 	 */
-	int64_t get_time_elapsed();
+	int64_t get_time_elapsed() const;
 
 	/**
 	 * Prints the elapsed time with a message if given in the constructor
 	 */
-	void print();
+	void print() const;
 
 	/**
 	 * Prints the elapsed time with the inputted message
 	 *
 	 * @param message The message to print along with the elapsed time
 	 */
-	void print(std::string message);
+	void print(std::string message) const;
 
 private:
 	std::string message;

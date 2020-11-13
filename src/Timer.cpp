@@ -18,11 +18,11 @@ void Timer::end() {
 	this->e = std::chrono::steady_clock::now();
 }
 
-int64_t Timer::get_time_elapsed() {
+int64_t Timer::get_time_elapsed() const {
 	return std::chrono::duration_cast<std::chrono::nanoseconds>(this->e - this->s).count();
 }
 
-void Timer::print() {
+void Timer::print() const {
 	char unit[][4] = { "ns", "us", "ms", "s", "min" };
 	double ratio[] = { 1000, 1000, 1000, 60, 60 };
 
@@ -41,7 +41,7 @@ void Timer::print() {
 	printf("[ %s | %3.3f %s ]\n", this->message.c_str(), timeElapsed, unit[i]);
 }
 
-void Timer::print(std::string message) {
+void Timer::print(std::string message) const {
 	char unit[][4] = { "ns", "us", "ms", "s", "min" };
 	double ratio[] = { 1000, 1000, 1000, 60, 60 };
 

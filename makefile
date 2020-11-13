@@ -2,7 +2,7 @@
 CXX = g++
 
 # Link
-LINK = -lpmemobj -lpmem
+LINK = -lpmemobj -lpmem -fopenmp
 
 # Include Directory
 IDIR = -Iinclude
