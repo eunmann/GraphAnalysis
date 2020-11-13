@@ -1,0 +1,32 @@
+Graph Algorithm Performance Analysis on Persistent Memory Machines
+by Evan Unmann
+Allocation Size: 50000000000
+DRAM
+Memory Benchmark
+Memory Size: 50000000000
+Read Linear
+	Time Elapsed: 1.905 s	Bandwidth: 26.251 GB/s
+Read Random
+	Time Elapsed: 65.848 s	Bandwidth: 0.759 GB/s
+Write Linear
+	Time Elapsed: 10.101 s	Bandwidth: 4.950 GB/s
+Write Random
+	Time Elapsed: 98.049 s	Bandwidth: 0.510 GB/s
+Ignore Value(needed so compiler doesn't optimize away benchmark code): 0
+[ Memory Test | 2.932 min ]
+Persistent Memory
+Is persistent: True
+Mapped length: 50000000000
+Memory Benchmark
+Memory Size: 50000000000
+Read Linear
+	Time Elapsed: 0.188 s	Bandwidth: 265.333 GB/s
+Read Random
+	Time Elapsed: 24.959 s	Bandwidth: 2.003 GB/s
+Write Linear
+	Time Elapsed: 71.686 s	Bandwidth: 0.697 GB/s
+Write Random
+	Time Elapsed: 633.828 s	Bandwidth: 0.079 GB/s
+Ignore Value(needed so compiler doesn't optimize away benchmark code): 0
+[ Memory Test | 12.178 min ]
+[ Time Elapsed | 15.143 min ]
