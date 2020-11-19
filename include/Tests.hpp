@@ -5,6 +5,8 @@ namespace Tests {
 
 	void graph_test();
 
+	void graph_test_page_rank();
+
 	void memory_benchmark(char* arr, const size_t size);
 
 	void pmem_vs_dram_benchmark(const size_t alloc_size);

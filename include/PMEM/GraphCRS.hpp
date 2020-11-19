@@ -81,6 +81,10 @@ namespace PMEM {
 		 */
 		std::vector<uint32_t> shortest_path(uint32_t source, uint32_t destination);
 
+		/**
+		 * Returns a vector of page rank values for all vertices
+		 */
+		std::vector<float> page_rank(size_t iterations, float dampening_factor);
 	private:
 		PMEM::vector<float> val;
 		PMEM::vector<uint32_t> col_ind;

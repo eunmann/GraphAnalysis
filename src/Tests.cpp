@@ -55,6 +55,21 @@ namespace Tests {
 		g2.free();
 	}
 
+	void graph_test_page_rank() {
+		const uint32_t num_vertices = 1e6;
+		const uint32_t min_degree = 1;
+		const uint32_t max_degree = 10;
+		const float min_value = 1;
+		const float max_value = 5;
+
+		printf("Testing Page Rank\n");
+		PMEM::GraphCRS graph = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
+		{
+			BlockTimer timer("Page Rank");
+			graph.page_rank(100, 0.8);
+		}
+	}
+
 	void memory_benchmark(char* arr, const size_t size) {
 
 		/*

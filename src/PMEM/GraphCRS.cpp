@@ -223,4 +223,41 @@ namespace PMEM {
 
 		return path;
 	}
+
+	std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor) {
+
+		/* Note this vector is in DRAM and not PMEM */
+		float init_prob = 1.0f / this->row_ind.size();
+		float init_dampening_prob = (1.0f - dampening_factor) / this->row_ind.size();
+
+		/* Use two vectors since the next iteration relies on the current iteration */
+		std::vector<float> page_rank_vec_1(this->row_ind.size(), init_prob);
+		std::vector<float> page_rank_vec_2(this->row_ind.size(), init_prob);
+
+		for (size_t i = 0; i < iterations; i++) {
+
+			std::vector<float>& page_rank_read_vec = i % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
+			std::vector<float>& page_rank_write_vec = i % 2 == 1 ? page_rank_vec_1 : page_rank_vec_2;
+
+			for (size_t vertex = 0; vertex < this->row_ind.size(); vertex++) {
+				uint32_t row_index = this->row_ind[vertex];
+				uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
+
+				float page_rank_sum = 0;
+
+				/* For each neighbor */
+				for (; row_index < row_index_end; row_index++) {
+					uint32_t neighbor = this->col_ind[row_index];
+					float dist = this->val[row_index];
+
+					page_rank_sum += page_rank_read_vec[neighbor] / dist;
+				}
+
+				page_rank_sum = page_rank_sum * dampening_factor + init_dampening_prob;
+				page_rank_write_vec[vertex] = page_rank_sum;
+			}
+		}
+
+		return iterations % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
+	}
 }
