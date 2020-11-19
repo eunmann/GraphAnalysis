@@ -4,6 +4,7 @@
 #include <random>
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
+#include "FormatUtils.hpp"
 
 namespace Tests {
 	void PMEM_tests() {
@@ -60,92 +61,150 @@ namespace Tests {
 			TODO(EMU):
 			Also do a measurement for latency
 		*/
+		int iter_per_test = 5;
 		printf("Memory Benchmark\n");
-		printf("Memory Size: %lu\n", size);
+		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
+		printf("Iterations per Test: %d\n", iter_per_test);
 
 		BlockTimer timer("Memory Test");
 		uint64_t sum = 0;
-		auto print_stat = [&size](const Timer& timer) {
-			double size_gigabytes = size / 1e9;
+		double size_gigabytes = size / 1e9;
+		auto print_stat = [&size_gigabytes](const Timer& timer) {
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
 			printf("\tTime Elapsed: %.3f s", time_elapsed_seconds);
 			printf("\tBandwidth: %.3f GB/s\n", size_gigabytes / time_elapsed_seconds);
 		};
 
+		auto print_stat_vector = [&size_gigabytes](const std::vector<int64_t> time_elapsed_v) {
+			int64_t min = time_elapsed_v[0];
+			int64_t max = time_elapsed_v[1];
+			double avg = 0;
+
+			for (auto& v : time_elapsed_v) {
+
+				if (v < min) {
+					min = v;
+				}
+				else if (v > max) {
+					max = v;
+				}
+
+				avg += v;
+			}
+
+			avg /= time_elapsed_v.size();
+
+			double std_dev = 0;
+
+			for (auto& v : time_elapsed_v) {
+				double diff = v - avg;
+				std_dev += diff * diff;
+			}
+			std_dev /= time_elapsed_v.size() - 1;
+			std_dev = std::sqrt(std_dev);
+
+			printf("\tTime Elapsed:\n\t\t[min=%.3f,max=%.3f,avg=%.3f,std_dev=%.3f]\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
+			printf("\tBandwidth:\n\t\t[min=%.3f,max=%.3f,avg=%.3f]\n", size_gigabytes / (max / 1e9), size_gigabytes / (min / 1e9), size_gigabytes / (avg / 1e9));
+		};
+
 		/* Read linear */
 		{
-			Timer timer;
-#pragma omp parallel for reduction(+:sum)
-			for (uint64_t i = 0; i < size; i++) {
-				sum += arr[i];
-			}
-			timer.end();
 			printf("Read Linear\n");
-			print_stat(timer);
+			std::vector<int64_t> time_elapsed_v;
+			for (int iter = 0; iter < iter_per_test; iter++) {
+				Timer timer;
+#pragma omp parallel for reduction(+:sum)
+				for (uint64_t i = 0; i < size; i++) {
+					sum += arr[i];
+				}
+				timer.end();
+				print_stat(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed());
+			}
+			print_stat_vector(time_elapsed_v);
+			printf("IGNORE(%lu)\n", sum);
 		}
 
 		/* Read Random */
 		{
-			Timer timer;
-			sum = 0;
+			printf("Read Random\n");
+			std::vector<int64_t> time_elapsed_v;
+			for (int iter = 0; iter < iter_per_test; iter++) {
+				Timer timer;
+				sum = 0;
 
 #pragma omp parallel
-			{
-				std::default_random_engine generator;
-				std::uniform_int_distribution<uint64_t> distribution(0, size);
-				auto indexGen = std::bind(distribution, generator);
+				{
+					std::default_random_engine generator;
+					std::uniform_int_distribution<uint64_t> distribution(0, size);
+					auto indexGen = std::bind(distribution, generator);
 
 #pragma omp for reduction(+:sum)
-				for (uint64_t i = 0; i < size; i++) {
-					sum += arr[indexGen()];
+					for (uint64_t i = 0; i < size; i++) {
+						sum += arr[indexGen()];
+					}
 				}
+				timer.end();
+				print_stat(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed());
 			}
-			timer.end();
-			printf("Read Random\n");
-			print_stat(timer);
+			print_stat_vector(time_elapsed_v);
+			printf("IGNORE(%lu)\n", sum);
 		}
 
 		/* Write linear */
 		{
-			Timer timer;
-#pragma omp parallel for
-			for (uint64_t i = 0; i < size; i++) {
-				arr[i] = 0;
-			}
-			timer.end();
 			printf("Write Linear\n");
-			print_stat(timer);
+			std::vector<int64_t> time_elapsed_v;
+			for (int iter = 0; iter < iter_per_test; iter++) {
+				Timer timer;
+#pragma omp parallel for
+				for (uint64_t i = 0; i < size; i++) {
+					arr[i] = 0;
+				}
+				timer.end();
+				print_stat(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed());
+			}
+			print_stat_vector(time_elapsed_v);
 		}
 
 		/* Write Random */
 		{
-			Timer timer;
+			printf("Write Random\n");
+			std::vector<int64_t> time_elapsed_v;
+			for (int iter = 0; iter < iter_per_test; iter++) {
+				Timer timer;
 #pragma omp parallel
-			{
-				std::default_random_engine generator;
-				std::uniform_int_distribution<uint64_t> distribution(0, size);
-				auto indexGen = std::bind(distribution, generator);
+				{
+					std::default_random_engine generator;
+					std::uniform_int_distribution<uint64_t> distribution(0, size);
+					auto indexGen = std::bind(distribution, generator);
 
 #pragma omp for
-				for (uint64_t i = 0; i < size; i++) {
-					arr[indexGen()] = 0;
+					for (uint64_t i = 0; i < size; i++) {
+						arr[indexGen()] = 0;
+					}
 				}
+				timer.end();
+				print_stat(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed());
 			}
-			timer.end();
-			printf("Write Random\n");
-			print_stat(timer);
+			print_stat_vector(time_elapsed_v);
 		}
 
-		printf("Ignore Value(needed so compiler doesn't optimize away benchmark code): %lu\n", sum);
+		printf("IGNORE(%lu)\n", sum);
 	}
 
 	void pmem_vs_dram_benchmark(const size_t alloc_size) {
-		printf("Allocation Size: %lu\n", alloc_size);
+		printf("Allocation Size: %sB\n", FormatUtils::format_number(alloc_size).c_str());
 
 		{
 			printf("DRAM\n");
 			char* array = new char[alloc_size];
+			printf("IGNORE(%c)\n", array[0]);
 			memory_benchmark(array, alloc_size);
+			printf("IGNORE(%c)\n", array[0]);
 			delete array;
 		}
 
@@ -155,13 +214,15 @@ namespace Tests {
 			char* array = pmem.as<char*>();
 
 			printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
-			printf("Mapped length: %lu\n", pmem.mapped_len());
+			printf("Mapped length: %sB\n", FormatUtils::format_number(pmem.mapped_len()).c_str());
 
 			if (array == nullptr) {
 				printf("Trouble allocating persistent memory\n");
 				return;
 			}
+			printf("IGNORE(%c)\n", array[0]);
 			memory_benchmark(array, alloc_size);
+			printf("IGNORE(%c)\n", array[0]);
 			pmem.free();
 		}
 	}

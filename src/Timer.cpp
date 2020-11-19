@@ -23,25 +23,14 @@ int64_t Timer::get_time_elapsed() const {
 }
 
 void Timer::print() const {
-	char unit[][4] = { "ns", "us", "ms", "s", "min" };
-	double ratio[] = { 1000, 1000, 1000, 60, 60 };
-
-	double timeElapsed = this->get_time_elapsed();
-
-	int i;
-	for (i = 0; i < 4; i++) {
-		if (timeElapsed >= ratio[i]) {
-			timeElapsed /= ratio[i];
-		}
-		else {
-			break;
-		}
-	}
-
-	printf("[ %s | %3.3f %s ]\n", this->message.c_str(), timeElapsed, unit[i]);
+	printf("[ %s | %s ]\n", this->message.c_str(), this->time_string().c_str());
 }
 
 void Timer::print(std::string message) const {
+	printf("[ %s | %s ]\n", message.c_str(), this->time_string().c_str());
+}
+
+std::string Timer::time_string() const {
 	char unit[][4] = { "ns", "us", "ms", "s", "min" };
 	double ratio[] = { 1000, 1000, 1000, 60, 60 };
 
@@ -57,5 +46,7 @@ void Timer::print(std::string message) const {
 		}
 	}
 
-	printf("[ %s | %3.3f %s ]\n", message.c_str(), timeElapsed, unit[i]);
+	char buff[32];
+	snprintf(buff, sizeof(buff), "%.3f %s", timeElapsed, unit[i]);
+	return std::string(buff);
 }

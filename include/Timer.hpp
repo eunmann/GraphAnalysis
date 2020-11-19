@@ -48,6 +48,11 @@ public:
 	 */
 	void print(std::string message) const;
 
+	/**
+	 * Returns the time as a formated string(value with unit prefix)
+	 */
+	std::string time_string() const;
+
 private:
 	std::string message;
 	std::chrono::steady_clock::time_point s;
