@@ -61,7 +61,7 @@ namespace Tests {
 			TODO(EMU):
 			Also do a measurement for latency
 		*/
-		int iter_per_test = 5;
+		int iter_per_test = 10;
 		printf("Memory Benchmark\n");
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
 		printf("Iterations per Test: %d\n", iter_per_test);
@@ -71,8 +71,8 @@ namespace Tests {
 		double size_gigabytes = size / 1e9;
 		auto print_stat = [&size_gigabytes](const Timer& timer) {
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			printf("\tTime Elapsed: %.3f s", time_elapsed_seconds);
-			printf("\tBandwidth: %.3f GB/s\n", size_gigabytes / time_elapsed_seconds);
+			printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
+			printf("\tBandwidth: %7.3f GB/s\n", size_gigabytes / time_elapsed_seconds);
 		};
 
 		auto print_stat_vector = [&size_gigabytes](const std::vector<int64_t> time_elapsed_v) {

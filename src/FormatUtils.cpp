@@ -29,7 +29,7 @@ namespace FormatUtils {
 		}
 
 		char buff[32];
-		snprintf(buff, sizeof(buff), "%.3f %s", num, unit[unit_index]);
+		snprintf(buff, sizeof(buff), "%7.3f %s", num, unit[unit_index]);
 		return std::string(buff);
 	}
 }
