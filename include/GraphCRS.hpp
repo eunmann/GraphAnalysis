@@ -66,6 +66,21 @@ public:
 	 */
 	void print();
 
+	/**
+	 * Returns a vector of page rank values for all vertices
+	 */
+	std::vector<float> page_rank(size_t iterations, float dampening_factor);
+
+	/**
+	 * Returns the number of edges in the graph
+	 */
+	uint32_t num_edges();
+
+	/**
+	 * Returns the number of vertices in the graph
+	 */
+	uint32_t num_vertices();
+
 private:
 	std::vector<float> val;
 	std::vector<uint32_t> col_ind;

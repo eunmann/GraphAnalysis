@@ -5,6 +5,7 @@
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
 #include "FormatUtils.hpp"
+#include "BenchmarkUtils.hpp"
 
 namespace Tests {
 	void PMEM_tests() {
@@ -56,18 +57,71 @@ namespace Tests {
 	}
 
 	void graph_test_page_rank() {
-		const uint32_t num_vertices = 1e6;
+		const uint32_t num_vertices = 1e3;
 		const uint32_t min_degree = 1;
 		const uint32_t max_degree = 10;
 		const float min_value = 1;
 		const float max_value = 5;
+		const uint32_t iterations = 100;
+		const float dampening_factor = 0.8;
+		const uint32_t test_iterations = 5;
 
 		printf("Testing Page Rank\n");
-		PMEM::GraphCRS graph = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
+		printf("\tNumber of Vertices: %u\n", num_vertices);
+		printf("\tMinimum Degree: %u\n", min_degree);
+		printf("\tMaximum Degree: %u\n", max_degree);
+		printf("\tIterations: %u\n", iterations);
+		printf("\tDampening Factor: %f\n", dampening_factor);
+		printf("\tTest Iterations: %u\n", test_iterations);
+
+		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
+
 		{
-			BlockTimer timer("Page Rank");
-			graph.page_rank(100, 0.8);
+			printf("Graph DRAM\n");
+			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
+			graph.save(temp_graph_path);
+			std::vector<int64_t> time_elapsed_v;
+			for (uint32_t i = 0; i < test_iterations; i++)
+			{
+				Timer timer;
+				graph.page_rank(iterations, dampening_factor);
+				timer.end();
+				time_elapsed_v.push_back(timer.get_time_elapsed());
+				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+				printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
+				printf("\tEdges per second: %7.3f\n", graph.num_edges() / time_elapsed_seconds);
+			}
+			int64_t min;
+			int64_t max;
+			double avg;
+			double std_dev;
+			BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
+
+			printf("\tTime Elapsed\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
+			printf("\tEdges per second\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", graph.num_edges() / (min / 1e9), graph.num_edges() / (max / 1e9), graph.num_edges() / (avg / 1e9));
 		}
+
+		printf("Graph PMEM\n");
+		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+		std::vector<int64_t> time_elapsed_v;
+		for (uint32_t i = 0; i < test_iterations; i++)
+		{
+			Timer timer("Page Rank PMEM");
+			graph_pmem.page_rank(iterations, dampening_factor);
+			timer.end();
+			time_elapsed_v.push_back(timer.get_time_elapsed());
+			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+			printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
+			printf("\tEdges per second: %7.3f\n", graph_pmem.num_edges() / time_elapsed_seconds);
+		}
+		int64_t min;
+		int64_t max;
+		double avg;
+		double std_dev;
+		BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
+		printf("\tTime Elapsed\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
+		printf("\tEdges per second\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", graph_pmem.num_edges() / (min / 1e9), graph_pmem.num_edges() / (max / 1e9), graph_pmem.num_edges() / (avg / 1e9));
+		graph_pmem.free();
 	}
 
 	void memory_benchmark(char* arr, const size_t size) {
@@ -91,35 +145,14 @@ namespace Tests {
 		};
 
 		auto print_stat_vector = [&size_gigabytes](const std::vector<int64_t> time_elapsed_v) {
-			int64_t min = time_elapsed_v[0];
-			int64_t max = time_elapsed_v[1];
-			double avg = 0;
+			int64_t min;
+			int64_t max;
+			double avg;
+			double std_dev;
+			BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
 
-			for (auto& v : time_elapsed_v) {
-
-				if (v < min) {
-					min = v;
-				}
-				else if (v > max) {
-					max = v;
-				}
-
-				avg += v;
-			}
-
-			avg /= time_elapsed_v.size();
-
-			double std_dev = 0;
-
-			for (auto& v : time_elapsed_v) {
-				double diff = v - avg;
-				std_dev += diff * diff;
-			}
-			std_dev /= time_elapsed_v.size() - 1;
-			std_dev = std::sqrt(std_dev);
-
-			printf("\tTime Elapsed:\n\t\t[min=%.3f,max=%.3f,avg=%.3f,std_dev=%.3f]\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
-			printf("\tBandwidth:\n\t\t[min=%.3f,max=%.3f,avg=%.3f]\n", size_gigabytes / (max / 1e9), size_gigabytes / (min / 1e9), size_gigabytes / (avg / 1e9));
+			printf("\tTime Elapsed:\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
+			printf("\tBandwidth:\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", size_gigabytes / (max / 1e9), size_gigabytes / (min / 1e9), size_gigabytes / (avg / 1e9));
 		};
 
 		/* Read linear */

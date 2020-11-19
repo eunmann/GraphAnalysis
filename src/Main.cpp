@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 	alloc_size *= 1e9;
 
 	Tests::graph_test_page_rank();
-	//Tests::pmem_vs_dram_benchmark(alloc_size);
+	Tests::pmem_vs_dram_benchmark(alloc_size);
 
 	return 0;
 }

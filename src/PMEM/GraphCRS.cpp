@@ -260,4 +260,12 @@ namespace PMEM {
 
 		return iterations % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
 	}
+
+	uint32_t GraphCRS::num_edges() {
+		return this->val.size();
+	}
+
+	uint32_t GraphCRS::num_vertices() {
+		return this->row_ind.size();
+	}
 }
