@@ -155,6 +155,7 @@ std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor
 		std::vector<float>& page_rank_read_vec = i % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
 		std::vector<float>& page_rank_write_vec = i % 2 == 1 ? page_rank_vec_1 : page_rank_vec_2;
 
+#pragma omp parallel for
 		for (size_t vertex = 0; vertex < this->row_ind.size(); vertex++) {
 			uint32_t row_index = this->row_ind[vertex];
 			uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
@@ -183,4 +184,8 @@ uint32_t GraphCRS::num_edges() {
 
 uint32_t GraphCRS::num_vertices() {
 	return this->row_ind.size();
+}
+
+size_t GraphCRS::byte_size() {
+	return sizeof(float) * (this->col_ind.size() + this->row_ind.size() + this->val.size());
 }

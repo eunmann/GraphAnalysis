@@ -81,6 +81,11 @@ public:
 	 */
 	uint32_t num_vertices();
 
+	/**
+	 * Return the number of bytes the graph uses in memory
+	 */
+	size_t byte_size();
+
 private:
 	std::vector<float> val;
 	std::vector<uint32_t> col_ind;

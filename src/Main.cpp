@@ -18,14 +18,20 @@ int main(int argc, char** argv) {
 	print_info();
 
 	size_t alloc_size = 1;
+	uint32_t num_vertices = 1;
 
 	if (argc > 1) {
 		alloc_size = std::stol(std::string(argv[1]));
 	}
 
-	alloc_size *= 1e9;
+	if (argc > 2) {
+		alloc_size = std::stol(std::string(argv[2]));
+	}
 
-	Tests::graph_test_page_rank();
+	alloc_size *= 1e9;
+	num_vertices *= 1e6;
+
+	Tests::graph_test_page_rank(num_vertices);
 	Tests::pmem_vs_dram_benchmark(alloc_size);
 
 	return 0;
