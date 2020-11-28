@@ -52,3 +52,11 @@
 	Search if the OS might be caching PMEM data in DRAM
 	We can check swap ( free command )
 	
+11/23/2020
+	Get addtionally time on the machine
+	Read the papers
+	Code more benchmark
+	The goal is ultimately to benchmark as much as we can
+	Maybe get a paper into a workshop ( deadline in January )
+	
+	
