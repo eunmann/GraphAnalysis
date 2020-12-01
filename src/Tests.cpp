@@ -63,7 +63,7 @@ namespace Tests {
 		const float max_value = 5;
 		const uint32_t iterations = 100;
 		const float dampening_factor = 0.8;
-		const uint32_t test_iterations = 5;
+		const uint32_t test_iterations = 10;
 
 		printf("Testing Page Rank\n");
 		printf("\tNumber of Vertices: %u\n", num_vertices);
@@ -78,17 +78,18 @@ namespace Tests {
 		{
 			printf("Graph DRAM\n");
 			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
+			printf("Number of Edges: %u\n", graph.num_edges());
 			graph.save(temp_graph_path);
 			std::vector<double> time_elapsed_v;
-			printf("Time Elapsed (s),Edges per Second\n");
-			for (uint32_t i = 0; i < test_iterations; i++) {
+			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			for (uint32_t i = 1; i <= test_iterations; i++) {
 				Timer timer;
 				graph.page_rank(iterations, dampening_factor);
 				timer.end();
 
 				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
 				time_elapsed_v.push_back(time_elapsed_seconds);
-				printf("%.3f,%.3f\n", time_elapsed_seconds, graph.num_edges() / time_elapsed_seconds);
+				printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph.num_edges() / time_elapsed_seconds);
 			}
 
 			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
@@ -102,9 +103,10 @@ namespace Tests {
 
 		printf("Graph PMEM\n");
 		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+		printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
 		std::vector<double> time_elapsed_v;
-		printf("Time Elapsed (s),Edges per Second\n");
-		for (uint32_t i = 0; i < test_iterations; i++)
+		printf("Iteration, Time Elapsed (s),Edges per Second\n");
+		for (uint32_t i = 1; i <= test_iterations; i++)
 		{
 			Timer timer("Page Rank PMEM");
 			graph_pmem.page_rank(iterations, dampening_factor);
@@ -112,7 +114,7 @@ namespace Tests {
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
 			time_elapsed_v.push_back(time_elapsed_seconds);
-			printf("%.3f,%.3f\n", time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
+			printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
 		}
 		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
 
@@ -135,13 +137,13 @@ namespace Tests {
 
 		uint64_t sum = 0;
 		double size_gigabytes = size / 1e9;
-		auto print_bandwidth = [&size_gigabytes](const Timer& timer) {
+		auto print_bandwidth = [&size_gigabytes](const int iteration, const Timer& timer) {
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			printf("%.3f,%.3f\n", time_elapsed_seconds, size_gigabytes / time_elapsed_seconds);
+			printf("%d,%.3f,%.3f\n", iteration, time_elapsed_seconds, size_gigabytes / time_elapsed_seconds);
 		};
 
-		auto print_latency = [&latency_loads](const Timer& timer) {
-			printf("%.3f,%.3f\n", timer.get_time_elapsed() / 1e9, 1.0 * timer.get_time_elapsed() / latency_loads);
+		auto print_latency = [&latency_loads](const int iteration, const Timer& timer) {
+			printf("%d,%.3f,%.3f\n", iteration, timer.get_time_elapsed() / 1e9, 1.0 * timer.get_time_elapsed() / latency_loads);
 		};
 
 		auto print_vec_bandwith = [&size_gigabytes](const std::vector<double> time_elapsed_v) {
@@ -169,16 +171,16 @@ namespace Tests {
 		/* Read linear */
 		{
 			printf("Read Linear\n");
-			printf("Time Elapsed (s), Bandwidth (GB/s)\n");
+			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
 			std::vector<double> time_elapsed_v;
-			for (int iter = 0; iter < iter_per_test; iter++) {
+			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for reduction(+:sum)
 				for (uint64_t i = 0; i < size; i++) {
 					sum += arr[i];
 				}
 				timer.end();
-				print_bandwidth(timer);
+				print_bandwidth(iter, timer);
 				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
 			print_vec_bandwith(time_elapsed_v);
@@ -188,13 +190,13 @@ namespace Tests {
 		/* Read Random */
 		{
 			printf("Read Random\n");
-			printf("Time Elapsed (s), Latency (ns)\n");
+			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
 			std::vector<double> time_elapsed_v;
 			std::default_random_engine generator;
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
 			auto indexGen = std::bind(distribution, generator);
 
-			for (int iter = 0; iter < iter_per_test; iter++) {
+			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 				sum = 0;
 
@@ -203,7 +205,7 @@ namespace Tests {
 				}
 
 				timer.end();
-				print_latency(timer);
+				print_latency(iter, timer);
 				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
 			print_vec_latency(time_elapsed_v);
@@ -213,16 +215,16 @@ namespace Tests {
 		/* Write linear */
 		{
 			printf("Write Linear\n");
-			printf("Time Elapsed (s), Bandwidth (GB/s)\n");
+			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
 			std::vector<double> time_elapsed_v;
-			for (int iter = 0; iter < iter_per_test; iter++) {
+			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
 				for (uint64_t i = 0; i < size; i++) {
 					arr[i] = 0;
 				}
 				timer.end();
-				print_bandwidth(timer);
+				print_bandwidth(iter, timer);
 				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
 			print_vec_bandwith(time_elapsed_v);
@@ -231,14 +233,14 @@ namespace Tests {
 		/* Write Random */
 		{
 			printf("Write Random\n");
-			printf("Time Elapsed (s), Latency (ns)\n");
+			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
 
 			std::default_random_engine generator;
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
 			auto indexGen = std::bind(distribution, generator);
 
 			std::vector<double> time_elapsed_v;
-			for (int iter = 0; iter < iter_per_test; iter++) {
+			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 
 				for (uint64_t i = 0; i < latency_loads; i++) {
@@ -246,7 +248,7 @@ namespace Tests {
 				}
 
 				timer.end();
-				print_latency(timer);
+				print_latency(iter, timer);
 				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
 
