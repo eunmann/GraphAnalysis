@@ -79,85 +79,98 @@ namespace Tests {
 			printf("Graph DRAM\n");
 			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
 			graph.save(temp_graph_path);
-			std::vector<int64_t> time_elapsed_v;
-			for (uint32_t i = 0; i < test_iterations; i++)
-			{
+			std::vector<double> time_elapsed_v;
+			printf("Time Elapsed (s),Edges per Second\n");
+			for (uint32_t i = 0; i < test_iterations; i++) {
 				Timer timer;
 				graph.page_rank(iterations, dampening_factor);
 				timer.end();
-				time_elapsed_v.push_back(timer.get_time_elapsed());
-				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-				printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
-				printf("\tEdges per second: %7.3f\n", graph.num_edges() / time_elapsed_seconds);
-			}
-			int64_t min;
-			int64_t max;
-			double avg;
-			double std_dev;
-			BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
 
-			printf("\tTime Elapsed\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
-			printf("\tEdges per second\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", graph.num_edges() / (min / 1e9), graph.num_edges() / (max / 1e9), graph.num_edges() / (avg / 1e9));
+				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+				time_elapsed_v.push_back(time_elapsed_seconds);
+				printf("%.3f,%.3f\n", time_elapsed_seconds, graph.num_edges() / time_elapsed_seconds);
+			}
+
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+			std::vector<double> edges_per_second_v;
+			for (auto& t : time_elapsed_v) {
+				edges_per_second_v.push_back(graph.num_edges() / t);
+			}
+			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
 		}
 
 		printf("Graph PMEM\n");
 		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
-		std::vector<int64_t> time_elapsed_v;
+		std::vector<double> time_elapsed_v;
+		printf("Time Elapsed (s),Edges per Second\n");
 		for (uint32_t i = 0; i < test_iterations; i++)
 		{
 			Timer timer("Page Rank PMEM");
 			graph_pmem.page_rank(iterations, dampening_factor);
 			timer.end();
-			time_elapsed_v.push_back(timer.get_time_elapsed());
+
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
-			printf("\tEdges per second: %7.3f\n", graph_pmem.num_edges() / time_elapsed_seconds);
+			time_elapsed_v.push_back(time_elapsed_seconds);
+			printf("%.3f,%.3f\n", time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
 		}
-		int64_t min;
-		int64_t max;
-		double avg;
-		double std_dev;
-		BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
-		printf("\tTime Elapsed\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
-		printf("\tEdges per second\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", graph_pmem.num_edges() / (min / 1e9), graph_pmem.num_edges() / (max / 1e9), graph_pmem.num_edges() / (avg / 1e9));
+		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+		std::vector<double> edges_per_second_v;
+		for (auto& t : time_elapsed_v) {
+			edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+		}
+		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
 		graph_pmem.free();
 	}
 
 	void memory_benchmark(char* arr, const size_t size) {
 
-		/*
-			TODO(EMU):
-			Also do a measurement for latency
-		*/
 		int iter_per_test = 10;
+		const size_t latency_loads = size / 1000;
 		printf("Memory Benchmark\n");
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
+		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 		printf("Iterations per Test: %d\n", iter_per_test);
 
-		BlockTimer timer("Memory Test");
 		uint64_t sum = 0;
 		double size_gigabytes = size / 1e9;
-		auto print_stat = [&size_gigabytes](const Timer& timer) {
+		auto print_bandwidth = [&size_gigabytes](const Timer& timer) {
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			printf("\tTime Elapsed: %7.3f s", time_elapsed_seconds);
-			printf("\tBandwidth: %7.3f GB/s\n", size_gigabytes / time_elapsed_seconds);
+			printf("%.3f,%.3f\n", time_elapsed_seconds, size_gigabytes / time_elapsed_seconds);
 		};
 
-		auto print_stat_vector = [&size_gigabytes](const std::vector<int64_t> time_elapsed_v) {
-			int64_t min;
-			int64_t max;
-			double avg;
-			double std_dev;
-			BenchmarkUtils::metrics(time_elapsed_v, min, max, avg, std_dev);
-
-			printf("\tTime Elapsed:\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n\t\tstd_dev=%.3f\n", min / 1e9, max / 1e9, avg / 1e9, std_dev / 1e9);
-			printf("\tBandwidth:\n\t\tmin=%.3f\n\t\tmax=%.3f\n\t\tavg=%.3f\n", size_gigabytes / (max / 1e9), size_gigabytes / (min / 1e9), size_gigabytes / (avg / 1e9));
+		auto print_latency = [&latency_loads](const Timer& timer) {
+			printf("%.3f,%.3f\n", timer.get_time_elapsed() / 1e9, 1.0 * timer.get_time_elapsed() / latency_loads);
 		};
+
+		auto print_vec_bandwith = [&size_gigabytes](const std::vector<double> time_elapsed_v) {
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+			std::vector<double> bandwidth_v;
+			for (auto& t : time_elapsed_v) {
+				bandwidth_v.push_back(size_gigabytes / t);
+			}
+			BenchmarkUtils::print_metrics("Bandwidth", bandwidth_v);
+		};
+
+		auto print_vec_latency = [&latency_loads](const std::vector<double> time_elapsed_v) {
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+			std::vector<double> latency_v;
+			for (auto& t : time_elapsed_v) {
+				latency_v.push_back(1e9 * t / latency_loads);
+			}
+			BenchmarkUtils::print_metrics("Latency", latency_v);
+		};
+
+		BlockTimer timer("Memory Test");
 
 		/* Read linear */
 		{
 			printf("Read Linear\n");
-			std::vector<int64_t> time_elapsed_v;
+			printf("Time Elapsed (s), Bandwidth (GB/s)\n");
+			std::vector<double> time_elapsed_v;
 			for (int iter = 0; iter < iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for reduction(+:sum)
@@ -165,44 +178,43 @@ namespace Tests {
 					sum += arr[i];
 				}
 				timer.end();
-				print_stat(timer);
-				time_elapsed_v.push_back(timer.get_time_elapsed());
+				print_bandwidth(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
-			print_stat_vector(time_elapsed_v);
+			print_vec_bandwith(time_elapsed_v);
 			printf("IGNORE(%lu)\n", sum);
 		}
 
 		/* Read Random */
 		{
 			printf("Read Random\n");
-			std::vector<int64_t> time_elapsed_v;
+			printf("Time Elapsed (s), Latency (ns)\n");
+			std::vector<double> time_elapsed_v;
+			std::default_random_engine generator;
+			std::uniform_int_distribution<uint64_t> distribution(0, size);
+			auto indexGen = std::bind(distribution, generator);
+
 			for (int iter = 0; iter < iter_per_test; iter++) {
 				Timer timer;
 				sum = 0;
 
-#pragma omp parallel
-				{
-					std::default_random_engine generator;
-					std::uniform_int_distribution<uint64_t> distribution(0, size);
-					auto indexGen = std::bind(distribution, generator);
-
-#pragma omp for reduction(+:sum)
-					for (uint64_t i = 0; i < size; i++) {
-						sum += arr[indexGen()];
-					}
+				for (uint64_t i = 0; i < latency_loads; i++) {
+					sum += arr[indexGen()];
 				}
+
 				timer.end();
-				print_stat(timer);
-				time_elapsed_v.push_back(timer.get_time_elapsed());
+				print_latency(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
-			print_stat_vector(time_elapsed_v);
+			print_vec_latency(time_elapsed_v);
 			printf("IGNORE(%lu)\n", sum);
 		}
 
 		/* Write linear */
 		{
 			printf("Write Linear\n");
-			std::vector<int64_t> time_elapsed_v;
+			printf("Time Elapsed (s), Bandwidth (GB/s)\n");
+			std::vector<double> time_elapsed_v;
 			for (int iter = 0; iter < iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
@@ -210,36 +222,36 @@ namespace Tests {
 					arr[i] = 0;
 				}
 				timer.end();
-				print_stat(timer);
-				time_elapsed_v.push_back(timer.get_time_elapsed());
+				print_bandwidth(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
-			print_stat_vector(time_elapsed_v);
+			print_vec_bandwith(time_elapsed_v);
 		}
 
 		/* Write Random */
 		{
 			printf("Write Random\n");
-			std::vector<int64_t> time_elapsed_v;
+			printf("Time Elapsed (s), Latency (ns)\n");
+
+			std::default_random_engine generator;
+			std::uniform_int_distribution<uint64_t> distribution(0, size);
+			auto indexGen = std::bind(distribution, generator);
+
+			std::vector<double> time_elapsed_v;
 			for (int iter = 0; iter < iter_per_test; iter++) {
 				Timer timer;
-#pragma omp parallel
-				{
-					std::default_random_engine generator;
-					std::uniform_int_distribution<uint64_t> distribution(0, size);
-					auto indexGen = std::bind(distribution, generator);
 
-#pragma omp for
-					for (uint64_t i = 0; i < size; i++) {
-						arr[indexGen()] = 0;
-					}
+				for (uint64_t i = 0; i < latency_loads; i++) {
+					arr[indexGen()] = 0;
 				}
-				timer.end();
-				print_stat(timer);
-				time_elapsed_v.push_back(timer.get_time_elapsed());
-			}
-			print_stat_vector(time_elapsed_v);
-		}
 
+				timer.end();
+				print_latency(timer);
+				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
+			}
+
+			print_vec_latency(time_elapsed_v);
+		}
 		printf("IGNORE(%lu)\n", sum);
 	}
 
@@ -249,9 +261,7 @@ namespace Tests {
 		{
 			printf("DRAM\n");
 			char* array = new char[alloc_size];
-			printf("IGNORE(%c)\n", array[0]);
 			memory_benchmark(array, alloc_size);
-			printf("IGNORE(%c)\n", array[0]);
 			delete array;
 		}
 
@@ -267,9 +277,7 @@ namespace Tests {
 				printf("Trouble allocating persistent memory\n");
 				return;
 			}
-			printf("IGNORE(%c)\n", array[0]);
 			memory_benchmark(array, alloc_size);
-			printf("IGNORE(%c)\n", array[0]);
 			pmem.free();
 		}
 	}
