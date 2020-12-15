@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+#include <queue>
 
 namespace PMEM {
 
@@ -260,6 +261,34 @@ namespace PMEM {
 		}
 
 		return iterations % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
+	}
+
+	void GraphCRS::breadth_first_traversal(uint32_t vertex) {
+
+		std::queue<uint32_t> frontier;
+		frontier.push(vertex);
+
+		std::unordered_set<uint32_t> visited;
+		visited.insert(vertex);
+
+		while (!frontier.empty()) {
+			uint32_t vertex = frontier.front();
+			frontier.pop();
+
+			/* If searching for a particular vertex, do the check here */
+
+			uint32_t row_index = this->row_ind[vertex];
+			uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
+
+			/* For each neighbor */
+			for (; row_index < row_index_end; row_index++) {
+				uint32_t neighbor = this->col_ind[row_index];
+				if (visited.find(neighbor) == visited.end()) {
+					visited.insert(neighbor);
+					frontier.push(neighbor);
+				}
+			}
+		}
 	}
 
 	uint32_t GraphCRS::num_edges() {

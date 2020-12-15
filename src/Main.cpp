@@ -39,6 +39,7 @@ int main(int argc, char** argv) {
 
 	try {
 		Tests::graph_test_page_rank(num_vertices);
+		Tests::graph_test_breadth_first_traversal(num_vertices);
 		Tests::pmem_vs_dram_benchmark(alloc_size);
 	}
 	catch (std::exception& e) {

@@ -126,6 +126,82 @@ namespace Tests {
 		graph_pmem.free();
 	}
 
+	void graph_test_breadth_first_traversal(const uint32_t num_vertices) {
+		const uint32_t min_degree = 1;
+		const uint32_t max_degree = 10;
+		const float min_value = 1;
+		const float max_value = 5;
+		const uint32_t iterations = 100;
+		const float dampening_factor = 0.8;
+		const uint32_t test_iterations = 10;
+
+		printf("Testing Breadth First Traversal\n");
+		printf("\tNumber of Vertices: %u\n", num_vertices);
+		printf("\tMinimum Degree: %u\n", min_degree);
+		printf("\tMaximum Degree: %u\n", max_degree);
+		printf("\tIterations: %u\n", iterations);
+		printf("\tDampening Factor: %f\n", dampening_factor);
+		printf("\tTest Iterations: %u\n", test_iterations);
+
+		std::string temp_graph_path = "./tmp/bfs_graph.csv";
+
+		/* Create a list of vertices so the tests perform the same traversals */
+		std::vector<uint32_t> start_vertices;
+		for (int i = 0; i < iterations; i++) {
+			start_vertices.push_back(i * num_vertices / 10);
+		}
+
+		{
+			printf("Graph DRAM\n");
+			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
+			printf("Number of Edges: %u\n", graph.num_edges());
+			graph.save(temp_graph_path);
+			std::vector<double> time_elapsed_v;
+			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			for (uint32_t i = 1; i <= test_iterations; i++) {
+				Timer timer;
+				graph.breadth_first_traversal(start_vertices[i - 1]);
+				timer.end();
+
+				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+				time_elapsed_v.push_back(time_elapsed_seconds);
+				printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph.num_edges() / time_elapsed_seconds);
+			}
+
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+			std::vector<double> edges_per_second_v;
+			for (auto& t : time_elapsed_v) {
+				edges_per_second_v.push_back(graph.num_edges() / t);
+			}
+			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
+		}
+
+		printf("Graph PMEM\n");
+		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+		printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
+		std::vector<double> time_elapsed_v;
+		printf("Iteration, Time Elapsed (s),Edges per Second\n");
+		for (uint32_t i = 1; i <= test_iterations; i++)
+		{
+			Timer timer("Page Rank PMEM");
+			graph_pmem.breadth_first_traversal(start_vertices[i - 1]);
+			timer.end();
+
+			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+			time_elapsed_v.push_back(time_elapsed_seconds);
+			printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
+		}
+		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+
+		std::vector<double> edges_per_second_v;
+		for (auto& t : time_elapsed_v) {
+			edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+		}
+		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
+		graph_pmem.free();
+	}
+
 	void memory_benchmark(char* arr, const size_t size) {
 
 		int iter_per_test = 10;

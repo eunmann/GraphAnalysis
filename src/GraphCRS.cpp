@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <queue>
+#include <unordered_set>
 
 GraphCRS::GraphCRS(std::vector<float> val,
 	std::vector<uint32_t> col_ind,
@@ -188,4 +190,32 @@ uint32_t GraphCRS::num_vertices() {
 
 size_t GraphCRS::byte_size() {
 	return sizeof(float) * (this->col_ind.size() + this->row_ind.size() + this->val.size());
+}
+
+void GraphCRS::breadth_first_traversal(uint32_t vertex) {
+
+	std::queue<uint32_t> frontier;
+	frontier.push(vertex);
+
+	std::unordered_set<uint32_t> visited;
+	visited.insert(vertex);
+
+	while (!frontier.empty()) {
+		uint32_t vertex = frontier.front();
+		frontier.pop();
+
+		/* If searching for a particular vertex, do the check here */
+
+		uint32_t row_index = this->row_ind[vertex];
+		uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
+
+		/* For each neighbor */
+		for (; row_index < row_index_end; row_index++) {
+			uint32_t neighbor = this->col_ind[row_index];
+			if (visited.find(neighbor) == visited.end()) {
+				visited.insert(neighbor);
+				frontier.push(neighbor);
+			}
+		}
+	}
 }

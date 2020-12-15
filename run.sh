@@ -9,7 +9,7 @@ final_name=$file_name.$current_time$file_ext
 export alloc_size=1000000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=1000000000
+export num_vertices=1000000
 
 echo Starting graph_analysis
 echo Output File: $final_name

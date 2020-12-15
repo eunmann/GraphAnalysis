@@ -87,6 +87,11 @@ namespace PMEM {
 		std::vector<float> page_rank(size_t iterations, float dampening_factor);
 
 		/**
+		 * Performs a breadth first traversal starting from vertex
+		 */
+		void breadth_first_traversal(uint32_t vertex);
+
+		/**
 		 * Returns the number of edges in the graph
 		 */
 		uint32_t num_edges();
