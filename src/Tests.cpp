@@ -135,7 +135,6 @@ namespace Tests {
 		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 		printf("Iterations per Test: %d\n", iter_per_test);
 
-		uint64_t sum = 0;
 		double size_gigabytes = size / 1e9;
 		auto print_bandwidth = [&size_gigabytes](const int iteration, const Timer& timer) {
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
@@ -166,6 +165,11 @@ namespace Tests {
 			BenchmarkUtils::print_metrics("Latency", latency_v);
 		};
 
+		uint64_t sum = 0;
+		/* Convert the byte pointer to a larger unit so loads pull as much as possible from memory */
+		uint64_t* test_mem = (uint64_t*)arr;
+		const size_t test_mem_size = size / sizeof(uint64_t);
+
 		BlockTimer timer("Memory Test");
 
 		/* Read linear */
@@ -176,8 +180,8 @@ namespace Tests {
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for reduction(+:sum)
-				for (uint64_t i = 0; i < size; i++) {
-					sum += arr[i];
+				for (uint64_t i = 0; i < test_mem_size; i++) {
+					sum += test_mem[i];
 				}
 				timer.end();
 				print_bandwidth(iter, timer);
@@ -220,8 +224,8 @@ namespace Tests {
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
-				for (uint64_t i = 0; i < size; i++) {
-					arr[i] = 0;
+				for (uint64_t i = 0; i < test_mem_size; i++) {
+					test_mem[i] = 0;
 				}
 				timer.end();
 				print_bandwidth(iter, timer);

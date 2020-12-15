@@ -49,4 +49,4 @@ dir_make:
 
 # Clean
 clean:
-	rm -rf $(obj) $(asm) $(out_name)
+	rm -rf obj/*.o obj/PMEM/*.o asm/*.asm asm/PMEM/*.asm $(out_name)

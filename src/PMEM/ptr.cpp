@@ -1,7 +1,8 @@
 #include "PMEM/ptr.hpp"
 #include <libpmem.h>
-#include <stdio.h>
 #include <string.h>
+#include <FormatUtils.hpp>
+#include <stdexcept>
 
 namespace PMEM {
 
@@ -59,7 +60,11 @@ namespace PMEM {
 		}
 
 		if (this->p == nullptr) {
-			printf("Unable to mmap at %s of size %lu.\n", this->m_path.c_str(), alloc_size);
+			throw std::runtime_error(FormatUtils::format("Unable to mmap at %s of size %lu", this->m_path.c_str(), alloc_size));
+		}
+
+		if (this->m_mapped_len != alloc_size) {
+			throw std::runtime_error(FormatUtils::format("Unable to mmap requested size. alloc_size=%lu, m_mapped_len=%lu", this->m_mapped_len, alloc_size));
 		}
 	}
 
