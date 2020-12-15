@@ -31,7 +31,7 @@ namespace BenchmarkUtils {
 			double diff = v - avg;
 			std_dev += diff * diff;
 		}
-		std_dev /= vec.size() - 1;
+		std_dev /= vec.size();
 		std_dev = std::sqrt(std_dev);
 	}
 

@@ -40,7 +40,7 @@ namespace PMEM {
 		std::string path();
 
 		/**
-		 * Frees the persistent memory allocated by this MemPool
+		 * Frees the persistent memory allocated
 		 */
 		void free();
 
