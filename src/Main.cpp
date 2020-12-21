@@ -6,11 +6,28 @@
 #include <exception>
 #include <cstdlib>
 #include "FormatUtils.hpp"
+#include "GNUPlot/Plot.hpp"
 
 void print_info() {
 	printf("OpenMP:\n");
 	printf("\tNumber of Processors: %d\n", omp_get_num_procs());
 	printf("\tMaximum Threads: %d\n", omp_get_max_threads());
+}
+
+void test_plot() {
+	std::vector<std::vector<double>> data;
+	std::vector<double> x_values;
+
+	for (int i = 0; i < 10; i++) {
+		x_values.push_back(i);
+	}
+
+	data.push_back(x_values);
+
+	std::vector<std::string> headers;
+	headers.push_back("X_Values");
+
+	GNUPlot::plot_save_png("./gnuplot_test.png", "Test Plot", 400, 400, headers, data);
 }
 
 int main(int argc, char** argv) {
@@ -19,6 +36,10 @@ int main(int argc, char** argv) {
 	printf("by Evan Unmann\n");
 
 	print_info();
+
+	test_plot();
+
+	/*
 
 	size_t alloc_size = 1;
 	uint32_t num_vertices = 1;
@@ -45,6 +66,8 @@ int main(int argc, char** argv) {
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
 	}
+
+	*/
 
 	return 0;
 }
