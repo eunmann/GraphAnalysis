@@ -45,7 +45,7 @@ namespace Tests {
 		if (shortest_path.size() > 0 && shortest_path.size() <= 5) {
 
 			printf("[");
-			for (int i = 0; i < shortest_path.size() - 1; i++) {
+			for (size_t i = 0; i < shortest_path.size() - 1; i++) {
 				printf(" %u ->", shortest_path[i]);
 			}
 			printf(" %u ]\n", shortest_path.back());
@@ -147,7 +147,7 @@ namespace Tests {
 
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
-		for (int i = 0; i < iterations; i++) {
+		for (uint32_t i = 0; i < iterations; i++) {
 			start_vertices.push_back(i * num_vertices / 10);
 		}
 

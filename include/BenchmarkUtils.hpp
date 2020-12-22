@@ -23,6 +23,9 @@ namespace BenchmarkUtils {
 
 	template<class T>
 	void metrics(const std::vector<T>& vec, double& min, double& max, double& avg, double& std_dev) {
+
+		min = vec[0];
+		max = vec[0];
 		avg = 0;
 
 		for (auto& v : vec) {

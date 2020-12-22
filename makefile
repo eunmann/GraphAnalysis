@@ -43,7 +43,7 @@ asm/%.s: src/%.cpp | dir_make
 	$(CXX) $(CXXFLAGS) $(OPT) $(IDIR) -S -o $@ $^ $(LINK)
 
 dir_make:
-	@mkdir -p obj asm obj/PMEM asm/PMEM obj/GNUPlot asm/GNUPlot tmp
+	@mkdir -p obj asm obj/PMEM asm/PMEM obj/GNUPlot asm/GNUPlot tmp output
 
 .PHONY: clean clean_pm
 

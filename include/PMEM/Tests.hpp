@@ -4,10 +4,10 @@
 
 namespace PMEM::Tests {
 	/* Define a format for the saved memory */
-	const int MAX_BUF_LEN = 10;
+	const unsigned int MAX_BUF_LEN = 10;
 
 	struct my_root {
-		int len; /* = strlen(buf) */
+		unsigned int len; /* = strlen(buf) */
 		char buf[MAX_BUF_LEN];
 	};
 

@@ -22,7 +22,11 @@ namespace PMEM::Tests {
 
 		/* Read Input from user */
 		char buf[PMEM::Tests::MAX_BUF_LEN];
-		scanf("%9s", buf);
+		int rc = scanf("%9s", buf);
+
+		if (rc == EOF || rc == 0) {
+			printf("Error getting input from user\n");
+		}
 
 		/* Write to the memory (just like writing to a file) */
 		rootp->len = strlen(buf);
@@ -67,7 +71,11 @@ namespace PMEM::Tests {
 
 		/* Read Input from user */
 		char buf[PMEM::Tests::MAX_BUF_LEN];
-		scanf("%9s", buf);
+		int rc = scanf("%9s", buf);
+
+		if (rc == EOF || rc == 0) {
+			printf("Error getting input from user\n");
+		}
 
 		/*
 			Use a transaction block to take a snapshot of the persistent memory.

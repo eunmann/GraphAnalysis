@@ -17,17 +17,17 @@ void print_info() {
 void test_plot() {
 	std::vector<std::vector<double>> data;
 	std::vector<double> x_values;
+	std::vector<double> y_values;
 
 	for (int i = 0; i < 10; i++) {
 		x_values.push_back(i);
+		y_values.push_back(i + 5);
 	}
 
 	data.push_back(x_values);
+	data.push_back(y_values);
 
-	std::vector<std::string> headers;
-	headers.push_back("X_Values");
-
-	GNUPlot::plot_save_png("./gnuplot_test.png", "Test Plot", 400, 400, headers, data);
+	GNUPlot::plot_save_png("./gnuplot_test.png", "Test Plot", 400, 400, std::vector<std::string>({ "X Values", "Y Values" }), data);
 }
 
 int main(int argc, char** argv) {
