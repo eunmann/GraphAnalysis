@@ -16,18 +16,21 @@ void print_info() {
 
 void test_plot() {
 	std::vector<std::vector<double>> data;
-	std::vector<double> x_values;
-	std::vector<double> y_values;
+	data.push_back(std::vector<double>());
+	data.push_back(std::vector<double>());
+	std::vector<double>& x_values = data[0];
+	std::vector<double>& y_values = data[1];
 
 	for (int i = 0; i < 10; i++) {
 		x_values.push_back(i);
 		y_values.push_back(i + 5);
 	}
 
-	data.push_back(x_values);
-	data.push_back(y_values);
+	printf("X[0]=%f Data[0]=%f\n", x_values[0], data[0][0]);
+	x_values[0] = 20;
+	printf("X[0]=%f Data[0]=%f\n", x_values[0], data[0][0]);
 
-	GNUPlot::plot_save_png("./gnuplot_test.png", "Test Plot", 400, 400, std::vector<std::string>({ "X Values", "Y Values" }), data);
+	GNUPlot::save_plot_command("./gnuplot_test.png", "Test Plot", 500, 500, { "X Values", "Y Values" }, { "Iteration", "Time" }, data);
 }
 
 int main(int argc, char** argv) {
@@ -36,10 +39,6 @@ int main(int argc, char** argv) {
 	printf("by Evan Unmann\n");
 
 	print_info();
-
-	test_plot();
-
-	/*
 
 	size_t alloc_size = 1;
 	uint32_t num_vertices = 1;
@@ -66,8 +65,6 @@ int main(int argc, char** argv) {
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
 	}
-
-	*/
 
 	return 0;
 }

@@ -3,16 +3,44 @@
 #include <chrono>
 #include <fstream>
 #include <cstdio>
+#include <filesystem>
 
 namespace GNUPlot {
 
-	void plot_save_png(const std::string& path, const std::string& title, size_t width, size_t height, const std::vector<std::string>& headers, const std::vector<std::vector<double>>& data) {
+	void save_csv(const std::string& path, const std::vector<std::string>& keys, const std::vector<std::vector<double>>& data) {
 
+		std::ofstream file(path, std::ofstream::binary);
+
+		for (const std::string& header : keys) {
+			file.write(header.c_str(), header.size());
+			file.write(",", 1);
+		}
+
+		file.seekp(-1, std::ios_base::cur);
+		file.write("\n", 1);
+
+		const size_t num_data = data[0].size();
+		for (size_t i = 0; i < num_data; i++) {
+
+			for (auto& vec : data) {
+				std::string s = std::to_string(vec[i]);
+				file.write(s.c_str(), s.size());
+				file.write(",", 1);
+			}
+
+			file.seekp(-1, std::ios_base::cur);
+			file.write("\n", 1);
+		}
+
+		file.close();
+	}
+
+	void save_plot_command(const std::string& image_path, const std::string& title, size_t width, size_t height, const std::vector<std::string>& keys, const std::vector<std::string>& axies_labels, const std::vector<std::vector<double>>& data) {
 		/* Find the minimum and maximum values from the vectors */
 		double min = data[0][0];
 		double max = data[0][0];
 
-		for (const std::vector<double>& vec : data) {
+		for (auto& vec : data) {
 			double min_v;
 			double max_v;
 
@@ -27,34 +55,49 @@ namespace GNUPlot {
 			}
 		}
 
-		/* Create and write the data to a temporary file */
-		std::string data_path = std::string("./tmp/data_file_") + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
-		std::ofstream data_file(data_path, std::ofstream::binary);
+		int i = 0;
+		std::string data_path = std::string(std::getenv("out_dir")) + "data_file_0.csv";
 
-		for (const std::string& header : headers) {
-			data_file.write(header.c_str(), header.size());
-			data_file.write(",", 1);
+		while (std::filesystem::exists(data_path)) {
+			i++;
+			data_path = std::string(std::getenv("out_dir")) + "data_file_" + std::to_string(i) + ".csv";
 		}
 
-		data_file.seekp(1, std::ios_base::beg);
-		data_file.write("\n", 1);
+		GNUPlot::save_csv(data_path, keys, data);
+		std::string command = GNUPlot::plot_command(image_path, title, width, height, min, max, data_path, data.size(), axies_labels);
 
-		const size_t num_data = data[0].size();
-		for (size_t i = 0; i < num_data; i++) {
+		std::string command_file_path = std::string(std::getenv("out_dir")) + "/gnuplot_command.sh";
+		std::ofstream file(command_file_path, std::ofstream::binary | std::ofstream::app);
+		file << command << std::endl;
+		file.close();
+	}
 
-			for (auto& vec : data) {
-				std::string s = std::to_string(vec[i]);
-				data_file.write(s.c_str(), s.size());
-				data_file.write(",", 1);
+
+	void plot_save_png(const std::string& path, const std::string& title, size_t width, size_t height, const std::vector<std::string>& keys, const std::vector<std::string>& axies_labels, const std::vector<std::vector<double>>& data) {
+
+		/* Find the minimum and maximum values from the vectors */
+		double min = data[0][0];
+		double max = data[0][0];
+
+		for (auto& vec : data) {
+			double min_v;
+			double max_v;
+
+			BenchmarkUtils::metrics(vec, min_v, max_v);
+
+			if (min_v < min) {
+				min = min_v;
 			}
 
-			data_file.seekp(1, std::ios_base::beg);
-			data_file.write("\n", 1);
+			if (max_v > max) {
+				max = max_v;
+			}
 		}
 
-		data_file.close();
+		std::string data_path = std::string(std::getenv("out_dir")) + "data_file_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()) + ".csv";
+		GNUPlot::save_csv(data_path, keys, data);
 
-		std::string command = GNUPlot::plot_command(path, title, width, height, min, max, data_path, data.size());
+		std::string command = GNUPlot::plot_command(path, title, width, height, min, max, data_path, data.size(), axies_labels);
 		int rc = system(command.c_str());
 
 		if (rc == 1) {
@@ -64,7 +107,7 @@ namespace GNUPlot {
 		std::remove(data_path.c_str());
 	}
 
-	std::string plot_command(const std::string& image_path, const std::string& title, size_t width, size_t height, double min, double max, const std::string& data_path, size_t num_cols) {
+	std::string plot_command(const std::string& image_path, const std::string& title, size_t width, size_t height, double min, double max, const std::string& data_path, size_t num_cols, const std::vector<std::string>& axies_labels) {
 		std::string command = "gnuplot -e ";
 
 		/* Wrap the GNUPlot commands in quotes */
@@ -95,6 +138,14 @@ namespace GNUPlot {
 
 		/* Set key outside */
 		command += "set key outside; ";
+
+		/* Set the axis labels */
+		command += "set xlabel \'";
+		command += axies_labels[0];
+		command += "\'; ";
+		command += "set ylabel \'";
+		command += axies_labels[1];
+		command += "\'; ";
 
 		/* Set the plot */
 		command += "plot for [col=1:";

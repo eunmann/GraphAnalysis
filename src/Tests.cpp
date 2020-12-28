@@ -6,6 +6,7 @@
 #include "BlockTimer.hpp"
 #include "FormatUtils.hpp"
 #include "BenchmarkUtils.hpp"
+#include "GNUPlot/Plot.hpp"
 
 namespace Tests {
 	void PMEM_tests() {
@@ -75,12 +76,15 @@ namespace Tests {
 
 		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
 
+		std::vector<std::vector<double>> time_elapsed(2);
+		std::vector<std::vector<double>> edges_per_second(2);
+
 		{
 			printf("Graph DRAM\n");
 			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
 			printf("Number of Edges: %u\n", graph.num_edges());
 			graph.save(temp_graph_path);
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= test_iterations; i++) {
 				Timer timer;
@@ -94,36 +98,41 @@ namespace Tests {
 
 			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
 
-			std::vector<double> edges_per_second_v;
+			std::vector<double>& edges_per_second_v = edges_per_second[0];
 			for (auto& t : time_elapsed_v) {
 				edges_per_second_v.push_back(graph.num_edges() / t);
 			}
 			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
 		}
 
-		printf("Graph PMEM\n");
-		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
-		printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
-		std::vector<double> time_elapsed_v;
-		printf("Iteration, Time Elapsed (s),Edges per Second\n");
-		for (uint32_t i = 1; i <= test_iterations; i++)
 		{
-			Timer timer("Page Rank PMEM");
-			graph_pmem.page_rank(iterations, dampening_factor);
-			timer.end();
+			printf("Graph PMEM\n");
+			PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+			printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
+			std::vector<double>& time_elapsed_v = time_elapsed[1];
+			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			for (uint32_t i = 1; i <= test_iterations; i++)
+			{
+				Timer timer("Page Rank PMEM");
+				graph_pmem.page_rank(iterations, dampening_factor);
+				timer.end();
 
-			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			time_elapsed_v.push_back(time_elapsed_seconds);
-			printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
-		}
-		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+				time_elapsed_v.push_back(time_elapsed_seconds);
+				printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
+			}
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
 
-		std::vector<double> edges_per_second_v;
-		for (auto& t : time_elapsed_v) {
-			edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+			std::vector<double>& edges_per_second_v = edges_per_second[1];
+			for (auto& t : time_elapsed_v) {
+				edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+			}
+			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
+			graph_pmem.free();
 		}
-		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
-		graph_pmem.free();
+
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_time.png", "Page Rank", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges.png", "Page Rank", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
 	void graph_test_breadth_first_traversal(const uint32_t num_vertices) {
@@ -145,6 +154,9 @@ namespace Tests {
 
 		std::string temp_graph_path = "./tmp/bfs_graph.csv";
 
+		std::vector<std::vector<double>> time_elapsed(2);
+		std::vector<std::vector<double>> edges_per_second(2);
+
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
 		for (uint32_t i = 0; i < iterations; i++) {
@@ -156,7 +168,7 @@ namespace Tests {
 			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
 			printf("Number of Edges: %u\n", graph.num_edges());
 			graph.save(temp_graph_path);
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= test_iterations; i++) {
 				Timer timer;
@@ -170,39 +182,44 @@ namespace Tests {
 
 			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
 
-			std::vector<double> edges_per_second_v;
+			std::vector<double>& edges_per_second_v = edges_per_second[0];
 			for (auto& t : time_elapsed_v) {
 				edges_per_second_v.push_back(graph.num_edges() / t);
 			}
 			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
 		}
 
-		printf("Graph PMEM\n");
-		PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
-		printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
-		std::vector<double> time_elapsed_v;
-		printf("Iteration, Time Elapsed (s),Edges per Second\n");
-		for (uint32_t i = 1; i <= test_iterations; i++)
 		{
-			Timer timer("Page Rank PMEM");
-			graph_pmem.breadth_first_traversal(start_vertices[i - 1]);
-			timer.end();
+			printf("Graph PMEM\n");
+			PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+			printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
+			std::vector<double>& time_elapsed_v = time_elapsed[1];
+			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			for (uint32_t i = 1; i <= test_iterations; i++)
+			{
+				Timer timer("Page Rank PMEM");
+				graph_pmem.breadth_first_traversal(start_vertices[i - 1]);
+				timer.end();
 
-			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			time_elapsed_v.push_back(time_elapsed_seconds);
-			printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
-		}
-		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
+				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+				time_elapsed_v.push_back(time_elapsed_seconds);
+				printf("%d,%.3f,%.3f\n", i, time_elapsed_seconds, graph_pmem.num_edges() / time_elapsed_seconds);
+			}
+			BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
 
-		std::vector<double> edges_per_second_v;
-		for (auto& t : time_elapsed_v) {
-			edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+			std::vector<double>& edges_per_second_v = edges_per_second[1];
+			for (auto& t : time_elapsed_v) {
+				edges_per_second_v.push_back(graph_pmem.num_edges() / t);
+			}
+			BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
+			graph_pmem.free();
 		}
-		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
-		graph_pmem.free();
+
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_time.png", "BFS", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_edges.png", "BFS", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
-	void memory_benchmark(char* arr, const size_t size) {
+	std::vector<std::vector<double>> memory_benchmark(char* arr, const size_t size) {
 
 		int iter_per_test = 10;
 		const size_t latency_loads = size / 1000;
@@ -246,13 +263,15 @@ namespace Tests {
 		uint64_t* test_mem = (uint64_t*)arr;
 		const size_t test_mem_size = size / sizeof(uint64_t);
 
+		std::vector<std::vector<double>> time_elapsed(4);
+
 		BlockTimer timer("Memory Test");
 
 		/* Read linear */
 		{
 			printf("Read Linear\n");
 			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for reduction(+:sum)
@@ -271,7 +290,7 @@ namespace Tests {
 		{
 			printf("Read Random\n");
 			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[1];
 			std::default_random_engine generator;
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
 			auto indexGen = std::bind(distribution, generator);
@@ -296,7 +315,7 @@ namespace Tests {
 		{
 			printf("Write Linear\n");
 			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[2];
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
@@ -319,7 +338,7 @@ namespace Tests {
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
 			auto indexGen = std::bind(distribution, generator);
 
-			std::vector<double> time_elapsed_v;
+			std::vector<double>& time_elapsed_v = time_elapsed[3];
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 
@@ -335,32 +354,38 @@ namespace Tests {
 			print_vec_latency(time_elapsed_v);
 		}
 		printf("IGNORE(%lu)\n", sum);
+
+		return time_elapsed;
 	}
 
 	void pmem_vs_dram_benchmark(const size_t alloc_size) {
-		printf("Allocation Size: %sB\n", FormatUtils::format_number(alloc_size).c_str());
+		printf("DRAM\n");
+		char* dram_array = new char[alloc_size];
+		std::vector<std::vector<double>> dram_time_elapsed = memory_benchmark(dram_array, alloc_size);
+		delete dram_array;
 
-		{
-			printf("DRAM\n");
-			char* array = new char[alloc_size];
-			memory_benchmark(array, alloc_size);
-			delete array;
+		printf("Persistent Memory\n");
+		PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, alloc_size);
+		char* pmem_array = pmem.as<char*>();
+
+		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
+		printf("Mapped length: %sB\n", FormatUtils::format_number(pmem.mapped_len()).c_str());
+
+		if (pmem_array == nullptr) {
+			printf("Trouble allocating persistent memory\n");
+			return;
 		}
+		std::vector<std::vector<double>> pmem_time_elapsed = memory_benchmark(pmem_array, alloc_size);
+		pmem.free();
 
-		{
-			printf("Persistent Memory\n");
-			PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, alloc_size);
-			char* array = pmem.as<char*>();
-
-			printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
-			printf("Mapped length: %sB\n", FormatUtils::format_number(pmem.mapped_len()).c_str());
-
-			if (array == nullptr) {
-				printf("Trouble allocating persistent memory\n");
-				return;
-			}
-			memory_benchmark(array, alloc_size);
-			pmem.free();
+		std::vector<std::string> paths({ "read_linear.png", "read_random.png", "write_linear.png", "write_random.png" });
+		std::vector<std::string> titles({ "Read Linear", "Read Random", "Write Linear", "Write Random" });
+		std::vector<std::string> labels({ "Time (s)", "Latency (s)", "Time (s)", "Latency (s)" });
+		for (size_t i = 0; i < dram_time_elapsed.size(); i++) {
+			std::vector<std::vector<double>> data;
+			data.push_back(dram_time_elapsed[i]);
+			data.push_back(pmem_time_elapsed[i]);
+			GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + paths[i], titles[i], 500, 500, { "DRAM", "PMEM" }, { "Iteration", labels[i] }, data);
 		}
 	}
 }

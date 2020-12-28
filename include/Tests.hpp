@@ -2,6 +2,7 @@
 
 typedef unsigned long size_t;
 #include <inttypes.h>
+#include <vector>
 
 namespace Tests {
 	void PMEM_tests();
@@ -12,7 +13,7 @@ namespace Tests {
 
 	void graph_test_breadth_first_traversal(const uint32_t num_vertices);
 
-	void memory_benchmark(char* arr, const size_t size);
+	std::vector<std::vector<double>> memory_benchmark(char* arr, const size_t size);
 
 	void pmem_vs_dram_benchmark(const size_t alloc_size);
 }
