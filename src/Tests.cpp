@@ -8,6 +8,9 @@
 #include "BenchmarkUtils.hpp"
 #include "GNUPlot/Plot.hpp"
 
+#define GNUPLOT_WIDTH 800
+#define GNUPLOT_HEIGHT 600
+
 namespace Tests {
 	void PMEM_tests() {
 		printf("First test, simple struct write and read.\n");
@@ -131,8 +134,8 @@ namespace Tests {
 			graph_pmem.free();
 		}
 
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_time.png", "Page Rank", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges.png", "Page Rank", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_time.png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges.png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
 	void graph_test_breadth_first_traversal(const uint32_t num_vertices) {
@@ -215,8 +218,8 @@ namespace Tests {
 			graph_pmem.free();
 		}
 
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_time.png", "BFS", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_edges.png", "BFS", 500, 500, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_time.png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_edges.png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
 	std::vector<std::vector<double>> memory_benchmark(char* arr, const size_t size) {
@@ -385,7 +388,7 @@ namespace Tests {
 			std::vector<std::vector<double>> data;
 			data.push_back(dram_time_elapsed[i]);
 			data.push_back(pmem_time_elapsed[i]);
-			GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + paths[i], titles[i], 500, 500, { "DRAM", "PMEM" }, { "Iteration", labels[i] }, data);
+			GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + paths[i], titles[i], GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", labels[i] }, data);
 		}
 	}
 }

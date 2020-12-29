@@ -268,8 +268,7 @@ namespace PMEM {
 		std::queue<uint32_t> frontier;
 		frontier.push(vertex);
 
-		std::unordered_set<uint32_t> visited;
-		visited.insert(vertex);
+		std::vector<uint32_t> visited(this->num_vertices(), 0);
 
 		while (!frontier.empty()) {
 			uint32_t vertex = frontier.front();
@@ -283,8 +282,8 @@ namespace PMEM {
 			/* For each neighbor */
 			for (; row_index < row_index_end; row_index++) {
 				uint32_t neighbor = this->col_ind[row_index];
-				if (visited.find(neighbor) == visited.end()) {
-					visited.insert(neighbor);
+				if (visited[neighbor] == 0) {
+					visited[neighbor] = 1;
 					frontier.push(neighbor);
 				}
 			}

@@ -70,6 +70,8 @@ namespace GNUPlot {
 		std::ofstream file(command_file_path, std::ofstream::binary | std::ofstream::app);
 		file << command << std::endl;
 		file.close();
+
+		std::filesystem::permissions(command_file_path, std::filesystem::perms::all);
 	}
 
 
@@ -147,6 +149,9 @@ namespace GNUPlot {
 		command += axies_labels[1];
 		command += "\'; ";
 
+		/* Set the format for y values */
+		command += "set format y \'%.2s%c\'; ";
+
 		/* Set the plot */
 		command += "plot for [col=1:";
 		command += std::to_string(num_cols);
@@ -156,7 +161,7 @@ namespace GNUPlot {
 		command += std::to_string(max);
 		command += "] \'";
 		command += data_path;
-		command += "\' using 0:col with lines";
+		command += "\' using 0:col with linespoints pt 20 ps 2";
 
 		/* End of GNUPlot command quote */
 		command += "\"";

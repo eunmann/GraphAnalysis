@@ -30,7 +30,7 @@ void test_plot() {
 	x_values[0] = 20;
 	printf("X[0]=%f Data[0]=%f\n", x_values[0], data[0][0]);
 
-	GNUPlot::save_plot_command("./gnuplot_test.png", "Test Plot", 500, 500, { "X Values", "Y Values" }, { "Iteration", "Time" }, data);
+	GNUPlot::save_plot_command("./gnuplot_test.png", "Test Plot", 800, 600, { "X Values", "Y Values" }, { "Iteration", "Time" }, data);
 }
 
 int main(int argc, char** argv) {
@@ -58,9 +58,9 @@ int main(int argc, char** argv) {
 	printf("\tnum_vertices: %s\n", FormatUtils::format_number(num_vertices).c_str());
 
 	try {
-		Tests::graph_test_page_rank(num_vertices);
+		//Tests::graph_test_page_rank(num_vertices);
 		Tests::graph_test_breadth_first_traversal(num_vertices);
-		Tests::pmem_vs_dram_benchmark(alloc_size);
+		//Tests::pmem_vs_dram_benchmark(alloc_size);
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());

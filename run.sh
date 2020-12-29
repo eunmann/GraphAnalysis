@@ -13,7 +13,7 @@ export out_dir
 export alloc_size=100000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=1000
+export num_vertices=100000
 
 echo Starting graph_analysis
 echo Output Directory: $out_dir
