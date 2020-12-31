@@ -12,7 +12,48 @@
 			"args": [],
 			"stopAtEntry": true,
 			"cwd": "${workspaceFolder}",
-			"environment": [],
+			"environment": [
+				{
+					"name": "out_dir",
+					"value": "./output/debug/"
+				},
+				{
+					"name": "alloc_size",
+					"value": "1000"
+				},
+				{
+					"name": "num_vertices",
+					"value": "1000"
+				},
+				{
+					"name": "min_degree",
+					"value": "1"
+				},
+				{
+					"name": "max_degree",
+					"value": "2"
+				},
+				{
+					"name": "min_value",
+					"value": "1"
+				},
+				{
+					"name": "max_value",
+					"value": "2"
+				},
+				{
+					"name": "page_rank_iterations",
+					"value": "1"
+				},
+				{
+					"name": "page_rank_dampening_factor",
+					"value": "0.5"
+				},
+				{
+					"name": "test_iterations",
+					"value": "1"
+				}
+			],
 			"externalConsole": false,
 			"MIMode": "gdb",
 			"setupCommands": [

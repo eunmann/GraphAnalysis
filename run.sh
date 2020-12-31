@@ -10,10 +10,26 @@ mkdir $out_dir
 export out_dir
 
 # Size of the memory test buffer
-export alloc_size=100000000
+export alloc_size=1000000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=100000
+export num_vertices=1000000
+
+# Minimum and Maximum degree for vertice
+export min_degree=20
+export max_degree=200
+
+# Minimum and Maximum value for an edge's weight
+export min_value=1
+export max_value=2
+
+# Page Rank Parameters
+export page_rank_iterations=100
+export page_rank_dampening_factor=0.8
+
+# Number of iterations for each test
+export test_iterations=10
+
 
 echo Starting graph_analysis
 echo Output Directory: $out_dir

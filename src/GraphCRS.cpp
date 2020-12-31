@@ -205,15 +205,19 @@ void GraphCRS::breadth_first_traversal(uint32_t vertex) {
 
 		/* If searching for a particular vertex, do the check here */
 
-		uint32_t row_index = this->row_ind[vertex];
+
 		uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
 
 		/* For each neighbor */
-		for (; row_index < row_index_end; row_index++) {
+#pragma omp parallel for
+		for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
 			uint32_t neighbor = this->col_ind[row_index];
 			if (visited[neighbor] == 0) {
 				visited[neighbor] = 1;
-				frontier.push(neighbor);
+#pragma omp critical
+				{
+					frontier.push(neighbor);
+				}
 			}
 		}
 	}

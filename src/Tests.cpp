@@ -7,11 +7,66 @@
 #include "FormatUtils.hpp"
 #include "BenchmarkUtils.hpp"
 #include "GNUPlot/Plot.hpp"
+#include "Tests.hpp"
 
 #define GNUPLOT_WIDTH 800
 #define GNUPLOT_HEIGHT 600
 
 namespace Tests {
+
+	Tests::TestParameters get_test_parameters() {
+		TestParameters tp;
+
+		if (std::getenv("alloc_size") != nullptr) {
+			tp.alloc_size = std::stol(std::getenv("alloc_size"));
+		}
+
+		if (std::getenv("num_vertices") != nullptr) {
+			tp.num_vertices = std::stol(std::getenv("num_vertices"));
+		}
+
+		if (std::getenv("min_degree") != nullptr) {
+			tp.min_degree = std::stol(std::getenv("min_degree"));
+		}
+
+		if (std::getenv("max_degree") != nullptr) {
+			tp.max_degree = std::stol(std::getenv("max_degree"));
+		}
+
+		if (std::getenv("min_value") != nullptr) {
+			tp.min_value = std::stol(std::getenv("min_value"));
+		}
+
+		if (std::getenv("max_value") != nullptr) {
+			tp.max_value = std::stol(std::getenv("max_value"));
+		}
+
+		if (std::getenv("page_rank_iterations") != nullptr) {
+			tp.page_rank_iterations = std::stol(std::getenv("page_rank_iterations"));
+		}
+
+		if (std::getenv("page_rank_dampening_factor") != nullptr) {
+			tp.page_rank_dampening_factor = std::stod(std::getenv("page_rank_dampening_factor"));
+		}
+
+		if (std::getenv("test_iterations") != nullptr) {
+			tp.test_iterations = std::stol(std::getenv("test_iterations"));
+		}
+
+		printf("Test Parameters:\n");
+		printf("\talloc_size: %sB\n", FormatUtils::format_number(tp.alloc_size).c_str());
+		printf("\tnum_vertices: %s\n", FormatUtils::format_number(tp.num_vertices).c_str());
+		printf("\tmin_degree: %s\n", FormatUtils::format_number(tp.min_degree).c_str());
+		printf("\tmax_degree: %s\n", FormatUtils::format_number(tp.max_degree).c_str());
+		printf("\tmin_value: %s\n", FormatUtils::format_number(tp.min_value).c_str());
+		printf("\tmax_value: %s\n", FormatUtils::format_number(tp.max_value).c_str());
+		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
+		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
+		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
+
+		return tp;
+	}
+
 	void PMEM_tests() {
 		printf("First test, simple struct write and read.\n");
 		PMEM::Tests::libpmemobj_example_write_1();
@@ -25,18 +80,13 @@ namespace Tests {
 		PMEM::Tests::pmem_as_volatile_API();
 	}
 
-	void graph_test() {
-		const uint32_t num_vertices = 4;
-		const uint32_t min_degree = 1;
-		const uint32_t max_degree = 2;
-		const float min_value = 1;
-		const float max_value = 2;
+	void graph_test(const Tests::TestParameters& tp) {
 
 		std::string graph_file_path = "./graph_examples/test_format.csv";
 		std::string simple_graph_path = "./graph_examples/simple_graph.csv";
 
 		printf("First Graph\n");
-		PMEM::GraphCRS g1 = GraphUtils::create_graph_crs_pmem("/tmp/", num_vertices, min_degree, max_degree, min_value, max_value);
+		PMEM::GraphCRS g1 = GraphUtils::create_graph_crs_pmem("/tmp/", tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
 		g1.print();
 		g1.save(graph_file_path);
 		g1.free();
@@ -60,22 +110,15 @@ namespace Tests {
 		g2.free();
 	}
 
-	void graph_test_page_rank(const uint32_t num_vertices) {
-		const uint32_t min_degree = 1;
-		const uint32_t max_degree = 10;
-		const float min_value = 1;
-		const float max_value = 5;
-		const uint32_t iterations = 100;
-		const float dampening_factor = 0.8;
-		const uint32_t test_iterations = 10;
+	void graph_test_page_rank(const Tests::TestParameters& tp) {
 
 		printf("Testing Page Rank\n");
-		printf("\tNumber of Vertices: %u\n", num_vertices);
-		printf("\tMinimum Degree: %u\n", min_degree);
-		printf("\tMaximum Degree: %u\n", max_degree);
-		printf("\tIterations: %u\n", iterations);
-		printf("\tDampening Factor: %f\n", dampening_factor);
-		printf("\tTest Iterations: %u\n", test_iterations);
+		printf("\tNumber of Vertices: %u\n", tp.num_vertices);
+		printf("\tMinimum Degree: %u\n", tp.min_degree);
+		printf("\tMaximum Degree: %u\n", tp.max_degree);
+		printf("\tPage Rank Iterations: %u\n", tp.page_rank_iterations);
+		printf("\tDampening Factor: %f\n", tp.page_rank_dampening_factor);
+		printf("\tTest Iterations: %u\n", tp.test_iterations);
 
 		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
 
@@ -84,14 +127,14 @@ namespace Tests {
 
 		{
 			printf("Graph DRAM\n");
-			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
+			GraphCRS graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
 			printf("Number of Edges: %u\n", graph.num_edges());
 			graph.save(temp_graph_path);
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
-			for (uint32_t i = 1; i <= test_iterations; i++) {
+			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
 				Timer timer;
-				graph.page_rank(iterations, dampening_factor);
+				graph.page_rank(tp.page_rank_iterations, tp.page_rank_dampening_factor);
 				timer.end();
 
 				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
@@ -114,10 +157,10 @@ namespace Tests {
 			printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
-			for (uint32_t i = 1; i <= test_iterations; i++)
+			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
 				Timer timer("Page Rank PMEM");
-				graph_pmem.page_rank(iterations, dampening_factor);
+				graph_pmem.page_rank(tp.page_rank_iterations, tp.page_rank_dampening_factor);
 				timer.end();
 
 				double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
@@ -138,22 +181,14 @@ namespace Tests {
 		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges.png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
-	void graph_test_breadth_first_traversal(const uint32_t num_vertices) {
-		const uint32_t min_degree = 1;
-		const uint32_t max_degree = 10;
-		const float min_value = 1;
-		const float max_value = 5;
-		const uint32_t iterations = 100;
-		const float dampening_factor = 0.8;
-		const uint32_t test_iterations = 10;
+	void graph_test_breadth_first_traversal(const Tests::TestParameters& tp) {
 
 		printf("Testing Breadth First Traversal\n");
-		printf("\tNumber of Vertices: %u\n", num_vertices);
-		printf("\tMinimum Degree: %u\n", min_degree);
-		printf("\tMaximum Degree: %u\n", max_degree);
-		printf("\tIterations: %u\n", iterations);
-		printf("\tDampening Factor: %f\n", dampening_factor);
-		printf("\tTest Iterations: %u\n", test_iterations);
+		printf("\tNumber of Vertices: %u\n", tp.num_vertices);
+		printf("\tMinimum Degree: %u\n", tp.min_degree);
+		printf("\tMaximum Degree: %u\n", tp.max_degree);
+		printf("\tIterations: %u\n", tp.page_rank_iterations);
+		printf("\tTest Iterations: %u\n", tp.test_iterations);
 
 		std::string temp_graph_path = "./tmp/bfs_graph.csv";
 
@@ -162,18 +197,18 @@ namespace Tests {
 
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
-		for (uint32_t i = 0; i < iterations; i++) {
-			start_vertices.push_back(i * num_vertices / 10);
+		for (uint32_t i = 0; i < tp.page_rank_iterations; i++) {
+			start_vertices.push_back(i * tp.num_vertices / 10);
 		}
 
 		{
 			printf("Graph DRAM\n");
-			GraphCRS graph = GraphUtils::create_graph_crs(num_vertices, min_degree, max_degree, min_value, max_value);
+			GraphCRS graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
 			printf("Number of Edges: %u\n", graph.num_edges());
 			graph.save(temp_graph_path);
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
-			for (uint32_t i = 1; i <= test_iterations; i++) {
+			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
 				Timer timer;
 				graph.breadth_first_traversal(start_vertices[i - 1]);
 				timer.end();
@@ -198,7 +233,7 @@ namespace Tests {
 			printf("\tNumber of Edges: %u\n", graph_pmem.num_edges());
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
-			for (uint32_t i = 1; i <= test_iterations; i++)
+			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
 				Timer timer("Page Rank PMEM");
 				graph_pmem.breadth_first_traversal(start_vertices[i - 1]);
@@ -361,14 +396,14 @@ namespace Tests {
 		return time_elapsed;
 	}
 
-	void pmem_vs_dram_benchmark(const size_t alloc_size) {
+	void pmem_vs_dram_benchmark(const Tests::TestParameters& tp) {
 		printf("DRAM\n");
-		char* dram_array = new char[alloc_size];
-		std::vector<std::vector<double>> dram_time_elapsed = memory_benchmark(dram_array, alloc_size);
+		char* dram_array = new char[tp.alloc_size];
+		std::vector<std::vector<double>> dram_time_elapsed = memory_benchmark(dram_array, tp.alloc_size);
 		delete dram_array;
 
 		printf("Persistent Memory\n");
-		PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, alloc_size);
+		PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, tp.alloc_size);
 		char* pmem_array = pmem.as<char*>();
 
 		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
@@ -378,7 +413,7 @@ namespace Tests {
 			printf("Trouble allocating persistent memory\n");
 			return;
 		}
-		std::vector<std::vector<double>> pmem_time_elapsed = memory_benchmark(pmem_array, alloc_size);
+		std::vector<std::vector<double>> pmem_time_elapsed = memory_benchmark(pmem_array, tp.alloc_size);
 		pmem.free();
 
 		std::vector<std::string> paths({ "read_linear.png", "read_random.png", "write_linear.png", "write_random.png" });
