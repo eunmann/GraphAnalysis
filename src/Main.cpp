@@ -21,7 +21,7 @@ void print_info() {
 
 int main(int argc, char** argv) {
 	BlockTimer timer("Time Elapsed");
-	printf("Graph Algorithm Performance Analysis on Persistent Memory Machines\n");
+	printf("Persistent Memory Benchmark\n");
 	printf("by Evan Unmann\n");
 
 	print_info();

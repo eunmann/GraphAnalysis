@@ -10,10 +10,10 @@ mkdir $out_dir
 export out_dir
 
 # Size of the memory test buffer
-export alloc_size=1000000000
+export alloc_size=2000000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=1000000
+export num_vertices=500
 
 # Minimum and Maximum degree for vertice
 export min_degree=20
