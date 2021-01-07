@@ -9,7 +9,7 @@ IDIR = -Iinclude
 
 # Optimizing Flags
 OPT = -O3 -march=native
-debug: OPT = -O0
+debug: OPT = -O0 -march=native
 
 # Flags
 CXXFLAGS = -Wall -std=c++17

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 namespace GraphUtils {
 
@@ -183,6 +184,71 @@ namespace GraphUtils {
 
 			return GraphCRS(val, col_ind, row_ind);
 		}
+		else if (std::equal(path.end() - 4, path.end(), ".txt")) {
+			/*
+				This file format is typically a tab seperated value format, where the first
+				column is the source node, and the second column is the destination node.
+				This is a link to get graphs of this format from real world sources:
+				https://snap.stanford.edu/data/index.html
+			*/
+
+			/*
+				TODO(EMU): Graphs can be directed or undirected, at the moment, this code
+				assumes the graphs are directed. In the files, there's text describing whether
+				or not the graph is directed or not. Maybe I should use that for parsing, but for
+				now, only load directed graphs.
+			*/
+
+			std::string line;
+			std::getline(file, line);
+			/* Lines with comments are marks with a '#', so skip these */
+			while (line[0] == '#') {
+				std::getline(file, line);
+			}
+
+			std::vector<std::vector<uint32_t>> node_map;
+			size_t num_edges = 0;
+
+			/* Read each pair */
+			while (std::getline(file, line)) {
+				std::istringstream iss(line);
+				uint32_t source, destination;
+				if (!(iss >> source >> destination)) {
+					break;
+				}
+
+				/* Make sure there is a vector for this node */
+				if (node_map.size() < source + 1) {
+					node_map.resize(source + 1);
+				}
+
+				node_map[source].push_back(destination);
+				num_edges++;
+			}
+
+			/* There's no values for edge weights, so just default to 1 */
+			std::vector<float> val(num_edges, 1);
+			std::vector<uint32_t> col_ind;
+			std::vector<uint32_t> row_ind;
+
+			/* Preallocate memory */
+			col_ind.reserve(num_edges);
+			row_ind.reserve(node_map.size());
+
+			for (auto& node_v : node_map) {
+
+				/* To create the CSR graph, sort the vectors */
+				std::sort(node_v.begin(), node_v.end());
+
+				/* Set the index for the current row */
+				row_ind.push_back(col_ind.size());
+
+				/* Append the vector to col_ind */
+				col_ind.insert(col_ind.end(), node_v.begin(), node_v.end());
+			}
+
+			return GraphCRS(val, col_ind, row_ind);
+		}
 		else {
 			printf("File type not supported: %s\n", path.substr(path.length() - 4).c_str());
 			return GraphCRS(std::vector<float>(), std::vector<uint32_t>(), std::vector<uint32_t>());
@@ -255,6 +321,75 @@ namespace GraphUtils {
 			file.read(reinterpret_cast<char*>(&size), sizeof(size));
 			PMEM::vector<uint32_t> row_ind(directory, size);
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);
+
+			return PMEM::GraphCRS(val, col_ind, row_ind);
+		}
+		else if (std::equal(path.end() - 4, path.end(), ".txt")) {
+			/*
+				This file format is typically a tab seperated value format, where the first
+				column is the source node, and the second column is the destination node.
+				This is a link to get graphs of this format from real world sources:
+				https://snap.stanford.edu/data/index.html
+			*/
+
+			/*
+				TODO(EMU): Graphs can be directed or undirected, at the moment, this code
+				assumes the graphs are directed. In the files, there's text describing whether
+				or not the graph is directed or not. Maybe I should use that for parsing, but for
+				now, only load directed graphs.
+			*/
+
+			std::string line;
+			std::getline(file, line);
+			/* Lines with comments are marks with a '#', so skip these */
+			while (line[0] == '#') {
+				std::getline(file, line);
+			}
+
+			std::vector<std::vector<uint32_t>> node_map;
+			size_t num_edges = 0;
+
+			/* Read each pair */
+			while (std::getline(file, line)) {
+				std::istringstream iss(line);
+				uint32_t source, destination;
+				if (!(iss >> source >> destination)) {
+					break;
+				}
+
+				/* Make sure there is a vector for this node */
+				if (node_map.size() < source + 1) {
+					node_map.resize(source + 1);
+				}
+
+				node_map[source].push_back(destination);
+				num_edges++;
+			}
+
+
+			PMEM::vector<float> val(directory, num_edges);
+			PMEM::vector<uint32_t> col_ind(directory, num_edges);
+			PMEM::vector<uint32_t> row_ind(directory, node_map.size());
+
+			/* There's no values for edge weights, so just default to 1 */
+			val.resize(num_edges);
+			for (size_t i = 0; i < val.size(); i++) {
+				val[i] = 1;
+			}
+
+			for (auto& node_v : node_map) {
+
+				/* To create the CSR graph, sort the vectors */
+				std::sort(node_v.begin(), node_v.end());
+
+				/* Set the index for the current row */
+				row_ind.push_back(col_ind.size());
+
+				/* Append the vector to col_ind */
+				for (auto& desintation : node_v) {
+					col_ind.push_back(desintation);
+				}
+			}
 
 			return PMEM::GraphCRS(val, col_ind, row_ind);
 		}

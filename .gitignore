@@ -38,5 +38,4 @@ graph_analysis
 # Temporary Folder
 tmp/*
 
-# Results in cwd
-./output.*
+graph_examples/*
