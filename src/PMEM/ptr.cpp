@@ -9,7 +9,7 @@ namespace PMEM {
 	ptr::ptr(std::string path, FILE flag, size_t alloc_size) :
 		p(nullptr),
 		m_mapped_len(0),
-		is_pmem(0),
+		m_is_pmem(0),
 		m_path(path),
 		flags(PMEM_FILE_CREATE) {
 
@@ -21,7 +21,7 @@ namespace PMEM {
 	}
 
 	void ptr::persist() {
-		if (this->is_pmem) {
+		if (this->m_is_pmem) {
 			pmem_persist(this->p, this->m_mapped_len);
 		}
 		else {
@@ -29,8 +29,8 @@ namespace PMEM {
 		}
 	}
 
-	int ptr::is_persistent() {
-		return this->is_pmem;
+	bool ptr::is_pmem() {
+		return this->m_is_pmem;
 	}
 
 	size_t ptr::mapped_len() {
@@ -47,11 +47,11 @@ namespace PMEM {
 	void ptr::resize(const size_t alloc_size) {
 
 		if (this->p == nullptr) {
-			this->p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &this->m_mapped_len, &this->is_pmem);
+			this->p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &this->m_mapped_len, &this->m_is_pmem);
 		}
 		else {
 			size_t t_mapped_len = 0;
-			void* t_p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &t_mapped_len, &this->is_pmem);
+			void* t_p = pmem_map_file(this->m_path.c_str(), alloc_size, this->flags, 0666, &t_mapped_len, &this->m_is_pmem);
 
 			memcpy(t_p, this->p, this->m_mapped_len > t_mapped_len ? t_mapped_len : this->m_mapped_len);
 			pmem_unmap(this->p, this->m_mapped_len);

@@ -31,7 +31,7 @@ namespace PMEM {
 
 		void persist();
 
-		int is_persistent();
+		bool is_pmem();
 
 		size_t mapped_len();
 
@@ -47,7 +47,7 @@ namespace PMEM {
 	private:
 		void* p;
 		size_t m_mapped_len;
-		int is_pmem;
+		int m_is_pmem;
 		std::string m_path;
 		int flags;
 	};

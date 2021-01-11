@@ -8,6 +8,20 @@
 #include <vector>
 
 namespace PMEM::Tests {
+
+	void run_examples() {
+		printf("First test, simple struct write and read.\n");
+		PMEM::Tests::libpmemobj_example_write_1();
+		PMEM::Tests::libpmemobj_example_read_1();
+
+		printf("Second test, simple struct write and read with type safety.\n");
+		PMEM::Tests::libpmemobj_example_write_2();
+		PMEM::Tests::libpmemobj_example_read_2();
+
+		printf("Third test, this is using an API that I made.\n");
+		PMEM::Tests::pmem_as_volatile_API();
+	}
+
 	void libpmemobj_example_write_1() {
 		/* Create the memory interface (just like creating a file) */
 		PMEMobjpool* pop = pmemobj_create("./tmp/test_memory_simple_struct", "intro_0", PMEMOBJ_MIN_POOL, 0666);

@@ -45,16 +45,23 @@ int main(int argc, char** argv) {
 
 	print_info();
 
-	test_graph_load();
-
-	return 0;
-
 	try {
 
 		Tests::TestParameters tp = Tests::get_test_parameters();
 
-		Tests::graph_test_page_rank(tp);
-		Tests::graph_test_breadth_first_traversal(tp);
+		std::vector<std::string> graph_paths = {
+			"./graph_examples/Slashdot0902.txt",
+			"./graph_examples/soc-Epinions1.txt",
+			"./graph_examples/soc-LiveJournal1.txt",
+			"./graph_examples/soc-pokec-relationships.txt"
+		};
+
+		for (auto& path : graph_paths) {
+			tp.graph_path = path;
+			Tests::graph_test_page_rank(tp);
+			Tests::graph_test_breadth_first_traversal(tp);
+		}
+
 		Tests::pmem_vs_dram_benchmark(tp);
 	}
 	catch (std::exception& e) {

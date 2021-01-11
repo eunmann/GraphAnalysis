@@ -5,6 +5,10 @@
 #include <queue>
 #include <unordered_set>
 
+GraphCRS::GraphCRS() : GraphCRS(std::vector<float>(),
+	std::vector<uint32_t>(),
+	std::vector<uint32_t>()) {}
+
 GraphCRS::GraphCRS(std::vector<float> val,
 	std::vector<uint32_t> col_ind,
 	std::vector<uint32_t> row_ind) : val(val),

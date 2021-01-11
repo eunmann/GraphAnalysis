@@ -10,6 +10,7 @@ namespace PMEM {
 	template<class T>
 	class vector {
 	public:
+
 		vector(std::string directory, const size_t capacity) :
 			data(nullptr),
 			pmem(directory, PMEM::FILE::TEMP, capacity * sizeof(T)),
@@ -52,6 +53,10 @@ namespace PMEM {
 			this->data = nullptr;
 			this->m_size = 0;
 			this->m_capacity = 0;
+		}
+
+		bool is_pmem() {
+			return this->pmem.is_pmem();
 		}
 
 		/* TODO(EMU): Add a trim function to make capacity equal to size */

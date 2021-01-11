@@ -20,6 +20,8 @@ namespace PMEM::Tests {
 	POBJ_LAYOUT_ROOT(string_store, struct my_root_2);
 	POBJ_LAYOUT_END(string_store);
 
+	void run_examples();
+
 	void libpmemobj_example_write_1();
 	void libpmemobj_example_read_1();
 	void libpmemobj_example_write_2();

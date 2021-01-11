@@ -54,6 +54,10 @@ namespace Tests {
 			tp.test_iterations = std::stol(std::getenv("test_iterations"));
 		}
 
+		if (std::getenv("pmem_directory") != nullptr) {
+			tp.pmem_directory = std::string(std::getenv("pmem_directory"));
+		}
+
 		printf("Test Parameters:\n");
 		printf("\talloc_size: %sB\n", FormatUtils::format_number(tp.alloc_size).c_str());
 		printf("\tnum_vertices: %s\n", FormatUtils::format_number(tp.num_vertices).c_str());
@@ -64,21 +68,10 @@ namespace Tests {
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
 		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
+		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
+		printf("\tPMEM Directory: %s\n", tp.pmem_directory.c_str());
 
 		return tp;
-	}
-
-	void PMEM_tests() {
-		printf("First test, simple struct write and read.\n");
-		PMEM::Tests::libpmemobj_example_write_1();
-		PMEM::Tests::libpmemobj_example_read_1();
-
-		printf("Second test, simple struct write and read with type safety.\n");
-		PMEM::Tests::libpmemobj_example_write_2();
-		PMEM::Tests::libpmemobj_example_read_2();
-
-		printf("Third test, this is using an API that I made.\n");
-		PMEM::Tests::pmem_as_volatile_API();
 	}
 
 	void graph_test(const Tests::TestParameters& tp) {
@@ -128,7 +121,16 @@ namespace Tests {
 
 		{
 			printf("DRAM\n");
-			GraphCRS graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			GraphCRS graph;
+
+			if (tp.graph_path.empty()) {
+				printf("Generating graph\n");
+				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph = GraphUtils::load(tp.graph_path);
+			}
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
 			graph.save(temp_graph_path);
@@ -155,14 +157,24 @@ namespace Tests {
 
 		{
 			printf("PMEM\n");
-			PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
+
+			if (tp.graph_path.empty()) {
+				printf("Generating graph\n");
+				graph_pmem = GraphUtils::create_graph_crs_pmem(tp.pmem_directory, tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
+			}
 			printf("Number of Edges: %u\n", graph_pmem.num_edges());
 			printf("Memory Size: %lu B\n", graph_pmem.byte_size());
+			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
-				Timer timer("Page Rank PMEM");
+				Timer timer;
 				graph_pmem.page_rank(tp.page_rank_iterations, tp.page_rank_dampening_factor);
 				timer.end();
 
@@ -180,8 +192,9 @@ namespace Tests {
 			graph_pmem.free();
 		}
 
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_time.png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges.png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
+		std::string graph_name = Tests::get_graph_name(tp.graph_path);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_time." + graph_name + ".png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "page_rank_edges." + graph_name + ".png", "Page Rank", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
 	void graph_test_breadth_first_traversal(const Tests::TestParameters& tp) {
@@ -206,7 +219,17 @@ namespace Tests {
 
 		{
 			printf("DRAM\n");
-			GraphCRS graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			GraphCRS graph;
+
+			if (tp.graph_path.empty()) {
+				printf("Generating graph\n");
+				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph = GraphUtils::load(tp.graph_path);
+			}
+
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
 			graph.save(temp_graph_path);
@@ -233,14 +256,24 @@ namespace Tests {
 
 		{
 			printf("PMEM\n");
-			PMEM::GraphCRS graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, "/pmem/");
+			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
+
+			if (tp.graph_path.empty()) {
+				printf("Generating graph\n");
+				graph_pmem = GraphUtils::create_graph_crs_pmem(tp.pmem_directory, tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
+			}
 			printf("Number of Edges: %u\n", graph_pmem.num_edges());
 			printf("Memory Size: %lu B\n", graph_pmem.byte_size());
+			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
-				Timer timer("Page Rank PMEM");
+				Timer timer;
 				graph_pmem.breadth_first_traversal(start_vertices[i - 1]);
 				timer.end();
 
@@ -258,8 +291,9 @@ namespace Tests {
 			graph_pmem.free();
 		}
 
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_time.png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
-		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_edges.png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
+		std::string graph_name = Tests::get_graph_name(tp.graph_path);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_time." + graph_name + ".png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Time (s)" }, time_elapsed);
+		GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + "bfs_edges." + graph_name + ".png", "BFS", GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", "Edges per Second" }, edges_per_second);
 	}
 
 	std::vector<std::vector<double>> memory_benchmark(char* arr, const size_t size) {
@@ -431,10 +465,10 @@ namespace Tests {
 		delete dram_array;
 
 		printf("Persistent Memory\n");
-		PMEM::ptr pmem = PMEM::ptr("/pmem/", PMEM::FILE::TEMP, tp.alloc_size);
+		PMEM::ptr pmem = PMEM::ptr(tp.pmem_directory, PMEM::FILE::TEMP, tp.alloc_size);
 		char* pmem_array = pmem.as<char*>();
 
-		printf("Is persistent: %s\n", pmem.is_persistent() ? "True" : "False");
+		printf("Is pmem: %s\n", pmem.is_pmem() ? "True" : "False");
 		printf("Mapped length: %sB\n", FormatUtils::format_number(pmem.mapped_len()).c_str());
 
 		if (pmem_array == nullptr) {
@@ -455,5 +489,11 @@ namespace Tests {
 			data.push_back(pmem_time_elapsed[i]);
 			GNUPlot::save_plot_command(std::string(std::getenv("out_dir")) + paths[i], titles[i], GNUPLOT_WIDTH, GNUPLOT_HEIGHT, { "DRAM", "PMEM" }, { "Iteration", labels[i] }, data);
 		}
+	}
+
+	std::string get_graph_name(const std::string& graph_path) {
+		size_t end_index = graph_path.find_last_of(".");
+		size_t start_index = graph_path.find_last_of("/") + 1;
+		return graph_path.substr(start_index, end_index);
 	}
 }

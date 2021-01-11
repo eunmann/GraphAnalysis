@@ -11,6 +11,8 @@
 class GraphCRS {
 public:
 
+	GraphCRS();
+
 	GraphCRS(std::vector<float> val,
 		std::vector<uint32_t> col_ind,
 		std::vector<uint32_t> row_ind);

@@ -14,6 +14,8 @@ namespace PMEM {
 	class GraphCRS {
 	public:
 
+		GraphCRS(std::string directory);
+
 		GraphCRS(PMEM::vector<float> val,
 			PMEM::vector<uint32_t> col_ind,
 			PMEM::vector<uint32_t> row_ind);
@@ -105,6 +107,8 @@ namespace PMEM {
 		 * Return the number of bytes the graph uses in memory
 		 */
 		size_t byte_size();
+
+		bool is_pmem();
 	private:
 		PMEM::vector<float> val;
 		PMEM::vector<uint32_t> col_ind;

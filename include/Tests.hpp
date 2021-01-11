@@ -3,6 +3,7 @@
 typedef unsigned long size_t;
 #include <inttypes.h>
 #include <vector>
+#include <string>
 
 namespace Tests {
 
@@ -16,11 +17,11 @@ namespace Tests {
 		uint32_t page_rank_iterations = 100;
 		float page_rank_dampening_factor = 0.8;
 		uint32_t test_iterations = 10;
+		std::string graph_path = "";
+		std::string pmem_directory = "/pmem/";
 	} TestParameters;
 
 	Tests::TestParameters get_test_parameters();
-
-	void PMEM_tests();
 
 	void graph_test(const Tests::TestParameters& tp);
 
@@ -31,4 +32,6 @@ namespace Tests {
 	std::vector<std::vector<double>> memory_benchmark(char* arr, const size_t size);
 
 	void pmem_vs_dram_benchmark(const Tests::TestParameters& tp);
+
+	std::string get_graph_name(const std::string& graph_path);
 }

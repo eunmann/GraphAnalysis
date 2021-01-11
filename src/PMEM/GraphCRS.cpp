@@ -9,6 +9,10 @@
 
 namespace PMEM {
 
+	GraphCRS::GraphCRS(std::string directory) : GraphCRS::GraphCRS(PMEM::vector<float>(directory, 256),
+		PMEM::vector<uint32_t>(directory, 256),
+		PMEM::vector<uint32_t>(directory, 256)) {};
+
 	GraphCRS::GraphCRS(PMEM::vector<float> val,
 		PMEM::vector<uint32_t> col_ind,
 		PMEM::vector<uint32_t> row_ind) : val(val),
@@ -303,5 +307,9 @@ namespace PMEM {
 
 	size_t GraphCRS::byte_size() {
 		return sizeof(float) * (this->col_ind.size() + this->row_ind.size() + this->val.size());
+	}
+
+	bool GraphCRS::is_pmem() {
+		return this->col_ind.is_pmem() && this->row_ind.is_pmem() && this->val.is_pmem();
 	}
 }
