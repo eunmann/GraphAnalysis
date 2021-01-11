@@ -10,7 +10,7 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/graph_analysis",
 			"args": [],
-			"stopAtEntry": true,
+			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [
 				{
@@ -19,11 +19,11 @@
 				},
 				{
 					"name": "alloc_size",
-					"value": "1000"
+					"value": "1000000"
 				},
 				{
 					"name": "num_vertices",
-					"value": "1000"
+					"value": "100000"
 				},
 				{
 					"name": "min_degree",

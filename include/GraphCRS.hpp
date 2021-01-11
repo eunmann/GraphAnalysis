@@ -22,7 +22,7 @@ public:
 	 * @param j Index of the destination vertex
 	 * @return The edge's weight from vertex i to vertex j
 	 */
-	const float weight(const uint32_t i, const uint32_t j);
+	const float weight(const uint32_t i, const uint32_t j) const;
 
 	/**
 	 * @param i Index of the start vertex
@@ -54,44 +54,44 @@ public:
 	 *
 	 * @param path The path to save the file
 	 */
-	void save(std::string path);
+	void save(const std::string& path) const;
 
 	/**
 	 * Converts the graph to a string in CVS format, where the first row are
 	 * the values, the second row is the col_ind, and the third row is the
 	 * row_ind
 	 */
-	std::string to_string();
+	std::string to_string() const;
 
 	/**
 	 * Prints the entire graph
 	 */
-	void print();
+	void print() const;
 
 	/**
 	 * Returns a vector of page rank values for all vertices
 	 */
-	std::vector<float> page_rank(size_t iterations, float dampening_factor);
+	std::vector<float> page_rank(size_t iterations, float dampening_factor) const;
 
 	/**
 	 * Performs a breadth first traversal starting from vertex
 	 */
-	void breadth_first_traversal(uint32_t vertex);
+	void breadth_first_traversal(uint32_t vertex) const;
 
 	/**
 	 * Returns the number of edges in the graph
 	 */
-	uint32_t num_edges();
+	uint32_t num_edges() const;
 
 	/**
 	 * Returns the number of vertices in the graph
 	 */
-	uint32_t num_vertices();
+	uint32_t num_vertices() const;
 
 	/**
 	 * Return the number of bytes the graph uses in memory
 	 */
-	size_t byte_size();
+	size_t byte_size() const;
 
 private:
 	std::vector<float> val;
@@ -105,5 +105,5 @@ private:
 	 * @param j The column index
 	 * @return The index into val
 	 */
-	const uint32_t index(const uint32_t i, const uint32_t j);
+	const uint32_t index(const uint32_t i, const uint32_t j) const;
 };

@@ -17,7 +17,7 @@ GraphCRS::GraphCRS(std::vector<float> val,
 
 }
 
-const float GraphCRS::weight(const uint32_t i, const uint32_t j) {
+const float GraphCRS::weight(const uint32_t i, const uint32_t j) const {
 	return this->val[this->index(i, j)];
 }
 
@@ -38,7 +38,7 @@ void GraphCRS::for_each(std::function<void(float& v, const uint32_t i, const uin
 		}
 	}
 }
-const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) {
+const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) const {
 	for (uint32_t rs = this->row_ind[i]; rs < this->col_ind.size(); rs++) {
 		if (col_ind[rs] == j) {
 			return rs;
@@ -48,7 +48,7 @@ const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) {
 	return -1;
 }
 
-void GraphCRS::save(std::string path) {
+void GraphCRS::save(const std::string& path) const {
 
 	std::ofstream file(path, std::ios::binary);
 
@@ -61,16 +61,16 @@ void GraphCRS::save(std::string path) {
 		else {
 			/* Write the vector size, then the vector data */
 			uint32_t size = this->val.size();
-			file.write(reinterpret_cast<char*>(&size), sizeof(size));
-			file.write(reinterpret_cast<char*>(&this->val[0]), sizeof(float) * this->val.size());
+			file.write(reinterpret_cast<const char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<const char*>(&this->val[0]), sizeof(float) * this->val.size());
 
 			size = this->col_ind.size();
-			file.write(reinterpret_cast<char*>(&size), sizeof(size));
-			file.write(reinterpret_cast<char*>(&this->col_ind[0]), sizeof(uint32_t) * this->col_ind.size());
+			file.write(reinterpret_cast<const char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<const char*>(&this->col_ind[0]), sizeof(uint32_t) * this->col_ind.size());
 
 			size = this->row_ind.size();
-			file.write(reinterpret_cast<char*>(&size), sizeof(size));
-			file.write(reinterpret_cast<char*>(&this->row_ind[0]), sizeof(uint32_t) * this->row_ind.size());
+			file.write(reinterpret_cast<const char*>(&size), sizeof(size));
+			file.write(reinterpret_cast<const char*>(&this->row_ind[0]), sizeof(uint32_t) * this->row_ind.size());
 		}
 
 		file.close();
@@ -78,7 +78,7 @@ void GraphCRS::save(std::string path) {
 }
 
 
-std::string GraphCRS::to_string() {
+std::string GraphCRS::to_string() const {
 	std::string output = "";
 
 	/* First row, val */
@@ -111,7 +111,7 @@ std::string GraphCRS::to_string() {
 	return output;
 }
 
-void GraphCRS::print() {
+void GraphCRS::print() const {
 	std::string output = "";
 	std::string zero_str = std::to_string(0);
 
@@ -147,7 +147,7 @@ void GraphCRS::print() {
 	printf("%s", output.c_str());
 }
 
-std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor) {
+std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor) const {
 
 	float init_prob = 1.0f / this->row_ind.size();
 	float init_dampening_prob = (1.0f - dampening_factor) / this->row_ind.size();
@@ -184,19 +184,19 @@ std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor
 	return iterations % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
 }
 
-uint32_t GraphCRS::num_edges() {
+uint32_t GraphCRS::num_edges() const {
 	return this->val.size();
 }
 
-uint32_t GraphCRS::num_vertices() {
+uint32_t GraphCRS::num_vertices() const {
 	return this->row_ind.size();
 }
 
-size_t GraphCRS::byte_size() {
+size_t GraphCRS::byte_size() const {
 	return sizeof(float) * (this->col_ind.size() + this->row_ind.size() + this->val.size());
 }
 
-void GraphCRS::breadth_first_traversal(uint32_t vertex) {
+void GraphCRS::breadth_first_traversal(uint32_t vertex) const {
 
 	std::queue<uint32_t> frontier;
 	frontier.push(vertex);
@@ -204,23 +204,35 @@ void GraphCRS::breadth_first_traversal(uint32_t vertex) {
 	std::vector<uint32_t> visited(this->num_vertices(), 0);
 
 	while (!frontier.empty()) {
-		uint32_t vertex = frontier.front();
-		frontier.pop();
 
-		/* If searching for a particular vertex, do the check here */
+#pragma omp parallel
+		{
+			int64_t vertex = -1;
 
-
-		uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
-
-		/* For each neighbor */
-#pragma omp parallel for
-		for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
-			uint32_t neighbor = this->col_ind[row_index];
-			if (visited[neighbor] == 0) {
-				visited[neighbor] = 1;
 #pragma omp critical
-				{
-					frontier.push(neighbor);
+			{
+				if (!frontier.empty()) {
+					vertex = frontier.front();
+					frontier.pop();
+				}
+			}
+
+			/* If searching for a particular vertex, do the check here */
+
+			if (vertex != -1) {
+				uint32_t row_index_end = uint32_t(vertex) + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
+
+				/* For each neighbor */
+
+				for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
+					uint32_t neighbor = this->col_ind[row_index];
+					if (visited[neighbor] == 0) {
+						visited[neighbor] = 1;
+#pragma omp critical
+						{
+							frontier.push(neighbor);
+						}
+					}
 				}
 			}
 		}

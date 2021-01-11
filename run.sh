@@ -13,7 +13,7 @@ export out_dir
 export alloc_size=2000000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=500
+export num_vertices=100000
 
 # Minimum and Maximum degree for vertice
 export min_degree=20
@@ -36,5 +36,6 @@ echo Output Directory: $out_dir
 echo Output File: $final_name
 
 ./graph_analysis
+# ./graph_analysis | tee $final_name
 
 echo Done

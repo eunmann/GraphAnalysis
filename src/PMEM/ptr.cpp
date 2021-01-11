@@ -20,7 +20,7 @@ namespace PMEM {
 		this->resize(alloc_size);
 	}
 
-	void ptr::persist() {
+	void ptr::persist() const {
 		if (this->m_is_pmem) {
 			pmem_persist(this->p, this->m_mapped_len);
 		}
@@ -29,11 +29,11 @@ namespace PMEM {
 		}
 	}
 
-	bool ptr::is_pmem() {
+	bool ptr::is_pmem() const {
 		return this->m_is_pmem;
 	}
 
-	size_t ptr::mapped_len() {
+	size_t ptr::mapped_len() const {
 		return this->m_mapped_len;
 	}
 
@@ -68,7 +68,7 @@ namespace PMEM {
 		}
 	}
 
-	std::string ptr::path() {
+	std::string ptr::path() const {
 		return this->m_path;
 	}
 }

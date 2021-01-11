@@ -59,7 +59,7 @@ namespace GraphUtils {
 		return GraphCRS(val, col_ind, row_ind);
 	}
 
-	PMEM::GraphCRS create_graph_crs_pmem(std::string directory, uint32_t num_vertices, uint32_t min_degree, uint32_t max_degree, const float min_value, const float max_value) {
+	PMEM::GraphCRS create_graph_crs_pmem(const std::string& directory, uint32_t num_vertices, uint32_t min_degree, uint32_t max_degree, const float min_value, const float max_value) {
 
 		/* Create a function to generate random degrees for each vertex */
 		std::default_random_engine gen_degree;
@@ -111,7 +111,7 @@ namespace GraphUtils {
 		return PMEM::GraphCRS(val, col_ind, row_ind);
 	}
 
-	GraphCRS load(std::string path) {
+	GraphCRS load(const std::string& path) {
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
@@ -182,6 +182,8 @@ namespace GraphUtils {
 			row_ind.reserve(size);
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);
 
+			file.close();
+
 			return GraphCRS(val, col_ind, row_ind);
 		}
 		else if (std::equal(path.end() - 4, path.end(), ".txt")) {
@@ -226,6 +228,8 @@ namespace GraphUtils {
 				num_edges++;
 			}
 
+			file.close();
+
 			/* There's no values for edge weights, so just default to 1 */
 			std::vector<float> val(num_edges, 1);
 			std::vector<uint32_t> col_ind;
@@ -255,7 +259,7 @@ namespace GraphUtils {
 		}
 	}
 
-	PMEM::GraphCRS load_as_pmem(std::string path, std::string directory) {
+	PMEM::GraphCRS load_as_pmem(const std::string& path, const std::string& directory) {
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
@@ -322,6 +326,8 @@ namespace GraphUtils {
 			PMEM::vector<uint32_t> row_ind(directory, size);
 			file.read(reinterpret_cast<char*>(&row_ind[0]), sizeof(uint32_t) * size);
 
+			file.close();
+
 			return PMEM::GraphCRS(val, col_ind, row_ind);
 		}
 		else if (std::equal(path.end() - 4, path.end(), ".txt")) {
@@ -366,6 +372,7 @@ namespace GraphUtils {
 				num_edges++;
 			}
 
+			file.close();
 
 			PMEM::vector<float> val(directory, num_edges);
 			PMEM::vector<uint32_t> col_ind(directory, num_edges);

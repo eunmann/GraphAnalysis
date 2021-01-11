@@ -36,6 +36,6 @@ graph_analysis
 *.s
 
 # Temporary Folder
-tmp/*
-
-graph_examples/*
+tmp/
+graph_examples/
+output/debug/

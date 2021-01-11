@@ -126,6 +126,8 @@ namespace Tests {
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
 				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				printf("Saving graph to %s\n", temp_graph_path.c_str());
+				graph.save(temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
@@ -133,7 +135,7 @@ namespace Tests {
 			}
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
-			graph.save(temp_graph_path);
+
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
@@ -160,8 +162,8 @@ namespace Tests {
 			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
 
 			if (tp.graph_path.empty()) {
-				printf("Generating graph\n");
-				graph_pmem = GraphUtils::create_graph_crs_pmem(tp.pmem_directory, tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				printf("Loading graph from %s\n", temp_graph_path.c_str());
+				graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, tp.pmem_directory);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
@@ -203,7 +205,6 @@ namespace Tests {
 		printf("\tNumber of Vertices: %u\n", tp.num_vertices);
 		printf("\tMinimum Degree: %u\n", tp.min_degree);
 		printf("\tMaximum Degree: %u\n", tp.max_degree);
-		printf("\tIterations: %u\n", tp.page_rank_iterations);
 		printf("\tTest Iterations: %u\n", tp.test_iterations);
 
 		std::string temp_graph_path = "./tmp/bfs_graph.csv";
@@ -213,9 +214,6 @@ namespace Tests {
 
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
-		for (uint32_t i = 0; i < tp.page_rank_iterations; i++) {
-			start_vertices.push_back(i * tp.num_vertices / 10);
-		}
 
 		{
 			printf("DRAM\n");
@@ -224,15 +222,21 @@ namespace Tests {
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
 				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				printf("Saving graph to %s\n", temp_graph_path.c_str());
+				graph.save(temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
 				graph = GraphUtils::load(tp.graph_path);
 			}
 
+			for (uint32_t i = 0; i < tp.test_iterations; i++) {
+				start_vertices.push_back(graph.num_vertices() * double(i) / double(tp.test_iterations));
+			}
+
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
-			graph.save(temp_graph_path);
+
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
 			printf("Iteration, Time Elapsed (s),Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
@@ -259,13 +263,14 @@ namespace Tests {
 			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
 
 			if (tp.graph_path.empty()) {
-				printf("Generating graph\n");
-				graph_pmem = GraphUtils::create_graph_crs_pmem(tp.pmem_directory, tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				printf("Loading graph from %s\n", temp_graph_path.c_str());
+				graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, tp.pmem_directory);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
 				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
 			}
+
 			printf("Number of Edges: %u\n", graph_pmem.num_edges());
 			printf("Memory Size: %lu B\n", graph_pmem.byte_size());
 			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
@@ -492,8 +497,8 @@ namespace Tests {
 	}
 
 	std::string get_graph_name(const std::string& graph_path) {
-		size_t end_index = graph_path.find_last_of(".");
 		size_t start_index = graph_path.find_last_of("/") + 1;
+		size_t end_index = graph_path.find_last_of(".") - start_index;
 		return graph_path.substr(start_index, end_index);
 	}
 }

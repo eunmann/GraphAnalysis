@@ -46,7 +46,7 @@ public:
 	 *
 	 * @param message The message to print along with the elapsed time
 	 */
-	void print(std::string message) const;
+	void print(const std::string& message) const;
 
 	/**
 	 * Returns the time as a formated string(value with unit prefix)

@@ -26,7 +26,7 @@ void Timer::print() const {
 	printf("[ %s | %s ]\n", this->message.c_str(), this->time_string().c_str());
 }
 
-void Timer::print(std::string message) const {
+void Timer::print(const std::string& message) const {
 	printf("[ %s | %s ]\n", message.c_str(), this->time_string().c_str());
 }
 

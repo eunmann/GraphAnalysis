@@ -19,11 +19,11 @@ namespace PMEM {
 			this->data = this->pmem.as<T*>();
 		}
 
-		size_t size() {
+		size_t size() const {
 			return this->m_size;
 		}
 
-		T& operator[](const size_t index) {
+		T& operator[](const size_t index) const {
 			return this->data[index];
 		}
 
@@ -55,7 +55,7 @@ namespace PMEM {
 			this->m_capacity = 0;
 		}
 
-		bool is_pmem() {
+		bool is_pmem() const {
 			return this->pmem.is_pmem();
 		}
 

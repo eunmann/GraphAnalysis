@@ -53,7 +53,7 @@ namespace BenchmarkUtils {
 	}
 
 	template<class T>
-	void print_metrics(const std::string title, const std::vector<T>& vec) {
+	void print_metrics(const std::string& title, const std::vector<T>& vec) {
 		double min;
 		double max;
 		double avg;

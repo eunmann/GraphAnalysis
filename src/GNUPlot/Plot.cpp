@@ -66,7 +66,7 @@ namespace GNUPlot {
 		GNUPlot::save_csv(data_path, keys, data);
 		std::string command = GNUPlot::plot_command(image_path, title, width, height, min, max, data_path, data.size(), axies_labels);
 
-		std::string command_file_path = std::string(std::getenv("out_dir")) + "/gnuplot_command.sh";
+		std::string command_file_path = std::string(std::getenv("out_dir")) + "gnuplot_command.sh";
 		std::ofstream file(command_file_path, std::ofstream::binary | std::ofstream::app);
 		file << command << std::endl;
 		file.close();

@@ -29,15 +29,15 @@ namespace PMEM {
 			return static_cast<T>(this->p);
 		}
 
-		void persist();
+		void persist() const;
 
-		bool is_pmem();
+		bool is_pmem() const;
 
-		size_t mapped_len();
+		size_t mapped_len() const;
 
 		void resize(const size_t alloc_size);
 
-		std::string path();
+		std::string path() const;
 
 		/**
 		 * Frees the persistent memory allocated
