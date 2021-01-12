@@ -393,8 +393,8 @@ namespace GraphUtils {
 				row_ind.push_back(col_ind.size());
 
 				/* Append the vector to col_ind */
-				for (auto& desintation : node_v) {
-					col_ind.push_back(desintation);
+				for (auto& destination : node_v) {
+					col_ind.push_back(destination);
 				}
 			}
 

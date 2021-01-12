@@ -49,4 +49,4 @@ dir_make:
 
 # Clean
 clean:
-	rm -rf obj/*.o asm/*.asm obj/PMEM/*.o asm/PMEM/*.asm obj/GNUPlot/*.o asm/GNUPlot/*.asm $(out_name) tmp/* output/debug/*
+	rm -rf obj/*.o asm/*.s obj/PMEM/*.o asm/PMEM/*.s obj/GNUPlot/*.o asm/GNUPlot/*.s $(out_name) tmp/* output/debug/*

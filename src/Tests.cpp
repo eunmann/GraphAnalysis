@@ -133,11 +133,13 @@ namespace Tests {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
 				graph = GraphUtils::load(tp.graph_path);
 			}
+
+			printf("Number of Vertices: %u\n", graph.num_vertices());
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
 
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
-			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			printf("Iteration, Time Elapsed (s), Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
 				Timer timer;
 				graph.page_rank(tp.page_rank_iterations, tp.page_rank_dampening_factor);
@@ -169,11 +171,13 @@ namespace Tests {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
 				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
 			}
+
+			printf("Number of Vertices: %u\n", graph_pmem.num_vertices());
 			printf("Number of Edges: %u\n", graph_pmem.num_edges());
 			printf("Memory Size: %lu B\n", graph_pmem.byte_size());
 			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
-			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			printf("Iteration, Time Elapsed (s), Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
 				Timer timer;
@@ -234,11 +238,12 @@ namespace Tests {
 				start_vertices.push_back(graph.num_vertices() * double(i) / double(tp.test_iterations));
 			}
 
+			printf("Number of Vertices: %u\n", graph.num_vertices());
 			printf("Number of Edges: %u\n", graph.num_edges());
 			printf("Memory Size: %lu B\n", graph.byte_size());
 
 			std::vector<double>& time_elapsed_v = time_elapsed[0];
-			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			printf("Iteration, Time Elapsed (s), Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++) {
 				Timer timer;
 				graph.breadth_first_traversal(start_vertices[i - 1]);
@@ -271,11 +276,12 @@ namespace Tests {
 				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
 			}
 
+			printf("Number of Vertices: %u\n", graph_pmem.num_vertices());
 			printf("Number of Edges: %u\n", graph_pmem.num_edges());
 			printf("Memory Size: %lu B\n", graph_pmem.byte_size());
 			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
 			std::vector<double>& time_elapsed_v = time_elapsed[1];
-			printf("Iteration, Time Elapsed (s),Edges per Second\n");
+			printf("Iteration, Time Elapsed (s), Edges per Second\n");
 			for (uint32_t i = 1; i <= tp.test_iterations; i++)
 			{
 				Timer timer;
@@ -349,23 +355,23 @@ namespace Tests {
 			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
 			std::vector<double> time_elapsed_v;
 
-			__m256i sum_v = _mm256_setzero_si256();
-			__m256i_u* test_mem = (__m256i_u*)arr;
-			const size_t test_mem_size = size / sizeof(__m256i_u);
+			int64_t sum = 0;
+			const int64_t* test_mem = (int64_t*)arr;
+			const size_t test_mem_size = size / sizeof(int64_t);
 
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
-				for (uint64_t i = 0; i < test_mem_size; i++) {
-
-					sum_v = _mm256_add_epi64(sum_v, _mm256_loadu_si256(test_mem + i));
+				for (size_t i = 0; i < test_mem_size; i++) {
+					sum += test_mem[i];
+					sum *= sum;
 				}
 				timer.end();
 				print_bandwidth(iter, timer);
 				time_elapsed_v.push_back(timer.get_time_elapsed() / 1e9);
 			}
 			print_vec_bandwith(time_elapsed_v);
-			printf("IGNORE(%d)\n", _mm256_extract_epi32(sum_v, 0));
+			printf("IGNORE(%ld)\n", sum);
 
 			/* Bandwidth */
 			for (auto& time_elapsed : time_elapsed_v) {
@@ -386,7 +392,7 @@ namespace Tests {
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 
-				for (uint64_t i = 0; i < latency_loads; i++) {
+				for (size_t i = 0; i < latency_loads; i++) {
 					sum += arr[indexGen()];
 				}
 
@@ -414,7 +420,7 @@ namespace Tests {
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 #pragma omp parallel for
-				for (uint64_t i = 0; i < test_mem_size; i++) {
+				for (size_t i = 0; i < test_mem_size; i++) {
 					test_mem[i] = 0;
 				}
 				timer.end();
@@ -441,7 +447,7 @@ namespace Tests {
 			for (int iter = 1; iter <= iter_per_test; iter++) {
 				Timer timer;
 
-				for (uint64_t i = 0; i < latency_loads; i++) {
+				for (size_t i = 0; i < latency_loads; i++) {
 					arr[indexGen()] = 0;
 				}
 

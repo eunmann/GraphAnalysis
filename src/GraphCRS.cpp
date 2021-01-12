@@ -205,33 +205,26 @@ void GraphCRS::breadth_first_traversal(uint32_t vertex) const {
 
 	while (!frontier.empty()) {
 
-#pragma omp parallel
-		{
-			int64_t vertex = -1;
+#pragma omp parallel for
+		for (size_t i = 0; i < frontier.size(); i++) {
 
+			uint32_t vertex;
 #pragma omp critical
 			{
-				if (!frontier.empty()) {
-					vertex = frontier.front();
-					frontier.pop();
-				}
+				vertex = frontier.front();
+				frontier.pop();
 			}
 
-			/* If searching for a particular vertex, do the check here */
+			uint32_t row_index_end = (vertex + 1 == this->row_ind.size()) ? this->col_ind.size() : this->row_ind[vertex + 1];
 
-			if (vertex != -1) {
-				uint32_t row_index_end = uint32_t(vertex) + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
-
-				/* For each neighbor */
-
-				for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
-					uint32_t neighbor = this->col_ind[row_index];
-					if (visited[neighbor] == 0) {
-						visited[neighbor] = 1;
+			/* For each neighbor */
+			for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
+				uint32_t neighbor = this->col_ind[row_index];
+				if (visited[neighbor] == 0) {
+					visited[neighbor] = 1;
 #pragma omp critical
-						{
-							frontier.push(neighbor);
-						}
+					{
+						frontier.push(neighbor);
 					}
 				}
 			}
