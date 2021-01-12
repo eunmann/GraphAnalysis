@@ -57,7 +57,6 @@ int main(int argc, char** argv) {
 		};
 
 		for (auto& path : graph_paths) {
-			break;
 			tp.graph_path = path;
 			Tests::graph_test_page_rank(tp);
 			Tests::graph_test_breadth_first_traversal(tp);

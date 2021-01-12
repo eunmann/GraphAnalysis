@@ -208,25 +208,30 @@ void GraphCRS::breadth_first_traversal(uint32_t vertex) const {
 #pragma omp parallel for
 		for (size_t i = 0; i < frontier.size(); i++) {
 
-			uint32_t vertex;
+			try {
+				uint32_t vertex;
 #pragma omp critical
-			{
-				vertex = frontier.front();
-				frontier.pop();
-			}
+				{
+					vertex = frontier.front();
+					frontier.pop();
+				}
 
-			uint32_t row_index_end = (vertex + 1 == this->row_ind.size()) ? this->col_ind.size() : this->row_ind[vertex + 1];
+				uint32_t row_index_end = (vertex + 1 == this->row_ind.size()) ? this->col_ind.size() : this->row_ind[vertex + 1];
 
-			/* For each neighbor */
-			for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
-				uint32_t neighbor = this->col_ind[row_index];
-				if (visited[neighbor] == 0) {
-					visited[neighbor] = 1;
+				/* For each neighbor */
+				for (uint32_t row_index = this->row_ind[vertex]; row_index < row_index_end; row_index++) {
+					uint32_t neighbor = this->col_ind[row_index];
+					if (visited[neighbor] == 0) {
+						visited[neighbor] = 1;
 #pragma omp critical
-					{
-						frontier.push(neighbor);
+						{
+							frontier.push(neighbor);
+						}
 					}
 				}
+			}
+			catch (std::exception& e) {
+				printf("Exception: %s\n", e.what());
 			}
 		}
 	}

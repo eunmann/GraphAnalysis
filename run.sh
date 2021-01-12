@@ -35,7 +35,7 @@ echo Starting graph_analysis
 echo Output Directory: $out_dir
 echo Output File: $final_name
 
-./graph_analysis
-# ./graph_analysis | tee $final_name
+#./graph_analysis
+./graph_analysis | tee $final_name
 
 echo Done

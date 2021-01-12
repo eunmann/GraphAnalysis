@@ -210,6 +210,7 @@ namespace GraphUtils {
 
 			std::vector<std::vector<uint32_t>> node_map;
 			size_t num_edges = 0;
+			uint32_t max_node_id = 0;
 
 			/* Read each pair */
 			while (std::getline(file, line)) {
@@ -225,10 +226,21 @@ namespace GraphUtils {
 				}
 
 				node_map[source].push_back(destination);
+
+				if (max_node_id < source) {
+					max_node_id = source;
+				}
+				if (max_node_id < destination) {
+					max_node_id = destination;
+				}
+
 				num_edges++;
 			}
 
 			file.close();
+
+			/* Make sure the map has values for all vertices */
+			node_map.resize(max_node_id + 1);
 
 			/* There's no values for edge weights, so just default to 1 */
 			std::vector<float> val(num_edges, 1);
@@ -237,7 +249,7 @@ namespace GraphUtils {
 
 			/* Preallocate memory */
 			col_ind.reserve(num_edges);
-			row_ind.reserve(node_map.size());
+			row_ind.reserve(max_node_id + 1);
 
 			for (auto& node_v : node_map) {
 
@@ -354,6 +366,7 @@ namespace GraphUtils {
 
 			std::vector<std::vector<uint32_t>> node_map;
 			size_t num_edges = 0;
+			uint32_t max_node_id = 0;
 
 			/* Read each pair */
 			while (std::getline(file, line)) {
@@ -369,14 +382,25 @@ namespace GraphUtils {
 				}
 
 				node_map[source].push_back(destination);
+
+				if (max_node_id < source) {
+					max_node_id = source;
+				}
+				if (max_node_id < destination) {
+					max_node_id = destination;
+				}
+
 				num_edges++;
 			}
 
 			file.close();
 
+			/* Make sure the map has values for all vertices */
+			node_map.resize(max_node_id + 1);
+
 			PMEM::vector<float> val(directory, num_edges);
 			PMEM::vector<uint32_t> col_ind(directory, num_edges);
-			PMEM::vector<uint32_t> row_ind(directory, node_map.size());
+			PMEM::vector<uint32_t> row_ind(directory, max_node_id + 1);
 
 			/* There's no values for edge weights, so just default to 1 */
 			val.resize(num_edges);
