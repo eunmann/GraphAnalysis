@@ -30,7 +30,7 @@ namespace Benchmark {
 
 	std::vector<std::vector<double>> run_page_rank(const Benchmark::Parameters& tp, const Graph& graph);
 	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const Graph& graph, std::vector<uint32_t> start_vertices);
-	std::vector<std::vector<double>> run_memory(char* arr, const size_t size);
+	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, const size_t size);
 
 	std::string get_graph_name(const std::string& graph_path);
 }
