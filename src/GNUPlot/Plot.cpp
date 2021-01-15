@@ -3,7 +3,6 @@
 #include <chrono>
 #include <fstream>
 #include <cstdio>
-#include <filesystem>
 
 namespace GNUPlot {
 
@@ -58,10 +57,12 @@ namespace GNUPlot {
 		int i = 0;
 		std::string data_path = std::string(std::getenv("out_dir")) + "data_file_0.csv";
 
+		/*
 		while (std::filesystem::exists(data_path)) {
 			i++;
 			data_path = std::string(std::getenv("out_dir")) + "data_file_" + std::to_string(i) + ".csv";
 		}
+		*/
 
 		GNUPlot::save_csv(data_path, keys, data);
 		std::string command = GNUPlot::plot_command(image_path, title, width, height, min, max, data_path, data.size(), axies_labels);
@@ -71,7 +72,7 @@ namespace GNUPlot {
 		file << command << std::endl;
 		file.close();
 
-		std::filesystem::permissions(command_file_path, std::filesystem::perms::all);
+		// std::filesystem::permissions(command_file_path, std::filesystem::perms::all);
 	}
 
 
