@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cmath>
+#include "FormatUtils.hpp"
 
 namespace BenchmarkUtils {
 
@@ -61,10 +62,10 @@ namespace BenchmarkUtils {
 
 		BenchmarkUtils::metrics(vec, min, max, avg, std_dev);
 		printf("%s:\n", title.c_str());
-		printf("\tMinimum: %.3f\n", min);
-		printf("\tMaximum: %.3f\n", max);
-		printf("\tAverage: %.3f\n", avg);
-		printf("\tSTD_DEV: %.3f\n", std_dev);
+		printf("\tMinimum: %s\n", FormatUtils::format_number(min).c_str());
+		printf("\tMaximum: %s\n", FormatUtils::format_number(max).c_str());
+		printf("\tAverage: %s\n", FormatUtils::format_number(avg).c_str());
+		printf("\tSTD_DEV: %s\n", FormatUtils::format_number(std_dev).c_str());
 	}
 
 	template<class T>
@@ -83,9 +84,9 @@ namespace BenchmarkUtils {
 		double std_b;
 
 		BenchmarkUtils::metrics(vec_b, min_b, max_b, avg_b, std_b);
-		printf("Minimum: %.3f, %.3f, %.3f, %.3f\n", min_a, min_b, min_b - min_a, (min_b / min_a));
-		printf("Maximum: %.3f, %.3f, %.3f, %.3f\n", max_a, max_b, max_b - max_a, (max_b / max_a));
-		printf("Average: %.3f, %.3f, %.3f, %.3f\n", avg_a, avg_b, avg_b - avg_a, (avg_b / avg_a));
-		printf("STD_DEV: %.3f, %.3f, %.3f, %.3f\n", std_a, std_b, std_b - std_a, (std_b / std_a));
+		printf("Minimum: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(min_a).c_str(), FormatUtils::format_number(min_b).c_str(), FormatUtils::format_number(min_b - min_a).c_str(), ((min_b / min_a) - 1.0) * 100.0);
+		printf("Maximum: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(max_a).c_str(), FormatUtils::format_number(max_b).c_str(), FormatUtils::format_number(max_b - max_a).c_str(), ((max_b / max_a) - 1.0) * 100.0);
+		printf("Average: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(avg_a).c_str(), FormatUtils::format_number(avg_b).c_str(), FormatUtils::format_number(avg_b - avg_a).c_str(), ((avg_b / avg_a) - 1.0) * 100.0);
+		printf("STD_DEV: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(std_a).c_str(), FormatUtils::format_number(std_b).c_str(), FormatUtils::format_number(std_b - std_a).c_str(), ((std_b / std_a) - 1.0) * 100.0);
 	}
 }

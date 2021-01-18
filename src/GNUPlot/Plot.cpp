@@ -54,10 +54,10 @@ namespace GNUPlot {
 			}
 		}
 
-		int i = 0;
 		std::string data_path = std::string(std::getenv("out_dir")) + "data_file_0.csv";
 
 		/*
+		int i = 0;
 		while (std::filesystem::exists(data_path)) {
 			i++;
 			data_path = std::string(std::getenv("out_dir")) + "data_file_" + std::to_string(i) + ".csv";

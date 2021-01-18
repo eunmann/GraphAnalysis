@@ -76,6 +76,8 @@ namespace Benchmark {
 	}
 
 	void benchmark_page_rank(const Benchmark::Parameters& tp) {
+
+		BlockTimer timer("Page Rank Benchmark");
 		printf("Page Rank Benchmark\n");
 
 		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
@@ -114,6 +116,8 @@ namespace Benchmark {
 				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
 			}
 
+			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
+
 			pmem_metrics = run_page_rank(tp, graph_pmem);
 			graph_pmem.free();
 		}
@@ -127,6 +131,7 @@ namespace Benchmark {
 
 	std::vector<std::vector<double>> run_page_rank(const Benchmark::Parameters& tp, const Graph& graph) {
 
+		BlockTimer timer("Page Rank");
 		printf("Page Rank\n");
 
 		std::vector<std::vector<double>> metrics(2);
@@ -155,6 +160,8 @@ namespace Benchmark {
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
+
+		BlockTimer timer("Breadth First Traversal Benchmark");
 		printf("Breadth First Traversal Benchmark\n");
 
 		std::string temp_graph_path = "./tmp/bfs_graph.csv";
@@ -200,6 +207,8 @@ namespace Benchmark {
 				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
 			}
 
+			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
+
 			pmem_metrics = run_breadth_first_traversal(tp, graph_pmem, start_vertices);
 			graph_pmem.free();
 		}
@@ -213,6 +222,7 @@ namespace Benchmark {
 
 	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const Graph& graph, std::vector<uint32_t> start_vertices) {
 
+		BlockTimer timer("Breadth First Traversal");
 		printf("Breadth First Traversal\n");
 		std::vector<std::vector<double>> metrics(2);
 
@@ -242,7 +252,7 @@ namespace Benchmark {
 
 	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, const size_t size) {
 
-		const size_t latency_loads = size / 20;
+		const size_t latency_loads = std::min(double(size / 20), 1e9);
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
 		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 
@@ -252,8 +262,9 @@ namespace Benchmark {
 
 		/* Read linear */
 		{
+			BlockTimer t_timer("Read Linear");
 			printf("Read Linear\n");
-			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
+			printf("Iteration, Time Elapsed (s), Bandwidth (B/s)\n");
 
 			std::vector<double>& read_linear_bandwidth = metric_v[0];
 
@@ -279,6 +290,7 @@ namespace Benchmark {
 
 		/* Read Random */
 		{
+			BlockTimer t_timer("Read Random");
 			printf("Read Random\n");
 			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
 
@@ -299,7 +311,7 @@ namespace Benchmark {
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed();
 				read_random_latency.push_back(time_elapsed / latency_loads);
-				printf("%u, %.3f, %.3f\n", iter, time_elapsed, read_random_latency.back());
+				printf("%u, %.3f, %.3f\n", iter, time_elapsed / 1e9, read_random_latency.back());
 
 			}
 			printf("IGNORE(%c)\n", sum);
@@ -308,8 +320,9 @@ namespace Benchmark {
 
 		/* Write linear */
 		{
+			BlockTimer t_timer("Write Linear");
 			printf("Write Linear\n");
-			printf("Iteration, Time Elapsed (s), Bandwidth (GB/s)\n");
+			printf("Iteration, Time Elapsed (s), Bandwidth (B/s)\n");
 
 			std::vector<double>& write_linear_bandwidth = metric_v[2];
 
@@ -332,6 +345,7 @@ namespace Benchmark {
 
 		/* Write Random */
 		{
+			BlockTimer t_timer("Write Random");
 			printf("Write Random\n");
 			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
 
@@ -351,7 +365,7 @@ namespace Benchmark {
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed();
 				write_random_latency.push_back(time_elapsed / latency_loads);
-				printf("%u, %.3f, %.3f\n", iter, time_elapsed, write_random_latency.back());
+				printf("%u, %.3f, %.3f\n", iter, time_elapsed / 1e9, write_random_latency.back());
 			}
 			BenchmarkUtils::print_metrics("Latency", write_random_latency);
 		}
@@ -361,6 +375,7 @@ namespace Benchmark {
 
 	void benchmark_memory(const Benchmark::Parameters& tp) {
 
+		BlockTimer timer("Memory Benchmark");
 		printf("Memory Benchmark\n");
 
 		printf("DRAM\n");
