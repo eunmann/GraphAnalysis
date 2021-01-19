@@ -8,8 +8,8 @@
 #include "BenchmarkUtils.hpp"
 #include "GNUPlot/Plot.hpp"
 #include "Benchmarks.hpp"
-#include <immintrin.h>
 #include <functional>
+#include <immintrin.h>
 
 #define GNUPLOT_WIDTH 800
 #define GNUPLOT_HEIGHT 600
@@ -268,7 +268,7 @@ namespace Benchmark {
 
 			std::vector<double>& read_linear_bandwidth = metric_v[0];
 
-			int64_t sum = 0;
+			int64_t sum = 1;
 			const int64_t* test_mem = (int64_t*)arr;
 			const size_t test_mem_size = size / sizeof(int64_t);
 
@@ -276,8 +276,7 @@ namespace Benchmark {
 				Timer timer;
 #pragma omp parallel for
 				for (size_t i = 0; i < test_mem_size; i++) {
-					sum += test_mem[i];
-					sum *= sum;
+					sum *= test_mem[i];
 				}
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;

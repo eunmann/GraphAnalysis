@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 		Benchmark::Parameters tp = Benchmark::get_parameters();
 
 		std::vector<std::string> graph_paths = {
-			"./graph_examples/Slashdot0902.txt",
+			//"./graph_examples/Slashdot0902.txt",
 			//"./graph_examples/soc-Epinions1.txt",
 			//"./graph_examples/soc-LiveJournal1.txt",
 			//"./graph_examples/soc-pokec-relationships.txt"

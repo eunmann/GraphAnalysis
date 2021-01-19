@@ -58,5 +58,18 @@
 	Code more benchmark
 	The goal is ultimately to benchmark as much as we can
 	Maybe get a paper into a workshop ( deadline in January )
-	
-	
+
+
+.L5:
+	vpaddq	(%rdx), %ymm0, %ymm1
+	addq	$32, %rdx
+	vpsrlq	$32, %ymm1, %ymm0
+	vpmuludq	%ymm1, %ymm1, %ymm2
+	vpmuludq	%ymm1, %ymm0, %ymm0
+	vpaddq	%ymm0, %ymm0, %ymm0
+	vpsllq	$32, %ymm0, %ymm0
+	vpaddq	%ymm0, %ymm2, %ymm0
+	cmpq	%rdx, %rax
+	jne	.L5
+	vmovdqa	%ymm0, (%r12)
+	vzeroupper

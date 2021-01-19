@@ -25,3 +25,5 @@ Memory Benchmark - Read Linear:
 Get Memory speed:
 	sudo dmidecode --type 17
 	Need to calculate the theoretical maximum
+	For my machine:
+	    2.4G * 2 * 8 * 2 = 76.8GB/s
