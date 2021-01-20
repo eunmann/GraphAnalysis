@@ -6,6 +6,7 @@
 #include <exception>
 #include <libpmem.h>
 #include "GraphUtils.hpp"
+#include <filesystem>
 
 void print_info() {
 
@@ -28,15 +29,22 @@ int main(int argc, char** argv) {
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();
 
-		std::vector<std::string> graph_paths = {
-			//"./graph_examples/Slashdot0902.txt",
-			//"./graph_examples/soc-Epinions1.txt",
-			//"./graph_examples/soc-LiveJournal1.txt",
-			//"./graph_examples/soc-pokec-relationships.txt"
-		};
+		std::vector<std::string> graph_paths;
+		std::string graph_dir = "./graph_examples/";
+		for (const auto& graph_path : std::filesystem::directory_iterator(graph_dir)) {
+			graph_paths.push_back(graph_path.path());
+		}
 
-		for (auto& path : graph_paths) {
-			tp.graph_path = path;
+		/*
+		Smaller graphs for testing
+
+		graph_paths.clear();
+		graph_paths.push_back("./graph_examples/facebook_combined.txt");
+		graph_paths.push_back("./graph_examples/soc-Epinions1.txt");
+		*/
+
+		for (const auto& graph_path : graph_paths) {
+			tp.graph_path = graph_path;
 			Benchmark::benchmark_page_rank(tp);
 			Benchmark::benchmark_breadth_first_traversal(tp);
 		}

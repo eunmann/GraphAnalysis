@@ -195,15 +195,12 @@ namespace GraphUtils {
 				https://snap.stanford.edu/data/index.html
 			*/
 
-			/*
-				TODO(EMU): Graphs can be directed or undirected, at the moment, this code
-				assumes the graphs are directed. In the files, there's text describing whether
-				or not the graph is directed or not. Maybe I should use that for parsing, but for
-				now, only load directed graphs.
-			*/
-
 			std::string line;
 			std::getline(file, line);
+
+			/* The first line should describe whether the graph is directed or not */
+			bool is_directed = line.rfind("# Directed", 0) == 0;
+
 			/* Lines with comments are marks with a '#', so skip these */
 			while (line[0] == '#') {
 				std::getline(file, line);
@@ -211,37 +208,34 @@ namespace GraphUtils {
 
 			std::vector<std::vector<uint32_t>> node_map;
 			size_t num_edges = 0;
-			uint32_t max_node_id = 0;
 
 			/* Read each pair */
-			while (std::getline(file, line)) {
+			do {
 				std::istringstream iss(line);
 				uint32_t source, destination;
 				if (!(iss >> source >> destination)) {
 					break;
 				}
 
+				uint32_t max_node_id = source > destination ? source : destination;
+
 				/* Make sure there is a vector for this node */
-				if (node_map.size() < source + 1) {
-					node_map.resize(source + 1);
+				if (node_map.size() < max_node_id + 1) {
+					node_map.resize(max_node_id + 1);
 				}
 
 				node_map[source].push_back(destination);
 
-				if (max_node_id < source) {
-					max_node_id = source;
+				if (!is_directed) {
+					node_map[destination].push_back(source);
+					num_edges += 2;
 				}
-				if (max_node_id < destination) {
-					max_node_id = destination;
+				else {
+					num_edges++;
 				}
-
-				num_edges++;
-			}
+			} while (std::getline(file, line));
 
 			file.close();
-
-			/* Make sure the map has values for all vertices */
-			node_map.resize(max_node_id + 1);
 
 			/* There's no values for edge weights, so just default to 1 */
 			std::vector<float> val(num_edges, 1);
@@ -250,7 +244,7 @@ namespace GraphUtils {
 
 			/* Preallocate memory */
 			col_ind.reserve(num_edges);
-			row_ind.reserve(max_node_id + 1);
+			row_ind.reserve(node_map.size());
 
 			for (auto& node_v : node_map) {
 
@@ -351,15 +345,12 @@ namespace GraphUtils {
 				https://snap.stanford.edu/data/index.html
 			*/
 
-			/*
-				TODO(EMU): Graphs can be directed or undirected, at the moment, this code
-				assumes the graphs are directed. In the files, there's text describing whether
-				or not the graph is directed or not. Maybe I should use that for parsing, but for
-				now, only load directed graphs.
-			*/
-
 			std::string line;
 			std::getline(file, line);
+
+			/* The first line should describe whether the graph is directed or not */
+			bool is_directed = line.rfind("# Directed", 0) == 0;
+
 			/* Lines with comments are marks with a '#', so skip these */
 			while (line[0] == '#') {
 				std::getline(file, line);
@@ -367,41 +358,38 @@ namespace GraphUtils {
 
 			std::vector<std::vector<uint32_t>> node_map;
 			size_t num_edges = 0;
-			uint32_t max_node_id = 0;
 
 			/* Read each pair */
-			while (std::getline(file, line)) {
+			do {
 				std::istringstream iss(line);
 				uint32_t source, destination;
 				if (!(iss >> source >> destination)) {
 					break;
 				}
 
+				uint32_t max_node_id = source > destination ? source : destination;
+
 				/* Make sure there is a vector for this node */
-				if (node_map.size() < source + 1) {
-					node_map.resize(source + 1);
+				if (node_map.size() < max_node_id + 1) {
+					node_map.resize(max_node_id + 1);
 				}
 
 				node_map[source].push_back(destination);
 
-				if (max_node_id < source) {
-					max_node_id = source;
+				if (!is_directed) {
+					node_map[destination].push_back(source);
+					num_edges += 2;
 				}
-				if (max_node_id < destination) {
-					max_node_id = destination;
+				else {
+					num_edges++;
 				}
-
-				num_edges++;
-			}
+			} while (std::getline(file, line));
 
 			file.close();
 
-			/* Make sure the map has values for all vertices */
-			node_map.resize(max_node_id + 1);
-
 			PMEM::vector<float> val(directory, num_edges);
 			PMEM::vector<uint32_t> col_ind(directory, num_edges);
-			PMEM::vector<uint32_t> row_ind(directory, max_node_id + 1);
+			PMEM::vector<uint32_t> row_ind(directory, node_map.size());
 
 			/* There's no values for edge weights, so just default to 1 */
 			val.resize(num_edges);
