@@ -3,6 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <queue>
+#include <immintrin.h>
+#include "InstructionUtils.hpp"
+
 
 GraphCRS::GraphCRS() : GraphCRS(std::vector<float>(),
 	std::vector<uint32_t>(),
@@ -156,7 +159,20 @@ std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor
 			uint32_t row_index = this->row_ind[vertex];
 			uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
 
-			float page_rank_sum = 0;
+			__m256 page_rank_sum_v = _mm256_setzero_ps();
+
+			if (row_index_end - row_index >= 8) {
+				for (uint32_t riev = row_index_end - 8; row_index < riev; row_index += 8) {
+					__m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(this->col_ind.data() + row_index));
+					__m256 dist_v = _mm256_loadu_ps(this->val.data() + row_index);
+
+					__m256 page_rank_load_v = _mm256_i32gather_ps(page_rank_read_vec.data(), neighbor_v, 1);
+					page_rank_load_v = _mm256_div_ps(page_rank_load_v, dist_v);
+					page_rank_sum_v = _mm256_add_ps(page_rank_sum_v, page_rank_load_v);
+				}
+			}
+
+			float page_rank_sum = InstructionUtils::sum_register(page_rank_sum_v);
 
 			/* For each neighbor */
 			for (; row_index < row_index_end; row_index++) {

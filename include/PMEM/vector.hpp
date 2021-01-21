@@ -12,11 +12,11 @@ namespace PMEM {
 	public:
 
 		vector(std::string directory, const size_t capacity) :
-			data(nullptr),
+			m_data(nullptr),
 			pmem(directory, PMEM::FILE::TEMP, capacity * sizeof(T)),
 			m_size(0),
 			m_capacity(capacity) {
-			this->data = this->pmem.as<T*>();
+			this->m_data = this->pmem.as<T*>();
 		}
 
 		size_t size() const {
@@ -24,7 +24,7 @@ namespace PMEM {
 		}
 
 		T& operator[](const size_t index) const {
-			return this->data[index];
+			return this->m_data[index];
 		}
 
 		void resize(const size_t size) {
@@ -35,7 +35,7 @@ namespace PMEM {
 			if (this->m_capacity < capacity) {
 				this->m_capacity = capacity;
 				this->pmem.resize(this->m_capacity * sizeof(T));
-				this->data = this->pmem.as<T*>();
+				this->m_data = this->pmem.as<T*>();
 			}
 		}
 
@@ -44,13 +44,13 @@ namespace PMEM {
 				this->reserve(this->m_capacity * 2);
 			}
 
-			this->data[this->m_size] = val;
+			this->m_data[this->m_size] = val;
 			this->m_size++;
 		}
 
 		void free() {
 			this->pmem.free();
-			this->data = nullptr;
+			this->m_data = nullptr;
 			this->m_size = 0;
 			this->m_capacity = 0;
 		}
@@ -59,10 +59,14 @@ namespace PMEM {
 			return this->pmem.is_pmem();
 		}
 
+		T* data() const {
+			return this->m_data;
+		}
+
 		/* TODO(EMU): Add a trim function to make capacity equal to size */
 
 	private:
-		T* data;
+		T* m_data;
 		PMEM::ptr pmem;
 		size_t m_size;
 		size_t m_capacity;
