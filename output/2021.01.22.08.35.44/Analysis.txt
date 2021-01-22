@@ -1,0 +1,26 @@
+Memory Test
+    Read Linear
+        Still not performing properly on the test machine
+        I think I need to put a reduction clause on the sum variable
+    Read Random
+        PMEM latency lower than DRAM ?!?!?!?
+        I need to look into this more
+    Write Linear/Random
+        Significantly slower than DRAM, this was expected
+
+Graph Tests
+    BFS
+        Might need to get other graphs, disconnected graphs really mess up the results
+    Page Rank
+        This seems fine, PMEM is at half performance of DRAM.
+        If latency is truely lower, than why would page rank be slower on PMEM?
+        Page rank is a read heavy operation, with some writes to a vector.
+        There really isn't that much overhead.
+        The vector is the same for both PMEM and DRAM, which means the only difference is the type of memory for the graph.
+        The only way to reason this is that PMEM read bandwidth is much slower than DRAM read bandwidth.
+
+Next Steps:
+    Fix the Read Linear test
+    Find some more large graphs to use (trying to find connected graphs for bfs runs)
+    Start doing the transactions for guarunteed persistence (should make performance even worse for writes)
+
