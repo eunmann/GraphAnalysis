@@ -20,6 +20,7 @@ Graph Tests
         The only way to reason this is that PMEM read bandwidth is much slower than DRAM read bandwidth.
 
 Next Steps:
+	Maybe ask to update G++ on the test machine, its version is 7.5, which doesn't have C++17 support (this isn't super important)
     Fix the Read Linear test
     Find some more large graphs to use (trying to find connected graphs for bfs runs)
     Start doing the transactions for guarunteed persistence (should make performance even worse for writes)
