@@ -269,11 +269,12 @@ namespace Benchmark {
 
 			std::vector<double>& read_linear_bandwidth = metric_v[0];
 
-			int64_t sum = 0;
-			int64_t* test_mem = (int64_t*)arr;
-			const size_t test_mem_size = size / sizeof(int64_t);
+			double sum = 0;
+			double* test_mem = (double*)arr;
+			const size_t test_mem_size = size / sizeof(double);
 
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
+				sum *= sum;
 				Timer timer;
 #pragma omp parallel for reduction(+:sum)
 				for (size_t i = 0; i < test_mem_size; i++) {
@@ -284,7 +285,7 @@ namespace Benchmark {
 				read_linear_bandwidth.push_back((double)size / time_elapsed);
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed, read_linear_bandwidth.back());
 			}
-			printf("IGNORE(%ld)\n", sum);
+			printf("IGNORE(%f)\n", sum);
 			BenchmarkUtils::print_metrics("Bandwidth", read_linear_bandwidth);
 		}
 
