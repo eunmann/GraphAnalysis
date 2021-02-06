@@ -147,20 +147,19 @@ namespace PMEM {
 
 	std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor) const {
 
-		/* Note this vector is in DRAM and not PMEM */
-		float init_prob = 1.0f / this->row_ind.size();
-		float init_dampening_prob = (1.0f - dampening_factor) / this->row_ind.size();
+		const float init_prob = 1.0f / this->row_ind.size();
+		const float init_dampening_prob = (1.0f - dampening_factor) / this->row_ind.size();
 
 		/* Use two vectors since the next iteration relies on the current iteration */
 		std::vector<float> page_rank_vec_1(this->row_ind.size(), init_prob);
 		std::vector<float> page_rank_vec_2(this->row_ind.size(), init_prob);
 
-		/* Compute the number of adjacent vertices for each vertex */
-		std::vector<float> adjacent_vertices(this->row_ind.size());
+		/* Compute the number of adjacent vertices inverse for each vertex */
+		std::vector<float> adjacent_vertices_inv(this->row_ind.size());
 		for (size_t i = 0, e = this->row_ind.size(); i < e; i++) {
 			uint32_t row_index = this->row_ind[i];
 			uint32_t row_index_end = i + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[i + 1];
-			adjacent_vertices[i] = row_index_end - row_index;
+			adjacent_vertices_inv[i] = 1.0f / (row_index_end - row_index);
 		}
 
 		for (size_t i = 0; i < iterations; i++) {
@@ -171,29 +170,29 @@ namespace PMEM {
 #pragma omp parallel for
 			for (size_t vertex = 0; vertex < this->row_ind.size(); vertex++) {
 				uint32_t row_index = this->row_ind[vertex];
-				uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
+				const uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
 
-				__m256 page_rank_sum_v = _mm256_setzero_ps();
+				float page_rank_sum = 0;
 
 				if (row_index_end - row_index >= 8) {
+					__m256 page_rank_sum_v = _mm256_setzero_ps();
+
+					/* For each neighbor in groups of 8 */
 					for (uint32_t riev = row_index_end - 8; row_index < riev; row_index += 8) {
-						__m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(this->col_ind.data() + row_index));
-						__m256 adjacency_v = _mm256_loadu_ps(adjacent_vertices.data() + row_index);
+						const __m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(this->col_ind.data() + row_index));
 
-						__m256 page_rank_load_v = _mm256_i32gather_ps(page_rank_read_vec.data(), neighbor_v, 1);
-						page_rank_load_v = _mm256_div_ps(page_rank_load_v, adjacency_v);
-						page_rank_sum_v = _mm256_add_ps(page_rank_sum_v, page_rank_load_v);
+						const __m256 adjacency_v = _mm256_i32gather_ps(adjacent_vertices_inv.data(), neighbor_v, 1);
+						const __m256 page_rank_load_v = _mm256_i32gather_ps(page_rank_read_vec.data(), neighbor_v, 1);
+
+						page_rank_sum_v = _mm256_fmadd_ps(page_rank_load_v, adjacency_v, page_rank_sum_v);
 					}
+					page_rank_sum = InstructionUtils::sum_register(page_rank_sum_v);
 				}
-
-				float page_rank_sum = InstructionUtils::sum_register(page_rank_sum_v);
 
 				/* For each neighbor */
 				for (; row_index < row_index_end; row_index++) {
 					uint32_t neighbor = this->col_ind[row_index];
-					float adjacency = adjacent_vertices[row_index];
-
-					page_rank_sum += page_rank_read_vec[neighbor] / adjacency;
+					page_rank_sum += page_rank_read_vec[neighbor] * adjacent_vertices_inv[neighbor];
 				}
 
 				page_rank_sum = page_rank_sum * dampening_factor + init_dampening_prob;
