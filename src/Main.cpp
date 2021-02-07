@@ -6,11 +6,19 @@
 #include <exception>
 #include <libpmem.h>
 #include "GraphUtils.hpp"
+#include "PMEM/Allocator.hpp"
 
 void print_info() {
 
 	printf("PMEM:\n");
 	printf("\tVersion: %d.%d\n", PMEM_MAJOR_VERSION, PMEM_MINOR_VERSION);
+
+	/* Test the allocator to see if PMEM is accessible or not */
+	PMEM::Allocator<float> allocator;
+	const size_t N = 10;
+	auto p = allocator.allocate(N);
+	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
+	allocator.deallocate(p, N);
 
 	printf("OpenMP:\n");
 	printf("\tNumber of Processors: %d\n", omp_get_num_procs());
@@ -23,6 +31,8 @@ int main(int argc, char** argv) {
 	printf("by Evan Unmann\n");
 
 	print_info();
+
+	return 0;
 
 	try {
 
