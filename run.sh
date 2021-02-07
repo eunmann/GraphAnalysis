@@ -31,11 +31,11 @@ export page_rank_dampening_factor=0.8
 export test_iterations=5
 
 
-echo Starting graph_analysis
+echo Starting pmem_benchmark
 echo Output Directory: $out_dir
 echo Output File: $final_name
 
 #./graph_analysis
-./graph_analysis | tee $final_name
+./pmem_benchmark | tee $final_name
 
 echo Done

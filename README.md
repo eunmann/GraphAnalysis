@@ -7,9 +7,8 @@ Dependencies
 ---
 ___
 Linux OS \
-C++17 compliant compiler. (g++ 9.3.0 was used for this project) \
-[PDMK](https://github.com/pmem/pmdk/) (libpmem 1.1) \
-[GNUPlot](http://www.gnuplot.info/) (Not required, but useful for graphing results)
+C++11 compliant compiler. (g++ 7.5.0 was used for this project) \
+[PDMK](https://github.com/pmem/pmdk/) (libpmem 1.1) 
 
 Build
 ---

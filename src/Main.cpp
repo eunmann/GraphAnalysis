@@ -32,8 +32,6 @@ int main(int argc, char** argv) {
 
 	print_info();
 
-	return 0;
-
 	try {
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();
@@ -46,6 +44,7 @@ int main(int argc, char** argv) {
 		graph_paths.push_back("./graph_examples/com-orkut.ungraph.txt");
 		graph_paths.push_back("./graph_examples/soc-LiveJournal1.txt");
 		graph_paths.push_back("./graph_examples/sx-stackoverflow.txt");
+		graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
 
 		graph_paths.clear();
 

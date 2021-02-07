@@ -25,7 +25,7 @@ asmCPP = $(subst src,asm,$(_asmCPP))
 obj = $(objCPP)
 asm = $(asmCPP)
 
-out_name=graph_analysis
+out_name=pmem_benchmark
 
 # Compile
 main: $(obj)

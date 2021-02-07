@@ -156,7 +156,9 @@ namespace PMEM {
 
 		/* Compute the number of adjacent vertices inverse for each vertex */
 		std::vector<float> adjacent_vertices_inv(this->row_ind.size());
-		for (size_t i = 0, e = this->row_ind.size(); i < e; i++) {
+		const size_t e = adjacent_vertices_inv.size();
+#pragma omp parallel for
+		for (size_t i = 0; i < e; i++) {
 			uint32_t row_index = this->row_ind[i];
 			uint32_t row_index_end = i + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[i + 1];
 			adjacent_vertices_inv[i] = 1.0f / (row_index_end - row_index);
