@@ -30,12 +30,16 @@ export page_rank_dampening_factor=0.8
 # Number of iterations for each test
 export test_iterations=5
 
+# OMP environment variables
+export OMP_DISPLAY_ENV=true
+export OMP_PROC_BIND=true
+export OMP_PLACES="{0:36:1}"
 
 echo Starting pmem_benchmark
 echo Output Directory: $out_dir
 echo Output File: $final_name
 
-#./graph_analysis
-./pmem_benchmark | tee $final_name
+./pmem_benchmark
+#./pmem_benchmark | tee $final_name
 
 echo Done

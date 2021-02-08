@@ -11,6 +11,7 @@
 #include <functional>
 #include <immintrin.h>
 #include <omp.h>
+#include <limits>
 
 #define GNUPLOT_WIDTH 800
 #define GNUPLOT_HEIGHT 600
@@ -251,9 +252,9 @@ namespace Benchmark {
 		return metrics;
 	}
 
-	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, const size_t size) {
+	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, size_t size) {
 
-		const size_t latency_loads = std::min(double(size / 20), 1e9);
+		const size_t latency_loads = std::min(double(size / 20), 500e6);
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
 		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 
@@ -261,31 +262,40 @@ namespace Benchmark {
 
 		BlockTimer timer("Memory Test");
 
-		/* Read linear */
+		/* Read Sequential */
 		{
-			BlockTimer t_timer("Read Linear");
-			printf("Read Linear\n");
+			BlockTimer t_timer("Read Sequential");
+			printf("Read Sequential\n");
 			printf("Iteration, Time Elapsed (s), Bandwidth (B/s)\n");
 
 			std::vector<double>& read_linear_bandwidth = metric_v[0];
 
-			double sum = 0;
-			double* test_mem = (double*)arr;
-			const size_t test_mem_size = size / sizeof(double);
-
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
-				sum *= sum;
 				Timer timer;
-#pragma omp parallel for reduction(+:sum)
-				for (size_t i = 0; i < test_mem_size; i++) {
-					sum += test_mem[i];
+
+				__m256i sum[omp_get_max_threads()];
+				for (auto& v : sum) {
+					v = _mm256_setzero_si256();
 				}
+				__m256i* test_mem = reinterpret_cast<__m256i*>(arr);
+				const size_t test_mem_size = size / sizeof(__m256i);
+
+#pragma omp parallel
+				{
+					__m256i s = sum[omp_get_thread_num()];
+#pragma omp for
+					for (size_t i = 0; i < test_mem_size; i++) {
+						s += _mm256_loadu_si256(test_mem + i);
+					}
+
+					sum[omp_get_thread_num()] = s;
+				}
+
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
 				read_linear_bandwidth.push_back((double)size / time_elapsed);
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed, read_linear_bandwidth.back());
 			}
-			printf("IGNORE(%f)\n", sum);
 			BenchmarkUtils::print_metrics("Bandwidth", read_linear_bandwidth);
 		}
 
@@ -299,14 +309,14 @@ namespace Benchmark {
 
 			std::default_random_engine generator;
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
-			auto indexGen = std::bind(distribution, generator);
+			auto index_gen = std::bind(distribution, generator);
 
 			char sum = 0;
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 				Timer timer;
 
 				for (size_t i = 0; i < latency_loads; i++) {
-					sum += arr[indexGen()];
+					sum += arr[index_gen()];
 				}
 
 				timer.end();
@@ -319,22 +329,24 @@ namespace Benchmark {
 			BenchmarkUtils::print_metrics("Latency", read_random_latency);
 		}
 
-		/* Write linear */
+		/* Write Sequential */
 		{
-			BlockTimer t_timer("Write Linear");
-			printf("Write Linear\n");
+			BlockTimer t_timer("Write Sequential");
+			printf("Write Sequential\n");
 			printf("Iteration, Time Elapsed (s), Bandwidth (B/s)\n");
 
 			std::vector<double>& write_linear_bandwidth = metric_v[2];
 
-			uint64_t* test_mem = (uint64_t*)arr;
-			const size_t test_mem_size = size / sizeof(uint64_t);
-
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 				Timer timer;
+
+				__m256i* test_mem = reinterpret_cast<__m256i*>(arr);
+				const size_t test_mem_size = size / sizeof(__m256i);
+
 #pragma omp parallel for
 				for (size_t i = 0; i < test_mem_size; i++) {
-					test_mem[i] = 0;
+
+					_mm256_storeu_si256(test_mem + i, _mm256_setzero_si256());
 				}
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
@@ -354,13 +366,13 @@ namespace Benchmark {
 
 			std::default_random_engine generator;
 			std::uniform_int_distribution<uint64_t> distribution(0, size);
-			auto indexGen = std::bind(distribution, generator);
+			auto index_gen = std::bind(distribution, generator);
 
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 				Timer timer;
 
 				for (size_t i = 0; i < latency_loads; i++) {
-					arr[indexGen()] = 0;
+					arr[index_gen()] = 0;
 				}
 
 				timer.end();
@@ -381,8 +393,7 @@ namespace Benchmark {
 
 		printf("DRAM\n");
 		char* dram_array = new char[tp.alloc_size];
-		/* Touch the first and last element to make sure the OS allocated the memory */
-		printf("IGNORE(%c)\n", dram_array[0] + dram_array[tp.alloc_size - 1]);
+		BenchmarkUtils::set_random_values(dram_array, tp.alloc_size);
 		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array, tp.alloc_size);
 		delete dram_array;
 
@@ -397,27 +408,20 @@ namespace Benchmark {
 			printf("Trouble allocating persistent memory\n");
 			return;
 		}
-		/* Touch the first and last element to make sure the OS allocated the memory */
-		printf("IGNORE(%c)\n", pmem_array[0] + pmem_array[tp.alloc_size - 1]);
+		BenchmarkUtils::set_random_values(pmem_array, tp.alloc_size);
 		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array, tp.alloc_size);
 		pmem.free();
 
-		printf("Read Linear Bandwith (B/s)\n");
+		printf("Read Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[0], pmem_metrics[0]);
 
 		printf("Read Random Latency (ns)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
 
-		printf("Write Linear Bandwith (B/s)\n");
+		printf("Write Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[2], pmem_metrics[2]);
 
 		printf("Write Random Latency (ns)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[3], pmem_metrics[3]);
-	}
-
-	std::string get_graph_name(const std::string& graph_path) {
-		size_t start_index = graph_path.find_last_of("/") + 1;
-		size_t end_index = graph_path.find_last_of(".") - start_index;
-		return graph_path.substr(start_index, end_index);
 	}
 }

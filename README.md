@@ -1,7 +1,7 @@
 Persistent Memory Benchmark
 ===
 
-This project conducts an experiment of a graph algorithm's performance on persistent memory machines.
+This project conducts a benchmark of memory and benchmakrs graph algorithm performance. If a machine has access to persistent memory, PMEM, the program will use that memory to compare against DRAM.
 
 Dependencies
 ---
@@ -38,12 +38,12 @@ To run the program, run:
 user@dir:~$ ./run.sh
 ```
 
-The script run.sh contains the input parameters for the program.
+The script run.sh contains the input parameters for the program. The machined used for experiementation required certain OMP environment variables to be set, please modify as required.
 
 Output
 ---
 ___
-The output of the program will be printed to the console as well as saved in a directory. A directory under ./output/ will be created based on the time the script was started. Then, all output will be saved to output.txt. Each test will save a csv of the metrics and append a command for gnuplot. From the root directory, running the generated script will produce pngs for each csv file in the output directory using GNUPlot.
+The output of the program will be printed to the console as well as saved in a directory. A directory under ./output/ will be created based on the time the script was started. Then, all output will be saved to output.txt.
 
 Clean
 ---

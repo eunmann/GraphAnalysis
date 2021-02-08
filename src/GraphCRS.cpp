@@ -186,7 +186,7 @@ std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor
 				page_rank_sum = InstructionUtils::sum_register(page_rank_sum_v);
 			}
 
-			/* For each neighbor */
+			/* For each remaining neighbor */
 			for (; row_index < row_index_end; row_index++) {
 				uint32_t neighbor = this->col_ind[row_index];
 				page_rank_sum += page_rank_read_vec[neighbor] * adjacent_vertices_inv[neighbor];

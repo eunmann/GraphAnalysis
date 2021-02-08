@@ -89,4 +89,7 @@ namespace BenchmarkUtils {
 		printf("Average: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(avg_a).c_str(), FormatUtils::format_number(avg_b).c_str(), FormatUtils::format_number(avg_b - avg_a).c_str(), ((avg_b / avg_a) - 1.0) * 100.0);
 		printf("STD_DEV: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(std_a).c_str(), FormatUtils::format_number(std_b).c_str(), FormatUtils::format_number(std_b - std_a).c_str(), ((std_b / std_a) - 1.0) * 100.0);
 	}
+
+	std::string get_graph_name(const std::string& graph_path);
+	void set_random_values(char* arr, size_t size);
 }

@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-graph_analysis
+pmem_benchmark
 
 # Assembly
 *.s
