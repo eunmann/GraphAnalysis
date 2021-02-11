@@ -53,6 +53,10 @@ namespace Benchmark {
 			tp.page_rank_dampening_factor = std::stod(std::getenv("page_rank_dampening_factor"));
 		}
 
+		if (std::getenv("num_page_ranks") != nullptr) {
+			tp.num_page_ranks = std::stol(std::getenv("num_page_ranks"));
+		}
+
 		if (std::getenv("test_iterations") != nullptr) {
 			tp.test_iterations = std::stol(std::getenv("test_iterations"));
 		}
@@ -70,6 +74,7 @@ namespace Benchmark {
 		printf("\tmax_value: %s\n", FormatUtils::format_number(tp.max_value).c_str());
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
 		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
+		printf("\num_page_ranks: %s\n", FormatUtils::format_number(tp.num_page_ranks).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
 		printf("\tPMEM Directory: %s\n", tp.pmem_directory.c_str());
@@ -146,7 +151,7 @@ namespace Benchmark {
 		printf("Iteration, Time Elapsed (s), Edges per Second\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
-			graph.page_rank(tp.page_rank_iterations, tp.page_rank_dampening_factor);
+			graph.page_rank(tp.page_rank_iterations, std::vector<float>(tp.num_page_ranks, tp.page_rank_dampening_factor));
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;

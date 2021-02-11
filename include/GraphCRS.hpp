@@ -26,7 +26,7 @@ public:
 
 	void print() const;
 
-	std::vector<float> page_rank(size_t iterations, float dampening_factor) const;
+	std::vector<std::vector<float>> page_rank(size_t iterations, const std::vector<float> dampening_factors) const;
 
 	void breadth_first_traversal(uint32_t vertex) const;
 

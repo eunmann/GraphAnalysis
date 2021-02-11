@@ -145,14 +145,22 @@ namespace PMEM {
 		this->row_ind.free();
 	}
 
-	std::vector<float> GraphCRS::page_rank(size_t iterations, float dampening_factor) const {
+	std::vector<std::vector<float>> GraphCRS::page_rank(size_t iterations, std::vector<float> dampening_factors) const {
 
+		const size_t num_dampening_factors = dampening_factors.size();
 		const float init_prob = 1.0f / this->row_ind.size();
-		const float init_dampening_prob = (1.0f - dampening_factor) / this->row_ind.size();
+		std::vector<float> dampening_probs;
+		for (auto& dampening_factor : dampening_factors) {
+			dampening_probs.push_back((1.0f - dampening_factor) / this->row_ind.size());
+		}
 
 		/* Use two vectors since the next iteration relies on the current iteration */
-		std::vector<float> page_rank_vec_1(this->row_ind.size(), init_prob);
-		std::vector<float> page_rank_vec_2(this->row_ind.size(), init_prob);
+		std::vector<std::vector<float>> prv_1;
+		std::vector<std::vector<float>> prv_2;
+		for (size_t i = 0; i < num_dampening_factors; i++) {
+			prv_1.push_back(std::vector<float>(this->row_ind.size(), init_prob));
+			prv_2.push_back(std::vector<float>(this->row_ind.size(), init_prob));
+		}
 
 		/* Compute the number of adjacent vertices inverse for each vertex */
 		std::vector<float> adjacent_vertices_inv(this->row_ind.size());
@@ -166,43 +174,57 @@ namespace PMEM {
 
 		for (size_t i = 0; i < iterations; i++) {
 
-			std::vector<float>& page_rank_read_vec = i % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
-			std::vector<float>& page_rank_write_vec = i % 2 == 1 ? page_rank_vec_1 : page_rank_vec_2;
+			std::vector<std::vector<float>>& pr_read = i % 2 == 0 ? prv_1 : prv_2;
+			std::vector<std::vector<float>>& pr_write = i % 2 == 1 ? prv_1 : prv_2;
 
 #pragma omp parallel for
 			for (size_t vertex = 0; vertex < this->row_ind.size(); vertex++) {
 				uint32_t row_index = this->row_ind[vertex];
 				const uint32_t row_index_end = vertex + 1 == this->row_ind.size() ? this->col_ind.size() : this->row_ind[vertex + 1];
 
-				float page_rank_sum = 0;
+				float page_rank_sum[num_dampening_factors];
+				for (auto& v : page_rank_sum) {
+					v = 0;
+				}
 
 				if (row_index_end - row_index >= 8) {
-					__m256 page_rank_sum_v = _mm256_setzero_ps();
+					__m256 page_rank_sum_v[num_dampening_factors];
+					for (auto& v : page_rank_sum_v) {
+						v = _mm256_setzero_ps();
+					}
 
 					/* For each neighbor in groups of 8 */
 					for (uint32_t riev = row_index_end - 8; row_index < riev; row_index += 8) {
 						const __m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(this->col_ind.data() + row_index));
-
 						const __m256 adjacency_v = _mm256_i32gather_ps(adjacent_vertices_inv.data(), neighbor_v, 1);
-						const __m256 page_rank_load_v = _mm256_i32gather_ps(page_rank_read_vec.data(), neighbor_v, 1);
 
-						page_rank_sum_v = _mm256_fmadd_ps(page_rank_load_v, adjacency_v, page_rank_sum_v);
+						for (size_t j = 0; j < num_dampening_factors; j++) {
+							const __m256 page_rank_load_v = _mm256_i32gather_ps(pr_read[j].data(), neighbor_v, 1);
+							page_rank_sum_v[j] = _mm256_fmadd_ps(page_rank_load_v, adjacency_v, page_rank_sum_v[j]);
+						}
 					}
-					page_rank_sum = InstructionUtils::sum_register(page_rank_sum_v);
+					for (size_t j = 0; j < num_dampening_factors; j++) {
+						page_rank_sum[j] = InstructionUtils::sum_register(page_rank_sum_v[j]);
+					}
 				}
 
-				/* For each neighbor */
+				/* For each remaining neighbor */
 				for (; row_index < row_index_end; row_index++) {
 					uint32_t neighbor = this->col_ind[row_index];
-					page_rank_sum += page_rank_read_vec[neighbor] * adjacent_vertices_inv[neighbor];
+					float d = adjacent_vertices_inv[neighbor];
+
+					for (size_t j = 0; j < num_dampening_factors; j++) {
+						page_rank_sum[j] += pr_read[j][neighbor] * d;
+					}
 				}
 
-				page_rank_sum = page_rank_sum * dampening_factor + init_dampening_prob;
-				page_rank_write_vec[vertex] = page_rank_sum;
+				for (size_t j = 0; j < num_dampening_factors; j++) {
+					pr_write[j][vertex] = page_rank_sum[j] * dampening_factors[j] + dampening_probs[j];
+				}
 			}
 		}
 
-		return iterations % 2 == 0 ? page_rank_vec_1 : page_rank_vec_2;
+		return iterations % 2 == 1 ? prv_1 : prv_2;
 	}
 
 	void GraphCRS::breadth_first_traversal(uint32_t vertex) const {

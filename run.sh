@@ -26,6 +26,7 @@ export max_value=2
 # Page Rank Parameters
 export page_rank_iterations=300
 export page_rank_dampening_factor=0.8
+export num_page_ranks=4
 
 # Number of iterations for each test
 export test_iterations=5

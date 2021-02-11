@@ -17,6 +17,7 @@ namespace Benchmark {
 		float max_value = 5;
 		uint32_t page_rank_iterations = 100;
 		float page_rank_dampening_factor = 0.8;
+		uint32_t num_page_ranks = 4;
 		uint32_t test_iterations = 10;
 		std::string graph_path = "";
 		std::string pmem_directory = "/pmem/";

@@ -54,7 +54,7 @@ public:
 	/**
 	 * Returns a vector of page rank values for all vertices
 	 */
-	virtual std::vector<float> page_rank(size_t iterations, float dampening_factor) const = 0;
+	virtual std::vector<std::vector<float>> page_rank(size_t iterations, const std::vector<float> dampening_factors) const = 0;
 
 	/**
 	 * Performs a breadth first traversal starting from vertex
