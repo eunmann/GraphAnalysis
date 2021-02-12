@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 		graph_paths.push_back("./graph_examples/soc-LiveJournal1.txt");
 		graph_paths.push_back("./graph_examples/sx-stackoverflow.txt");
 		graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
-		graph_paths.clear();
+		// graph_paths.clear();
 
 
 		for (const auto& graph_path : graph_paths) {
@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 			Benchmark::benchmark_breadth_first_traversal(tp);
 		}
 
-		//Benchmark::benchmark_memory(tp);
+		Benchmark::benchmark_memory(tp);
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
