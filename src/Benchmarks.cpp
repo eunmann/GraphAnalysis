@@ -74,7 +74,7 @@ namespace Benchmark {
 		printf("\tmax_value: %s\n", FormatUtils::format_number(tp.max_value).c_str());
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
 		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
-		printf("\num_page_ranks: %s\n", FormatUtils::format_number(tp.num_page_ranks).c_str());
+		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_page_ranks).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
 		printf("\tPMEM Directory: %s\n", tp.pmem_directory.c_str());
