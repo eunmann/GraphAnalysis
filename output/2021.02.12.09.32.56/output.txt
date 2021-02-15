@@ -1,0 +1,22 @@
+Persistent Memory Benchmark
+by Evan Unmann
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+OpenMP:
+	Number of Processors: 72
+	Maximum Threads: 72
+Test Parameters:
+	alloc_size:  60.000GB
+	num_vertices: 100.000K
+	min_degree:  20.00
+	max_degree: 200.00
+	min_value:   1.00
+	max_value:   2.00
+	page_rank_iterations: 300.00
+	page_rank_dampening_factor:   0.80
+	num_page_ranks:   4.00
+	test_iterations:  20.00
+	Graph Path: 
+	PMEM Directory: /pmem/
+[ Time Elapsed | 218.612 us ]
