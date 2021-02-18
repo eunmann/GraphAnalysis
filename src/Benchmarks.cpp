@@ -13,6 +13,8 @@
 #include <omp.h>
 #include <limits>
 #include "GraphAlgorithms.hpp"
+#include "PMEM/allocator.hpp"
+#include "PMEM/ptr.hpp"
 
 namespace Benchmark {
 
@@ -92,17 +94,17 @@ namespace Benchmark {
 
 		{
 			printf("DRAM\n");
-			GraphCRS graph;
+			TestGraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				graph = GraphUtils::create_graph_crs<std::allocator>(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
 				printf("Saving graph to %s\n", temp_graph_path.c_str());
-				graph.save(temp_graph_path);
+				GraphUtils::save(graph, temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load(tp.graph_path);
+				graph = GraphUtils::load<std::allocator>(tp.graph_path);
 			}
 
 			dram_metrics = run_page_rank(tp, graph);
@@ -110,21 +112,18 @@ namespace Benchmark {
 
 		{
 			printf("PMEM\n");
-			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
+			TestGraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Loading graph from %s\n", temp_graph_path.c_str());
-				graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, tp.pmem_directory);
+				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
+				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
 			}
 
-			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
-
-			pmem_metrics = run_page_rank(tp, graph_pmem);
-			graph_pmem.free();
+			pmem_metrics = run_page_rank(tp, graph);
 		}
 
 		printf("Time Elapsed (s)\n");
@@ -132,36 +131,6 @@ namespace Benchmark {
 
 		printf("Edges per Second\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
-	}
-
-	std::vector<std::vector<double>> run_page_rank(const Benchmark::Parameters& tp, const Graph& graph) {
-
-		BlockTimer timer("Page Rank");
-		printf("Page Rank\n");
-
-		std::vector<std::vector<double>> metrics(2);
-		std::vector<double>& time_elapsed_v = metrics[0];
-		std::vector<double>& edges_per_second_v = metrics[1];
-
-		printf("Number of Vertices: %u\n", graph.num_vertices());
-		printf("Number of Edges: %u\n", graph.num_edges());
-		printf("Memory Size: %lu B\n", graph.byte_size());
-		printf("Iteration, Time Elapsed (s), Edges per Second\n");
-		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
-			Timer timer;
-			graph.page_rank(tp.page_rank_iterations, std::vector<float>(tp.num_page_ranks, tp.page_rank_dampening_factor));
-			timer.end();
-
-			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			time_elapsed_v.push_back(time_elapsed_seconds);
-			edges_per_second_v.push_back(tp.num_page_ranks * graph.num_edges() / time_elapsed_seconds);
-			printf("%u, %.3f, %.3f\n", iter, time_elapsed_seconds, edges_per_second_v.back());
-		}
-
-		BenchmarkUtils::print_metrics("Time Elapsed", time_elapsed_v);
-		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
-
-		return metrics;
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
@@ -179,17 +148,17 @@ namespace Benchmark {
 
 		{
 			printf("DRAM\n");
-			GraphCRS graph;
+			TestGraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				graph = GraphUtils::create_graph_crs<std::allocator>(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
 				printf("Saving graph to %s\n", temp_graph_path.c_str());
-				graph.save(temp_graph_path);
+				GraphUtils::save(graph, temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load(tp.graph_path);
+				graph = GraphUtils::load<std::allocator>(tp.graph_path);
 			}
 
 			for (uint32_t i = 0; i < tp.test_iterations; i++) {
@@ -201,21 +170,18 @@ namespace Benchmark {
 
 		{
 			printf("PMEM\n");
-			PMEM::GraphCRS graph_pmem(tp.pmem_directory);
+			TestGraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Loading graph from %s\n", temp_graph_path.c_str());
-				graph_pmem = GraphUtils::load_as_pmem(temp_graph_path, tp.pmem_directory);
+				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
 			}
 			else {
 				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph_pmem = GraphUtils::load_as_pmem(tp.graph_path, tp.pmem_directory);
+				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
 			}
 
-			printf("Is pmem: %s\n", graph_pmem.is_pmem() ? "True" : "False");
-
-			pmem_metrics = run_breadth_first_traversal(tp, graph_pmem, start_vertices);
-			graph_pmem.free();
+			pmem_metrics = run_breadth_first_traversal(tp, graph, start_vertices);
 		}
 
 		printf("Time Elapsed (s)\n");
@@ -225,35 +191,6 @@ namespace Benchmark {
 		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
 	}
 
-	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const Graph& graph, std::vector<uint32_t> start_vertices) {
-
-		BlockTimer timer("Breadth First Traversal");
-		printf("Breadth First Traversal\n");
-		std::vector<std::vector<double>> metrics(2);
-
-		std::vector<double>& time_elapsed_v = metrics[0];
-		std::vector<double>& edges_per_second_v = metrics[1];
-
-		printf("Number of Vertices: %u\n", graph.num_vertices());
-		printf("Number of Edges: %u\n", graph.num_edges());
-		printf("Memory Size: %lu B\n", graph.byte_size());
-		printf("Iteration, Time Elapsed (s), Edges per Second\n");
-		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
-			Timer timer;
-			graph.breadth_first_traversal(start_vertices[iter - 1]);
-			timer.end();
-
-			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
-			time_elapsed_v.push_back(time_elapsed_seconds);
-			edges_per_second_v.push_back(graph.num_edges() / time_elapsed_seconds);
-			printf("%u, %.3f, %.3f\n", iter, time_elapsed_seconds, edges_per_second_v.back());
-		}
-
-		BenchmarkUtils::print_metrics("Time Elapsed (s)", time_elapsed_v);
-		BenchmarkUtils::print_metrics("Edges per Second", edges_per_second_v);
-
-		return metrics;
-	}
 
 	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, size_t size) {
 

@@ -6,7 +6,7 @@
 #include <exception>
 #include <libpmem.h>
 #include "GraphUtils.hpp"
-#include "PMEM/Allocator.hpp"
+#include "PMEM/allocator.hpp"
 #include "TestGraphCRS.hpp"
 
 void print_info() {
@@ -15,7 +15,7 @@ void print_info() {
 	printf("\tVersion: %d.%d\n", PMEM_MAJOR_VERSION, PMEM_MINOR_VERSION);
 
 	/* Test the allocator to see if PMEM is accessible or not */
-	PMEM::Allocator<float> allocator;
+	PMEM::allocator<float> allocator;
 	const size_t N = 10;
 	auto p = allocator.allocate(N);
 	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 
 	print_info();
 
-	TestGraphCRS<PMEM::Allocator> graph_test(10, 10);
+	TestGraphCRS<PMEM::allocator> graph_test(10, 10);
 
 	return 0;
 	try {
