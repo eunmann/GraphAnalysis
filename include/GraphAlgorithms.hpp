@@ -5,6 +5,7 @@
 #include "Benchmarks.hpp"
 #include "TestGraphCRS.hpp"
 #include <immintrin.h>
+#include "InstructionUtils.hpp"
 
 namespace GraphAlgorithms {
 

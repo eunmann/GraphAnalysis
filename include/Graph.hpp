@@ -13,7 +13,7 @@ public:
 	 * @param j Index of the destination vertex
 	 * @return The edge's weight from vertex i to vertex j
 	 */
-	virtual const float weight(const uint32_t i, const uint32_t j) const = 0;
+	virtual float weight(const uint32_t i, const uint32_t j) const = 0;
 
 	/**
 	 * @param i Index of the start vertex

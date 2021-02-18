@@ -18,7 +18,7 @@ namespace PMEM {
 		row_ind(row_ind) {
 	}
 
-	const float GraphCRS::weight(const uint32_t i, const uint32_t j) const {
+	float GraphCRS::weight(const uint32_t i, const uint32_t j) const {
 		return this->val[this->index(i, j)];
 	}
 
@@ -30,7 +30,7 @@ namespace PMEM {
 		this->val[this->index(i, j)] = weight;
 	}
 
-	const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) const {
+	uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) const {
 		for (uint32_t rs = this->row_ind[i]; rs < this->col_ind.size(); rs++) {
 			if (col_ind[rs] == j) {
 				return rs;

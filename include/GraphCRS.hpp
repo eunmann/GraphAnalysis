@@ -14,7 +14,7 @@ public:
 		std::vector<uint32_t> col_ind,
 		std::vector<uint32_t> row_ind);
 
-	const float weight(const uint32_t i, const uint32_t j) const;
+	float weight(const uint32_t i, const uint32_t j) const;
 
 	float& operator()(const uint32_t i, const uint32_t j);
 
@@ -48,5 +48,5 @@ private:
 	 * @param j The column index
 	 * @return The index into val
 	 */
-	const uint32_t index(const uint32_t i, const uint32_t j) const;
+	uint32_t index(const uint32_t i, const uint32_t j) const;
 };

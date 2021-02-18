@@ -19,7 +19,7 @@ GraphCRS::GraphCRS(std::vector<float> val,
 
 }
 
-const float GraphCRS::weight(const uint32_t i, const uint32_t j) const {
+float GraphCRS::weight(const uint32_t i, const uint32_t j) const {
 	return this->val[this->index(i, j)];
 }
 
@@ -31,7 +31,7 @@ void GraphCRS::set(const float weight, const uint32_t i, const uint32_t j) {
 	this->val[this->index(i, j)] = weight;
 }
 
-const uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) const {
+uint32_t GraphCRS::index(const uint32_t i, const uint32_t j) const {
 	for (uint32_t rs = this->row_ind[i]; rs < this->col_ind.size(); rs++) {
 		if (col_ind[rs] == j) {
 			return rs;
