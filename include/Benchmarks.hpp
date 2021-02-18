@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "TestGraphCRS.hpp"
+#include "GraphCRS.hpp"
 #include "BlockTimer.hpp"
 #include "GraphAlgorithms.hpp"
 #include "BenchmarkUtils.hpp"
@@ -36,7 +36,7 @@ namespace Benchmark {
 	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, size_t size);
 
 	template<template<class> class T>
-	std::vector<std::vector<double>> run_page_rank(const Benchmark::Parameters& tp, const TestGraphCRS<T>& graph) {
+	std::vector<std::vector<double>> run_page_rank(const Benchmark::Parameters& tp, const GraphCRS<T>& graph) {
 		BlockTimer timer("Page Rank");
 		printf("Page Rank\n");
 
@@ -66,7 +66,7 @@ namespace Benchmark {
 	}
 
 	template<template<class> class T>
-	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const TestGraphCRS<T>& graph, std::vector<uint32_t> start_vertices) {
+	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const GraphCRS<T>& graph, std::vector<uint32_t> start_vertices) {
 		BlockTimer timer("Breadth First Traversal");
 		printf("Breadth First Traversal\n");
 		std::vector<std::vector<double>> metrics(2);

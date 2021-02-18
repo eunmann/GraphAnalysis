@@ -7,7 +7,7 @@
 #include <libpmem.h>
 #include "GraphUtils.hpp"
 #include "PMEM/allocator.hpp"
-#include "TestGraphCRS.hpp"
+#include "GraphCRS.hpp"
 
 void print_info() {
 
@@ -33,9 +33,6 @@ int main(int argc, char** argv) {
 
 	print_info();
 
-	TestGraphCRS<PMEM::allocator> graph_test(10, 10);
-
-	return 0;
 	try {
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();
@@ -44,11 +41,13 @@ int main(int argc, char** argv) {
 
 		graph_paths.push_back("./graph_examples/facebook_combined.txt");
 		graph_paths.push_back("./graph_examples/soc-Epinions1.txt");
+		/*
 		graph_paths.push_back("./graph_examples/soc-pokec-relationships.txt");
 		graph_paths.push_back("./graph_examples/com-orkut.ungraph.txt");
 		graph_paths.push_back("./graph_examples/soc-LiveJournal1.txt");
 		graph_paths.push_back("./graph_examples/sx-stackoverflow.txt");
 		graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
+		*/
 		// graph_paths.clear();
 
 

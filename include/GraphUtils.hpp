@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TestGraphCRS.hpp"
+#include "GraphCRS.hpp"
 #include <random>
 #include <algorithm>
 #include <iostream>
@@ -10,7 +10,7 @@
 
 namespace GraphUtils {
 	template<template<class> class T>
-	TestGraphCRS<T> create_graph_crs(uint32_t num_vertices, uint32_t min_degree, uint32_t max_degree, float min_value, float max_value) {
+	GraphCRS<T> create_graph_crs(uint32_t num_vertices, uint32_t min_degree, uint32_t max_degree, float min_value, float max_value) {
 		/* Create a function to generate random degrees for each vertex */
 		std::default_random_engine gen_degree;
 		std::uniform_int_distribution<uint32_t> dis_degree(min_degree, max_degree);
@@ -58,7 +58,7 @@ namespace GraphUtils {
 			rpi += rand_col_index.size();
 		}
 
-		TestGraphCRS<T> graph(row_ind.size(), val.size());
+		GraphCRS<T> graph(row_ind.size(), val.size());
 
 		for (size_t i = 0; i < graph.num_edges(); i++) {
 			graph.val[i] = val[i];
@@ -73,11 +73,11 @@ namespace GraphUtils {
 	}
 
 	template<template<class> class T>
-	TestGraphCRS<T> load(const std::string& path) {
+	GraphCRS<T> load(const std::string& path) {
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
-			return TestGraphCRS<T>(0, 0);
+			return GraphCRS<T>(0, 0);
 		}
 
 		if (std::equal(path.end() - 4, path.end(), ".csv")) {
@@ -125,7 +125,7 @@ namespace GraphUtils {
 				i = sep_index + 1;
 			}
 
-			TestGraphCRS<T> graph(row_ind.size(), val.size());
+			GraphCRS<T> graph(row_ind.size(), val.size());
 
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
@@ -157,7 +157,7 @@ namespace GraphUtils {
 
 			file.close();
 
-			TestGraphCRS<T> graph(row_ind.size(), val.size());
+			GraphCRS<T> graph(row_ind.size(), val.size());
 
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
@@ -241,7 +241,7 @@ namespace GraphUtils {
 				col_ind.insert(col_ind.end(), node_v.begin(), node_v.end());
 			}
 
-			TestGraphCRS<T> graph(row_ind.size(), val.size());
+			GraphCRS<T> graph(row_ind.size(), val.size());
 
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
@@ -256,12 +256,12 @@ namespace GraphUtils {
 		}
 		else {
 			printf("File type not supported: %s\n", path.substr(path.length() - 4).c_str());
-			return TestGraphCRS<T>(0, 0);
+			return GraphCRS<T>(0, 0);
 		}
 	}
 
 	template<template<class> class T>
-	std::string to_string(const TestGraphCRS<T>& graph) {
+	std::string to_string(const GraphCRS<T>& graph) {
 		std::string output = "";
 
 		/* First row, val */
@@ -295,7 +295,7 @@ namespace GraphUtils {
 	}
 
 	template<template<class> class T>
-	void save(const TestGraphCRS<T>& graph, const std::string& path) {
+	void save(const GraphCRS<T>& graph, const std::string& path) {
 
 		std::ofstream file(path, std::ios::binary);
 

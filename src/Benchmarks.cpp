@@ -94,7 +94,7 @@ namespace Benchmark {
 
 		{
 			printf("DRAM\n");
-			TestGraphCRS<std::allocator> graph;
+			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
@@ -108,11 +108,12 @@ namespace Benchmark {
 			}
 
 			dram_metrics = run_page_rank(tp, graph);
+			graph.free();
 		}
 
 		{
 			printf("PMEM\n");
-			TestGraphCRS<PMEM::allocator> graph;
+			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Loading graph from %s\n", temp_graph_path.c_str());
@@ -124,6 +125,7 @@ namespace Benchmark {
 			}
 
 			pmem_metrics = run_page_rank(tp, graph);
+			graph.free();
 		}
 
 		printf("Time Elapsed (s)\n");
@@ -148,7 +150,7 @@ namespace Benchmark {
 
 		{
 			printf("DRAM\n");
-			TestGraphCRS<std::allocator> graph;
+			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
@@ -166,11 +168,12 @@ namespace Benchmark {
 			}
 
 			dram_metrics = run_breadth_first_traversal(tp, graph, start_vertices);
+			graph.free();
 		}
 
 		{
 			printf("PMEM\n");
-			TestGraphCRS<PMEM::allocator> graph;
+			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Loading graph from %s\n", temp_graph_path.c_str());
@@ -182,6 +185,7 @@ namespace Benchmark {
 			}
 
 			pmem_metrics = run_breadth_first_traversal(tp, graph, start_vertices);
+			graph.free();
 		}
 
 		printf("Time Elapsed (s)\n");
