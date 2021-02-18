@@ -7,6 +7,7 @@
 #include <libpmem.h>
 #include "GraphUtils.hpp"
 #include "PMEM/Allocator.hpp"
+#include "TestGraphCRS.hpp"
 
 void print_info() {
 
@@ -32,6 +33,9 @@ int main(int argc, char** argv) {
 
 	print_info();
 
+	TestGraphCRS<PMEM::Allocator> graph_test(10, 10);
+
+	return 0;
 	try {
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();

@@ -12,9 +12,7 @@
 #include <immintrin.h>
 #include <omp.h>
 #include <limits>
-
-#define GNUPLOT_WIDTH 800
-#define GNUPLOT_HEIGHT 600
+#include "GraphAlgorithms.hpp"
 
 namespace Benchmark {
 
@@ -156,7 +154,7 @@ namespace Benchmark {
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
 			time_elapsed_v.push_back(time_elapsed_seconds);
-			edges_per_second_v.push_back(graph.num_edges() / time_elapsed_seconds);
+			edges_per_second_v.push_back(tp.num_page_ranks * graph.num_edges() / time_elapsed_seconds);
 			printf("%u, %.3f, %.3f\n", iter, time_elapsed_seconds, edges_per_second_v.back());
 		}
 
