@@ -7,15 +7,22 @@
 namespace PMEM {
 
 	template<class T>
-	class Allocator {
+	class allocator {
 	public:
 
 		typedef T value_type;
 
-		Allocator() = default;
-		template <class U> constexpr Allocator(const Allocator <U>&) noexcept {}
+		allocator() = default;
+		template <class U> constexpr allocator(const allocator<U>& a) noexcept {
+			a.m_mem_size_map = this->m_mem_size_map;
+		}
 
 		T* allocate(std::size_t n) {
+
+			if (n == 0) {
+				return nullptr;
+			}
+
 			if (n > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
 				throw std::bad_alloc();
 			}

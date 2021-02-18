@@ -1,52 +1,51 @@
 #pragma once
 
-#include "Graph.hpp"
+#include <inttypes.h>
+#include <cstddef>
 
-/**
- * Compressed Row Storage graph implementation
- */
-class GraphCRS : public Graph {
+template<template<class> class T>
+class GraphCRS {
 public:
 
-	GraphCRS();
+	GraphCRS() : GraphCRS::GraphCRS(0, 0) {}
 
-	GraphCRS(std::vector<float> val,
-		std::vector<uint32_t> col_ind,
-		std::vector<uint32_t> row_ind);
+	GraphCRS(uint32_t num_vertices, uint32_t num_edges) :
+		val(nullptr),
+		col_ind(nullptr),
+		row_ind(nullptr),
+		m_num_vertices(num_vertices),
+		m_num_edges(num_edges),
+		m_float_alloc(T<float>()),
+		m_uint32_alloc(T<uint32_t>()) {
+		this->val = this->m_float_alloc.allocate(num_edges);
+		this->col_ind = this->m_uint32_alloc.allocate(num_edges);
+		this->row_ind = this->m_uint32_alloc.allocate(num_vertices);
+	}
 
-	const float weight(const uint32_t i, const uint32_t j) const;
+	void free() {
+		this->m_float_alloc.deallocate(this->val, this->m_num_edges);
+		this->val = nullptr;
+		this->m_uint32_alloc.deallocate(this->col_ind, this->m_num_edges);
+		this->col_ind = nullptr;
+		this->m_uint32_alloc.deallocate(this->row_ind, this->m_num_vertices);
+		this->row_ind = nullptr;
+	}
 
-	float& operator()(const uint32_t i, const uint32_t j);
+	size_t num_edges() const { return this->m_num_edges; }
+	size_t num_vertices() const { return this->m_num_vertices; }
 
-	void set(const float weight, const uint32_t i, const uint32_t j);
+	size_t byte_size() const {
+		return sizeof(float) * this->m_num_edges + sizeof(uint32_t) * (this->m_num_vertices + this->m_num_edges);
+	}
 
-	void save(const std::string& path) const;
-
-	std::string to_string() const;
-
-	void print() const;
-
-	std::vector<std::vector<float>> page_rank(size_t iterations, const std::vector<float> dampening_factors) const;
-
-	void breadth_first_traversal(uint32_t vertex) const;
-
-	uint32_t num_edges() const;
-
-	uint32_t num_vertices() const;
-
-	size_t byte_size() const;
+public:
+	float* val;
+	uint32_t* col_ind;
+	uint32_t* row_ind;
 
 private:
-	std::vector<float> val;
-	std::vector<uint32_t> col_ind;
-	std::vector<uint32_t> row_ind;
-
-	/**
-	 * Transforms a 2 dimensional index into arr into a single dimensinal index
-	 *
-	 * @param i The row index
-	 * @param j The column index
-	 * @return The index into val
-	 */
-	const uint32_t index(const uint32_t i, const uint32_t j) const;
+	size_t m_num_vertices;
+	size_t m_num_edges;
+	T<float> m_float_alloc;
+	T<uint32_t> m_uint32_alloc;
 };

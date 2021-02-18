@@ -3,13 +3,14 @@
 #include <vector>
 #include <queue>
 #include "Benchmarks.hpp"
-#include "TestGraphCRS.hpp"
+#include "GraphCRS.hpp"
 #include <immintrin.h>
+#include "InstructionUtils.hpp"
 
 namespace GraphAlgorithms {
 
 	template<template<class> class T>
-	std::vector<std::vector<float>> page_rank(const TestGraphCRS<T>& graph, size_t iterations, const std::vector<float> dampening_factors) {
+	std::vector<std::vector<float>> page_rank(const GraphCRS<T>& graph, size_t iterations, const std::vector<float> dampening_factors) {
 
 		const size_t num_dampening_factors = dampening_factors.size();
 		const float init_prob = 1.0f / graph.num_vertices();
@@ -92,7 +93,7 @@ namespace GraphAlgorithms {
 	}
 
 	template<template<class> class T>
-	void breadth_first_traversal(const TestGraphCRS<T>& graph, uint32_t vertex) {
+	void breadth_first_traversal(const GraphCRS<T>& graph, uint32_t vertex) {
 
 		std::queue<uint32_t> frontier;
 		frontier.push(vertex);

@@ -1,6 +1,9 @@
 # Compiler
 CXX = g++
 
+# Warnings
+WARN = -Wall
+
 # Link
 LINK = -lpmemobj -lpmem -fopenmp
 
@@ -12,7 +15,7 @@ OPT = -O3 -march=native
 debug: OPT = -O0 -march=native
 
 # Flags
-CXXFLAGS = -Wall -std=c++17
+CXXFLAGS = $(WARN) -std=c++17
 debug: CXXFLAGS += -g
 
 # Source
