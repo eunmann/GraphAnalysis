@@ -41,13 +41,11 @@ int main(int argc, char** argv) {
 
 		graph_paths.push_back("./graph_examples/facebook_combined.txt");
 		graph_paths.push_back("./graph_examples/soc-Epinions1.txt");
-		/*
 		graph_paths.push_back("./graph_examples/soc-pokec-relationships.txt");
 		graph_paths.push_back("./graph_examples/com-orkut.ungraph.txt");
 		graph_paths.push_back("./graph_examples/soc-LiveJournal1.txt");
 		graph_paths.push_back("./graph_examples/sx-stackoverflow.txt");
 		graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
-		*/
 		// graph_paths.clear();
 
 
