@@ -24,7 +24,7 @@ export min_value=1
 export max_value=2
 
 # Page Rank Parameters
-export page_rank_iterations=300
+export page_rank_iterations=100
 export page_rank_dampening_factor=0.8
 export num_page_ranks=4
 
@@ -35,13 +35,13 @@ export test_iterations=10
 export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
 export OMP_PLACES="{0:36:1}"
-export OMP_NUM_THREADS=36
+export OMP_NUM_THREADS=24
 
 echo Starting pmem_benchmark
 echo Output Directory: $out_dir
 echo Output File: $final_name
 
-#./pmem_benchmark
-./pmem_benchmark | tee $final_name
+./pmem_benchmark
+#./pmem_benchmark | tee $final_name
 
 echo Done

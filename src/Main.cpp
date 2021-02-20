@@ -8,6 +8,7 @@
 #include "GraphUtils.hpp"
 #include "PMEM/allocator.hpp"
 #include "GraphCRS.hpp"
+#include "Stream.hpp"
 
 void print_info() {
 
@@ -45,17 +46,25 @@ int main(int argc, char** argv) {
 		graph_paths.push_back("./graph_examples/com-orkut.ungraph.txt");
 		graph_paths.push_back("./graph_examples/soc-LiveJournal1.txt");
 		graph_paths.push_back("./graph_examples/sx-stackoverflow.txt");
-		graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
+		// graph_paths.push_back("./graph_examples/com-friendster.ungraph.txt");
 		// graph_paths.clear();
 
 
 		for (const auto& graph_path : graph_paths) {
 			tp.graph_path = graph_path;
-			Benchmark::benchmark_page_rank(tp);
-			Benchmark::benchmark_breadth_first_traversal(tp);
+			//Benchmark::benchmark_page_rank(tp);
+			//Benchmark::benchmark_breadth_first_traversal(tp);
 		}
 
-		Benchmark::benchmark_memory(tp);
+		//Benchmark::benchmark_memory(tp);
+		{
+			BlockTimer timer("STREAM");
+			printf("STREAM\n");
+			printf("DRAM\n");
+			run_stream(false);
+			printf("PMEM\n");
+			run_stream(true);
+		}
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
