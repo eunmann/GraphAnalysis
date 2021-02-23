@@ -60,8 +60,8 @@ int main(int argc, char** argv) {
 		{
 			BlockTimer timer("STREAM");
 			printf("STREAM\n");
-			printf("DRAM\n");
-			run_stream(false);
+			// printf("DRAM\n");
+			// run_stream(false);
 			printf("PMEM\n");
 			run_stream(true);
 		}
