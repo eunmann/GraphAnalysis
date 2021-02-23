@@ -53,7 +53,7 @@ namespace Benchmark {
 		}
 
 		if (std::getenv("num_page_ranks") != nullptr) {
-			tp.num_page_ranks = std::stol(std::getenv("num_page_ranks"));
+			tp.num_dampening_factors = std::stol(std::getenv("num_page_ranks"));
 		}
 
 		if (std::getenv("test_iterations") != nullptr) {
@@ -69,7 +69,7 @@ namespace Benchmark {
 		printf("\tmax_value: %s\n", FormatUtils::format_number(tp.max_value).c_str());
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
 		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
-		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_page_ranks).c_str());
+		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_dampening_factors).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
 
@@ -196,7 +196,7 @@ namespace Benchmark {
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
 		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 
-		std::vector<std::vector<double>> metric_v(4);
+		std::vector<std::vector<double>> metric_v(3);
 
 		BlockTimer timer("Memory Test");
 
@@ -207,11 +207,11 @@ namespace Benchmark {
 			printf("Iteration, Time Elapsed (s), Bandwidth (B/s)\n");
 
 			std::vector<double>& read_linear_bandwidth = metric_v[0];
+			__m256i sum[omp_get_max_threads()];
 
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 				Timer timer;
 
-				__m256i sum[omp_get_max_threads()];
 				for (auto& v : sum) {
 					v = _mm256_setzero_si256();
 				}
@@ -234,6 +234,8 @@ namespace Benchmark {
 				read_linear_bandwidth.push_back((double)size / time_elapsed);
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed, read_linear_bandwidth.back());
 			}
+
+			printf("IGNORE(%llu)\n", _mm256_extract_epi64(sum[0], 0));
 			BenchmarkUtils::print_metrics("Bandwidth", read_linear_bandwidth);
 		}
 
@@ -284,7 +286,9 @@ namespace Benchmark {
 #pragma omp parallel for
 				for (size_t i = 0; i < test_mem_size; i++) {
 
-					_mm256_storeu_si256(test_mem + i, _mm256_setzero_si256());
+					__m256i* a = test_mem + i;
+					_mm256_storeu_si256(a, _mm256_setzero_si256());
+					_mm_clwb(a);
 				}
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
@@ -292,33 +296,6 @@ namespace Benchmark {
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed, write_linear_bandwidth.back());
 			}
 			BenchmarkUtils::print_metrics("Bandwidth", write_linear_bandwidth);
-		}
-
-		/* Write Random */
-		{
-			BlockTimer t_timer("Write Random");
-			printf("Write Random\n");
-			printf("Iteration, Time Elapsed (s), Latency (ns)\n");
-
-			std::vector<double>& write_random_latency = metric_v[3];
-
-			std::default_random_engine generator;
-			std::uniform_int_distribution<uint64_t> distribution(0, size);
-			auto index_gen = std::bind(distribution, generator);
-
-			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
-				Timer timer;
-
-				for (size_t i = 0; i < latency_loads; i++) {
-					arr[index_gen()] = 0;
-				}
-
-				timer.end();
-				double time_elapsed = timer.get_time_elapsed();
-				write_random_latency.push_back(time_elapsed / latency_loads);
-				printf("%u, %.3f, %.3f\n", iter, time_elapsed / 1e9, write_random_latency.back());
-			}
-			BenchmarkUtils::print_metrics("Latency", write_random_latency);
 		}
 
 		return metric_v;
@@ -357,8 +334,5 @@ namespace Benchmark {
 
 		printf("Write Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[2], pmem_metrics[2]);
-
-		printf("Write Random Latency (ns)\n");
-		BenchmarkUtils::compare_metrics(dram_metrics[3], pmem_metrics[3]);
 	}
 }

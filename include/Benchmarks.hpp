@@ -21,7 +21,7 @@ namespace Benchmark {
 		float max_value = 5;
 		uint32_t page_rank_iterations = 100;
 		float page_rank_dampening_factor = 0.8;
-		uint32_t num_page_ranks = 4;
+		uint32_t num_dampening_factors = 4;
 		uint32_t test_iterations = 10;
 		std::string graph_path = "";
 	} Parameters;
@@ -49,12 +49,12 @@ namespace Benchmark {
 		printf("Iteration, Time Elapsed (s), Edges per Second\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
-			GraphAlgorithms::page_rank(graph, tp.page_rank_iterations, std::vector<float>(tp.num_page_ranks, tp.page_rank_dampening_factor));
+			GraphAlgorithms::page_rank(graph, tp.page_rank_iterations, std::vector<float>(tp.num_dampening_factors, tp.page_rank_dampening_factor));
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
 			time_elapsed_v.push_back(time_elapsed_seconds);
-			edges_per_second_v.push_back(tp.num_page_ranks * graph.num_edges() / time_elapsed_seconds);
+			edges_per_second_v.push_back(tp.page_rank_iterations * graph.num_edges() / time_elapsed_seconds);
 			printf("%u, %.3f, %.3f\n", iter, time_elapsed_seconds, edges_per_second_v.back());
 		}
 
