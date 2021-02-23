@@ -1,20 +1,19 @@
-#include "PMEM/Tests.hpp"
 #include <stdio.h>
-#include "GraphUtils.hpp"
+#include <functional>
+#include <immintrin.h>
+#include <omp.h>
+#include <limits>
 #include <random>
+
+#include "GraphUtils.hpp"
 #include "Timer.hpp"
 #include "BlockTimer.hpp"
 #include "FormatUtils.hpp"
 #include "BenchmarkUtils.hpp"
 #include "GNUPlot/Plot.hpp"
 #include "Benchmarks.hpp"
-#include <functional>
-#include <immintrin.h>
-#include <omp.h>
-#include <limits>
 #include "GraphAlgorithms.hpp"
 #include "PMEM/allocator.hpp"
-#include "PMEM/ptr.hpp"
 
 namespace Benchmark {
 
@@ -61,10 +60,6 @@ namespace Benchmark {
 			tp.test_iterations = std::stol(std::getenv("test_iterations"));
 		}
 
-		if (std::getenv("pmem_directory") != nullptr) {
-			tp.pmem_directory = std::string(std::getenv("pmem_directory"));
-		}
-
 		printf("Test Parameters:\n");
 		printf("\talloc_size: %sB\n", FormatUtils::format_number(tp.alloc_size).c_str());
 		printf("\tnum_vertices: %s\n", FormatUtils::format_number(tp.num_vertices).c_str());
@@ -77,7 +72,6 @@ namespace Benchmark {
 		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_page_ranks).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
-		printf("\tPMEM Directory: %s\n", tp.pmem_directory.c_str());
 
 		return tp;
 	}
@@ -342,11 +336,10 @@ namespace Benchmark {
 		delete dram_array;
 
 		printf("Persistent Memory\n");
-		PMEM::ptr pmem = PMEM::ptr(tp.pmem_directory, PMEM::FILE::TEMP, tp.alloc_size);
-		char* pmem_array = pmem.as<char*>();
+		PMEM::allocator<char> pmem_alloc;
+		char* pmem_array = pmem_alloc.allocate(tp.alloc_size);
 
-		printf("Is pmem: %s\n", pmem.is_pmem() ? "True" : "False");
-		printf("Mapped length: %sB\n", FormatUtils::format_number(pmem.mapped_len()).c_str());
+		printf("Is pmem: %s\n", pmem_alloc.is_pmem() ? "True" : "False");
 
 		if (pmem_array == nullptr) {
 			printf("Trouble allocating persistent memory\n");
@@ -354,7 +347,7 @@ namespace Benchmark {
 		}
 		BenchmarkUtils::set_random_values(pmem_array, tp.alloc_size);
 		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array, tp.alloc_size);
-		pmem.free();
+		pmem_alloc.deallocate(pmem_array, tp.alloc_size);
 
 		printf("Read Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[0], pmem_metrics[0]);

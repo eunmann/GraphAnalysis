@@ -404,7 +404,7 @@ void run_stream(bool use_pmem) {
 		dram_alloc.deallocate(b, STREAM_ARRAY_SIZE);
 		dram_alloc.deallocate(c, STREAM_ARRAY_SIZE);
 	}
-}
+	}
 
 # define	M	20
 
@@ -526,7 +526,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array a[], %d errors were found.\n", ierr);
-	}
+			}
 	if (abs(bAvgErr / bj) > epsilon) {
 		err++;
 		printf("Failed Validation on array b[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -545,7 +545,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array b[], %d errors were found.\n", ierr);
-	}
+			}
 	if (abs(cAvgErr / cj) > epsilon) {
 		err++;
 		printf("Failed Validation on array c[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -564,7 +564,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array c[], %d errors were found.\n", ierr);
-	}
+			}
 	if (err == 0) {
 		printf("Solution Validates: avg error less than %e on all three arrays\n", epsilon);
 	}

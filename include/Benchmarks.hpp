@@ -24,7 +24,6 @@ namespace Benchmark {
 		uint32_t num_page_ranks = 4;
 		uint32_t test_iterations = 10;
 		std::string graph_path = "";
-		std::string pmem_directory = "/pmem/";
 	} Parameters;
 
 	Benchmark::Parameters get_parameters();

@@ -28,6 +28,7 @@ namespace PMEM {
 			}
 
 			std::size_t mapped_len = 0;
+			/* Note that the directory of the mounted PMEM is hardcoded here */
 			if (auto p = static_cast<T*>(pmem_map_file("/pmem/", n * sizeof(T), PMEM_FILE_CREATE | PMEM_FILE_TMPFILE, 0666, &mapped_len, &this->m_is_pmem))) {
 				this->m_mem_size_map.insert(std::make_pair(p, mapped_len));
 				return p;

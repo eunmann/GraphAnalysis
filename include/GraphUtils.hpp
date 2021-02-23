@@ -9,6 +9,7 @@
 #include <functional>
 
 namespace GraphUtils {
+
 	template<template<class> class T>
 	GraphCRS<T> create_graph_crs(uint32_t num_vertices, uint32_t min_degree, uint32_t max_degree, float min_value, float max_value) {
 		/* Create a function to generate random degrees for each vertex */
@@ -322,6 +323,4 @@ namespace GraphUtils {
 			file.close();
 		}
 	}
-
-
 };
