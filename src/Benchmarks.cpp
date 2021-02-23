@@ -288,7 +288,6 @@ namespace Benchmark {
 
 					__m256i* a = test_mem + i;
 					_mm256_storeu_si256(a, _mm256_setzero_si256());
-					_mm_clwb(a);
 				}
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
