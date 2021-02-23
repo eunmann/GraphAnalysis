@@ -11,7 +11,7 @@ LINK = -lpmemobj -lpmem -fopenmp
 IDIR = -Iinclude
 
 # Optimizing Flags
-OPT = -O2 -march=native
+OPT = -O3 -march=native
 debug: OPT = -O0 -march=native
 
 # Flags
