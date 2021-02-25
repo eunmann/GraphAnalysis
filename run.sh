@@ -4,7 +4,6 @@ dir_name=$(date "+%Y.%m.%d.%H.%M.%S")
 file_name=output.txt
 out_dir=output/$dir_name/
 final_name=$out_dir$file_name
-mkdir $out_dir
 
 # Output directory
 export out_dir
@@ -42,6 +41,9 @@ echo Output Directory: $out_dir
 echo Output File: $final_name
 
 #./pmem_benchmark
+
+mkdir $out_dir
 ./pmem_benchmark | tee $final_name
+
 
 echo Done

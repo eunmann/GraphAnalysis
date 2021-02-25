@@ -43,9 +43,9 @@ namespace Benchmark {
 		std::vector<double>& time_elapsed_v = metrics[0];
 		std::vector<double>& edges_per_second_v = metrics[1];
 
-		printf("Number of Vertices: %lu\n", graph.num_vertices());
-		printf("Number of Edges: %lu\n", graph.num_edges());
-		printf("Memory Size: %lu B\n", graph.byte_size());
+		printf("Number of Vertices: %lu = %s\n", graph.num_vertices(), FormatUtils::format_number(graph.num_vertices()).c_str());
+		printf("Number of Edges: %lu = %s\n", graph.num_edges(), FormatUtils::format_number(graph.num_edges()).c_str());
+		printf("Memory Size: %lu = %sB\n", graph.byte_size(), FormatUtils::format_number(graph.byte_size()).c_str());
 		printf("Iteration, Time Elapsed (s), Edges per Second\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
@@ -73,9 +73,9 @@ namespace Benchmark {
 		std::vector<double>& time_elapsed_v = metrics[0];
 		std::vector<double>& edges_per_second_v = metrics[1];
 
-		printf("Number of Vertices: %lu\n", graph.num_vertices());
-		printf("Number of Edges: %lu\n", graph.num_edges());
-		printf("Memory Size: %lu B\n", graph.byte_size());
+		printf("Number of Vertices: %lu = %s\n", graph.num_vertices(), FormatUtils::format_number(graph.num_vertices()).c_str());
+		printf("Number of Edges: %lu = %s\n", graph.num_edges(), FormatUtils::format_number(graph.num_edges()).c_str());
+		printf("Memory Size: %lu = %sB\n", graph.byte_size(), FormatUtils::format_number(graph.byte_size()).c_str());
 		printf("Iteration, Time Elapsed (s), Edges per Second\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;

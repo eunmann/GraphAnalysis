@@ -91,5 +91,5 @@ namespace BenchmarkUtils {
 	}
 
 	std::string get_graph_name(const std::string& graph_path);
-	void set_random_values(char* arr, size_t size);
+	void set_zeros(char* arr, size_t size);
 }

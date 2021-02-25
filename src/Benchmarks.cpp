@@ -192,7 +192,7 @@ namespace Benchmark {
 
 	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, size_t size) {
 
-		const size_t latency_loads = std::min(double(size / 20), 500e6);
+		const size_t latency_loads = 25e6;
 		printf("Memory Size: %sB\n", FormatUtils::format_number(size).c_str());
 		printf("Latency Loads: %sB\n", FormatUtils::format_number(latency_loads).c_str());
 
@@ -255,8 +255,10 @@ namespace Benchmark {
 			for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 				Timer timer;
 
+				char v = arr[0];
 				for (size_t i = 0; i < latency_loads; i++) {
-					sum += arr[index_gen()];
+					v = arr[index_gen() + v];
+					sum += v;
 				}
 
 				timer.end();
@@ -307,7 +309,7 @@ namespace Benchmark {
 
 		printf("DRAM\n");
 		char* dram_array = new char[tp.alloc_size];
-		BenchmarkUtils::set_random_values(dram_array, tp.alloc_size);
+		BenchmarkUtils::set_zeros(dram_array, tp.alloc_size);
 		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array, tp.alloc_size);
 		delete dram_array;
 
@@ -321,7 +323,7 @@ namespace Benchmark {
 			printf("Trouble allocating persistent memory\n");
 			return;
 		}
-		BenchmarkUtils::set_random_values(pmem_array, tp.alloc_size);
+		BenchmarkUtils::set_zeros(pmem_array, tp.alloc_size);
 		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array, tp.alloc_size);
 		pmem_alloc.deallocate(pmem_array, tp.alloc_size);
 

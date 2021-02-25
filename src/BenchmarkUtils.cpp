@@ -11,16 +11,10 @@ namespace BenchmarkUtils {
 		return graph_path.substr(start_index, end_index);
 	}
 
-	void set_random_values(char* arr, size_t size) {
-#pragma omp parallel
-		{
-			std::default_random_engine generator;
-			std::uniform_int_distribution<char> distribution(0, std::numeric_limits<char>::max());
-			auto value_gen = std::bind(distribution, generator);
-#pragma omp for
-			for (size_t i = 0; i < size; i++) {
-				arr[i] = value_gen();
-			}
+	void set_zeros(char* arr, size_t size) {
+#pragma omp parallel for
+		for (size_t i = 0; i < size; i++) {
+			arr[i] = 0;
 		}
 	}
 }
