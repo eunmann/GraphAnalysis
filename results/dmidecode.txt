@@ -1,0 +1,582 @@
+# dmidecode 3.1
+Getting SMBIOS data from sysfs.
+SMBIOS 3.2.0 present.
+# SMBIOS implementations newer than version 3.1.1 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x1100, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A1
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DEF31D
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1101, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A2
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DEF319
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1102, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A3
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DE9CC9
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1103, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A4
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DE9BF6
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1104, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A5
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DE9D23
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1105, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: 1
+	Locator: A6
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Registered (Buffered)
+	Speed: 2666 MT/s
+	Manufacturer: 00AD00B300AD
+	Serial Number: 11DE9C2A
+	Asset Tag: 01181151
+	Part Number: HMA84GR7AFR4N-VK
+	Rank: 2
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1106, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A7
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 0000113E
+	Asset Tag: A21911C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1107, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A8
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 000019ED
+	Asset Tag: A21911C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1108, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A9
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 0000112F
+	Asset Tag: A21911C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x1109, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A10
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 00001E97
+	Asset Tag: A21933C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x110A, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A11
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 00003441
+	Asset Tag: A21933C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x110B, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 128 GB
+	Form Factor: DIMM
+	Set: 2
+	Locator: A12
+	Bank Locator: Not Specified
+	Type: DDR4
+	Type Detail: Synchronous Non-Volatile LRDIMM
+	Speed: 2666 MT/s
+	Manufacturer: 008906320000
+	Serial Number: 00001F16
+	Asset Tag: A21933C0
+	Part Number: NMA1XXD128GPS
+	Rank: 1
+	Configured Clock Speed: 2666 MT/s
+	Minimum Voltage: 1.2 V
+	Maximum Voltage: 1.2 V
+	Configured Voltage: 1.2 V
+
+Handle 0x110C, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B1
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x110D, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B2
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x110E, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B3
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x110F, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B4
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1110, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B5
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1111, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 3
+	Locator: B6
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1112, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B7
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1113, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B8
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1114, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B9
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1115, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B10
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1116, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B11
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
+Handle 0x1117, DMI type 17, 84 bytes
+Memory Device
+	Array Handle: 0x1000
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: 4
+	Locator: B12
+	Bank Locator: Not Specified
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Rank: Unknown
+	Configured Clock Speed: Unknown
+	Minimum Voltage: Unknown
+	Maximum Voltage: Unknown
+	Configured Voltage: Unknown
+
