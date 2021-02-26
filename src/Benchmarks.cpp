@@ -14,6 +14,7 @@
 #include "Benchmarks.hpp"
 #include "GraphAlgorithms.hpp"
 #include "PMEM/allocator.hpp"
+#include "Stream.hpp"
 
 namespace Benchmark {
 
@@ -60,6 +61,18 @@ namespace Benchmark {
 			tp.test_iterations = std::stol(std::getenv("test_iterations"));
 		}
 
+		if (std::getenv("pr_csv_path") != nullptr) {
+			tp.pr_csv_path = std::string(std::getenv("pr_csv_path"));
+		}
+
+		if (std::getenv("bfs_csv_path") != nullptr) {
+			tp.bfs_csv_path = std::string(std::getenv("bfs_csv_path"));
+		}
+
+		if (std::getenv("mem_csv_path") != nullptr) {
+			tp.mem_csv_path = std::string(std::getenv("mem_csv_path"));
+		}
+
 		printf("Test Parameters:\n");
 		printf("\talloc_size: %sB\n", FormatUtils::format_number(tp.alloc_size).c_str());
 		printf("\tnum_vertices: %s\n", FormatUtils::format_number(tp.num_vertices).c_str());
@@ -72,6 +85,9 @@ namespace Benchmark {
 		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_dampening_factors).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
+		printf("\tPage Rank CSV Path: %s\n", tp.pr_csv_path.c_str());
+		printf("\tBFS CSV Path: %s\n", tp.bfs_csv_path.c_str());
+		printf("\tMemory CSV Path: %s\n", tp.mem_csv_path.c_str());
 
 		return tp;
 	}
@@ -127,6 +143,8 @@ namespace Benchmark {
 
 		printf("Edges per Second\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
+
+		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, dram_metrics[1], pmem_metrics[1]);
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
@@ -187,6 +205,8 @@ namespace Benchmark {
 
 		printf("Edges per Second\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
+
+		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, dram_metrics[1], pmem_metrics[1]);
 	}
 
 
@@ -335,5 +355,24 @@ namespace Benchmark {
 
 		printf("Write Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[2], pmem_metrics[2]);
+
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Read Sequential Bandwidth", "B/s", dram_metrics[0], pmem_metrics[0]);
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Read Random Latency", "ns", dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Write Sequential Bandwidth", "B/s", dram_metrics[2], pmem_metrics[2]);
+	}
+
+	void benchmark_STREAM(const Benchmark::Parameters& tp) {
+
+		BlockTimer timer("STREAM Benchmark");
+		printf("STREAM Benchmark\n");
+		printf("DRAM\n");
+		std::vector<double> dram_metrics = STREAM::run(false);
+		printf("PMEM\n");
+		std::vector<double> pmem_metrics = STREAM::run(true);
+
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Copy", "B/s", dram_metrics[0], pmem_metrics[0]);
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Scale", "B/s", dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Add", "B/s", dram_metrics[2], pmem_metrics[2]);
+		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Triad", "B/s", dram_metrics[3], pmem_metrics[3]);
 	}
 }

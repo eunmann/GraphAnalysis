@@ -87,5 +87,6 @@
         "${workspaceFolder}/include",
         "C:\\workdir\\TEMP\\vcpkg\\installed\\x64-windows\\include"
 	],
-	"C_Cpp.formatting": "vcFormat"
+	"C_Cpp.formatting": "vcFormat",
+	"C_Cpp.default.cppStandard": "c++11"
 }

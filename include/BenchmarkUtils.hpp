@@ -90,6 +90,9 @@ namespace BenchmarkUtils {
 		printf("STD_DEV: %s, %s, %s, %.2f%%\n", FormatUtils::format_number(std_a).c_str(), FormatUtils::format_number(std_b).c_str(), FormatUtils::format_number(std_b - std_a).c_str(), ((std_b / std_a) - 1.0) * 100.0);
 	}
 
-	std::string get_graph_name(const std::string& graph_path);
+	void create_csv(const std::string& path, const std::vector<std::string>& headers);
+	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<double>& dram_metrics, const std::vector<double>& pmem_metrics);
+	void save_mem_metrics_csv(const std::string& path, const std::string& benchmark_name, const std::string& unit, const std::vector<double>& dram_metrics, const std::vector<double>& pmem_metrics);
+	void save_mem_metrics_csv(const std::string& path, const std::string& benchmark_name, const std::string& unit, double dram_metric, double pmem_metric);
 	void set_zeros(char* arr, size_t size);
 }

@@ -24,6 +24,10 @@ namespace Benchmark {
 		uint32_t num_dampening_factors = 4;
 		uint32_t test_iterations = 10;
 		std::string graph_path = "";
+		std::string graph_name = "";
+		std::string pr_csv_path = "";
+		std::string bfs_csv_path = "";
+		std::string mem_csv_path = "";
 	} Parameters;
 
 	Benchmark::Parameters get_parameters();
@@ -31,6 +35,7 @@ namespace Benchmark {
 	void benchmark_page_rank(const Benchmark::Parameters& tp);
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp);
 	void benchmark_memory(const Benchmark::Parameters& tp);
+	void benchmark_STREAM(const Benchmark::Parameters& tp);
 
 	std::vector<std::vector<double>> run_memory(const Benchmark::Parameters& tp, char* arr, size_t size);
 
@@ -65,7 +70,7 @@ namespace Benchmark {
 	}
 
 	template<template<class> class T>
-	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const GraphCRS<T>& graph, std::vector<uint32_t> start_vertices) {
+	std::vector<std::vector<double>> run_breadth_first_traversal(const Benchmark::Parameters& tp, const GraphCRS<T>& graph, std::vector<uint32_t>& start_vertices) {
 		BlockTimer timer("Breadth First Traversal");
 		printf("Breadth First Traversal\n");
 		std::vector<std::vector<double>> metrics(2);
@@ -83,6 +88,19 @@ namespace Benchmark {
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
+			double edges_per_second = graph.num_edges() / time_elapsed_seconds;
+
+			/*
+			*	If a graph is disconnected, we might have selected a source vertex
+			*	that is not part of the main graph, and the measured time will be
+			*	way too fast and throw off the results. So try a different vertex.
+			*/
+			if (edges_per_second > 2e9) {
+				start_vertices[iter - 1]++;
+				iter--;
+				continue;
+			}
+
 			time_elapsed_v.push_back(time_elapsed_seconds);
 			edges_per_second_v.push_back(graph.num_edges() / time_elapsed_seconds);
 			printf("%u, %.3f, %.3f\n", iter, time_elapsed_seconds, edges_per_second_v.back());

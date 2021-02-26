@@ -198,8 +198,6 @@ static double	bytes[4] = {
 	3 * sizeof(STREAM_TYPE) * STREAM_ARRAY_SIZE
 };
 
-extern double mysecond();
-extern void checkSTREAMresults();
 #ifdef TUNED
 extern void tuned_STREAM_Copy();
 extern void tuned_STREAM_Scale(STREAM_TYPE scalar);
@@ -214,7 +212,7 @@ extern void tuned_STREAM_Triad(STREAM_TYPE scalar);
 static PMEM::allocator<STREAM_TYPE> pmem_alloc;
 static std::allocator<STREAM_TYPE> dram_alloc;
 
-void run_stream(bool use_pmem) {
+std::vector<double> STREAM::run(bool use_pmem) {
 	int			quantum, checktick();
 	int			BytesPerWord;
 	int			k;
@@ -231,6 +229,12 @@ void run_stream(bool use_pmem) {
 		a = dram_alloc.allocate(STREAM_ARRAY_SIZE);
 		b = dram_alloc.allocate(STREAM_ARRAY_SIZE);
 		c = dram_alloc.allocate(STREAM_ARRAY_SIZE);
+	}
+
+	for (int i = 0; i < 4; i++) {
+		avgtime[i] = 0;
+		maxtime[i] = 0;
+		mintime[i] = FLT_MAX;
 	}
 
 	/* --- SETUP --- determine precision and check timing --- */
@@ -292,7 +296,7 @@ void run_stream(bool use_pmem) {
 
 	printf(HLINE);
 
-	if ((quantum = checktick()) >= 1)
+	if ((quantum = STREAM::checktick()) >= 1)
 		printf("Your clock granularity/precision appears to be "
 			"%d microseconds.\n", quantum);
 	else {
@@ -301,11 +305,11 @@ void run_stream(bool use_pmem) {
 		quantum = 1;
 	}
 
-	t = mysecond();
+	t = STREAM::mysecond();
 #pragma omp parallel for
 	for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 		a[j] = 2.0E0 * a[j];
-	t = 1.0E6 * (mysecond() - t);
+	t = 1.0E6 * (STREAM::mysecond() - t);
 
 	printf("Each test below will take on the order"
 		" of %d microseconds.\n", (int)t);
@@ -325,7 +329,7 @@ void run_stream(bool use_pmem) {
 	scalar = 3.0;
 	for (k = 0; k < NTIMES; k++)
 	{
-		times[0][k] = mysecond();
+		times[0][k] = STREAM::mysecond();
 #ifdef TUNED
 		tuned_STREAM_Copy();
 #else
@@ -333,9 +337,9 @@ void run_stream(bool use_pmem) {
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j];
 #endif
-		times[0][k] = mysecond() - times[0][k];
+		times[0][k] = STREAM::mysecond() - times[0][k];
 
-		times[1][k] = mysecond();
+		times[1][k] = STREAM::mysecond();
 #ifdef TUNED
 		tuned_STREAM_Scale(scalar);
 #else
@@ -343,9 +347,9 @@ void run_stream(bool use_pmem) {
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			b[j] = scalar * c[j];
 #endif
-		times[1][k] = mysecond() - times[1][k];
+		times[1][k] = STREAM::mysecond() - times[1][k];
 
-		times[2][k] = mysecond();
+		times[2][k] = STREAM::mysecond();
 #ifdef TUNED
 		tuned_STREAM_Add();
 #else
@@ -353,9 +357,9 @@ void run_stream(bool use_pmem) {
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j] + b[j];
 #endif
-		times[2][k] = mysecond() - times[2][k];
+		times[2][k] = STREAM::mysecond() - times[2][k];
 
-		times[3][k] = mysecond();
+		times[3][k] = STREAM::mysecond();
 #ifdef TUNED
 		tuned_STREAM_Triad(scalar);
 #else
@@ -363,7 +367,7 @@ void run_stream(bool use_pmem) {
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			a[j] = b[j] + scalar * c[j];
 #endif
-		times[3][k] = mysecond() - times[3][k];
+		times[3][k] = STREAM::mysecond() - times[3][k];
 	}
 
 	/*	--- SUMMARY --- */
@@ -378,10 +382,12 @@ void run_stream(bool use_pmem) {
 		}
 	}
 
+	std::vector<double> results;
 	printf("Function    Best Rate MB/s  Avg time     Min time     Max time\n");
 	for (j = 0; j < 4; j++) {
 		avgtime[j] = avgtime[j] / (double)(NTIMES - 1);
 
+		results.push_back(bytes[j] / mintime[j]);
 		printf("%s%12.1f  %11.6f  %11.6f  %11.6f\n", label[j],
 			1.0E-06 * bytes[j] / mintime[j],
 			avgtime[j],
@@ -391,7 +397,7 @@ void run_stream(bool use_pmem) {
 	printf(HLINE);
 
 	/* --- Check Results --- */
-	checkSTREAMresults();
+	STREAM::checkSTREAMresults();
 	printf(HLINE);
 
 	if (use_pmem) {
@@ -404,12 +410,14 @@ void run_stream(bool use_pmem) {
 		dram_alloc.deallocate(b, STREAM_ARRAY_SIZE);
 		dram_alloc.deallocate(c, STREAM_ARRAY_SIZE);
 	}
-	}
+
+	return results;
+}
 
 # define	M	20
 
 int
-checktick()
+STREAM::checktick()
 {
 	int		i, minDelta, Delta;
 	double	t1, t2, timesfound[M];
@@ -417,8 +425,8 @@ checktick()
 	/*  Collect a sequence of M unique time values from the system. */
 
 	for (i = 0; i < M; i++) {
-		t1 = mysecond();
-		while (((t2 = mysecond()) - t1) < 1.0E-6)
+		t1 = STREAM::mysecond();
+		while (((t2 = STREAM::mysecond()) - t1) < 1.0E-6)
 			;
 		timesfound[i] = t1 = t2;
 	}
@@ -445,7 +453,7 @@ checktick()
 
 #include <sys/time.h>
 
-double mysecond()
+double STREAM::mysecond()
 {
 	struct timeval tp;
 	struct timezone tzp;
@@ -458,7 +466,7 @@ double mysecond()
 #ifndef abs
 #define abs(a) ((a) >= 0 ? (a) : -(a))
 #endif
-void checkSTREAMresults()
+void STREAM::checkSTREAMresults()
 {
 	STREAM_TYPE aj, bj, cj, scalar;
 	STREAM_TYPE aSumErr, bSumErr, cSumErr;
@@ -526,7 +534,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array a[], %d errors were found.\n", ierr);
-			}
+	}
 	if (abs(bAvgErr / bj) > epsilon) {
 		err++;
 		printf("Failed Validation on array b[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -545,7 +553,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array b[], %d errors were found.\n", ierr);
-			}
+	}
 	if (abs(cAvgErr / cj) > epsilon) {
 		err++;
 		printf("Failed Validation on array c[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -564,7 +572,7 @@ void checkSTREAMresults()
 			}
 		}
 		printf("     For array c[], %d errors were found.\n", ierr);
-			}
+	}
 	if (err == 0) {
 		printf("Solution Validates: avg error less than %e on all three arrays\n", epsilon);
 	}
