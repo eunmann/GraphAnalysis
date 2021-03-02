@@ -30,7 +30,7 @@ namespace GraphAlgorithms {
 		/* Compute the number of adjacent vertices inverse for each vertex */
 		std::vector<float> adjacent_vertices_inv(graph.num_vertices());
 		const size_t e = adjacent_vertices_inv.size();
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 		for (size_t i = 0; i < e; i++) {
 			uint32_t row_index = graph.row_ind[i];
 			uint32_t row_index_end = i + 1 == graph.num_vertices() ? graph.num_edges() : graph.row_ind[i + 1];
@@ -42,7 +42,7 @@ namespace GraphAlgorithms {
 			std::vector<std::vector<float>>& pr_read = i % 2 == 0 ? prv_1 : prv_2;
 			std::vector<std::vector<float>>& pr_write = i % 2 == 1 ? prv_1 : prv_2;
 
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 			for (size_t vertex = 0; vertex < graph.num_vertices(); vertex++) {
 				uint32_t row_index = graph.row_ind[vertex];
 				const uint32_t row_index_end = vertex + 1 == graph.num_vertices() ? graph.num_edges() : graph.row_ind[vertex + 1];
@@ -105,7 +105,7 @@ namespace GraphAlgorithms {
 		while (!frontier.empty()) {
 
 			size_t e = frontier.size();
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < e; i++) {
 
 				uint32_t vertex;

@@ -241,7 +241,7 @@ namespace Benchmark {
 #pragma omp parallel
 				{
 					__m256i s = sum[omp_get_thread_num()];
-#pragma omp for schedule(STATIC)
+#pragma omp for schedule(static)
 					for (size_t i = 0; i < test_mem_size; i++) {
 						s += _mm256_load_si256(test_mem + i);
 					}
@@ -305,7 +305,7 @@ namespace Benchmark {
 				__m256i* test_mem = reinterpret_cast<__m256i*>(arr);
 				const size_t test_mem_size = size / sizeof(__m256i);
 
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 				for (size_t i = 0; i < test_mem_size; i++) {
 					_mm256_store_si256(test_mem + i, _mm256_setzero_si256());
 				}

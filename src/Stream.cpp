@@ -293,7 +293,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #endif
 
 	/* Get initial value for system clock. */
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 	for (j = 0; j < STREAM_ARRAY_SIZE; j++) {
 		a[j] = 1.0;
 		b[j] = 2.0;
@@ -312,7 +312,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	}
 
 	t = STREAM::mysecond();
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 	for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 		a[j] = 2.0E0 * a[j];
 	t = 1.0E6 * (STREAM::mysecond() - t);
@@ -339,7 +339,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Copy();
 #else
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j];
 #endif
@@ -349,7 +349,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Scale(scalar);
 #else
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			b[j] = scalar * c[j];
 #endif
@@ -359,7 +359,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Add();
 #else
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j] + b[j];
 #endif
@@ -369,7 +369,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Triad(scalar);
 #else
-#pragma omp parallel for schedule(STATIC)
+#pragma omp parallel for schedule(static)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			a[j] = b[j] + scalar * c[j];
 #endif

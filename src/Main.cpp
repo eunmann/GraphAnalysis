@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 		}
 
 		Benchmark::benchmark_memory(tp);
-		//Benchmark::benchmark_STREAM(tp);
+		Benchmark::benchmark_STREAM(tp);
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
