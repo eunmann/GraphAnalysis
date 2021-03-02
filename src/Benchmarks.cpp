@@ -243,7 +243,7 @@ namespace Benchmark {
 					__m256i s = sum[omp_get_thread_num()];
 #pragma omp for
 					for (size_t i = 0; i < test_mem_size; i++) {
-						s += _mm256_loadu_si256(test_mem + i);
+						s += _mm256_load_si256(test_mem + i);
 					}
 
 					sum[omp_get_thread_num()] = s;
@@ -307,9 +307,7 @@ namespace Benchmark {
 
 #pragma omp parallel for
 				for (size_t i = 0; i < test_mem_size; i++) {
-
-					__m256i* a = test_mem + i;
-					_mm256_storeu_si256(a, _mm256_setzero_si256());
+					_mm256_store_si256(test_mem + i, _mm256_setzero_si256());
 				}
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
@@ -328,14 +326,22 @@ namespace Benchmark {
 		printf("Memory Benchmark\n");
 
 		printf("DRAM\n");
-		char* dram_array = new char[tp.alloc_size];
+
+		/* Allocate and align memory to 16B */
+		const size_t aligment_alloc_size = tp.alloc_size + 16 / sizeof(char);
+		char* dram_array = new char[aligment_alloc_size];
+		dram_array += ((uintptr_t)dram_array % 16);
+
 		BenchmarkUtils::set_zeros(dram_array, tp.alloc_size);
 		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array, tp.alloc_size);
 		delete dram_array;
 
 		printf("Persistent Memory\n");
 		PMEM::allocator<char> pmem_alloc;
-		char* pmem_array = pmem_alloc.allocate(tp.alloc_size);
+
+		/* Allocate and align memory to 16B */
+		char* pmem_array = pmem_alloc.allocate(aligment_alloc_size);
+		pmem_array += ((uintptr_t)pmem_array % 16);
 
 		printf("Is pmem: %s\n", pmem_alloc.is_pmem() ? "True" : "False");
 

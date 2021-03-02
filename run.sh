@@ -15,7 +15,7 @@ export bfs_csv_path=${out_dir}bfs_metrics.csv
 export mem_csv_path=${out_dir}mem_metrics.csv
 
 # Size of the memory test buffer
-export alloc_size=60000000000
+export alloc_size=1000000000
 
 # Number of vertices to generate for the graph test
 export num_vertices=100000
@@ -34,7 +34,7 @@ export page_rank_dampening_factor=0.8
 export num_page_ranks=4
 
 # Number of iterations for each test
-export test_iterations=10
+export test_iterations=3
 
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
@@ -46,7 +46,7 @@ echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
 echo Output File: ${final_name}
 
-#./pmem_benchmark
-./pmem_benchmark | tee $final_name
+./pmem_benchmark
+#./pmem_benchmark | tee $final_name
 
 echo Done

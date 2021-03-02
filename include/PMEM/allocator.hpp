@@ -23,6 +23,10 @@ namespace PMEM {
 				return nullptr;
 			}
 
+			/*
+			 * EMU: Technically we should consider the alignment here,
+			 * but for simplicity, I won't
+			 */
 			if (n > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
 				throw std::bad_alloc();
 			}

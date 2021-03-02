@@ -59,12 +59,12 @@ int main(int argc, char** argv) {
 		for (const auto& graph_path : graph_paths) {
 			tp.graph_path = graph_path.first;
 			tp.graph_name = graph_path.second;
-			Benchmark::benchmark_page_rank(tp);
-			Benchmark::benchmark_breadth_first_traversal(tp);
+			//Benchmark::benchmark_page_rank(tp);
+			//Benchmark::benchmark_breadth_first_traversal(tp);
 		}
 
 		Benchmark::benchmark_memory(tp);
-		Benchmark::benchmark_STREAM(tp);
+		//Benchmark::benchmark_STREAM(tp);
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());
