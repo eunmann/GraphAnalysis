@@ -1,0 +1,4 @@
+benchmark,dram,pmem
+Read Sequential Bandwidth, 53.583GB/s, 27.191GB/s
+Read Random Latency,289.74ns,414.10ns
+Write Sequential Bandwidth, 37.027GB/s,  1.130GB/s
