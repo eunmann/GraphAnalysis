@@ -220,16 +220,22 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	STREAM_TYPE		scalar;
 	double		t, times[4][NTIMES];
 
+	/* Allocate and align memeory */
+	const size_t align_alloc_size = STREAM_ARRAY_SIZE + 16 / sizeof(STREAM_TYPE);
 	if (use_pmem) {
-		a = pmem_alloc.allocate(STREAM_ARRAY_SIZE);
-		b = pmem_alloc.allocate(STREAM_ARRAY_SIZE);
-		c = pmem_alloc.allocate(STREAM_ARRAY_SIZE);
+		a = pmem_alloc.allocate(align_alloc_size);
+		b = pmem_alloc.allocate(align_alloc_size);
+		c = pmem_alloc.allocate(align_alloc_size);
 	}
 	else {
-		a = dram_alloc.allocate(STREAM_ARRAY_SIZE);
-		b = dram_alloc.allocate(STREAM_ARRAY_SIZE);
-		c = dram_alloc.allocate(STREAM_ARRAY_SIZE);
+		a = dram_alloc.allocate(align_alloc_size);
+		b = dram_alloc.allocate(align_alloc_size);
+		c = dram_alloc.allocate(align_alloc_size);
 	}
+
+	a += (uintptr_t)a % 16;
+	b += (uintptr_t)b % 16;
+	c += (uintptr_t)c % 16;
 
 	for (int i = 0; i < 4; i++) {
 		avgtime[i] = 0;
@@ -275,7 +281,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 			k = omp_get_num_threads();
 			printf("Number of Threads requested = %i\n", k);
 		}
-	}
+}
 #endif
 
 #ifdef _OPENMP
@@ -401,14 +407,14 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	printf(HLINE);
 
 	if (use_pmem) {
-		pmem_alloc.deallocate(a, STREAM_ARRAY_SIZE);
-		pmem_alloc.deallocate(b, STREAM_ARRAY_SIZE);
-		pmem_alloc.deallocate(c, STREAM_ARRAY_SIZE);
+		pmem_alloc.deallocate(a, align_alloc_size);
+		pmem_alloc.deallocate(b, align_alloc_size);
+		pmem_alloc.deallocate(c, align_alloc_size);
 	}
 	else {
-		dram_alloc.deallocate(a, STREAM_ARRAY_SIZE);
-		dram_alloc.deallocate(b, STREAM_ARRAY_SIZE);
-		dram_alloc.deallocate(c, STREAM_ARRAY_SIZE);
+		dram_alloc.deallocate(a, align_alloc_size);
+		dram_alloc.deallocate(b, align_alloc_size);
+		dram_alloc.deallocate(c, align_alloc_size);
 	}
 
 	return results;
@@ -529,12 +535,12 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array a: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, aj, a[j], abs((aj - a[j]) / aAvgErr));
-				}
-#endif
 			}
+#endif
 		}
-		printf("     For array a[], %d errors were found.\n", ierr);
 	}
+		printf("     For array a[], %d errors were found.\n", ierr);
+}
 	if (abs(bAvgErr / bj) > epsilon) {
 		err++;
 		printf("Failed Validation on array b[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -548,10 +554,10 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array b: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, bj, b[j], abs((bj - b[j]) / bAvgErr));
-				}
-#endif
 			}
+#endif
 		}
+	}
 		printf("     For array b[], %d errors were found.\n", ierr);
 	}
 	if (abs(cAvgErr / cj) > epsilon) {
@@ -567,10 +573,10 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array c: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, cj, c[j], abs((cj - c[j]) / cAvgErr));
-				}
-#endif
 			}
+#endif
 		}
+	}
 		printf("     For array c[], %d errors were found.\n", ierr);
 	}
 	if (err == 0) {

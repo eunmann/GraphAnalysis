@@ -328,8 +328,8 @@ namespace Benchmark {
 		printf("DRAM\n");
 
 		/* Allocate and align memory to 16B */
-		const size_t aligment_alloc_size = tp.alloc_size + 16 / sizeof(char);
-		char* dram_array = new char[aligment_alloc_size];
+		const size_t align_alloc_size = tp.alloc_size + 16 / sizeof(char);
+		char* dram_array = new char[align_alloc_size];
 		dram_array += ((uintptr_t)dram_array % 16);
 
 		BenchmarkUtils::set_zeros(dram_array, tp.alloc_size);
@@ -340,7 +340,7 @@ namespace Benchmark {
 		PMEM::allocator<char> pmem_alloc;
 
 		/* Allocate and align memory to 16B */
-		char* pmem_array = pmem_alloc.allocate(aligment_alloc_size);
+		char* pmem_array = pmem_alloc.allocate(align_alloc_size);
 		pmem_array += ((uintptr_t)pmem_array % 16);
 
 		printf("Is pmem: %s\n", pmem_alloc.is_pmem() ? "True" : "False");
@@ -351,7 +351,7 @@ namespace Benchmark {
 		}
 		BenchmarkUtils::set_zeros(pmem_array, tp.alloc_size);
 		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array, tp.alloc_size);
-		pmem_alloc.deallocate(pmem_array, tp.alloc_size);
+		pmem_alloc.deallocate(pmem_array, align_alloc_size);
 
 		printf("Read Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[0], pmem_metrics[0]);
