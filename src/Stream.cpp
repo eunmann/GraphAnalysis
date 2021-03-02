@@ -281,7 +281,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 			k = omp_get_num_threads();
 			printf("Number of Threads requested = %i\n", k);
 		}
-}
+	}
 #endif
 
 #ifdef _OPENMP
@@ -293,7 +293,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #endif
 
 	/* Get initial value for system clock. */
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 	for (j = 0; j < STREAM_ARRAY_SIZE; j++) {
 		a[j] = 1.0;
 		b[j] = 2.0;
@@ -312,7 +312,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	}
 
 	t = STREAM::mysecond();
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 	for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 		a[j] = 2.0E0 * a[j];
 	t = 1.0E6 * (STREAM::mysecond() - t);
@@ -339,7 +339,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Copy();
 #else
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j];
 #endif
@@ -349,7 +349,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Scale(scalar);
 #else
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			b[j] = scalar * c[j];
 #endif
@@ -359,7 +359,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Add();
 #else
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			c[j] = a[j] + b[j];
 #endif
@@ -369,7 +369,7 @@ std::vector<double> STREAM::run(bool use_pmem) {
 #ifdef TUNED
 		tuned_STREAM_Triad(scalar);
 #else
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 		for (j = 0; j < STREAM_ARRAY_SIZE; j++)
 			a[j] = b[j] + scalar * c[j];
 #endif
@@ -535,12 +535,12 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array a: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, aj, a[j], abs((aj - a[j]) / aAvgErr));
-			}
+				}
 #endif
+			}
 		}
-	}
 		printf("     For array a[], %d errors were found.\n", ierr);
-}
+	}
 	if (abs(bAvgErr / bj) > epsilon) {
 		err++;
 		printf("Failed Validation on array b[], AvgRelAbsErr > epsilon (%e)\n", epsilon);
@@ -554,10 +554,10 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array b: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, bj, b[j], abs((bj - b[j]) / bAvgErr));
-			}
+				}
 #endif
+			}
 		}
-	}
 		printf("     For array b[], %d errors were found.\n", ierr);
 	}
 	if (abs(cAvgErr / cj) > epsilon) {
@@ -573,10 +573,10 @@ void STREAM::checkSTREAMresults()
 				if (ierr < 10) {
 					printf("         array c: index: %ld, expected: %e, observed: %e, relative error: %e\n",
 						j, cj, c[j], abs((cj - c[j]) / cAvgErr));
-			}
+				}
 #endif
+			}
 		}
-	}
 		printf("     For array c[], %d errors were found.\n", ierr);
 	}
 	if (err == 0) {

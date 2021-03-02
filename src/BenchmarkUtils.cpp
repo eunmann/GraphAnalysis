@@ -7,7 +7,7 @@
 namespace BenchmarkUtils {
 
 	void set_zeros(char* arr, size_t size) {
-#pragma omp parallel for
+#pragma omp parallel for schedule(STATIC)
 		for (size_t i = 0; i < size; i++) {
 			arr[i] = 0;
 		}
