@@ -1,7 +1,7 @@
-Persistent Memory Benchmark
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
 ===
 
-This project conducts a benchmark of memory and benchmakrs graph algorithm performance. If a machine has access to persistent memory, PMEM, the program will use that memory to compare against DRAM.
+This project conducts a benchmark of memory and benchmarks graph algorithm performance. If a machine has access to persistent memory, PMEM, the program will use that memory to compare against DRAM.
 
 Dependencies
 ---
