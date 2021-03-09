@@ -91,8 +91,9 @@ namespace BenchmarkUtils {
 	}
 
 	void create_csv(const std::string& path, const std::vector<std::string>& headers);
-	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<double>& dram_metrics, const std::vector<double>& pmem_metrics);
+	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<std::vector<double>>& metrics);
 	void save_mem_metrics_csv(const std::string& path, const std::string& benchmark_name, const std::string& unit, const std::vector<double>& dram_metrics, const std::vector<double>& pmem_metrics);
 	void save_mem_metrics_csv(const std::string& path, const std::string& benchmark_name, const std::string& unit, double dram_metric, double pmem_metric);
 	void set_zeros(char* arr, size_t size);
+	std::string parse_templates_from_signatures(const char* function_signature);
 }

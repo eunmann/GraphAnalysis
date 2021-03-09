@@ -26,31 +26,24 @@ namespace BenchmarkUtils {
 		ofs.close();
 	}
 
-	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<double>& dram_metrics, const std::vector<double>& pmem_metrics) {
-
-		double dram_min;
-		double dram_max;
-		double dram_avg;
-		double dram_std;
-
-		BenchmarkUtils::metrics(dram_metrics, dram_min, dram_max, dram_avg, dram_std);
-
-		double pmem_min;
-		double pmem_max;
-		double pmem_avg;
-		double pmem_std;
-
-		BenchmarkUtils::metrics(pmem_metrics, pmem_min, pmem_max, pmem_avg, pmem_std);
-
+	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<std::vector<double>>& metrics)
+	{
 		std::ofstream ofs(path, std::ios::app);
 		if (ofs.is_open()) {
 			ofs << graph_name;
-			ofs << ',';
 
-			ofs << FormatUtils::format_number(dram_avg);
-			ofs << ',';
+			for (auto& metric : metrics) {
+				double min;
+				double max;
+				double avg;
+				double std;
 
-			ofs << FormatUtils::format_number(pmem_avg);
+				BenchmarkUtils::metrics(metric, min, max, avg, std);
+
+				ofs << ',';
+				ofs << FormatUtils::format_number(avg);
+			}
+
 			ofs << std::endl;
 		}
 		ofs.close();
@@ -102,5 +95,13 @@ namespace BenchmarkUtils {
 			ofs << std::endl;
 		}
 		ofs.close();
+	}
+
+	std::string parse_templates_from_signatures(const char* function_signature) {
+		std::string str(function_signature);
+
+		size_t s = str.find_first_of("[");
+		size_t e = str.size();
+		return str.substr(s, e - s);
 	}
 }

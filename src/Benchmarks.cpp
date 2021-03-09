@@ -99,8 +99,10 @@ namespace Benchmark {
 
 		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
 
-		std::vector<std::vector<double>> dram_metrics;
-		std::vector<std::vector<double>> pmem_metrics;
+		std::vector<double> metrics_DD;
+		std::vector<double> metrics_DP;
+		std::vector<double> metrics_PD;
+		std::vector<double> metrics_PP;
 
 		{
 			printf("DRAM\n");
@@ -117,7 +119,8 @@ namespace Benchmark {
 				graph = GraphUtils::load<std::allocator>(tp.graph_path);
 			}
 
-			dram_metrics = run_page_rank(tp, graph);
+			metrics_DD = run_page_rank<std::allocator, std::allocator>(tp, graph);
+			metrics_DP = run_page_rank<std::allocator, PMEM::allocator>(tp, graph);
 			graph.free();
 		}
 
@@ -134,17 +137,12 @@ namespace Benchmark {
 				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
 			}
 
-			pmem_metrics = run_page_rank(tp, graph);
+			metrics_PD = run_page_rank<PMEM::allocator, std::allocator>(tp, graph);
+			metrics_PP = run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph);
 			graph.free();
 		}
 
-		printf("Time Elapsed (s)\n");
-		BenchmarkUtils::compare_metrics(dram_metrics[0], pmem_metrics[0]);
-
-		printf("Edges per Second\n");
-		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
-
-		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, { metrics_DD, metrics_PD, metrics_DP, metrics_PP });
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
@@ -157,8 +155,10 @@ namespace Benchmark {
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
 
-		std::vector<std::vector<double>> dram_metrics;
-		std::vector<std::vector<double>> pmem_metrics;
+		std::vector<double> metrics_DD;
+		std::vector<double> metrics_DP;
+		std::vector<double> metrics_PD;
+		std::vector<double> metrics_PP;
 
 		{
 			printf("DRAM\n");
@@ -179,7 +179,8 @@ namespace Benchmark {
 				start_vertices.push_back(graph.num_vertices() * double(i) / double(tp.test_iterations));
 			}
 
-			dram_metrics = run_breadth_first_traversal(tp, graph, start_vertices);
+			metrics_DD = run_breadth_first_traversal<std::allocator, std::allocator>(tp, graph, start_vertices);
+			metrics_DP = run_breadth_first_traversal<std::allocator, PMEM::allocator>(tp, graph, start_vertices);
 			graph.free();
 		}
 
@@ -196,17 +197,12 @@ namespace Benchmark {
 				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
 			}
 
-			pmem_metrics = run_breadth_first_traversal(tp, graph, start_vertices);
+			metrics_PD = run_breadth_first_traversal<PMEM::allocator, std::allocator>(tp, graph, start_vertices);
+			metrics_PP = run_breadth_first_traversal<PMEM::allocator, PMEM::allocator>(tp, graph, start_vertices);
 			graph.free();
 		}
 
-		printf("Time Elapsed (s)\n");
-		BenchmarkUtils::compare_metrics(dram_metrics[0], pmem_metrics[0]);
-
-		printf("Edges per Second\n");
-		BenchmarkUtils::compare_metrics(dram_metrics[1], pmem_metrics[1]);
-
-		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, { metrics_DD, metrics_PD, metrics_DP, metrics_PP });
 	}
 
 
