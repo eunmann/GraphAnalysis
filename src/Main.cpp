@@ -51,20 +51,20 @@ int main(int argc, char** argv) {
 		graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
 		graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
 		graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
-		graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
-		graph_paths.push_back(std::make_pair("./graph_examples/com-friendster.ungraph.txt", "Friendster"));
+		//graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
+		//graph_paths.push_back(std::make_pair("./graph_examples/com-friendster.ungraph.txt", "Friendster"));
 		//graph_paths.clear();
 
 
 		for (const auto& graph_path : graph_paths) {
 			tp.graph_path = graph_path.first;
 			tp.graph_name = graph_path.second;
-			Benchmark::benchmark_page_rank(tp);
+			//Benchmark::benchmark_page_rank(tp);
 			Benchmark::benchmark_breadth_first_traversal(tp);
 		}
 
-		Benchmark::benchmark_memory(tp);
-		Benchmark::benchmark_STREAM(tp);
+		//Benchmark::benchmark_memory(tp);
+		//Benchmark::benchmark_STREAM(tp);
 	}
 	catch (std::exception& e) {
 		printf("Exception: %s\n", e.what());

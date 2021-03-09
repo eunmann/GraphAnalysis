@@ -6,6 +6,7 @@
 #include "GraphCRS.hpp"
 #include <immintrin.h>
 #include "InstructionUtils.hpp"
+#include "omp.h"
 
 namespace GraphAlgorithms {
 
@@ -95,26 +96,27 @@ namespace GraphAlgorithms {
 	template<template<class> class T>
 	void breadth_first_traversal(const GraphCRS<T>& graph, uint32_t vertex) {
 
-		std::queue<uint32_t> frontier;
-		frontier.push(vertex);
+		std::vector<uint32_t> frontier_vec_1;
+		frontier_vec_1.reserve(graph.num_vertices() / 2);
+		frontier_vec_1.push_back(vertex);
+
+		std::vector<uint32_t> frontier_vec_2;
+		frontier_vec_2.reserve(graph.num_vertices() / 2);
 
 		std::vector<uint32_t> visited(graph.num_vertices(), 0);
 
 		uint32_t level = 1;
 
-		while (!frontier.empty()) {
+		while (!frontier_vec_1.empty() || !frontier_vec_2.empty()) {
 
-			size_t e = frontier.size();
+			std::vector<uint32_t>& frontier_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
+			std::vector<uint32_t>& frontier_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
+
+			size_t fr_end = frontier_r.size();
 #pragma omp parallel for schedule(static)
-			for (size_t i = 0; i < e; i++) {
+			for (size_t i = 0; i < fr_end; i++) {
 
-				uint32_t vertex;
-#pragma omp critical
-				{
-					vertex = frontier.front();
-					frontier.pop();
-				}
-
+				uint32_t vertex = frontier_r[i];
 				uint32_t row_index_end = (vertex + 1 == graph.num_vertices()) ? graph.num_edges() : graph.row_ind[vertex + 1];
 
 				/* For each neighbor */
@@ -124,14 +126,14 @@ namespace GraphAlgorithms {
 						visited[neighbor] = level;
 #pragma omp critical
 						{
-							frontier.push(neighbor);
+							frontier_w.push_back(neighbor);
 						}
 					}
 				}
 			}
 
 			level++;
+			frontier_r.resize(0);
 		}
 	}
-
 }
