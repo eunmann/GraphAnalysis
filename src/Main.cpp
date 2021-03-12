@@ -48,10 +48,10 @@ int main(int argc, char** argv) {
 
 		//graph_paths.push_back(std::make_pair("./graph_examples/facebook_combined.txt", "Facebook"));
 		//graph_paths.push_back(std::make_pair("./graph_examples/soc-Epinions1.txt", "Epinions"));
-		//graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
+		graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
 		//graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
 		//graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
-		graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
+		//graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
 		//graph_paths.push_back(std::make_pair("./graph_examples/com-friendster.ungraph.txt", "Friendster"));
 		//graph_paths.clear();
 
