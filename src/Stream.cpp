@@ -221,21 +221,27 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	double		t, times[4][NTIMES];
 
 	/* Allocate and align memeory */
-	const size_t align_alloc_size = STREAM_ARRAY_SIZE + 16 / sizeof(STREAM_TYPE);
+	const size_t align_bytes = 16;
+	const size_t align_alloc_size = STREAM_ARRAY_SIZE + align_bytes;
+
+	STREAM_TYPE* a_t;
+	STREAM_TYPE* b_t;
+	STREAM_TYPE* c_t;
+
 	if (use_pmem) {
-		a = pmem_alloc.allocate(align_alloc_size);
-		b = pmem_alloc.allocate(align_alloc_size);
-		c = pmem_alloc.allocate(align_alloc_size);
+		a_t = pmem_alloc.allocate(align_alloc_size);
+		b_t = pmem_alloc.allocate(align_alloc_size);
+		c_t = pmem_alloc.allocate(align_alloc_size);
 	}
 	else {
-		a = dram_alloc.allocate(align_alloc_size);
-		b = dram_alloc.allocate(align_alloc_size);
-		c = dram_alloc.allocate(align_alloc_size);
+		a_t = dram_alloc.allocate(align_alloc_size);
+		b_t = dram_alloc.allocate(align_alloc_size);
+		c_t = dram_alloc.allocate(align_alloc_size);
 	}
 
-	a += (uintptr_t)a % 16;
-	b += (uintptr_t)b % 16;
-	c += (uintptr_t)c % 16;
+	a = a_t + (uintptr_t)a_t % align_bytes;
+	b = b_t + (uintptr_t)b_t % align_bytes;
+	c = c_t + (uintptr_t)c_t % align_bytes;
 
 	for (int i = 0; i < 4; i++) {
 		avgtime[i] = 0;
@@ -407,14 +413,14 @@ std::vector<double> STREAM::run(bool use_pmem) {
 	printf(HLINE);
 
 	if (use_pmem) {
-		pmem_alloc.deallocate(a, align_alloc_size);
-		pmem_alloc.deallocate(b, align_alloc_size);
-		pmem_alloc.deallocate(c, align_alloc_size);
+		pmem_alloc.deallocate(a_t, align_alloc_size);
+		pmem_alloc.deallocate(b_t, align_alloc_size);
+		pmem_alloc.deallocate(c_t, align_alloc_size);
 	}
 	else {
-		dram_alloc.deallocate(a, align_alloc_size);
-		dram_alloc.deallocate(b, align_alloc_size);
-		dram_alloc.deallocate(c, align_alloc_size);
+		dram_alloc.deallocate(a_t, align_alloc_size);
+		dram_alloc.deallocate(b_t, align_alloc_size);
+		dram_alloc.deallocate(c_t, align_alloc_size);
 	}
 
 	return results;

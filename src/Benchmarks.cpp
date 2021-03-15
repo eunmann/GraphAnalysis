@@ -323,30 +323,29 @@ namespace Benchmark {
 
 		printf("DRAM\n");
 
-		/* Allocate and align memory to 16B */
-		const size_t align_alloc_size = tp.alloc_size + 16 / sizeof(char);
+		const size_t align_bytes = 16;
+		const size_t align_alloc_size = tp.alloc_size + align_bytes;
 		char* dram_array = new char[align_alloc_size];
-		dram_array += ((uintptr_t)dram_array % 16);
+		char* dram_array_aligned = dram_array + ((uintptr_t)dram_array % align_bytes);
 
-		BenchmarkUtils::set_zeros(dram_array, tp.alloc_size);
-		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array, tp.alloc_size);
+		BenchmarkUtils::set_zeros(dram_array_aligned, tp.alloc_size);
+		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array_aligned, tp.alloc_size);
 		delete dram_array;
 
 		printf("Persistent Memory\n");
 		PMEM::allocator<char> pmem_alloc;
-
-		/* Allocate and align memory to 16B */
 		char* pmem_array = pmem_alloc.allocate(align_alloc_size);
-		pmem_array += ((uintptr_t)pmem_array % 16);
-
 		printf("Is pmem: %s\n", pmem_alloc.is_pmem() ? "True" : "False");
 
 		if (pmem_array == nullptr) {
 			printf("Trouble allocating persistent memory\n");
 			return;
 		}
-		BenchmarkUtils::set_zeros(pmem_array, tp.alloc_size);
-		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array, tp.alloc_size);
+
+		char* pmem_array_aligned = pmem_array + ((uintptr_t)pmem_array % align_bytes);
+
+		BenchmarkUtils::set_zeros(pmem_array_aligned, tp.alloc_size);
+		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array_aligned, tp.alloc_size);
 		pmem_alloc.deallocate(pmem_array, align_alloc_size);
 
 		printf("Read Sequential Bandwith (B/s)\n");
