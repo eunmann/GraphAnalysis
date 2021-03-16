@@ -34,7 +34,7 @@ export page_rank_dampening_factor=0.8
 export num_page_ranks=4
 
 # Number of iterations for each test
-export test_iterations=3
+export test_iterations=10
 
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
