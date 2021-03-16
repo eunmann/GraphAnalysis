@@ -42,8 +42,9 @@ namespace GNUPlot {
 		for (auto& vec : data) {
 			double min_v;
 			double max_v;
+			double avg;
 
-			BenchmarkUtils::metrics(vec, min_v, max_v);
+			BenchmarkUtils::metrics(vec, min_v, max_v, avg);
 
 			if (min_v < min) {
 				min = min_v;
@@ -85,8 +86,9 @@ namespace GNUPlot {
 		for (auto& vec : data) {
 			double min_v;
 			double max_v;
+			double avg;
 
-			BenchmarkUtils::metrics(vec, min_v, max_v);
+			BenchmarkUtils::metrics(vec, min_v, max_v, avg);
 
 			if (min_v < min) {
 				min = min_v;

@@ -7,24 +7,7 @@
 namespace BenchmarkUtils {
 
 	template<class T>
-	void metrics(const std::vector<T>& vec, double& min, double& max) {
-		min = vec[0];
-		max = vec[0];
-
-		for (auto& v : vec) {
-
-			if (v < min) {
-				min = v;
-			}
-			else if (v > max) {
-				max = v;
-			}
-		}
-	}
-
-	template<class T>
-	void metrics(const std::vector<T>& vec, double& min, double& max, double& avg, double& std_dev) {
-
+	void metrics(const std::vector<T>& vec, double& min, double& max, double& avg) {
 		min = vec[0];
 		max = vec[0];
 		avg = 0;
@@ -42,6 +25,12 @@ namespace BenchmarkUtils {
 		}
 
 		avg /= vec.size();
+	}
+
+	template<class T>
+	void metrics(const std::vector<T>& vec, double& min, double& max, double& avg, double& std_dev) {
+
+		BenchmarkUtils::metrics(vec, min, max, avg);
 
 		std_dev = 0;
 

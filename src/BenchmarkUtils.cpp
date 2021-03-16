@@ -36,12 +36,11 @@ namespace BenchmarkUtils {
 				double min;
 				double max;
 				double avg;
-				double std;
 
-				BenchmarkUtils::metrics(metric, min, max, avg, std);
+				BenchmarkUtils::metrics(metric, min, max, avg);
 
 				ofs << ',';
-				ofs << FormatUtils::format_number(avg);
+				ofs << avg;
 			}
 
 			ofs << std::endl;
@@ -53,16 +52,14 @@ namespace BenchmarkUtils {
 		double dram_min;
 		double dram_max;
 		double dram_avg;
-		double dram_std;
 
-		BenchmarkUtils::metrics(dram_metrics, dram_min, dram_max, dram_avg, dram_std);
+		BenchmarkUtils::metrics(dram_metrics, dram_min, dram_max, dram_avg);
 
 		double pmem_min;
 		double pmem_max;
 		double pmem_avg;
-		double pmem_std;
 
-		BenchmarkUtils::metrics(pmem_metrics, pmem_min, pmem_max, pmem_avg, pmem_std);
+		BenchmarkUtils::metrics(pmem_metrics, pmem_min, pmem_max, pmem_avg);
 
 		std::ofstream ofs(path, std::ios::app);
 		if (ofs.is_open()) {

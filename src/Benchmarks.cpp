@@ -142,7 +142,7 @@ namespace Benchmark {
 			graph.free();
 		}
 
-		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, { metrics_DD, metrics_PD, metrics_DP, metrics_PP });
+		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
@@ -202,7 +202,7 @@ namespace Benchmark {
 			graph.free();
 		}
 
-		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, { metrics_DD, metrics_PD, metrics_DP, metrics_PP });
+		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
 	}
 
 
@@ -281,8 +281,8 @@ namespace Benchmark {
 				double time_elapsed = timer.get_time_elapsed();
 				read_random_latency.push_back(time_elapsed / latency_loads);
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed / 1e9, read_random_latency.back());
-
 			}
+
 			printf("IGNORE(%c)\n", sum);
 			BenchmarkUtils::print_metrics("Latency", read_random_latency);
 		}
@@ -305,11 +305,13 @@ namespace Benchmark {
 				for (size_t i = 0; i < test_mem_size; i++) {
 					_mm256_store_si256(test_mem + i, _mm256_setzero_si256());
 				}
+
 				timer.end();
 				double time_elapsed = timer.get_time_elapsed() / 1e9;
 				write_linear_bandwidth.push_back((double)size / time_elapsed);
 				printf("%u, %.3f, %.3f\n", iter, time_elapsed, write_linear_bandwidth.back());
 			}
+
 			BenchmarkUtils::print_metrics("Bandwidth", write_linear_bandwidth);
 		}
 
