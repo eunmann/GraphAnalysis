@@ -80,7 +80,7 @@ namespace Benchmark {
 		printf("Iteration, Time Elapsed (s), MTEPS\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
-			GraphAlgorithms::breadth_first_traversal_hybrid<alloc_type, temp_alloc_type>(graph, start_vertices[iter - 1]);
+			std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth = GraphAlgorithms::breadth_first_traversal_hybrid<alloc_type, temp_alloc_type>(graph, start_vertices[iter - 1]);
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
@@ -88,10 +88,20 @@ namespace Benchmark {
 
 			/*
 			*	If a graph is disconnected, we might have selected a source vertex
-			*	that is not part of the main graph, and the measured time will be
-			*	way too fast and throw off the results. So try a different vertex.
+			*	that is not part of the main graph. If we check the number of -1 vertex
+			*   depths, we can see how many vertices were actually checked. If its too
+			*	low, then we run again.
 			*/
-			if (edges_per_second > 2e9) {
+			size_t num_vertices_traversed = 0;
+
+#pragma omp parallel for schedule(static) reduction(+:num_vertices_traversed)
+			for (size_t i = 0; i < vertex_depth.size(); i++) {
+				if (vertex_depth[i] != -1) {
+					num_vertices_traversed++;
+				}
+			}
+
+			if (num_vertices_traversed < graph.num_vertices() * 0.5) {
 				start_vertices[iter - 1]++;
 				iter--;
 				continue;

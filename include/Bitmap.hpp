@@ -7,11 +7,10 @@ template<template<typename> typename alloc_type>
 class Bitmap {
 
 public:
-	Bitmap() :
-		m_vec() {}
 
 	void resize(size_t size) {
-		size_t alloc_size = (size + 1) / sizeof(uint64_t);
+		const size_t num_bits = sizeof(uint64_t) * 8;
+		size_t alloc_size = (size + 1) / num_bits;
 		this->m_vec.resize(alloc_size);
 	}
 
@@ -37,7 +36,6 @@ public:
 
 	uint64_t get_bit(size_t bit_index) {
 		const size_t num_bits = sizeof(uint64_t) * 8;
-		const uint64_t mask = 1ul << (num_bits - 1);
 
 		size_t vec_index = bit_index / num_bits;
 		size_t offset = bit_index % num_bits;
