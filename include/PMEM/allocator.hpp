@@ -40,14 +40,8 @@ namespace PMEM {
 		void deallocate(T* p, std::size_t n) noexcept {
 			auto pair = this->m_mem_size_map.find(p);
 			if (pair != this->m_mem_size_map.end()) {
-				if (n > pair->second) {
-					throw std::bad_alloc();
-				}
 				pmem_unmap(p, pair->second);
 				this->m_mem_size_map.erase(pair);
-			}
-			else {
-				throw std::bad_alloc();
 			}
 		}
 
