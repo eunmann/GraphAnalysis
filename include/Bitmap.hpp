@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <inttypes.h>
+#include <stdio.h>
 
 template<template<typename> typename alloc_type>
 class Bitmap {
@@ -10,7 +11,7 @@ public:
 
 	void resize(size_t size) {
 		const size_t num_bits = sizeof(uint64_t) * 8;
-		size_t alloc_size = (size + 1) / num_bits;
+		size_t alloc_size = (size + num_bits) / num_bits;
 		this->m_vec.resize(alloc_size);
 	}
 

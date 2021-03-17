@@ -101,7 +101,7 @@ namespace Benchmark {
 				}
 			}
 
-			if (num_vertices_traversed < graph.num_vertices() * 0.5) {
+			if (num_vertices_traversed < graph.num_vertices() * 0.25) {
 				start_vertices[iter - 1]++;
 				iter--;
 				continue;

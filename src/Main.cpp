@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
 			tp.graph_path = graph_path.first;
 			tp.graph_name = graph_path.second;
 
-			Benchmark::benchmark_page_rank(tp);
+			//Benchmark::benchmark_page_rank(tp);
 			Benchmark::benchmark_breadth_first_traversal(tp);
 		}
 
