@@ -5,7 +5,7 @@ CXX = g++
 WARN = -Wall
 
 # Link
-LINK = -lpmemobj -lpmem -fopenmp
+LINK = -lpmem -fopenmp
 
 # Include Directory
 IDIR = -Iinclude
