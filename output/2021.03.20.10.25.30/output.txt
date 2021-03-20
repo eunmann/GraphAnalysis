@@ -1,0 +1,494 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+OpenMP:
+	Number of Processors: 72
+	Maximum Threads: 36
+Test Parameters:
+	alloc_size:   1.000GB
+	num_vertices: 100.000K
+	min_degree:  20.00
+	max_degree: 200.00
+	min_value:   1.00
+	max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_dampening_factor:   0.80
+	num_page_ranks:   4.00
+	test_iterations:  10.00
+	Graph Path: 
+	Page Rank CSV Path: output/2021.03.20.10.25.30/pr_metrics.csv
+	BFS CSV Path: output/2021.03.20.10.25.30/bfs_metrics.csv
+	Memory CSV Path: output/2021.03.20.10.25.30/mem_metrics.csv
+Page Rank Benchmark
+DRAM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 4.554, 5146.915
+2, 4.700, 4987.038
+3, 4.914, 4769.849
+4, 4.913, 4769.927
+5, 4.448, 5269.084
+6, 4.869, 4813.229
+7, 4.872, 4810.707
+8, 4.705, 4981.001
+9, 4.797, 4885.352
+10, 4.860, 4822.754
+MTEPS:
+	Minimum:   4.770K
+	Maximum:   5.269K
+	Average:   4.926K
+	STD_DEV: 161.34
+[ Page Rank | 47.632 s ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 5.901, 3971.927
+2, 5.995, 3909.476
+3, 6.020, 3893.504
+4, 6.300, 3719.909
+5, 6.218, 3769.016
+6, 5.715, 4101.068
+7, 5.985, 3916.020
+8, 6.177, 3793.952
+9, 5.804, 4038.248
+10, 6.106, 3838.609
+MTEPS:
+	Minimum:   3.720K
+	Maximum:   4.101K
+	Average:   3.895K
+	STD_DEV: 113.78
+[ Page Rank | 1.004 min ]
+PMEM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 9.071, 2583.717
+2, 7.623, 3074.638
+3, 7.453, 3144.577
+4, 7.422, 3157.868
+5, 7.467, 3138.916
+6, 7.922, 2958.596
+7, 8.139, 2879.479
+8, 8.511, 2753.774
+9, 9.011, 2601.060
+10, 8.508, 2754.813
+MTEPS:
+	Minimum:   2.584K
+	Maximum:   3.158K
+	Average:   2.905K
+	STD_DEV: 211.98
+[ Page Rank | 1.352 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 10.624, 2206.100
+2, 11.249, 2083.434
+3, 10.311, 2273.048
+4, 10.285, 2278.865
+5, 10.240, 2288.661
+6, 10.255, 2285.350
+7, 10.272, 2281.664
+8, 10.272, 2281.550
+9, 10.279, 2280.183
+10, 10.265, 2283.086
+MTEPS:
+	Minimum:   2.083K
+	Maximum:   2.289K
+	Average:   2.254K
+	STD_DEV:  61.32
+[ Page Rank | 1.734 min ]
+[ Page Rank Benchmark | 7.097 min ]
+Page Rank Benchmark
+DRAM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 5.996, 3908.560
+2, 6.121, 3829.035
+3, 6.184, 3789.950
+4, 6.029, 3887.321
+5, 6.182, 3791.141
+6, 6.014, 3896.910
+7, 5.208, 4500.120
+8, 5.210, 4498.038
+9, 6.172, 3797.042
+10, 5.132, 4566.678
+MTEPS:
+	Minimum:   3.790K
+	Maximum:   4.567K
+	Average:   4.046K
+	STD_DEV: 314.25
+[ Page Rank | 58.250 s ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 10.208, 2296.011
+2, 11.086, 2114.041
+3, 10.780, 2174.066
+4, 11.381, 2059.381
+5, 10.620, 2206.850
+6, 10.417, 2249.778
+7, 10.148, 2309.583
+8, 10.287, 2278.325
+9, 10.390, 2255.704
+10, 10.509, 2230.207
+MTEPS:
+	Minimum:   2.059K
+	Maximum:   2.310K
+	Average:   2.217K
+	STD_DEV:  76.62
+[ Page Rank | 1.764 min ]
+PMEM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 12.199, 1921.257
+2, 12.110, 1935.281
+3, 11.187, 2094.988
+4, 11.593, 2021.728
+5, 11.767, 1991.734
+6, 11.220, 2088.911
+7, 11.204, 2091.834
+8, 11.375, 2060.359
+9, 11.200, 2092.560
+10, 11.579, 2024.035
+MTEPS:
+	Minimum:   1.921K
+	Maximum:   2.095K
+	Average:   2.032K
+	STD_DEV:  62.18
+[ Page Rank | 1.924 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 15.402, 1521.650
+2, 15.642, 1498.323
+3, 15.812, 1482.255
+4, 16.012, 1463.723
+5, 15.947, 1469.646
+6, 15.832, 1480.326
+7, 15.834, 1480.174
+8, 15.520, 1510.143
+9, 15.327, 1529.154
+10, 16.273, 1440.242
+MTEPS:
+	Minimum:   1.440K
+	Maximum:   1.529K
+	Average:   1.488K
+	STD_DEV:  26.04
+[ Page Rank | 2.627 min ]
+[ Page Rank Benchmark | 9.484 min ]
+Page Rank Benchmark
+DRAM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 9.378, 2499.187
+2, 9.481, 2471.886
+3, 9.356, 2505.148
+4, 9.503, 2466.181
+5, 9.502, 2466.554
+6, 9.594, 2442.936
+7, 9.394, 2494.854
+8, 9.390, 2496.041
+9, 9.476, 2473.221
+10, 9.616, 2437.185
+MTEPS:
+	Minimum:   2.437K
+	Maximum:   2.505K
+	Average:   2.475K
+	STD_DEV:  22.24
+[ Page Rank | 1.578 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 18.793, 1247.122
+2, 19.121, 1225.715
+3, 19.233, 1218.568
+4, 19.594, 1196.106
+5, 19.044, 1230.698
+6, 19.976, 1173.276
+7, 19.566, 1197.829
+8, 19.896, 1177.983
+9, 19.461, 1204.324
+10, 20.063, 1168.174
+MTEPS:
+	Minimum:   1.168K
+	Maximum:   1.247K
+	Average:   1.204K
+	STD_DEV:  25.02
+[ Page Rank | 3.246 min ]
+PMEM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 16.951, 1382.642
+2, 16.753, 1398.936
+3, 15.984, 1466.282
+4, 15.846, 1479.021
+5, 15.276, 1534.262
+6, 15.190, 1542.921
+7, 16.324, 1435.713
+8, 16.306, 1437.285
+9, 16.307, 1437.268
+10, 16.304, 1437.472
+MTEPS:
+	Minimum:   1.383K
+	Maximum:   1.543K
+	Average:   1.455K
+	STD_DEV:  49.39
+[ Page Rank | 2.687 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 30.140, 777.595
+2, 26.894, 871.454
+3, 27.198, 861.714
+4, 27.183, 862.206
+5, 26.773, 875.397
+6, 26.981, 868.656
+7, 27.713, 845.705
+8, 26.599, 881.111
+9, 27.178, 862.361
+10, 27.060, 866.103
+MTEPS:
+	Minimum: 777.59
+	Maximum: 881.11
+	Average: 857.23
+	STD_DEV:  28.03
+[ Page Rank | 4.562 min ]
+[ Page Rank Benchmark | 14.279 min ]
+Page Rank Benchmark
+DRAM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 16.183, 1448.262
+2, 16.658, 1406.920
+3, 16.761, 1398.338
+4, 16.244, 1442.799
+5, 16.186, 1447.956
+6, 15.923, 1471.878
+7, 16.008, 1464.065
+8, 16.375, 1431.306
+9, 16.387, 1430.214
+10, 16.085, 1457.081
+MTEPS:
+	Minimum:   1.398K
+	Maximum:   1.472K
+	Average:   1.440K
+	STD_DEV:  22.42
+[ Page Rank | 2.714 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 51.740, 452.979
+2, 51.919, 451.413
+3, 50.660, 462.630
+4, 51.442, 455.599
+5, 51.253, 457.283
+6, 52.069, 450.117
+7, 51.852, 452.000
+8, 50.705, 462.222
+9, 53.553, 437.638
+10, 53.083, 441.517
+MTEPS:
+	Minimum: 437.63
+	Maximum: 462.63
+	Average: 452.34
+	STD_DEV:   7.60
+[ Page Rank | 8.638 min ]
+PMEM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 22.491, 1042.069
+2, 23.081, 1015.418
+3, 24.063, 973.995
+4, 24.038, 975.011
+5, 23.565, 994.567
+6, 23.178, 1011.197
+7, 23.887, 981.162
+8, 23.799, 984.794
+9, 23.835, 983.284
+10, 23.808, 984.398
+MTEPS:
+	Minimum: 973.99
+	Maximum:   1.042K
+	Average: 994.58
+	STD_DEV:  20.68
+[ Page Rank | 3.929 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 62.181, 376.917
+2, 59.026, 397.066
+3, 58.995, 397.274
+4, 61.631, 380.281
+5, 62.582, 374.503
+6, 61.154, 383.248
+7, 61.140, 383.335
+8, 59.932, 391.060
+9, 57.963, 404.342
+10, 56.220, 416.881
+MTEPS:
+	Minimum: 374.50
+	Maximum: 416.88
+	Average: 390.49
+	STD_DEV:  12.75
+[ Page Rank | 10.014 min ]
+[ Page Rank Benchmark | 27.509 min ]
+Page Rank Benchmark
+DRAM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 33.256, 704.755
+2, 32.911, 712.138
+3, 33.669, 696.095
+4, 32.838, 713.712
+5, 32.662, 717.572
+6, 33.089, 708.306
+7, 32.593, 719.087
+8, 32.521, 720.683
+9, 31.946, 733.643
+10, 33.775, 693.911
+MTEPS:
+	Minimum: 693.91
+	Maximum: 733.64
+	Average: 711.99
+	STD_DEV:  11.28
+[ Page Rank | 5.488 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 144.231, 162.497
+2, 144.038, 162.714
+3, 144.701, 161.969
+4, 141.782, 165.304
+5, 144.251, 162.474
+6, 144.101, 162.643
+7, 140.983, 166.240
+8, 142.685, 164.257
+9, 140.896, 166.343
+10, 139.228, 168.336
+MTEPS:
+	Minimum: 161.96
+	Maximum: 168.33
+	Average: 164.27
+	STD_DEV:   2.06
+[ Page Rank | 23.782 min ]
+PMEM
+Loading graph from ./graph_examples/com-orkut.ungraph.txt
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 40.549, 577.999
+2, 41.237, 568.346
+3, 41.004, 571.583
+4, 40.135, 583.960
+5, 39.229, 597.445
+6, 40.335, 581.061
+7, 39.946, 586.723
+8, 40.649, 576.572
+9, 40.197, 583.049
+10, 39.204, 597.827
+MTEPS:
+	Minimum: 568.34
+	Maximum: 597.82
+	Average: 582.45
+	STD_DEV:   9.24
+[ Page Rank | 6.708 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251836 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 159.631, 146.820
+2, 156.424, 149.830
+3, 151.390, 154.812
+4, 147.977, 158.382
+5, 149.622, 156.641
+6, 150.735, 155.484
+7, 148.342, 157.994
+8, 148.494, 157.832
+9, 152.315, 153.872
+10, 157.553, 148.757
+MTEPS:
+	Minimum: 146.82
+	Maximum: 158.38
+	Average: 154.04
+	STD_DEV:   3.95
+[ Page Rank | 25.375 min ]
+[ Page Rank Benchmark | 63.550 min ]
+[ Time Elapsed | 121.919 min ]
