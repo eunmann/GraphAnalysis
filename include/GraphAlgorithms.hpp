@@ -149,22 +149,29 @@ namespace GraphAlgorithms {
 	template<template<class> class alloc_type, template<class> class temp_alloc_type>
 	std::vector<int32_t, temp_alloc_type<int32_t>> breadth_first_traversal_hybrid(const GraphCRS<alloc_type>& graph, uint32_t source_vertex) {
 
-		std::vector<int32_t, temp_alloc_type<int32_t>> visited(graph.num_vertices(), -1);
+		std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth(graph.num_vertices(), -1);
 
-		Bitmap<temp_alloc_type> frontier_1;
-		frontier_1.resize(graph.num_vertices());
-		frontier_1.set_bit(source_vertex);
+		/* Frontiers for Top to Bottom */
+		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_1;
+		frontier_vec_1.reserve(graph.num_vertices() / 2);
+		frontier_vec_1.push_back(source_vertex);
 
-		Bitmap<temp_alloc_type> frontier_2;
-		frontier_2.resize(graph.num_vertices());
+		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_2;
+		frontier_vec_2.reserve(graph.num_vertices() / 2);
 
-		uint32_t level = 1;
-		bool frontier_empty = false;
+		/* Frontiers for Bottom to Top */
+		Bitmap<temp_alloc_type> frontier_bm_1;
+		frontier_bm_1.resize(graph.num_vertices());
+
+		Bitmap<temp_alloc_type> frontier_bm_2;
+		frontier_bm_2.resize(graph.num_vertices());
+
+		int32_t level = 1;
 
 		/* The number of edges to check in the frontier */
-		size_t m_f = 0;
+		size_t m_f = graph.num_neighbors(source_vertex);
 		/* The number of vertices in the frontier */
-		size_t n_f = 0;
+		size_t n_f = 1;
 		/* The number of edges to check from unexplored vertices */
 		size_t m_u = graph.num_edges();
 		/* Top to bottom tuning parameter */
@@ -174,91 +181,119 @@ namespace GraphAlgorithms {
 
 		bool top_to_bottom_state = true;
 
-		while (!frontier_empty) {
+		while (n_f > 0) {
 
-			frontier_empty = true;
-			Bitmap<temp_alloc_type>& frontier_r = level % 2 == 1 ? frontier_1 : frontier_2;
-			Bitmap<temp_alloc_type>& frontier_w = level % 2 == 0 ? frontier_1 : frontier_2;
+			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
+			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
 
-			const size_t fr_end = frontier_r.size();
+			Bitmap<temp_alloc_type>& frontier_bm_r = level % 2 == 1 ? frontier_bm_1 : frontier_bm_2;
+			Bitmap<temp_alloc_type>& frontier_bm_w = level % 2 == 0 ? frontier_bm_1 : frontier_bm_2;
 
-			/* Count the number of edges in the frontier to check and the number of vertices in the frontier */
-#pragma omp parallel for schedule(static) reduction(+:m_f) reduction(+:n_f)
-			for (size_t i = 0; i < fr_end; i++) {
-				uint64_t v = frontier_r.get(i);
-				const size_t num_bits = sizeof(uint64_t) * 8;
-				const uint64_t mask = 1ul << (num_bits - 1);
-				for (size_t j = 0; j < num_bits; j++) {
-					if ((v & mask) > 0) {
-						size_t vertex = i * num_bits + j;
-						uint32_t row_index = graph.row_ind[vertex];
-						uint32_t row_index_end = (vertex + 1 == graph.num_vertices()) ? graph.num_edges() : graph.row_ind[vertex + 1];
-						m_f += row_index_end - row_index;
-						n_f++;
-					}
-					v = v << 1;
+			if (top_to_bottom_state && (m_f > m_u / alpha)) {
+
+				frontier_bm_r.clear();
+				frontier_bm_w.clear();
+
+				/* Convert the vec to bitmap */
+#pragma omp parallel for schedule(static)
+				for (size_t i = 0; i < frontier_vec_r.size(); i++) {
+					frontier_bm_r.set_bit(frontier_vec_r[i]);
 				}
-			}
 
-			if (top_to_bottom_state && (m_f > double(m_u) / alpha)) {
 				top_to_bottom_state = false;
 			}
 			else if (!top_to_bottom_state && (n_f < graph.num_vertices() / beta)) {
+
+				frontier_vec_r.resize(0);
+				frontier_vec_w.resize(0);
+
+				/* Convert the bitmap to vec */
+#pragma omp parallel for schedule(static)
+				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
+					uint64_t v = frontier_bm_r.get(i);
+					const size_t num_bits = sizeof(uint64_t) * 8;
+					const uint64_t mask = 1ul << (num_bits - 1);
+					for (size_t j = 0; j < num_bits; j++) {
+						if ((v & mask) > 0) {
+							size_t vertex = i * num_bits + j;
+#pragma omp critical
+							{
+								frontier_vec_r.push_back(vertex);
+							}
+						}
+						v = v << 1;
+					}
+				}
+
 				top_to_bottom_state = true;
 			}
 
 			size_t edges_checked = 0;
+			n_f = 0;
 
 			/* Top Down BFS */
 			if (top_to_bottom_state) {
-#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked)
+
+				size_t fr_end = frontier_vec_r.size();
+#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked) reduction(+:n_f) reduction(+:m_f)
 				for (size_t i = 0; i < fr_end; i++) {
 
-					int64_t offset;
-					while ((offset = frontier_r.get_next(i)) >= 0) {
-						uint32_t vertex = i * sizeof(int64_t) + offset;
-						uint32_t row_index_end = (vertex + 1 == graph.num_vertices()) ? graph.num_edges() : graph.row_ind[vertex + 1];
+					uint32_t vertex = frontier_vec_r[i];
 
-						/* For each neighbor */
-						for (uint32_t row_index = graph.row_ind[vertex]; row_index < row_index_end; row_index++) {
-							uint32_t neighbor = graph.col_ind[row_index];
-							if (visited[neighbor] == -1) {
-								visited[neighbor] = level;
-								frontier_w.set_bit(neighbor);
-								frontier_empty = false;
+					uint32_t row_index;
+					uint32_t row_index_end;
+					std::tie(row_index, row_index_end) = graph.row_indices(vertex);
+
+					/* For each neighbor */
+					for (; row_index < row_index_end; row_index++) {
+						uint32_t neighbor = graph.col_ind[row_index];
+						if (vertex_depth[neighbor] == -1) {
+							vertex_depth[neighbor] = level;
+							n_f++;
+							m_f += graph.num_neighbors(neighbor);
+#pragma omp critical
+							{
+								frontier_vec_w.push_back(neighbor);
 							}
 						}
-
-						edges_checked += row_index_end - graph.row_ind[vertex];
 					}
+
+					edges_checked += row_index_end - row_index;
 				}
+
+				frontier_vec_r.resize(0);
 			}
 			else {
 				/* Bottom Up BFS */
-#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked)
+#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked) reduction(+:n_f) reduction(+:m_f)
 				for (size_t vertex = 0; vertex < graph.num_vertices(); vertex++) {
-					if (visited[vertex] == -1) {
+					if (vertex_depth[vertex] == -1) {
 
-						uint32_t row_index_end = (vertex + 1 == graph.num_vertices()) ? graph.num_edges() : graph.row_ind[vertex + 1];
+						uint32_t row_index;
+						uint32_t row_index_end;
+						std::tie(row_index, row_index_end) = graph.row_indices(vertex);
 
-						for (uint32_t row_index = graph.row_ind[vertex]; row_index < row_index_end; row_index++) {
+						for (; row_index < row_index_end; row_index++) {
 							uint32_t neighbor = graph.col_ind[row_index];
-							if (frontier_r.get_bit(neighbor) > 0) {
-								visited[vertex] = visited[neighbor] + 1;
-								frontier_w.set_bit(neighbor);
-								frontier_empty = false;
+							if (frontier_bm_r.get_bit(neighbor) > 0) {
+								vertex_depth[vertex] = vertex_depth[neighbor] + 1;
+								frontier_bm_w.set_bit(neighbor);
+								n_f++;
+								m_f += graph.num_neighbors(neighbor);
 							}
 						}
 
-						edges_checked += row_index_end - graph.row_ind[vertex];
+						edges_checked += row_index_end - row_index;
 					}
 				}
+
+				frontier_bm_r.clear();
 			}
 
 			level++;
 			m_u -= edges_checked;
 		}
 
-		return visited;
+		return vertex_depth;
 	}
 }

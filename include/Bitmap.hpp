@@ -44,6 +44,13 @@ public:
 		return (this->m_vec[vec_index] >> (num_bits - 1 - offset)) & 1ul;
 	}
 
+	void clear() {
+#pragma omp parallel for schedule(static)
+		for (size_t i = 0; i < this->m_vec.size(); i++) {
+			this->m_vec[i] = 0;
+		}
+	}
+
 	int64_t get_next(size_t index) {
 
 		const size_t num_bits = sizeof(uint64_t) * 8;

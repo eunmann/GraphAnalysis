@@ -2,6 +2,7 @@
 
 #include <inttypes.h>
 #include <cstddef>
+#include <tuple>
 
 template<template<class> class T>
 class GraphCRS {
@@ -33,6 +34,17 @@ public:
 
 	size_t num_edges() const { return this->m_num_edges; }
 	size_t num_vertices() const { return this->m_num_vertices; }
+
+	size_t num_neighbors(uint32_t vertex) const {
+		std::pair<uint32_t, uint32_t> row_indices = this->row_indices(vertex);
+		return std::get<1>(row_indices) - std::get<0>(row_indices);
+	}
+
+	std::pair<uint32_t, uint32_t> row_indices(uint32_t vertex) const {
+		uint32_t row_index = this->row_ind[vertex];
+		uint32_t row_index_end = (vertex + 1 == this->num_vertices()) ? this->num_edges() : this->row_ind[vertex + 1];
+		return std::make_pair(row_index, row_index_end);
+	}
 
 	size_t byte_size() const {
 		return sizeof(float) * this->m_num_edges + sizeof(uint32_t) * (this->m_num_vertices + this->m_num_edges);

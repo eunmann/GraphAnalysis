@@ -39,8 +39,14 @@ export test_iterations=10
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
-export OMP_PLACES="{0:36:1}"
-export OMP_NUM_THREADS=36
+
+if [ $HOSTNAME = "Evan-Ubuntu" ]; then
+	export OMP_PLACES="{0:24:1}"
+	export OMP_NUM_THREADS=24
+else
+	export OMP_PLACES="{0:36:1}"
+	export OMP_NUM_THREADS=36
+fi
 
 echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}

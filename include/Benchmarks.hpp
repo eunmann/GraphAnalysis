@@ -90,9 +90,7 @@ namespace Benchmark {
 			for (size_t vertex = 0; vertex < vertex_depth.size(); vertex++) {
 				if (vertex_depth[vertex] != -1) {
 					num_vertices_checked++;
-					uint32_t row_index = graph.row_ind[vertex];
-					uint32_t row_index_end = (vertex + 1 == graph.num_vertices()) ? graph.num_edges() : graph.row_ind[vertex + 1];
-					num_edges_traversed += row_index_end - row_index;
+					num_edges_traversed += graph.num_neighbors(vertex);
 				}
 			}
 
@@ -102,7 +100,7 @@ namespace Benchmark {
 			*   depths, we can see how many vertices were actually checked. If its too
 			*	low, then we run again.
 			*/
-			if (num_vertices_checked < graph.num_vertices() * 0.25 || num_edges_traversed < graph.num_edges() * 0.25) {
+			if (num_vertices_checked < graph.num_vertices() * 0.40 || num_edges_traversed < graph.num_edges() * 0.40) {
 				start_vertices[iter - 1]++;
 				iter--;
 				continue;
