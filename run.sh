@@ -41,10 +41,10 @@ export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
 
 if [ $HOSTNAME = "Evan-Ubuntu" ]; then
-	export OMP_PLACES="sockets({0})"
+	export OMP_PLACES="{0}:24:1"
 	export OMP_NUM_THREADS=24
 else
-	export OMP_PLACES="sockets({0})"
+	export OMP_PLACES="{0}:36:1"
 	export OMP_NUM_THREADS=36
 fi
 
