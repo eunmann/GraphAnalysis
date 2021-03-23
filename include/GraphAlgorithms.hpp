@@ -195,7 +195,6 @@ namespace GraphAlgorithms {
 				frontier_bm_w.clear();
 
 				/* Convert the vec to bitmap */
-#pragma omp parallel for schedule(static)
 				for (size_t i = 0; i < frontier_vec_r.size(); i++) {
 					frontier_bm_r.set_bit(frontier_vec_r[i]);
 				}
@@ -208,7 +207,7 @@ namespace GraphAlgorithms {
 				frontier_vec_w.resize(0);
 
 				/* Convert the bitmap to vec */
-#pragma omp parallel for schedule(static)
+#pragma omp parallel for schedule(dynamic,4)
 				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
 					uint64_t v = frontier_bm_r.get(i);
 					const size_t num_bits = sizeof(uint64_t) * 8;
