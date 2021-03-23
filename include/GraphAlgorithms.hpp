@@ -276,9 +276,12 @@ namespace GraphAlgorithms {
 							uint32_t neighbor = graph.col_ind[row_index];
 							if (frontier_bm_r.get_bit(neighbor) > 0) {
 								vertex_depth[vertex] = vertex_depth[neighbor] + 1;
-								frontier_bm_w.set_bit(neighbor);
 								n_f++;
 								m_f += graph.num_neighbors(neighbor);
+#pragma omp critical
+								{
+									frontier_bm_w.set_bit(neighbor);
+								}
 							}
 						}
 
