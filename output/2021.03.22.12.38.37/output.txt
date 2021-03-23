@@ -1,0 +1,296 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+OpenMP:
+	Number of Processors: 72
+	Maximum Threads: 36
+Test Parameters:
+	alloc_size:   1.000GB
+	num_vertices: 100.000K
+	min_degree:  20.00
+	max_degree: 200.00
+	min_value:   1.00
+	max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_dampening_factor:   0.80
+	num_page_ranks:   4.00
+	test_iterations:  10.00
+	Graph Path: 
+	Page Rank CSV Path: output/2021.03.22.12.38.37/pr_metrics.csv
+	BFS CSV Path: output/2021.03.22.12.38.37/bfs_metrics.csv
+	Memory CSV Path: output/2021.03.22.12.38.37/mem_metrics.csv
+Breadth First Traversal Benchmark
+DRAM
+Loading graph from ./graph_examples/facebook_combined.txt
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.002, 71.961
+2, 0.002, 83.494
+3, 0.001, 162.067
+4, 0.000, 232.855
+5, 0.000, 240.064
+6, 0.001, 192.621
+7, 0.001, 174.179
+8, 0.000, 178.798
+9, 0.000, 184.947
+10, 0.001, 123.826
+MTEPS:
+	Minimum:  71.96
+	Maximum: 240.06
+	Average: 164.48
+	STD_DEV:  53.54
+[ Breadth First Traversal | 55.973 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 98.000
+2, 0.001, 109.349
+3, 0.001, 103.191
+4, 0.001, 128.914
+5, 0.001, 132.399
+6, 0.001, 115.734
+7, 0.001, 102.903
+8, 0.001, 90.398
+9, 0.001, 88.549
+10, 0.001, 70.525
+MTEPS:
+	Minimum:  70.52
+	Maximum: 132.39
+	Average: 103.99
+	STD_DEV:  17.82
+[ Breadth First Traversal | 11.691 ms ]
+PMEM
+Loading graph from ./graph_examples/facebook_combined.txt
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 224.729
+2, 0.001, 199.089
+3, 0.001, 179.868
+4, 0.000, 187.915
+5, 0.000, 187.674
+6, 0.001, 181.028
+7, 0.001, 147.991
+8, 0.001, 159.183
+9, 0.000, 191.962
+10, 0.001, 129.144
+MTEPS:
+	Minimum: 129.14
+	Maximum: 224.72
+	Average: 178.85
+	STD_DEV:  25.81
+[ Breadth First Traversal | 6.795 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 128.155
+2, 0.001, 128.875
+3, 0.001, 102.028
+4, 0.001, 127.216
+5, 0.001, 97.657
+6, 0.001, 103.989
+7, 0.001, 108.889
+8, 0.001, 96.966
+9, 0.001, 101.767
+10, 0.001, 74.506
+MTEPS:
+	Minimum:  74.50
+	Maximum: 128.87
+	Average: 107.00
+	STD_DEV:  16.25
+[ Breadth First Traversal | 11.380 ms ]
+[ Breadth First Traversal Benchmark | 180.017 ms ]
+Breadth First Traversal Benchmark
+DRAM
+Loading graph from ./graph_examples/soc-Epinions1.txt
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 70.073
+2, 0.006, 72.774
+3, 0.006, 73.894
+4, 0.007, 64.247
+5, 0.007, 66.152
+6, 0.006, 82.392
+7, 0.006, 76.131
+8, 0.007, 66.323
+9, 0.008, 56.751
+10, 0.006, 71.896
+MTEPS:
+	Minimum:  56.75
+	Maximum:  82.39
+	Average:  70.06
+	STD_DEV:   6.74
+[ Breadth First Traversal | 2.945 s ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 42.856
+2, 0.011, 42.997
+3, 0.011, 43.937
+4, 0.012, 40.698
+5, 0.011, 40.894
+6, 0.010, 45.937
+7, 0.011, 43.929
+8, 0.011, 41.076
+9, 0.013, 36.673
+10, 0.011, 42.162
+MTEPS:
+	Minimum:  36.67
+	Maximum:  45.93
+	Average:  42.11
+	STD_DEV:   2.38
+[ Breadth First Traversal | 112.381 ms ]
+PMEM
+Loading graph from ./graph_examples/soc-Epinions1.txt
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 70.016
+2, 0.007, 66.155
+3, 0.006, 77.669
+4, 0.007, 63.585
+5, 0.007, 64.986
+6, 0.008, 61.008
+7, 0.007, 64.397
+8, 0.007, 65.658
+9, 0.008, 55.858
+10, 0.007, 69.971
+MTEPS:
+	Minimum:  55.85
+	Maximum:  77.66
+	Average:  65.93
+	STD_DEV:   5.52
+[ Breadth First Traversal | 1.628 s ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 42.501
+2, 0.012, 40.030
+3, 0.011, 43.405
+4, 0.012, 38.778
+5, 0.012, 39.896
+6, 0.012, 37.856
+7, 0.012, 39.893
+8, 0.012, 40.462
+9, 0.013, 36.448
+10, 0.011, 41.613
+MTEPS:
+	Minimum:  36.44
+	Maximum:  43.40
+	Average:  40.08
+	STD_DEV:   1.98
+[ Breadth First Traversal | 118.532 ms ]
+[ Breadth First Traversal Benchmark | 5.245 s ]
+Breadth First Traversal Benchmark
+DRAM
+Loading graph from ./graph_examples/soc-pokec-relationships.txt
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511728 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.166, 169.692
+2, 0.223, 131.126
+3, 0.096, 273.055
+4, 0.073, 324.919
+5, 0.111, 239.819
+6, 0.119, 228.103
+7, 0.077, 310.346
+8, 0.075, 324.927
+9, 0.136, 205.402
+10, 0.225, 130.809
+MTEPS:
+	Minimum: 130.80
+	Maximum: 324.92
+	Average: 233.82
+	STD_DEV:  70.81
+[ Breadth First Traversal | 1.354 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511728 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.189, 149.566
+2, 0.266, 110.226
+3, 0.126, 206.762
+4, 0.105, 225.695
+5, 0.143, 187.450
+6, 0.154, 176.942
+7, 0.105, 227.618
+8, 0.105, 233.260
+9, 0.169, 166.157
+10, 0.271, 108.426
+MTEPS:
+	Minimum: 108.42
+	Maximum: 233.26
+	Average: 179.21
+	STD_DEV:  43.67
+[ Breadth First Traversal | 1.637 s ]
+PMEM
+Loading graph from ./graph_examples/soc-pokec-relationships.txt
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511728 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.173, 162.897
+2, 0.227, 128.832
+3, 0.100, 259.939
+4, 0.078, 302.560
+5, 0.116, 230.254
+6, 0.124, 219.133
+7, 0.083, 288.543
+8, 0.080, 304.774
+9, 0.140, 200.610
+10, 0.230, 127.935
+MTEPS:
+	Minimum: 127.93
+	Maximum: 304.77
+	Average: 222.54
+	STD_DEV:  63.84
+[ Breadth First Traversal | 1.354 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511728 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.200, 140.854
+2, 0.281, 104.204
+3, 0.138, 188.746
+4, 0.116, 204.537
+5, 0.155, 172.551
+6, 0.168, 162.238
+7, 0.118, 201.806
+8, 0.
