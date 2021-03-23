@@ -1,0 +1,147 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+OpenMP:
+	Number of Processors: 72
+	Maximum Threads: 36
+Test Parameters:
+	alloc_size:   1.000GB
+	num_vertices: 100.000K
+	min_degree:  20.00
+	max_degree: 200.00
+	min_value:   1.00
+	max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_dampening_factor:   0.80
+	num_page_ranks:   4.00
+	test_iterations:  10.00
+	Graph Path: 
+	Page Rank CSV Path: output/2021.03.22.12.14.30/pr_metrics.csv
+	BFS CSV Path: output/2021.03.22.12.14.30/bfs_metrics.csv
+	Memory CSV Path: output/2021.03.22.12.14.30/mem_metrics.csv
+Breadth First Traversal Benchmark
+DRAM
+Loading graph from ./graph_examples/facebook_combined.txt
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.038, 4.302
+2, 0.001, 82.011
+3, 0.001, 106.054
+4, 0.001, 166.484
+5, 0.001, 177.590
+6, 0.001, 153.999
+7, 0.001, 135.516
+8, 0.001, 139.729
+9, 0.001, 150.642
+10, 0.001, 101.497
+MTEPS:
+	Minimum:   4.30
+	Maximum: 177.59
+	Average: 121.78
+	STD_DEV:  48.51
+[ Breadth First Traversal | 102.035 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 122.659
+2, 0.001, 72.897
+3, 0.001, 68.473
+4, 0.001, 113.052
+5, 0.001, 125.085
+6, 0.001, 104.272
+7, 0.001, 91.226
+8, 0.001, 83.327
+9, 0.001, 89.589
+10, 0.001, 60.335
+MTEPS:
+	Minimum:  60.33
+	Maximum: 125.08
+	Average:  93.09
+	STD_DEV:  21.49
+[ Breadth First Traversal | 12.555 ms ]
+PMEM
+Loading graph from ./graph_examples/facebook_combined.txt
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 144.050
+2, 0.001, 73.168
+3, 0.001, 106.979
+4, 0.001, 140.098
+5, 0.001, 124.846
+6, 0.001, 133.403
+7, 0.001, 102.174
+8, 0.001, 109.857
+9, 0.001, 118.658
+10, 0.001, 79.026
+MTEPS:
+	Minimum:  73.16
+	Maximum: 144.05
+	Average: 113.22
+	STD_DEV:  22.78
+[ Breadth First Traversal | 10.288 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427900 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 118.597
+2, 0.002, 79.923
+3, 0.001, 87.815
+4, 0.001, 112.140
+5, 0.001, 116.880
+6, 0.001, 101.827
+7, 0.002, 86.340
+8, 0.001, 82.240
+9, 0.001, 94.827
+10, 0.001, 62.662
+MTEPS:
+	Minimum:  62.66
+	Maximum: 118.59
+	Average:  94.32
+	STD_DEV:  17.12
+[ Breadth First Traversal | 12.998 ms ]
+[ Breadth First Traversal Benchmark | 227.608 ms ]
+Breadth First Traversal Benchmark
+DRAM
+Loading graph from ./graph_examples/soc-Epinions1.txt
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.010, 46.283
+2, 0.012, 38.862
+3, 0.012, 39.433
+4, 0.011, 42.866
+5, 0.011, 43.239
+6, 0.010, 45.340
+7, 0.011, 41.255
+8, 0.011, 43.179
+9, 0.042, 11.188
+10, 0.011, 41.361
+MTEPS:
+	Minimum:  11.18
+	Maximum:  46.28
+	Average:  39.30
+	STD_DEV:   9.62
+[ Breadth First Traversal | 7.770 s ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374248 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_all
