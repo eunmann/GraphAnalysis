@@ -51,27 +51,6 @@ public:
 		}
 	}
 
-	int64_t get_next(size_t index) {
-
-		const size_t num_bits = sizeof(uint64_t) * 8;
-		const uint64_t mask = 1ul << (num_bits - 1);
-		int64_t offset = 0;
-		uint64_t value = this->m_vec[index];
-
-		for (size_t i = 0; i < num_bits; i++) {
-			if ((value & mask) > 0) {
-				this->m_vec[index] &= ~(mask >> offset);
-				return offset;
-			}
-			else {
-				value = value << 1;
-				offset++;
-			}
-		}
-
-		return -1;
-	}
-
 	uint64_t get(size_t index) {
 		return this->m_vec[index];
 	}

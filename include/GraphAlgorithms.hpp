@@ -235,7 +235,7 @@ namespace GraphAlgorithms {
 			if (top_to_bottom_state) {
 
 				size_t fr_end = frontier_vec_r.size();
-#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked) reduction(+:n_f) reduction(+:m_f)
+#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked, n_f, m_f)
 				for (size_t i = 0; i < fr_end; i++) {
 
 					uint32_t vertex = frontier_vec_r[i];
@@ -265,7 +265,7 @@ namespace GraphAlgorithms {
 			}
 			else {
 				/* Bottom Up BFS */
-#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked) reduction(+:n_f) reduction(+:m_f)
+#pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked, n_f, m_f)
 				for (size_t vertex = 0; vertex < graph.num_vertices(); vertex++) {
 					if (vertex_depth[vertex] == -1) {
 

@@ -105,7 +105,6 @@ namespace Benchmark {
 		std::vector<double> metrics_PP;
 
 		{
-			printf("DRAM\n");
 			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
@@ -125,7 +124,6 @@ namespace Benchmark {
 		}
 
 		{
-			printf("PMEM\n");
 			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
@@ -161,7 +159,6 @@ namespace Benchmark {
 		std::vector<double> metrics_PP;
 
 		{
-			printf("DRAM\n");
 			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
@@ -185,7 +182,6 @@ namespace Benchmark {
 		}
 
 		{
-			printf("PMEM\n");
 			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
