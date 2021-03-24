@@ -3,6 +3,7 @@
 #include <functional>
 #include <random>
 #include <fstream>
+#include <sys/stat.h>
 
 namespace BenchmarkUtils {
 
@@ -14,6 +15,13 @@ namespace BenchmarkUtils {
 	}
 
 	void create_csv(const std::string& path, const std::vector<std::string>& headers) {
+
+		/* If the file exists, return so the file is not overwritten */
+		struct stat buffer;
+		if (stat(path.c_str(), &buffer) == 0) {
+			return;
+		}
+
 		std::ofstream ofs(path);
 		if (ofs.is_open()) {
 			for (auto& header : headers) {
@@ -26,11 +34,11 @@ namespace BenchmarkUtils {
 		ofs.close();
 	}
 
-	void save_graph_metrics_csv(const std::string& path, const std::string& graph_name, const std::vector<std::vector<double>>& metrics)
+	void save_graph_metrics_csv(const std::string& path, const std::string& name, const std::vector<std::vector<double>>& metrics)
 	{
 		std::ofstream ofs(path, std::ios::app);
 		if (ofs.is_open()) {
-			ofs << graph_name;
+			ofs << name;
 
 			for (auto& metric : metrics) {
 				double min;

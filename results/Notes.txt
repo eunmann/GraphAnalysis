@@ -1,0 +1,8 @@
+March 24th 2021
+
+Ran tests for page rank with explicit vectorization on neighbors versus v2, where the compiler vectoizes on page rank matrix.
+Seems that mine is faster for lower number of page ranks, and the compiler's version is better for higher number of page ranks.
+Action:
+	Use the compiler version
+	Also switching from static to dynamic scheduling
+
