@@ -13,6 +13,7 @@ IDIR = -Iinclude
 # Optimizing Flags
 OPT = -O3 -march=native -flto
 debug: OPT = -O0 -march=native
+assembly: OPT = -O3 -march=native
 
 # Flags
 CXXFLAGS = $(WARN) -std=c++17

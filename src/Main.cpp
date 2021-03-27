@@ -11,6 +11,9 @@
 
 void print_info() {
 
+    printf("Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory\n");
+    printf("by Evan Unmann\n");
+
     printf("PMEM:\n");
     printf("\tVersion: %d.%d\n", PMEM_MAJOR_VERSION, PMEM_MINOR_VERSION);
 
@@ -26,39 +29,30 @@ void print_info() {
     printf("\tMaximum Threads: %d\n", omp_get_max_threads());
 }
 
-void init_csv_files(const Benchmark::Parameters& tp) {
-    BenchmarkUtils::create_csv(tp.pr_csv_path, { "graph", "DD", "DP", "PD", "PP" });
-    BenchmarkUtils::create_csv(tp.bfs_csv_path, { "graph", "DD", "DP", "PD", "PP" });
-    BenchmarkUtils::create_csv(tp.mem_csv_path, { "benchmark", "dram", "pmem" });
-}
-
 int main(int argc, char** argv) {
     BlockTimer timer("Time Elapsed");
-    printf("Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory\n");
-    printf("by Evan Unmann\n");
 
     try {
 
         print_info();
 
         Benchmark::Parameters tp = Benchmark::get_parameters();
-        init_csv_files(tp);
 
         std::vector<std::pair<std::string, std::string>> graph_paths;
-
-        //graph_paths.push_back(std::make_pair("./graph_examples/facebook_combined.txt", "Facebook"));
-        //graph_paths.push_back(std::make_pair("./graph_examples/soc-Epinions1.txt", "Epinions"));
-        //graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
-        //graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
-        //graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
-        //graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
+        graph_paths.push_back(std::make_pair("./graph_examples/facebook_combined.txt", "Facebook"));
+        graph_paths.push_back(std::make_pair("./graph_examples/soc-Epinions1.txt", "Epinions"));
+        graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
+        graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
+        graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
+        graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
         //graph_paths.push_back(std::make_pair("./graph_examples/com-friendster.ungraph.txt", "Friendster"));
 
         for (const auto& graph_path : graph_paths) {
             tp.graph_path = graph_path.first;
             tp.graph_name = graph_path.second;
 
-            //Benchmark::benchmark_page_rank(tp);
+            Benchmark::benchmark_page_rank(tp);
+            Benchmark::benchmark_page_rank_sizes(tp);
             Benchmark::benchmark_breadth_first_traversal(tp);
         }
 

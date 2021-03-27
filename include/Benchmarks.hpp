@@ -14,26 +14,25 @@
 namespace Benchmark {
 
 	typedef struct Parameters {
-		size_t alloc_size = 1000000;
-		uint32_t num_vertices = 100000;
-		uint32_t min_degree = 1;
-		uint32_t max_degree = 200;
-		float min_value = 1;
-		float max_value = 5;
+		size_t mem_alloc_size = 1000000;
+		uint32_t graph_num_vertices = 100000;
+		uint32_t graph_min_degree = 1;
+		uint32_t graph_max_degree = 200;
+		float graph_min_value = 1;
+		float graph_max_value = 5;
 		uint32_t page_rank_iterations = 100;
-		float page_rank_dampening_factor = 0.8;
-		uint32_t num_dampening_factors = 4;
+		uint32_t page_rank_num_dampening_factors = 4;
+		std::vector<size_t> page_rank_dampening_factors = { 1,2,4,8,16 };
 		uint32_t test_iterations = 10;
 		std::string graph_path = "";
 		std::string graph_name = "";
-		std::string pr_csv_path = "";
-		std::string bfs_csv_path = "";
-		std::string mem_csv_path = "";
+		std::string out_dir = "";
 	} Parameters;
 
 	Benchmark::Parameters get_parameters();
 
 	void benchmark_page_rank(const Benchmark::Parameters& tp);
+	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp);
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp);
 	void benchmark_memory(const Benchmark::Parameters& tp);
 	void benchmark_STREAM(const Benchmark::Parameters& tp);
@@ -51,10 +50,12 @@ namespace Benchmark {
 		printf("Number of Edges: %lu = %s\n", graph.num_edges(), FormatUtils::format_number(graph.num_edges()).c_str());
 		printf("Memory Size: %lu = %sB\n", graph.byte_size(), FormatUtils::format_number(graph.byte_size()).c_str());
 		printf("Function Templates: %s\n", BenchmarkUtils::parse_templates_from_signatures(__PRETTY_FUNCTION__).c_str());
+		printf("Number of Page Ranks: %u\n", tp.page_rank_num_dampening_factors);
+		printf("Number of Iterations: %u\n", tp.page_rank_iterations);
 		printf("Iteration, Time Elapsed (s), MTEPS\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
-			GraphAlgorithms::page_rank<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.num_dampening_factors, tp.page_rank_dampening_factor));
+			GraphAlgorithms::page_rank<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.page_rank_num_dampening_factors, 0.8f));
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
@@ -100,7 +101,7 @@ namespace Benchmark {
 			*   depths, we can see how many vertices were actually checked. If its too
 			*	low, then we run again.
 			*/
-			if (num_vertices_checked < graph.num_vertices() * 0.40 || num_edges_traversed < graph.num_edges() * 0.40) {
+			if (num_vertices_checked < graph.num_vertices() * 0.25 || num_edges_traversed < graph.num_edges() * 0.25) {
 				start_vertices[iter - 1]++;
 				iter--;
 				continue;

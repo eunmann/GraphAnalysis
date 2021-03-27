@@ -21,73 +21,58 @@ namespace Benchmark {
 	Benchmark::Parameters get_parameters() {
 		Parameters tp;
 
-		if (std::getenv("alloc_size") != nullptr) {
-			tp.alloc_size = std::stol(std::getenv("alloc_size"));
+		if (std::getenv("mem_alloc_size") != nullptr) {
+			tp.mem_alloc_size = std::stol(std::getenv("mem_alloc_size"));
 		}
 
-		if (std::getenv("num_vertices") != nullptr) {
-			tp.num_vertices = std::stol(std::getenv("num_vertices"));
+		if (std::getenv("graph_num_vertices") != nullptr) {
+			tp.graph_num_vertices = std::stol(std::getenv("graph_num_vertices"));
 		}
 
-		if (std::getenv("min_degree") != nullptr) {
-			tp.min_degree = std::stol(std::getenv("min_degree"));
+		if (std::getenv("graph_min_degree") != nullptr) {
+			tp.graph_min_degree = std::stol(std::getenv("graph_min_degree"));
 		}
 
-		if (std::getenv("max_degree") != nullptr) {
-			tp.max_degree = std::stol(std::getenv("max_degree"));
+		if (std::getenv("graph_max_degree") != nullptr) {
+			tp.graph_max_degree = std::stol(std::getenv("graph_max_degree"));
 		}
 
-		if (std::getenv("min_value") != nullptr) {
-			tp.min_value = std::stol(std::getenv("min_value"));
+		if (std::getenv("graph_min_value") != nullptr) {
+			tp.graph_min_value = std::stol(std::getenv("graph_min_value"));
 		}
 
-		if (std::getenv("max_value") != nullptr) {
-			tp.max_value = std::stol(std::getenv("max_value"));
+		if (std::getenv("graph_max_value") != nullptr) {
+			tp.graph_max_value = std::stol(std::getenv("graph_max_value"));
 		}
 
 		if (std::getenv("page_rank_iterations") != nullptr) {
 			tp.page_rank_iterations = std::stol(std::getenv("page_rank_iterations"));
 		}
 
-		if (std::getenv("page_rank_dampening_factor") != nullptr) {
-			tp.page_rank_dampening_factor = std::stod(std::getenv("page_rank_dampening_factor"));
-		}
-
-		if (std::getenv("num_page_ranks") != nullptr) {
-			tp.num_dampening_factors = std::stol(std::getenv("num_page_ranks"));
+		if (std::getenv("page_rank_num_dampening_factors") != nullptr) {
+			tp.page_rank_num_dampening_factors = std::stol(std::getenv("page_rank_num_dampening_factors"));
 		}
 
 		if (std::getenv("test_iterations") != nullptr) {
 			tp.test_iterations = std::stol(std::getenv("test_iterations"));
 		}
 
-		if (std::getenv("pr_csv_path") != nullptr) {
-			tp.pr_csv_path = std::string(std::getenv("pr_csv_path"));
-		}
-
-		if (std::getenv("bfs_csv_path") != nullptr) {
-			tp.bfs_csv_path = std::string(std::getenv("bfs_csv_path"));
-		}
-
-		if (std::getenv("mem_csv_path") != nullptr) {
-			tp.mem_csv_path = std::string(std::getenv("mem_csv_path"));
+		if (std::getenv("out_dir") != nullptr) {
+			tp.out_dir = std::string(std::getenv("out_dir"));
 		}
 
 		printf("Test Parameters:\n");
-		printf("\talloc_size: %sB\n", FormatUtils::format_number(tp.alloc_size).c_str());
-		printf("\tnum_vertices: %s\n", FormatUtils::format_number(tp.num_vertices).c_str());
-		printf("\tmin_degree: %s\n", FormatUtils::format_number(tp.min_degree).c_str());
-		printf("\tmax_degree: %s\n", FormatUtils::format_number(tp.max_degree).c_str());
-		printf("\tmin_value: %s\n", FormatUtils::format_number(tp.min_value).c_str());
-		printf("\tmax_value: %s\n", FormatUtils::format_number(tp.max_value).c_str());
+		printf("\tmem_alloc_size: %sB\n", FormatUtils::format_number(tp.mem_alloc_size).c_str());
+		printf("\tgraph_num_vertices: %s\n", FormatUtils::format_number(tp.graph_num_vertices).c_str());
+		printf("\tgraph_min_degree: %s\n", FormatUtils::format_number(tp.graph_min_degree).c_str());
+		printf("\tgraph_max_degree: %s\n", FormatUtils::format_number(tp.graph_max_degree).c_str());
+		printf("\tgraph_min_value: %s\n", FormatUtils::format_number(tp.graph_min_value).c_str());
+		printf("\tgraph_max_value: %s\n", FormatUtils::format_number(tp.graph_max_value).c_str());
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
-		printf("\tpage_rank_dampening_factor: %s\n", FormatUtils::format_number(tp.page_rank_dampening_factor).c_str());
-		printf("\tnum_page_ranks: %s\n", FormatUtils::format_number(tp.num_dampening_factors).c_str());
+		printf("\tpage_rank_num_dampening_factors: %s\n", FormatUtils::format_number(tp.page_rank_num_dampening_factors).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
 		printf("\tGraph Path: %s\n", tp.graph_path.c_str());
-		printf("\tPage Rank CSV Path: %s\n", tp.pr_csv_path.c_str());
-		printf("\tBFS CSV Path: %s\n", tp.bfs_csv_path.c_str());
-		printf("\tMemory CSV Path: %s\n", tp.mem_csv_path.c_str());
+		printf("\tOut Dir Path: %s\n", tp.out_dir.c_str());
 
 		return tp;
 	}
@@ -105,12 +90,11 @@ namespace Benchmark {
 		std::vector<double> metrics_PP;
 
 		{
-			printf("DRAM\n");
 			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs<std::allocator>(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
 				printf("Saving graph to %s\n", temp_graph_path.c_str());
 				GraphUtils::save(graph, temp_graph_path);
 			}
@@ -125,7 +109,6 @@ namespace Benchmark {
 		}
 
 		{
-			printf("PMEM\n");
 			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
@@ -142,7 +125,99 @@ namespace Benchmark {
 			graph.free();
 		}
 
-		BenchmarkUtils::save_graph_metrics_csv(tp.pr_csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
+		std::string csv_path = tp.out_dir;
+		csv_path += "/page_rank_metrics.csv";
+
+		BenchmarkUtils::create_csv(csv_path, { "graph", "DD", "DP", "PD", "PP" });
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
+	}
+
+	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp) {
+		BlockTimer timer("Page Rank Benchmark");
+		printf("Page Rank Benchmark\n");
+
+		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
+
+		std::vector<std::vector<double>> metrics_DD;
+		std::vector<std::vector<double>> metrics_DP;
+		std::vector<std::vector<double>> metrics_PD;
+		std::vector<std::vector<double>> metrics_PP;
+
+		std::vector<std::string> csv_headers = { "comb" };
+		for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+			csv_headers.push_back(std::to_string(num_page_ranks));
+		}
+		std::string csv_path = tp.out_dir;
+		csv_path += "/page_rank_metrics_";
+		csv_path += tp.graph_name;
+		csv_path += ".csv";
+		BenchmarkUtils::create_csv(csv_path, csv_headers);
+
+		{
+			GraphCRS<std::allocator> graph;
+
+			if (tp.graph_path.empty()) {
+				printf("Generating graph\n");
+				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
+				printf("Saving graph to %s\n", temp_graph_path.c_str());
+				GraphUtils::save(graph, temp_graph_path);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph = GraphUtils::load<std::allocator>(tp.graph_path);
+			}
+
+			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+				Benchmark::Parameters pr_tp = tp;
+				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+				metrics_DD.push_back(run_page_rank<std::allocator, std::allocator>(pr_tp, graph));
+			}
+
+			BenchmarkUtils::save_graph_metrics_csv(csv_path, "DD", metrics_DD);
+
+			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+				Benchmark::Parameters pr_tp = tp;
+				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+				metrics_DP.push_back(run_page_rank<std::allocator, PMEM::allocator>(tp, graph));
+			}
+
+			BenchmarkUtils::save_graph_metrics_csv(csv_path, "DP", metrics_DP);
+
+			graph.free();
+		}
+
+		{
+			GraphCRS<PMEM::allocator> graph;
+
+			if (tp.graph_path.empty()) {
+				printf("Loading graph from %s\n", temp_graph_path.c_str());
+				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
+			}
+			else {
+				printf("Loading graph from %s\n", tp.graph_path.c_str());
+				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
+			}
+
+			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+				Benchmark::Parameters pr_tp = tp;
+				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+				metrics_PD.push_back(run_page_rank<PMEM::allocator, std::allocator>(tp, graph));
+			}
+
+			BenchmarkUtils::save_graph_metrics_csv(csv_path, "PD", metrics_PD);
+
+
+			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+				Benchmark::Parameters pr_tp = tp;
+				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+				metrics_PP.push_back(run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph));
+			}
+
+			BenchmarkUtils::save_graph_metrics_csv(csv_path, "PP", metrics_PP);
+
+
+			graph.free();
+		}
 	}
 
 	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
@@ -161,12 +236,11 @@ namespace Benchmark {
 		std::vector<double> metrics_PP;
 
 		{
-			printf("DRAM\n");
 			GraphCRS<std::allocator> graph;
 
 			if (tp.graph_path.empty()) {
 				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs<std::allocator>(tp.num_vertices, tp.min_degree, tp.max_degree, tp.min_value, tp.max_value);
+				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
 				printf("Saving graph to %s\n", temp_graph_path.c_str());
 				GraphUtils::save(graph, temp_graph_path);
 			}
@@ -185,7 +259,6 @@ namespace Benchmark {
 		}
 
 		{
-			printf("PMEM\n");
 			GraphCRS<PMEM::allocator> graph;
 
 			if (tp.graph_path.empty()) {
@@ -202,7 +275,10 @@ namespace Benchmark {
 			graph.free();
 		}
 
-		BenchmarkUtils::save_graph_metrics_csv(tp.bfs_csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
+		std::string csv_path = tp.out_dir;
+		csv_path += "/bfs_metrics.csv";
+		BenchmarkUtils::create_csv(csv_path, { "graph", "DD", "DP", "PD", "PP" });
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
 	}
 
 
@@ -326,12 +402,12 @@ namespace Benchmark {
 		printf("DRAM\n");
 
 		const size_t align_bytes = 16;
-		const size_t align_alloc_size = tp.alloc_size + align_bytes;
+		const size_t align_alloc_size = tp.mem_alloc_size + align_bytes;
 		char* dram_array = new char[align_alloc_size];
 		char* dram_array_aligned = dram_array + ((uintptr_t)dram_array % align_bytes);
 
-		BenchmarkUtils::set_zeros(dram_array_aligned, tp.alloc_size);
-		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array_aligned, tp.alloc_size);
+		BenchmarkUtils::set_zeros(dram_array_aligned, tp.mem_alloc_size);
+		std::vector<std::vector<double>> dram_metrics = run_memory(tp, dram_array_aligned, tp.mem_alloc_size);
 		delete dram_array;
 
 		printf("Persistent Memory\n");
@@ -346,8 +422,8 @@ namespace Benchmark {
 
 		char* pmem_array_aligned = pmem_array + ((uintptr_t)pmem_array % align_bytes);
 
-		BenchmarkUtils::set_zeros(pmem_array_aligned, tp.alloc_size);
-		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array_aligned, tp.alloc_size);
+		BenchmarkUtils::set_zeros(pmem_array_aligned, tp.mem_alloc_size);
+		std::vector<std::vector<double>> pmem_metrics = run_memory(tp, pmem_array_aligned, tp.mem_alloc_size);
 		pmem_alloc.deallocate(pmem_array, align_alloc_size);
 
 		printf("Read Sequential Bandwith (B/s)\n");
@@ -359,9 +435,12 @@ namespace Benchmark {
 		printf("Write Sequential Bandwith (B/s)\n");
 		BenchmarkUtils::compare_metrics(dram_metrics[2], pmem_metrics[2]);
 
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Read Sequential Bandwidth", "B/s", dram_metrics[0], pmem_metrics[0]);
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Read Random Latency", "ns", dram_metrics[1], pmem_metrics[1]);
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "Write Sequential Bandwidth", "B/s", dram_metrics[2], pmem_metrics[2]);
+		std::string csv_path = tp.out_dir;
+		csv_path += "/mem_metrics.csv";
+		BenchmarkUtils::create_csv(csv_path, { "benchmark", "dram", "pmem" });
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "Read Sequential Bandwidth", "B/s", dram_metrics[0], pmem_metrics[0]);
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "Read Random Latency", "ns", dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "Write Sequential Bandwidth", "B/s", dram_metrics[2], pmem_metrics[2]);
 	}
 
 	void benchmark_STREAM(const Benchmark::Parameters& tp) {
@@ -373,9 +452,12 @@ namespace Benchmark {
 		printf("PMEM\n");
 		std::vector<double> pmem_metrics = STREAM::run(true);
 
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Copy", "B/s", dram_metrics[0], pmem_metrics[0]);
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Scale", "B/s", dram_metrics[1], pmem_metrics[1]);
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Add", "B/s", dram_metrics[2], pmem_metrics[2]);
-		BenchmarkUtils::save_mem_metrics_csv(tp.mem_csv_path, "STREAM Triad", "B/s", dram_metrics[3], pmem_metrics[3]);
+		std::string csv_path = tp.out_dir;
+		csv_path += "/mem_metrics.csv";
+		BenchmarkUtils::create_csv(csv_path, { "benchmark", "dram", "pmem" });
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "STREAM Copy", "B/s", dram_metrics[0], pmem_metrics[0]);
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "STREAM Scale", "B/s", dram_metrics[1], pmem_metrics[1]);
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "STREAM Add", "B/s", dram_metrics[2], pmem_metrics[2]);
+		BenchmarkUtils::save_mem_metrics_csv(csv_path, "STREAM Triad", "B/s", dram_metrics[3], pmem_metrics[3]);
 	}
 }

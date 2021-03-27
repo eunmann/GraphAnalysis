@@ -9,29 +9,23 @@ mkdir ${out_dir}
 # Output directory
 export out_dir
 
-# Output Graph Metric CSV
-export pr_csv_path=${out_dir}pr_metrics.csv
-export bfs_csv_path=${out_dir}bfs_metrics.csv
-export mem_csv_path=${out_dir}mem_metrics.csv
-
 # Size of the memory test buffer
-export alloc_size=1000000000
+export mem_alloc_size=1000000000
 
 # Number of vertices to generate for the graph test
-export num_vertices=100000
+export graph_num_vertices=100000
 
 # Minimum and Maximum degree for vertice
-export min_degree=20
-export max_degree=200
+export graph_min_degree=20
+export graph_max_degree=200
 
 # Minimum and Maximum value for an edge's weight
-export min_value=1
-export max_value=2
+export graph_min_value=1
+export graph_max_value=2
 
 # Page Rank Parameters
 export page_rank_iterations=100
-export page_rank_dampening_factor=0.8
-export num_page_ranks=4
+export page_rank_num_dampening_factors=8
 
 # Number of iterations for each test
 export test_iterations=10
