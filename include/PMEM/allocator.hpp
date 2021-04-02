@@ -37,6 +37,8 @@ namespace PMEM {
                 return p;
             }
 
+            printf("ERROR: %s\n", std::strerror(errno));
+
             throw std::bad_alloc();
         }
 
