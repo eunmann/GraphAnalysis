@@ -9,6 +9,7 @@
 #include "GraphCRS.hpp"
 #include "BlockTimer.hpp"
 #include "GraphAlgorithms.hpp"
+#include "PMEM/allocator.hpp"
 #include "BenchmarkUtils.hpp"
 
 namespace Benchmark {
@@ -31,9 +32,9 @@ namespace Benchmark {
 
 	Benchmark::Parameters get_parameters();
 
-	void benchmark_page_rank(const Benchmark::Parameters& tp);
-	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp);
-	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp);
+	void benchmark_page_rank(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem);
+	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem);
+	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem);
 	void benchmark_memory(const Benchmark::Parameters& tp);
 	void benchmark_STREAM(const Benchmark::Parameters& tp);
 
@@ -55,7 +56,7 @@ namespace Benchmark {
 		printf("Iteration, Time Elapsed (s), MTEPS\n");
 		for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
 			Timer timer;
-			GraphAlgorithms::page_rank<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.page_rank_num_dampening_factors, 0.8f));
+			GraphAlgorithms::page_rank_v_neighbors<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.page_rank_num_dampening_factors, 0.8f));
 			timer.end();
 
 			double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;

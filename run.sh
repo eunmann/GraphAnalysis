@@ -28,7 +28,7 @@ export page_rank_iterations=100
 export page_rank_num_dampening_factors=8
 
 # Number of iterations for each test
-export test_iterations=3
+export test_iterations=1
 
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
@@ -46,6 +46,7 @@ echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
 echo Output File: ${final_name}
 
-./pmem_benchmark | tee $final_name
+./pmem_benchmark
+#./pmem_benchmark | tee $final_name
 
 echo Done

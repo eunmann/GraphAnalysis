@@ -75,6 +75,9 @@ namespace GraphUtils {
 
 	template<template<class> class T>
 	GraphCRS<T> load(const std::string& path) {
+
+		GraphCRS<T> graph;
+
 		std::ifstream file(path, std::ios::binary);
 		if (!file) {
 			printf("Could not open file at %s\n", path.c_str());
@@ -126,7 +129,7 @@ namespace GraphUtils {
 				i = sep_index + 1;
 			}
 
-			GraphCRS<T> graph(row_ind.size(), val.size());
+			graph = GraphCRS<T>(row_ind.size(), val.size());
 
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
@@ -136,8 +139,6 @@ namespace GraphUtils {
 			for (size_t i = 0; i < graph.num_vertices(); i++) {
 				graph.row_ind[i] = row_ind[i];
 			}
-
-			return graph;
 		}
 		else if (std::equal(path.end() - 4, path.end(), ".crs")) {
 			uint32_t size;
@@ -158,7 +159,7 @@ namespace GraphUtils {
 
 			file.close();
 
-			GraphCRS<T> graph(row_ind.size(), val.size());
+			graph = GraphCRS<T>(row_ind.size(), val.size());
 
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
@@ -168,8 +169,6 @@ namespace GraphUtils {
 			for (size_t i = 0; i < graph.num_vertices(); i++) {
 				graph.row_ind[i] = row_ind[i];
 			}
-
-			return graph;
 		}
 		else if (std::equal(path.end() - 4, path.end(), ".txt")) {
 			/*
@@ -191,15 +190,35 @@ namespace GraphUtils {
 			}
 
 			std::vector<std::vector<uint32_t>> node_map;
+			node_map.reserve(1e6);
 			size_t num_edges = 0;
 
 			/* Read each pair */
 			do {
-				std::istringstream iss(line);
-				uint32_t source, destination;
-				if (!(iss >> source >> destination)) {
-					break;
+
+				auto fast_atoi = [](const char* str, size_t start_index, size_t end_index) {
+					uint32_t value = 0;
+					while (start_index < end_index) {
+						char c = str[start_index];
+						if (c >= '0' && c <= '9') {
+							value = value * 10 + (str[start_index] - '0');
+							start_index++;
+						}
+						else {
+							break;
+						}
+					}
+					return value;
+				};
+
+				size_t split_index = line.find(' ');
+				if (split_index == std::string::npos) {
+					split_index = line.find('\t');
 				}
+
+				uint32_t source, destination;
+				source = fast_atoi(line.c_str(), 0, split_index);
+				destination = fast_atoi(line.c_str(), split_index + 1, line.size());
 
 				uint32_t max_node_id = source > destination ? source : destination;
 
@@ -242,23 +261,26 @@ namespace GraphUtils {
 				col_ind.insert(col_ind.end(), node_v.begin(), node_v.end());
 			}
 
-			GraphCRS<T> graph(row_ind.size(), val.size());
+			graph = GraphCRS<T>(row_ind.size(), val.size());
 
+#pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
 				graph.col_ind[i] = col_ind[i];
 			}
 
+#pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < graph.num_vertices(); i++) {
 				graph.row_ind[i] = row_ind[i];
 			}
-
-			return graph;
 		}
 		else {
 			printf("File type not supported: %s\n", path.substr(path.length() - 4).c_str());
-			return GraphCRS<T>(0, 0);
+			graph = GraphCRS<T>(0, 0);
 		}
+
+		file.close();
+		return graph;
 	}
 
 	template<template<class> class T>
@@ -322,5 +344,21 @@ namespace GraphUtils {
 
 			file.close();
 		}
+	}
+
+	template<template<class> class T, template<class> class B>
+	void copy(const GraphCRS<T>& graph_source, GraphCRS<B>& graph_destination) {
+
+#pragma omp parallel for schedule(static)
+		for (size_t i = 0; i < graph_source.num_edges(); i++) {
+			graph_destination.val[i] = graph_source.val[i];
+			graph_destination.col_ind[i] = graph_source.col_ind[i];
+		}
+
+#pragma omp parallel for schedule(static)
+		for (size_t i = 0; i < graph_source.num_vertices(); i++) {
+			graph_destination.row_ind[i] = graph_source.row_ind[i];
+		}
+
 	}
 };

@@ -8,6 +8,7 @@
 #include <libpmem.h>
 #include "PMEM/allocator.hpp"
 #include "BenchmarkUtils.hpp"
+#include "GraphUtils.hpp"
 
 void print_info() {
 
@@ -51,9 +52,23 @@ int main(int argc, char** argv) {
 			tp.graph_path = graph_path.first;
 			tp.graph_name = graph_path.second;
 
-			Benchmark::benchmark_page_rank(tp);
-			Benchmark::benchmark_page_rank_sizes(tp);
-			Benchmark::benchmark_breadth_first_traversal(tp);
+			GraphCRS<std::allocator> graph_dram;
+			GraphCRS<PMEM::allocator> graph_pmem;
+
+			printf("Loading graph from %s\n", tp.graph_path.c_str());
+			{
+				BlockTimer timer("Graph DRAM Load");
+				graph_dram = GraphUtils::load<std::allocator>(tp.graph_path);
+			}
+			{
+				BlockTimer timer("Graph DRAM Copy to PMEM");
+				graph_pmem = GraphCRS<PMEM::allocator>(graph_dram.num_vertices(), graph_dram.num_edges());
+				GraphUtils::copy(graph_dram, graph_pmem);
+			}
+
+			Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);
+			Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
+			Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 		}
 
 		//Benchmark::benchmark_memory(tp);

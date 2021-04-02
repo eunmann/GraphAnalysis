@@ -77,53 +77,20 @@ namespace Benchmark {
 		return tp;
 	}
 
-	void benchmark_page_rank(const Benchmark::Parameters& tp) {
+	void benchmark_page_rank(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem) {
 
 		BlockTimer timer("Page Rank Benchmark");
 		printf("Page Rank Benchmark\n");
-
-		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
 
 		std::vector<double> metrics_DD;
 		std::vector<double> metrics_DP;
 		std::vector<double> metrics_PD;
 		std::vector<double> metrics_PP;
 
-		{
-			GraphCRS<std::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
-				printf("Saving graph to %s\n", temp_graph_path.c_str());
-				GraphUtils::save(graph, temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<std::allocator>(tp.graph_path);
-			}
-
-			metrics_DD = run_page_rank<std::allocator, std::allocator>(tp, graph);
-			metrics_DP = run_page_rank<std::allocator, PMEM::allocator>(tp, graph);
-			graph.free();
-		}
-
-		{
-			GraphCRS<PMEM::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Loading graph from %s\n", temp_graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
-			}
-
-			metrics_PD = run_page_rank<PMEM::allocator, std::allocator>(tp, graph);
-			metrics_PP = run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph);
-			graph.free();
-		}
+		metrics_DD = run_page_rank<std::allocator, std::allocator>(tp, graph_dram);
+		metrics_DP = run_page_rank<std::allocator, PMEM::allocator>(tp, graph_dram);
+		metrics_PD = run_page_rank<PMEM::allocator, std::allocator>(tp, graph_pmem);
+		metrics_PP = run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph_pmem);
 
 		std::string csv_path = tp.out_dir;
 		csv_path += "/page_rank_metrics.csv";
@@ -132,11 +99,9 @@ namespace Benchmark {
 		BenchmarkUtils::save_graph_metrics_csv(csv_path, tp.graph_name, { metrics_DD, metrics_DP, metrics_PD, metrics_PP });
 	}
 
-	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp) {
+	void benchmark_page_rank_sizes(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem) {
 		BlockTimer timer("Page Rank Benchmark");
 		printf("Page Rank Benchmark\n");
-
-		std::string temp_graph_path = "./tmp/page_rank_graph.csv";
 
 		std::vector<std::vector<double>> metrics_DD;
 		std::vector<std::vector<double>> metrics_DP;
@@ -153,127 +118,56 @@ namespace Benchmark {
 		csv_path += ".csv";
 		BenchmarkUtils::create_csv(csv_path, csv_headers);
 
-		{
-			GraphCRS<std::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
-				printf("Saving graph to %s\n", temp_graph_path.c_str());
-				GraphUtils::save(graph, temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<std::allocator>(tp.graph_path);
-			}
-
-			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-				Benchmark::Parameters pr_tp = tp;
-				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-				metrics_DD.push_back(run_page_rank<std::allocator, std::allocator>(pr_tp, graph));
-			}
-
-			BenchmarkUtils::save_graph_metrics_csv(csv_path, "DD", metrics_DD);
-
-			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-				Benchmark::Parameters pr_tp = tp;
-				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-				metrics_DP.push_back(run_page_rank<std::allocator, PMEM::allocator>(tp, graph));
-			}
-
-			BenchmarkUtils::save_graph_metrics_csv(csv_path, "DP", metrics_DP);
-
-			graph.free();
+		for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+			Benchmark::Parameters pr_tp = tp;
+			pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+			metrics_DD.push_back(run_page_rank<std::allocator, std::allocator>(pr_tp, graph_dram));
 		}
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, "DD", metrics_DD);
 
-		{
-			GraphCRS<PMEM::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Loading graph from %s\n", temp_graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
-			}
-
-			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-				Benchmark::Parameters pr_tp = tp;
-				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-				metrics_PD.push_back(run_page_rank<PMEM::allocator, std::allocator>(tp, graph));
-			}
-
-			BenchmarkUtils::save_graph_metrics_csv(csv_path, "PD", metrics_PD);
-
-
-			for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-				Benchmark::Parameters pr_tp = tp;
-				pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-				metrics_PP.push_back(run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph));
-			}
-
-			BenchmarkUtils::save_graph_metrics_csv(csv_path, "PP", metrics_PP);
-
-
-			graph.free();
+		for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+			Benchmark::Parameters pr_tp = tp;
+			pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+			metrics_DP.push_back(run_page_rank<std::allocator, PMEM::allocator>(tp, graph_dram));
 		}
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, "DP", metrics_DP);
+
+		for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+			Benchmark::Parameters pr_tp = tp;
+			pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+			metrics_PD.push_back(run_page_rank<PMEM::allocator, std::allocator>(tp, graph_pmem));
+		}
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, "PD", metrics_PD);
+
+		for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
+			Benchmark::Parameters pr_tp = tp;
+			pr_tp.page_rank_num_dampening_factors = num_page_ranks;
+			metrics_PP.push_back(run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph_pmem));
+		}
+		BenchmarkUtils::save_graph_metrics_csv(csv_path, "PP", metrics_PP);
 	}
 
-	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp) {
+	void benchmark_breadth_first_traversal(const Benchmark::Parameters& tp, const GraphCRS<std::allocator>& graph_dram, const GraphCRS<PMEM::allocator>& graph_pmem) {
 
 		BlockTimer timer("Breadth First Traversal Benchmark");
 		printf("Breadth First Traversal Benchmark\n");
 
-		std::string temp_graph_path = "./tmp/bfs_graph.csv";
-
 		/* Create a list of vertices so the tests perform the same traversals */
 		std::vector<uint32_t> start_vertices;
+
+		for (uint32_t i = 0; i < tp.test_iterations; i++) {
+			start_vertices.push_back(graph_dram.num_vertices() * double(i) / double(tp.test_iterations));
+		}
 
 		std::vector<double> metrics_DD;
 		std::vector<double> metrics_DP;
 		std::vector<double> metrics_PD;
 		std::vector<double> metrics_PP;
 
-		{
-			GraphCRS<std::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Generating graph\n");
-				graph = GraphUtils::create_graph_crs<std::allocator>(tp.graph_num_vertices, tp.graph_min_degree, tp.graph_max_degree, tp.graph_min_value, tp.graph_max_value);
-				printf("Saving graph to %s\n", temp_graph_path.c_str());
-				GraphUtils::save(graph, temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<std::allocator>(tp.graph_path);
-			}
-
-			for (uint32_t i = 0; i < tp.test_iterations; i++) {
-				start_vertices.push_back(graph.num_vertices() * double(i) / double(tp.test_iterations));
-			}
-
-			metrics_DD = run_breadth_first_traversal<std::allocator, std::allocator>(tp, graph, start_vertices);
-			metrics_DP = run_breadth_first_traversal<std::allocator, PMEM::allocator>(tp, graph, start_vertices);
-			graph.free();
-		}
-
-		{
-			GraphCRS<PMEM::allocator> graph;
-
-			if (tp.graph_path.empty()) {
-				printf("Loading graph from %s\n", temp_graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(temp_graph_path);
-			}
-			else {
-				printf("Loading graph from %s\n", tp.graph_path.c_str());
-				graph = GraphUtils::load<PMEM::allocator>(tp.graph_path);
-			}
-
-			metrics_PD = run_breadth_first_traversal<PMEM::allocator, std::allocator>(tp, graph, start_vertices);
-			metrics_PP = run_breadth_first_traversal<PMEM::allocator, PMEM::allocator>(tp, graph, start_vertices);
-			graph.free();
-		}
+		metrics_DD = run_breadth_first_traversal<std::allocator, std::allocator>(tp, graph_dram, start_vertices);
+		metrics_DP = run_breadth_first_traversal<std::allocator, PMEM::allocator>(tp, graph_dram, start_vertices);
+		metrics_PD = run_breadth_first_traversal<PMEM::allocator, std::allocator>(tp, graph_pmem, start_vertices);
+		metrics_PP = run_breadth_first_traversal<PMEM::allocator, PMEM::allocator>(tp, graph_pmem, start_vertices);
 
 		std::string csv_path = tp.out_dir;
 		csv_path += "/bfs_metrics.csv";

@@ -47,11 +47,11 @@
 				},
 				{
 					"name": "page_rank_dampening_factor",
-					"value": "0.5"
+					"value": "0.8"
 				},
 				{
 					"name": "test_iterations",
-					"value": "3"
+					"value": "1"
 				}
 			],
 			"externalConsole": false,
