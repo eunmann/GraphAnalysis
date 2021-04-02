@@ -71,7 +71,7 @@ namespace Benchmark {
 		printf("\tpage_rank_iterations: %s\n", FormatUtils::format_number(tp.page_rank_iterations).c_str());
 		printf("\tpage_rank_num_dampening_factors: %s\n", FormatUtils::format_number(tp.page_rank_num_dampening_factors).c_str());
 		printf("\ttest_iterations: %s\n", FormatUtils::format_number(tp.test_iterations).c_str());
-		printf("\tOut Dir Path: %s\n", tp.out_dir.c_str());
+		printf("\tout_dir: %s\n", tp.out_dir.c_str());
 
 		return tp;
 	}
