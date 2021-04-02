@@ -66,9 +66,9 @@ int main(int argc, char** argv) {
 				GraphUtils::copy(graph_dram, graph_pmem);
 			}
 
-			Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);
-			Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
-			Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
+			//Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);
+			//Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
+			//Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 
 			graph_dram.free();
 			graph_pmem.free();
