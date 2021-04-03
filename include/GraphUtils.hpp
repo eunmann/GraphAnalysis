@@ -182,7 +182,7 @@ namespace GraphUtils {
 			std::getline(file, line);
 
 			/* The first line should describe whether the graph is directed or not */
-			bool is_directed = line.rfind("# Directed", 0) == 0;
+			bool is_directed = line.find("# Directed", 0) == 0;
 
 			/* Lines with comments are marks with a '#', so skip these */
 			while (line[0] == '#') {
@@ -196,6 +196,7 @@ namespace GraphUtils {
 			/* Read each pair */
 			do {
 
+				/*
 				auto fast_atoi = [](const char* str, size_t start_index, size_t end_index) {
 					uint32_t value = 0;
 					while (start_index < end_index) {
@@ -215,10 +216,13 @@ namespace GraphUtils {
 				if (split_index == std::string::npos) {
 					split_index = line.find('\t');
 				}
+				*/
 
+				std::istringstream iss(line);
 				uint32_t source, destination;
-				source = atoi(line.substr(0, split_index).c_str());
-				destination = atoi(line.substr(split_index + 1, line.size() - split_index + 1).c_str());
+				if (!(iss >> source >> destination)) {
+					break;
+				}
 
 				uint32_t max_node_id = source > destination ? source : destination;
 
