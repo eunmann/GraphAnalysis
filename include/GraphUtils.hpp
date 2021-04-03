@@ -351,16 +351,13 @@ namespace GraphUtils {
 	template<template<class> class T, template<class> class B>
 	void copy(const GraphCRS<T>& graph_source, GraphCRS<B>& graph_destination) {
 
-#pragma omp parallel for schedule(static)
 		for (size_t i = 0; i < graph_source.num_edges(); i++) {
 			graph_destination.val[i] = graph_source.val[i];
 			graph_destination.col_ind[i] = graph_source.col_ind[i];
 		}
 
-#pragma omp parallel for schedule(static)
 		for (size_t i = 0; i < graph_source.num_vertices(); i++) {
 			graph_destination.row_ind[i] = graph_source.row_ind[i];
 		}
-
 	}
 };
