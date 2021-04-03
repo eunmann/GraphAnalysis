@@ -23,6 +23,8 @@ void print_info() {
 	const size_t N = 10;
 	auto p = allocator.allocate(N);
 	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
+	p[0] = 1.0f;
+	printf("VALUE: %f\n", p[0]);
 	allocator.deallocate(p, N);
 
 	printf("OpenMP:\n");
@@ -36,6 +38,8 @@ int main(int argc, char** argv) {
 	try {
 
 		print_info();
+
+		return 0;
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();
 
