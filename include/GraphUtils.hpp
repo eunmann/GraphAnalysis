@@ -267,13 +267,11 @@ namespace GraphUtils {
 
 			graph = GraphCRS<T>(row_ind.size(), val.size());
 
-#pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < graph.num_edges(); i++) {
 				graph.val[i] = val[i];
 				graph.col_ind[i] = col_ind[i];
 			}
 
-#pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < graph.num_vertices(); i++) {
 				graph.row_ind[i] = row_ind[i];
 			}
