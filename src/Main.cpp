@@ -62,7 +62,8 @@ int main(int argc, char** argv) {
 			}
 			{
 				BlockTimer timer("Graph PMEM Load");
-				graph_pmem = GraphUtils::load<PMEM::allocator>(tp.graph_path);
+				graph_pmem = GraphCRS<PMEM::allocator>(graph_dram.num_vertices(), graph_dram.num_edges());
+				GraphUtils::copy(graph_dram, graph_pmem);
 			}
 
 			Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);

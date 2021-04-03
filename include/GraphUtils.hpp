@@ -217,8 +217,8 @@ namespace GraphUtils {
 				}
 
 				uint32_t source, destination;
-				source = fast_atoi(line.c_str(), 0, split_index);
-				destination = fast_atoi(line.c_str(), split_index + 1, line.size());
+				source = atoi(line.substr(0, split_index).c_str());
+				destination = atoi(line.substr(split_index + 1, line.size() - split_index + 1).c_str());
 
 				uint32_t max_node_id = source > destination ? source : destination;
 
