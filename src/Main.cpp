@@ -20,15 +20,9 @@ void print_info() {
 
 	/* Test the allocator to see if PMEM is accessible or not */
 	PMEM::allocator<float> allocator;
-	const size_t N = 2 * 1e9;
+	const size_t N = 10;
 	auto p = allocator.allocate(N);
 	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
-
-	for (size_t i = 0; i < N; i++) {
-		p[i] = 1.0f;
-	}
-
-	printf("VALUE: %f\n", p[0]);
 	allocator.deallocate(p, N);
 
 	printf("OpenMP:\n");
@@ -42,8 +36,6 @@ int main(int argc, char** argv) {
 	try {
 
 		print_info();
-
-		return 0;
 
 		Benchmark::Parameters tp = Benchmark::get_parameters();
 
