@@ -20,7 +20,7 @@ void print_info() {
 
 	/* Test the allocator to see if PMEM is accessible or not */
 	PMEM::allocator<float> allocator;
-	const size_t N = 1e6;
+	const size_t N = 2 * 1e9;
 	auto p = allocator.allocate(N);
 	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
 
