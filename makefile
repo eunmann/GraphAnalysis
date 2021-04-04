@@ -16,7 +16,7 @@ debug: OPT = -O0 -march=native
 assembly: OPT = -O3 -march=native
 
 # Flags
-CXXFLAGS = $(WARN) -std=c++17
+CXXFLAGS = $(WARN) -std=c++14
 debug: CXXFLAGS += -g
 
 # Source

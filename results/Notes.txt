@@ -1,8 +1,27 @@
 March 24th 2021
 
-Ran tests for page rank with explicit vectorization on neighbors versus v2, where the compiler vectoizes on page rank matrix.
-Seems that mine is faster for lower number of page ranks, and the compiler's version is better for higher number of page ranks.
-Action:
-	Use the compiler version
-	Also switching from static to dynamic scheduling
+    Ran tests for page rank with explicit vectorization on neighbors versus v2, where the compiler vectoizes on page rank matrix.
+    Seems that mine is faster for lower number of page ranks, and the compiler's version is better for higher number of page ranks.
+    Action:
+    	Use the compiler version
+    	Also switching from static to dynamic scheduling
 
+March 27th 2021
+
+    Page Rank Results:
+        I looked at the results for running page rank with the compiler.
+        The results for lower page ranks performed worse than my implementation.
+        My implementation, might actually have been better for DRAM, but worse for PMEM.
+        So the compilers version might be better for PMEM, so I might have to seperate these.
+
+    BFS is way too slow:
+        std::atomic, might have to use this instead of using OMP critical
+
+April 4th 2021
+
+    Page Rank Results:
+        I ran my version of page rank again for all graphs
+    
+    BFS:
+        std::atmoic didn't work, but making a mutex for every element did
+    
