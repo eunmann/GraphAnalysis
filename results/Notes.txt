@@ -24,4 +24,8 @@ April 4th 2021
     
     BFS:
         std::atmoic didn't work, but making a mutex for every element did
+
+    GraphCRS:
+        I'm think about adding an extra element to the row_ind array so that I don't have to check if I'm inspecting the last element
+        It should make the code much easier to read and write, also removing a if statement in critical spots in the code.
     
