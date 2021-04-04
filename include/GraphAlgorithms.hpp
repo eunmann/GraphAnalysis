@@ -23,6 +23,7 @@ namespace GraphAlgorithms {
 		/* Use two vectors since the next iteration relies on the current iteration */
 		std::vector<float, temp_alloc_type<float>> prv_1(num_dampening_factors * graph.num_vertices(), init_prob);
 		std::vector<float, temp_alloc_type<float>> prv_2(num_dampening_factors * graph.num_vertices(), init_prob);
+
 		for (size_t i = 0; i < iterations; i++) {
 			std::vector<float, temp_alloc_type<float>>& pr_read = i % 2 == 0 ? prv_1 : prv_2;
 			std::vector<float, temp_alloc_type<float>>& pr_write = i % 2 == 1 ? prv_1 : prv_2;
@@ -35,9 +36,8 @@ namespace GraphAlgorithms {
 					v = 0;
 				}
 
-				uint32_t row_index;
-				uint32_t row_index_end;
-				std::tie(row_index, row_index_end) = graph.row_indices(vertex);
+				uint32_t row_index = graph.row_ind[vertex];
+				uint32_t row_index_end = graph.row_ind[vertex + 1];
 
 				if (row_index_end - row_index >= 8) {
 					__m256 page_rank_sum_v[num_dampening_factors];
@@ -46,21 +46,20 @@ namespace GraphAlgorithms {
 					}
 
 					/* For each neighbor in groups of 8 */
-					for (uint32_t riev = row_index_end - 8; row_index < riev; row_index += 8) {
+					for (uint32_t riev = row_index_end - 8; row_index <= riev; row_index += 8) {
+
 						__m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(graph.col_ind + row_index));
-						uint32_t neighbor = graph.col_ind[row_index];
-						uint32_t neighbor_row_index_end = neighbor + 8 >= graph.num_vertices() ? graph.num_edges() : graph.row_ind[neighbor + 8];
 
-						/* Extract the 5th element, _mm256_slli_si256 shifts in 128b sections, so the 1st and 5th element are lost */
-						uint32_t t = _mm256_extract_epi32(neighbor_v, 4);
-						__m256i neighbor_shifted_v = _mm256_slli_si256(neighbor_v, sizeof(uint32_t));
+						__m256i neighbor_row_index_v = _mm256_i32gather_epi32((const int*)graph.row_ind, neighbor_v, 1);
 
-						/* Fill in the missing elements to compute number of neighbors */
-						_mm256_insert_epi32(neighbor_shifted_v, graph.col_ind[neighbor_row_index_end], 7);
-						_mm256_insert_epi32(neighbor_shifted_v, t, 3);
+						uint32_t t_1 = _mm256_extract_epi32(neighbor_v, 4);
+						uint32_t t_2 = graph.row_ind[_mm256_extract_epi32(neighbor_v, 7) + 1];
+						__m256i neighbor_row_index_end_v = _mm256_slli_si256(neighbor_v, sizeof(uint32_t));
+						_mm256_insert_epi32(neighbor_row_index_end_v, t_1, 4);
+						_mm256_insert_epi32(neighbor_row_index_end_v, t_2, 7);
 
-						__m256 adjacency_v = _mm256_set_ps(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-						adjacency_v = adjacency_v / _mm256_cvtepi32_ps((neighbor_shifted_v - neighbor_v));
+
+						__m256 adjacency_v = 1.0f / _mm256_cvtepi32_ps(neighbor_row_index_end_v - neighbor_row_index_v);
 
 						/* Scale the neighbor vertex indexes for access into the page rank matrix */
 						neighbor_v = _mm256_mullo_epi32(neighbor_v, _mm256_set1_epi32(num_dampening_factors));
@@ -123,9 +122,8 @@ namespace GraphAlgorithms {
 					v = 0;
 				}
 
-				uint32_t row_index;
-				uint32_t row_index_end;
-				std::tie(row_index, row_index_end) = graph.row_indices(vertex);
+				uint32_t row_index = graph.row_ind[vertex];
+				uint32_t row_index_end = graph.row_ind[vertex + 1];
 
 				/* For each remaining neighbor */
 				for (; row_index < row_index_end; row_index++) {
@@ -237,9 +235,8 @@ namespace GraphAlgorithms {
 
 					uint32_t vertex = frontier_vec_r[i];
 
-					uint32_t row_index;
-					uint32_t row_index_end;
-					std::tie(row_index, row_index_end) = graph.row_indices(vertex);
+					uint32_t row_index = graph.row_ind[vertex];
+					uint32_t row_index_end = graph.row_ind[vertex + 1];
 
 					/* For each neighbor */
 					for (; row_index < row_index_end; row_index++) {
@@ -267,9 +264,8 @@ namespace GraphAlgorithms {
 				for (size_t vertex = 0; vertex < graph.num_vertices(); vertex++) {
 					if (vertex_depth[vertex] == -1) {
 
-						uint32_t row_index;
-						uint32_t row_index_end;
-						std::tie(row_index, row_index_end) = graph.row_indices(vertex);
+						uint32_t row_index = graph.row_ind[vertex];
+						uint32_t row_index_end = graph.row_ind[vertex + 1];
 
 						for (; row_index < row_index_end; row_index++) {
 							uint32_t neighbor = graph.col_ind[row_index];
