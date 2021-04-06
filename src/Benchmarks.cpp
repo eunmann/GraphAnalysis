@@ -117,31 +117,29 @@ namespace Benchmark {
         csv_path += ".csv";
         BenchmarkUtils::create_csv(csv_path, csv_headers);
 
+        Benchmark::Parameters pr_tp = tp;
+
         for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-            Benchmark::Parameters pr_tp = tp;
             pr_tp.page_rank_num_dampening_factors = num_page_ranks;
             metrics_DD.push_back(run_page_rank<std::allocator, std::allocator>(pr_tp, graph_dram));
         }
         BenchmarkUtils::save_graph_metrics_csv(csv_path, "DD", metrics_DD);
 
         for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-            Benchmark::Parameters pr_tp = tp;
             pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-            metrics_DP.push_back(run_page_rank<std::allocator, PMEM::allocator>(tp, graph_dram));
+            metrics_DP.push_back(run_page_rank<std::allocator, PMEM::allocator>(pr_tp, graph_dram));
         }
         BenchmarkUtils::save_graph_metrics_csv(csv_path, "DP", metrics_DP);
 
         for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-            Benchmark::Parameters pr_tp = tp;
             pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-            metrics_PD.push_back(run_page_rank<PMEM::allocator, std::allocator>(tp, graph_pmem));
+            metrics_PD.push_back(run_page_rank<PMEM::allocator, std::allocator>(pr_tp, graph_pmem));
         }
         BenchmarkUtils::save_graph_metrics_csv(csv_path, "PD", metrics_PD);
 
         for (auto& num_page_ranks : tp.page_rank_dampening_factors) {
-            Benchmark::Parameters pr_tp = tp;
             pr_tp.page_rank_num_dampening_factors = num_page_ranks;
-            metrics_PP.push_back(run_page_rank<PMEM::allocator, PMEM::allocator>(tp, graph_pmem));
+            metrics_PP.push_back(run_page_rank<PMEM::allocator, PMEM::allocator>(pr_tp, graph_pmem));
         }
         BenchmarkUtils::save_graph_metrics_csv(csv_path, "PP", metrics_PP);
     }

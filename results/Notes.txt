@@ -28,4 +28,19 @@ April 4th 2021
     GraphCRS:
         I'm think about adding an extra element to the row_ind array so that I don't have to check if I'm inspecting the last element
         It should make the code much easier to read and write, also removing a if statement in critical spots in the code.
+
+April 6th 2021
+
+    Page Rank:
+        Try "#pragma omp simd"
+        Rerun, PR wasn't being changed
     
+    Hyperthreading:
+        Use 18 threads instead
+        Compare hyperthread to no hyperthread
+            If latency is higher, maybe more concurrency is good
+
+    Conclusion:
+        Think of recommendations
+        Is this even useful?
+        Can there be even more performance?
