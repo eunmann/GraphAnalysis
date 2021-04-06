@@ -1,0 +1,1030 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+OpenMP:
+	Number of Processors: 72
+	Maximum Threads: 36
+Test Parameters:
+	mem_alloc_size:   1.000GB
+	graph_num_vertices: 100.000K
+	graph_min_degree:  20.00
+	graph_max_degree: 200.00
+	graph_min_value:   1.00
+	graph_max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_num_dampening_factors:   8.00
+	test_iterations:  10.00
+	out_dir: output/2021.04.06.11.02.33/
+Loading Facebook graph from ./graph_examples/facebook_combined.txt
+[ Graph DRAM Load | 15.518 ms ]
+[ Graph PMEM Copy | 14.199 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.013, 1389.298
+2, 0.009, 1932.476
+3, 0.008, 2151.253
+4, 0.008, 2228.931
+5, 0.008, 2295.805
+6, 0.008, 2351.588
+7, 0.007, 2366.493
+8, 0.007, 2379.907
+9, 0.007, 2376.141
+10, 0.007, 2391.663
+MTEPS:
+	Minimum:   1.389K
+	Maximum:   2.392K
+	Average:   2.186K
+	STD_DEV: 298.35
+[ Page Rank | 82.868 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1597.333
+2, 0.011, 1574.100
+3, 0.011, 1570.813
+4, 0.011, 1585.752
+5, 0.011, 1558.771
+6, 0.011, 1580.669
+7, 0.011, 1590.788
+8, 0.011, 1579.745
+9, 0.011, 1584.247
+10, 0.011, 1579.170
+MTEPS:
+	Minimum:   1.559K
+	Maximum:   1.597K
+	Average:   1.580K
+	STD_DEV:  10.19
+[ Page Rank | 111.731 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.008, 2344.577
+2, 0.007, 2370.976
+3, 0.007, 2371.135
+4, 0.007, 2381.447
+5, 0.007, 2372.212
+6, 0.007, 2378.945
+7, 0.007, 2362.147
+8, 0.007, 2374.079
+9, 0.007, 2376.064
+10, 0.007, 2368.598
+MTEPS:
+	Minimum:   2.345K
+	Maximum:   2.381K
+	Average:   2.370K
+	STD_DEV:   9.90
+[ Page Rank | 74.489 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1575.506
+2, 0.011, 1588.083
+3, 0.011, 1575.884
+4, 0.011, 1588.879
+5, 0.011, 1572.336
+6, 0.011, 1572.773
+7, 0.011, 1543.846
+8, 0.011, 1553.355
+9, 0.011, 1563.038
+10, 0.011, 1563.904
+MTEPS:
+	Minimum:   1.544K
+	Maximum:   1.589K
+	Average:   1.570K
+	STD_DEV:  13.44
+[ Page Rank | 112.463 ms ]
+[ Page Rank Benchmark | 381.626 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.034, 521.056
+2, 0.063, 281.178
+3, 0.063, 279.852
+4, 0.064, 276.526
+5, 0.063, 278.844
+6, 0.061, 288.289
+7, 0.062, 285.150
+8, 0.061, 287.183
+9, 0.060, 294.873
+10, 0.061, 287.063
+MTEPS:
+	Minimum: 276.52
+	Maximum: 521.05
+	Average: 308.00
+	STD_DEV:  71.20
+[ Page Rank | 592.690 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.085, 207.566
+2, 0.098, 179.883
+3, 0.109, 161.559
+4, 0.103, 170.702
+5, 0.104, 170.233
+6, 0.103, 171.530
+7, 0.111, 159.164
+8, 0.113, 156.167
+9, 0.100, 176.386
+10, 0.100, 176.736
+MTEPS:
+	Minimum: 156.16
+	Maximum: 207.56
+	Average: 172.99
+	STD_DEV:  13.74
+[ Page Rank | 1.026 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.009, 1955.100
+2, 0.011, 1675.231
+3, 0.010, 1794.466
+4, 0.011, 1648.275
+5, 0.010, 1739.021
+6, 0.010, 1681.817
+7, 0.011, 1640.136
+8, 0.010, 1823.053
+9, 0.010, 1706.800
+10, 0.011, 1672.752
+MTEPS:
+	Minimum:   1.640K
+	Maximum:   1.955K
+	Average:   1.734K
+	STD_DEV:  93.44
+[ Page Rank | 102.094 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 2367.412
+2, 0.007, 2388.434
+3, 0.007, 2374.114
+4, 0.007, 2382.709
+5, 0.007, 2378.867
+6, 0.007, 2383.532
+7, 0.007, 2375.216
+8, 0.007, 2385.934
+9, 0.007, 2385.128
+10, 0.007, 2382.296
+MTEPS:
+	Minimum:   2.367K
+	Maximum:   2.388K
+	Average:   2.380K
+	STD_DEV:   6.11
+[ Page Rank | 74.160 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.008, 2155.647
+2, 0.008, 2188.585
+3, 0.008, 2182.991
+4, 0.008, 2181.566
+5, 0.008, 2187.738
+6, 0.008, 2185.465
+7, 0.008, 2183.440
+8, 0.008, 2196.575
+9, 0.008, 2193.693
+10, 0.008, 2188.321
+MTEPS:
+	Minimum:   2.156K
+	Maximum:   2.197K
+	Average:   2.184K
+	STD_DEV:  10.57
+[ Page Rank | 80.812 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1564.402
+2, 0.011, 1599.957
+3, 0.011, 1574.059
+4, 0.011, 1573.115
+5, 0.011, 1574.406
+6, 0.011, 1589.889
+7, 0.011, 1588.013
+8, 0.011, 1572.813
+9, 0.011, 1567.826
+10, 0.011, 1588.212
+MTEPS:
+	Minimum:   1.564K
+	Maximum:   1.600K
+	Average:   1.579K
+	STD_DEV:  10.86
+[ Page Rank | 111.785 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1575.798
+2, 0.011, 1577.514
+3, 0.011, 1568.503
+4, 0.011, 1555.237
+5, 0.011, 1561.026
+6, 0.011, 1572.713
+7, 0.011, 1560.601
+8, 0.011, 1571.119
+9, 0.011, 1555.573
+10, 0.011, 1570.898
+MTEPS:
+	Minimum:   1.555K
+	Maximum:   1.578K
+	Average:   1.567K
+	STD_DEV:   7.74
+[ Page Rank | 112.662 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1572.944
+2, 0.011, 1579.495
+3, 0.011, 1590.411
+4, 0.011, 1577.941
+5, 0.011, 1596.418
+6, 0.011, 1585.697
+7, 0.011, 1570.945
+8, 0.011, 1564.740
+9, 0.011, 1589.461
+10, 0.011, 1567.037
+MTEPS:
+	Minimum:   1.565K
+	Maximum:   1.596K
+	Average:   1.580K
+	STD_DEV:  10.17
+[ Page Rank | 111.771 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1560.209
+2, 0.011, 1568.526
+3, 0.011, 1550.546
+4, 0.011, 1564.006
+5, 0.011, 1553.758
+6, 0.011, 1561.649
+7, 0.011, 1561.999
+8, 0.011, 1563.682
+9, 0.011, 1572.494
+10, 0.011, 1575.563
+MTEPS:
+	Minimum:   1.551K
+	Maximum:   1.576K
+	Average:   1.563K
+	STD_DEV:   7.28
+[ Page Rank | 112.925 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1559.898
+2, 0.011, 1569.163
+3, 0.011, 1590.848
+4, 0.011, 1570.847
+5, 0.011, 1574.402
+6, 0.011, 1566.376
+7, 0.011, 1581.885
+8, 0.011, 1576.088
+9, 0.011, 1579.493
+10, 0.011, 1585.682
+MTEPS:
+	Minimum:   1.560K
+	Maximum:   1.591K
+	Average:   1.575K
+	STD_DEV:   8.86
+[ Page Rank | 112.052 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.008, 2340.509
+2, 0.007, 2366.732
+3, 0.007, 2361.540
+4, 0.007, 2362.710
+5, 0.007, 2372.335
+6, 0.007, 2358.956
+7, 0.007, 2359.809
+8, 0.007, 2355.110
+9, 0.007, 2353.569
+10, 0.007, 2361.399
+MTEPS:
+	Minimum:   2.341K
+	Maximum:   2.372K
+	Average:   2.359K
+	STD_DEV:   8.06
+[ Page Rank | 74.827 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 2368.089
+2, 0.007, 2363.652
+3, 0.007, 2374.721
+4, 0.007, 2376.844
+5, 0.007, 2367.932
+6, 0.007, 2369.618
+7, 0.007, 2381.993
+8, 0.007, 2373.060
+9, 0.007, 2371.100
+10, 0.007, 2372.172
+MTEPS:
+	Minimum:   2.364K
+	Maximum:   2.382K
+	Average:   2.372K
+	STD_DEV:   4.89
+[ Page Rank | 74.423 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 2376.887
+2, 0.007, 2375.366
+3, 0.007, 2379.892
+4, 0.007, 2378.003
+5, 0.007, 2373.197
+6, 0.007, 2362.274
+7, 0.007, 2377.611
+8, 0.007, 2376.178
+9, 0.007, 2373.060
+10, 0.007, 2360.140
+MTEPS:
+	Minimum:   2.360K
+	Maximum:   2.380K
+	Average:   2.373K
+	STD_DEV:   6.35
+[ Page Rank | 74.382 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 2373.827
+2, 0.007, 2361.705
+3, 0.007, 2370.327
+4, 0.007, 2374.607
+5, 0.007, 2376.191
+6, 0.007, 2375.099
+7, 0.007, 2372.654
+8, 0.007, 2376.782
+9, 0.007, 2373.689
+10, 0.007, 2368.845
+MTEPS:
+	Minimum:   2.362K
+	Maximum:   2.377K
+	Average:   2.372K
+	STD_DEV:   4.25
+[ Page Rank | 74.408 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 2371.955
+2, 0.007, 2370.533
+3, 0.007, 2369.274
+4, 0.007, 2368.150
+5, 0.007, 2358.088
+6, 0.007, 2377.738
+7, 0.007, 2366.570
+8, 0.007, 2360.842
+9, 0.007, 2362.426
+10, 0.007, 2370.479
+MTEPS:
+	Minimum:   2.358K
+	Maximum:   2.378K
+	Average:   2.368K
+	STD_DEV:   5.52
+[ Page Rank | 74.567 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1575.961
+2, 0.011, 1563.547
+3, 0.011, 1577.716
+4, 0.011, 1536.613
+5, 0.011, 1555.035
+6, 0.011, 1564.980
+7, 0.011, 1565.927
+8, 0.011, 1555.608
+9, 0.011, 1538.312
+10, 0.011, 1569.920
+MTEPS:
+	Minimum:   1.537K
+	Maximum:   1.578K
+	Average:   1.560K
+	STD_DEV:  13.41
+[ Page Rank | 113.140 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1568.600
+2, 0.011, 1559.623
+3, 0.011, 1567.765
+4, 0.011, 1565.250
+5, 0.011, 1569.904
+6, 0.011, 1571.843
+7, 0.011, 1574.191
+8, 0.011, 1564.305
+9, 0.011, 1568.684
+10, 0.011, 1554.264
+MTEPS:
+	Minimum:   1.554K
+	Maximum:   1.574K
+	Average:   1.566K
+	STD_DEV:   5.59
+[ Page Rank | 112.695 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1564.718
+2, 0.011, 1549.899
+3, 0.011, 1561.758
+4, 0.011, 1568.539
+5, 0.011, 1534.582
+6, 0.011, 1556.567
+7, 0.011, 1575.125
+8, 0.011, 1574.310
+9, 0.011, 1567.272
+10, 0.011, 1564.341
+MTEPS:
+	Minimum:   1.535K
+	Maximum:   1.575K
+	Average:   1.562K
+	STD_DEV:  11.55
+[ Page Rank | 113.042 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1556.307
+2, 0.011, 1556.387
+3, 0.011, 1560.683
+4, 0.011, 1582.279
+5, 0.011, 1545.181
+6, 0.011, 1576.882
+7, 0.011, 1577.083
+8, 0.011, 1565.027
+9, 0.011, 1549.424
+10, 0.011, 1576.345
+MTEPS:
+	Minimum:   1.545K
+	Maximum:   1.582K
+	Average:   1.565K
+	STD_DEV:  12.31
+[ Page Rank | 112.835 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1572.535
+2, 0.011, 1569.126
+3, 0.011, 1575.743
+4, 0.011, 1567.698
+5, 0.011, 1545.187
+6, 0.011, 1555.038
+7, 0.011, 1560.289
+8, 0.011, 1569.047
+9, 0.011, 1554.263
+10, 0.011, 1575.212
+MTEPS:
+	Minimum:   1.545K
+	Maximum:   1.576K
+	Average:   1.564K
+	STD_DEV:   9.71
+[ Page Rank | 112.843 ms ]
+[ Page Rank Benchmark | 3.374 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down | 75.434 us ]
+[ Top Down | 114.335 us ]
+[ Conversion Top Down to Bottom Up | 95.697 us ]
+[ Bottom Up | 747.832 us ]
+[ Bottom Up | 116.205 us ]
+1, 0.001, 102.866
+[ Top Down | 60.115 us ]
+[ Top Down | 73.380 us ]
+[ Top Down | 120.992 us ]
+[ Conversion Top Down to Bottom Up | 93.058 us ]
+[ Bottom Up | 1.082 ms ]
+[ Bottom Up | 106.989 us ]
+2, 0.002, 107.114
+[ Top Down | 62.279 us ]
+[ Top Down | 79.405 us ]
+[ Top Down | 95.018 us ]
+[ Top Down | 69.431 us ]
+[ Top Down | 105.663 us ]
+[ Conversion Top Down to Bottom Up | 87.319 us ]
+[ Bottom Up | 775.072 us ]
+[ Bottom Up | 107.301 us ]
+3, 0.001, 76.827
+[ Top Down | 61.363 us ]
+[ Conversion Top Down to Bottom Up | 42.238 us ]
+[ Bottom Up | 532.137 us ]
+[ Bottom Up | 134.669 us ]
+4, 0.001, 70.988
+[ Top Down | 68.232 us ]
+[ Top Down | 68.646 us ]
+[ Conversion Top Down to Bottom Up | 87.459 us ]
+[ Bottom Up | 740.230 us ]
+[ Bottom Up | 116.170 us ]
+5, 0.001, 105.137
+[ Top Down | 63.920 us ]
+[ Top Down | 64.347 us ]
+[ Conversion Top Down to Bottom Up | 98.774 us ]
+[ Bottom Up | 166.194 us ]
+[ Bottom Up | 109.242 us ]
+[ Top Down | 66.188 us ]
+[ Conversion Top Down to Bottom Up | 40.805 us ]
+[ Bottom Up | 554.998 us ]
+[ Bottom Up | 180.179 us ]
+[ Top Down | 51.565 us ]
+[ Top Down | 133.131 us ]
+[ Conversion Top Down to Bottom Up | 96.719 us ]
+[ Bottom Up | 173.224 us ]
+[ Bottom Up | 106.115 us ]
+[ Top Down | 61.052 us ]
+[ Top Down | 72.131 us ]
+[ Conversion Top Down to Bottom Up | 87.867 us ]
+[ Bottom Up | 225.419 us ]
+[ Bottom Up | 112.252 us ]
+[ Top Down | 59.372 us ]
+[ Top Down | 77.634 us ]
+[ Conversion Top Down to Bottom Up | 93.994 us ]
+[ Bottom Up | 154.672 us ]
+[ Bottom Up | 108.259 us ]
+[ Top Down | 64.240 us ]
+[ Top Down | 67.104 us ]
+[ Conversion Top Down to Bottom Up | 92.153 us ]
+[ Bottom Up | 304.789 us ]
+[ Bottom Up | 111.961 us ]
+6, 0.001, 117.622
+[ Top Down | 65.783 us ]
+[ Conversion Top Down to Bottom Up | 51.238 us ]
+[ Bottom Up | 539.379 us ]
+[ Bottom Up | 641.988 us ]
+[ Top Down | 59.922 us ]
+[ Top Down | 63.831 us ]
+[ Conversion Top Down to Bottom Up | 86.722 us ]
+[ Bottom Up | 221.163 us ]
+[ Bottom Up | 119.697 us ]
+[ Top Down | 65.128 us ]
+[ Top Down | 64.196 us ]
+[ Conversion Top Down to Bottom Up | 93.670 us ]
+[ Bottom Up | 186.637 us ]
+[ Bottom Up | 113.984 us ]
+[ Top Down | 72.089 us ]
+[ Top Down | 72.948 us ]
+[ Conversion Top Down to Bottom Up | 93.889 us ]
+[ Bottom Up | 266.318 us ]
+[ Bottom Up | 108.530 us ]
+[ Top Down | 66.666 us ]
+[ Top Down | 80.301 us ]
+[ Conversion Top Down to Bottom Up | 95.653 us ]
+[ Bottom Up | 151.194 us ]
+[ Bottom Up | 106.021 us ]
+[ Top Down | 61.523 us ]
+[ Conversion Top Down to Bottom Up | 43.263 us ]
+[ Bottom Up | 467.821 us ]
+[ Bottom Up | 307.143 us ]
+[ Top Down | 67.299 us ]
+[ Conversion Top Down to Bottom Up | 44.735 us ]
+[ Bottom Up | 763.740 us ]
+[ Bottom Up | 278.545 us ]
+[ Top Down | 61.185 us ]
+[ Conversion Top Down to Bottom Up | 47.441 us ]
+[ Bottom Up | 581.244 us ]
+[ Bottom Up | 440.697 us ]
+[ Top Down | 63.948 us ]
+[ Top Down | 63.927 us ]
+[ Conversion Top Down to Bottom Up | 82.565 us ]
+[ Bottom Up | 224.576 us ]
+[ Bottom Up | 111.188 us ]
+[ Top Down | 55.426 us ]
+[ Top Down | 73.156 us ]
+[ Conversion Top Down to Bottom Up | 91.954 us ]
+[ Bottom Up | 186.202 us ]
+[ Bottom Up | 109.507 us ]
+[ Top Down | 62.119 us ]
+[ Conversion Top Down to Bottom Up | 43.967 us ]
+[ Bottom Up | 604.001 us ]
+[ Bottom Up | 560.978 us ]
+[ Top Down | 61.889 us ]
+[ Top Down | 99.020 us ]
+[ Conversion Top Down to Bottom Up | 91.545 us ]
+[ Bottom Up | 178.304 us ]
+[ Bottom Up | 112.443 us ]
+[ Top Down | 62.398 us ]
+[ Top Down | 75.870 us ]
+[ Conversion Top Down to Bottom Up | 92.347 us ]
+[ Bottom Up | 156.892 us ]
+[ Bottom Up | 118.229 us ]
+[ Top Down | 71.283 us ]
+[ Top Down | 110.105 us ]
+[ Conversion Top Down to Bottom Up | 105.412 us ]
+[ Bottom Up | 750.718 us ]
+[ Bottom Up | 119.777 us ]
+7, 0.001, 107.772
+[ Top Down | 60.884 us ]
+[ Top Down | 74.476 us ]
+[ Conversion Top Down to Bottom Up | 84.319 us ]
+[ Bottom Up | 649.121 us ]
+[ Bottom Up | 117.621 us ]
+8, 0.001, 84.172
+[ Top Down | 64.398 us ]
+[ Top Down | 73.482 us ]
+[ Conversion Top Down to Bottom Up | 91.080 us ]
+[ Bottom Up | 572.309 us ]
+[ Bottom Up | 101.848 us ]
+9, 0.001, 92.412
+[ Top Down | 74.563 us ]
+[ Top Down | 68.453 us ]
+[ Top Down | 78.174 us ]
+[ Top Down | 137.510 us ]
+[ Conversion Top Down to Bottom Up | 106.338 us ]
+[ Bottom Up | 883.290 us ]
+[ Bottom Up | 99.616 us ]
+10, 0.002, 116.925
+MTEPS:
+	Minimum:  70.98
+	Maximum: 117.62
+	Average:  98.18
+	STD_DEV:  15.48
+[ Breadth First Traversal | 26.732 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down | 488.791 us ]
+[ Top Down | 730.155 us ]
+[ Conversion Top Down to Bottom Up | 87.199 us ]
+[ Bottom Up | 1.339 ms ]
+[ Bottom Up | 112.626 us ]
+1, 0.004, 39.684
+[ Top Down | 143.574 us ]
+[ Top Down | 274.813 us ]
+[ Top Down | 822.398 us ]
+[ Conversion Top Down to Bottom Up | 102.667 us ]
+[ Bottom Up | 1.303 ms ]
+[ Bottom Up | 119.479 us ]
+2, 0.004, 40.062
+[ Top Down | 130.696 us ]
+[ Top Down | 256.625 us ]
+[ Top Down | 190.744 us ]
+[ Top Down | 508.095 us ]
+[ Top Down | 610.810 us ]
+[ Conversion Top Down to Bottom Up | 74.920 us ]
+[ Bottom Up | 1.048 ms ]
+[ Bottom Up | 120.804 us ]
+3, 0.004, 25.774
+[ Top Down | 403.425 us ]
+[ Conversion Top Down to Bottom Up | 52.013 us ]
+[ Bottom Up | 887.499 us ]
+[ Bottom Up | 119.242 us ]
+4, 0.003, 21.931
+[ Top Down | 143.908 us ]
+[ Top Down | 562.838 us ]
+[ Conversion Top Down to Bottom Up | 124.076 us ]
+[ Bottom Up | 627.858 us ]
+[ Bottom Up | 117.221 us ]
+5, 0.003, 32.186
+[ Top Down | 139.810 us ]
+[ Top Down | 584.871 us ]
+[ Conversion Top Down to Bottom Up | 85.453 us ]
+[ Bottom Up | 405.510 us ]
+[ Bottom Up | 121.868 us ]
+6, 0.003, 30.344
+[ Top Down | 335.660 us ]
+[ Top Down | 614.890 us ]
+[ Conversion Top Down to Bottom Up | 84.688 us ]
+[ Bottom Up | 1.142 ms ]
+[ Bottom Up | 117.679 us ]
+7, 0.004, 34.952
+[ Top Down | 278.716 us ]
+[ Top Down | 688.472 us ]
+[ Conversion Top Down to Bottom Up | 89.046 us ]
+[ Bottom Up | 702.009 us ]
+[ Bottom Up | 124.294 us ]
+8, 0.003, 26.401
+[ Top Down | 133.757 us ]
+[ Top Down | 474.863 us ]
+[ Conversion Top Down to Bottom Up | 97.450 us ]
+[ Bottom Up | 759.838 us ]
+[ Bottom Up | 130.847 us ]
+9, 0.003, 30.601
+[ Top Down | 122.286 us ]
+[ Top Down | 387.085 us ]
+[ Top Down | 278.470 us ]
+[ Top Down | 933.378 us ]
+[ Conversion Top Down to Bottom Up | 105.067 us ]
+[ Bottom Up | 788.368 us ]
+[ Bottom Up | 112.687 us ]
+10, 0.004, 31.248
+MTEPS:
+	Minimum:  21.93
+	Maximum:  40.06
+	Average:  31.31
+	STD_DEV:   5.52
+[ Breadth First Traversal | 35.656 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down | 56.720 us ]
+[ Top Down | 100.682 us ]
+[ Conversion Top Down to Bottom Up | 85.624 us ]
+[ Bottom Up | 653.187 us ]
+[ Bottom Up | 143.079 us ]
+1, 0.001, 112.701
+[ Top Down | 60.636 us ]
+[ Top Down | 65.270 us ]
+[ Top Down | 163.482 us ]
+[ Conversion Top Down to Bottom Up | 90.033 us ]
+[ Bottom Up | 1.051 ms ]
+[ Bottom Up | 183.101 us ]
+2, 0.002, 102.566
+[ Top Down | 58.897 us ]
+[ Top Down | 57.895 us ]
+[ Top Down | 75.629 us ]
+[ Top Down | 72.696 us ]
+[ Top Down | 226.302 us ]
+[ Conversion Top Down to Bottom Up | 84.743 us ]
+[ Bottom Up | 768.064 us ]
+[ Bottom Up | 107.936 us ]
+3, 0.002, 73.081
+[ Top Down | 60.104 us ]
+[ Conversion Top Down to Bottom Up | 44.333 us ]
+[ Bottom Up | 620.993 us ]
+[ Bottom Up | 487.057 us ]
+4, 0.001, 46.121
+[ Top Down | 61.306 us ]
+[ Top Down | 80.560 us ]
+[ Conversion Top Down to Bottom Up | 81.454 us ]
+[ Bottom Up | 398.162 us ]
+[ Bottom Up | 102.295 us ]
+5, 0.001, 115.650
+[ Top Down | 69.612 us ]
+[ Top Down | 70.747 us ]
+[ Conversion Top Down to Bottom Up | 215.862 us ]
+[ Bottom Up | 296.042 us ]
+[ Bottom Up | 109.398 us ]
+6, 0.001, 99.115
+[ Top Down | 61.098 us ]
+[ Top Down | 99.833 us ]
+[ Conversion Top Down to Bottom Up | 87.274 us ]
+[ Bottom Up | 745.173 us ]
+[ Bottom Up | 110.967 us ]
+7, 0.001, 112.160
+[ Top Down | 64.168 us ]
+[ Top Down | 106.645 us ]
+[ Conversion Top Down to Bottom Up | 79.502 us ]
+[ Bottom Up | 943.297 us ]
+[ Bottom Up | 98.200 us ]
+8, 0.001, 65.201
+[ Top Down | 63.508 us ]
+[ Top Down | 81.787 us ]
+[ Conversion Top Down to Bottom Up | 87.119 us ]
+[ Bottom Up | 695.874 us ]
+[ Bottom Up | 122.273 us ]
+9, 0.001, 79.697
+[ Top Down | 53.561 us ]
+[ Top Down | 74.282 us ]
+[ Top Down | 210.988 us ]
+[ Top Down | 223.718 us ]
+[ Conversion Top Down to Bottom Up | 95.970 us ]
+[ Bottom Up | 862.662 us ]
+[ Bottom Up | 102.626 us ]
+10, 0.002, 104.609
+MTEPS:
+	Minimum:  46.12
+	Maximum: 115.65
+	Average:  91.09
+	STD_DEV:  22.44
+[ Breadth First Traversal | 12.895 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down | 422.531 us ]
+[ Top Down | 774.836 us ]
+[ Conversion Top Down to Bottom Up | 94.907 us ]
+[ Bottom Up | 867.486 us ]
+[ Bottom Up | 114.535 us ]
+1, 0.004, 36.094
+[ Top Down | 127.387 us ]
+[ Top Down | 441.141 us ]
+[ Top Down | 961.504 us ]
+[ Conversion Top Down to Bottom Up | 98.108 us ]
+[ Bottom Up | 1.336 ms ]
+[ Bottom Up | 117.662 us ]
+2, 0.005, 37.121
+[ Top Down | 138.446 us ]
+[ Top Down | 352.698 us ]
+[ Top Down | 185.592 us ]
+[ Top Down | 425.190 us ]
+[ Top Down | 661.355 us ]
+[ Conversion Top Down to Bottom Up | 79.268 us ]
+[ Bottom Up | 1.056 ms ]
+[ Bottom Up | 124.086 us ]
+3, 0.004, 25.369
+[ Top Down | 419.858 us ]
+[ Conversion Top Down to Bottom Up | 56.724 us ]
+[ Bottom Up | 838.014 us ]
+[ Bottom Up | 131.570 us ]
+4, 0.003, 22.280
+[ Top Down | 121.202 us ]
+[ Top Down | 720.325 us ]
+[ Conversion Top Down to Bottom Up | 93.590 us ]
+[ Bottom Up | 1.033 ms ]
+[ Bottom Up | 111.943 us ]
+5, 0.003, 36.216
+[ Top Down | 140.834 us ]
+[ Top Down | 633.213 us ]
+[ Conversion Top Down to Bottom Up | 99.525 us ]
+[ Bottom Up | 417.986 us ]
+[ Bottom Up | 120.206 us ]
+6, 0.003, 29.372
+[ Top Down | 322.123 us ]
+[ Top Down | 802.238 us ]
+[ Conversion Top Down to Bottom Up | 87.208 us ]
+[ Bottom Up | 1.111 ms ]
+[ Bottom Up | 115.531 us ]
+7, 0.004, 33.162
+[ Top Down | 299.970 us ]
+[ Top Down | 612.258 us ]
+[ Conversion Top Down to Bottom Up | 88.438 us ]
+[ Bottom Up | 735.169 us ]
+[ Bottom Up | 116.939 us ]
+8, 0.003, 26.722
+[ Top Down | 148.609 us ]
+[ Top Down | 578.146 us ]
+[ Conversion Top Down to Bottom Up | 82.338 us ]
+[ Bottom Up | 772.135 us ]
+[ Bottom Up | 122.515 us ]
+9, 0.003, 29.175
+[ Top Down | 140.114 us ]
+[ Top Down | 495.703 us ]
+[ Top Down | 437.872 us ]
+[ Top Down | 869.043 us ]
+[ Conversion Top Down to Bottom Up | 105.971 us ]
+[ Bottom Up | 1.007 ms ]
+[ Bottom Up | 102.645 us ]
+10, 0.005, 37.474
+MTEPS:
+	Minimum:  22.28
+	Maximum:  37.47
+	Average:  31.29
+	STD_DEV:   5.18
+[ Breadth First Traversal | 36.830 ms ]
+[ Breadth First Traversal Benchmark | 112.176 ms ]
+Loading Epinions graph from ./graph_examples/soc-Epinions1.txt
+[ Graph DRAM Load | 37.927 ms ]
+[ Graph PMEM Copy | 30.788 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.120, 422.395
+2, 0.122, 415.748
+3, 0.115, 441.616
+4, 0.115, 440.765
+5, 0.115, 441.006
+6, 0.115, 440.624
+7, 0.115, 441.213
+8, 0.115, 440.741
+9, 0.115, 441.603
+10, 0.115, 440.685
+MTEPS:
+	Minimum: 415.74
+	Maximum: 441.61
+	Average: 436.64
+	STD_DEV:   8.91
+[ Page Rank | 1.166 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Numb
