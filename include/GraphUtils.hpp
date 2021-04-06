@@ -196,13 +196,12 @@ namespace GraphUtils {
 			/* Read each pair */
 			do {
 
-				/*
 				auto fast_atoi = [](const char* str, size_t start_index, size_t end_index) {
 					uint32_t value = 0;
 					while (start_index < end_index) {
-						char c = str[start_index];
-						if (c >= '0' && c <= '9') {
-							value = value * 10 + (str[start_index] - '0');
+						unsigned char c = (unsigned char)(str[start_index] - '0');
+						if (c < 10) {
+							value = value * 10 + c;
 							start_index++;
 						}
 						else {
@@ -216,13 +215,9 @@ namespace GraphUtils {
 				if (split_index == std::string::npos) {
 					split_index = line.find('\t');
 				}
-				*/
 
-				std::istringstream iss(line);
-				uint32_t source, destination;
-				if (!(iss >> source >> destination)) {
-					break;
-				}
+				uint32_t source = fast_atoi(line.c_str(), 0, split_index);
+				uint32_t destination = fast_atoi(line.c_str(), split_index + 1, line.size());
 
 				uint32_t max_node_id = source > destination ? source : destination;
 

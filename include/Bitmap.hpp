@@ -27,16 +27,6 @@ public:
 		mutex.unlock();
 	}
 
-	void unset_bit(size_t bit_index) {
-		const size_t num_bits = sizeof(uint64_t) * 8;
-		const uint64_t mask = 1ul << (num_bits - 1);
-
-		size_t vec_index = bit_index / num_bits;
-		size_t offset = bit_index % num_bits;
-
-		this->m_vec[vec_index] &= ~(mask >> offset);
-	}
-
 	uint64_t get_bit(size_t bit_index) {
 		const size_t num_bits = sizeof(uint64_t) * 8;
 

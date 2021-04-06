@@ -8,6 +8,7 @@
 #include "InstructionUtils.hpp"
 #include "omp.h"
 #include "Bitmap.hpp"
+#include "FormatUtils.hpp"
 
 namespace GraphAlgorithms {
 
@@ -40,6 +41,10 @@ namespace GraphAlgorithms {
 				uint32_t row_index_end = graph.row_ind[vertex + 1];
 
 				if (row_index_end - row_index >= 8) {
+
+					const __m256i ones_int_v = _mm256_set1_epi32(1);
+					const __m256 ones_f_v = _mm256_set1_ps(1.0f);
+
 					__m256 page_rank_sum_v[num_dampening_factors];
 					for (auto& v : page_rank_sum_v) {
 						v = _mm256_setzero_ps();
@@ -50,16 +55,10 @@ namespace GraphAlgorithms {
 
 						__m256i neighbor_v = _mm256_loadu_si256((const __m256i*)(graph.col_ind + row_index));
 
-						__m256i neighbor_row_index_v = _mm256_i32gather_epi32((const int*)graph.row_ind, neighbor_v, 1);
+						const __m256i neighbor_row_index_v = _mm256_i32gather_epi32((const int*)graph.row_ind, neighbor_v, 1);
+						const __m256i neighbor_row_index_end_v = _mm256_i32gather_epi32((const int*)graph.row_ind, _mm256_add_epi32(neighbor_v, ones_int_v), 1);
 
-						uint32_t t_1 = _mm256_extract_epi32(neighbor_v, 4);
-						uint32_t t_2 = graph.row_ind[_mm256_extract_epi32(neighbor_v, 7) + 1];
-						__m256i neighbor_row_index_end_v = _mm256_slli_si256(neighbor_v, sizeof(uint32_t));
-						_mm256_insert_epi32(neighbor_row_index_end_v, t_1, 4);
-						_mm256_insert_epi32(neighbor_row_index_end_v, t_2, 7);
-
-
-						__m256 adjacency_v = 1.0f / _mm256_cvtepi32_ps(neighbor_row_index_end_v - neighbor_row_index_v);
+						const __m256 adjacency_v = ones_f_v / _mm256_cvtepi32_ps(neighbor_row_index_end_v - neighbor_row_index_v);
 
 						/* Scale the neighbor vertex indexes for access into the page rank matrix */
 						neighbor_v = _mm256_mullo_epi32(neighbor_v, _mm256_set1_epi32(num_dampening_factors));
@@ -86,6 +85,8 @@ namespace GraphAlgorithms {
 						page_rank_sum[j] += pr_read[neighbor + j] * d;
 					}
 				}
+
+				/* Write the page rank */
 				for (size_t j = 0; j < num_dampening_factors; j++) {
 					pr_write[vertex * num_dampening_factors + j] = page_rank_sum[j] * dampening_factors[j] + dampening_probs[j];
 				}
@@ -125,7 +126,7 @@ namespace GraphAlgorithms {
 				uint32_t row_index = graph.row_ind[vertex];
 				uint32_t row_index_end = graph.row_ind[vertex + 1];
 
-				/* For each remaining neighbor */
+				/* For each neighbor */
 				for (; row_index < row_index_end; row_index++) {
 					uint32_t neighbor = graph.col_ind[row_index];
 					float d = 1.0f / graph.num_neighbors(neighbor);
@@ -162,6 +163,14 @@ namespace GraphAlgorithms {
 		Bitmap<temp_alloc_type> frontier_bm_1(graph.num_vertices());
 		Bitmap<temp_alloc_type> frontier_bm_2(graph.num_vertices());
 
+		/* Create a write frontier vector for each thread */
+		std::vector < std::vector<uint32_t, temp_alloc_type<uint32_t>>, temp_alloc_type<std::vector<uint32_t, temp_alloc_type<uint32_t>>>> local_write_vecs;
+		local_write_vecs.resize(omp_get_max_threads());
+		for (auto& vec : local_write_vecs) {
+			vec.reserve(graph.num_vertices() / (2 * omp_get_max_threads()));
+		}
+
+		/* The depth from the source vertex */
 		int32_t level = 1;
 
 		/* The number of edges to check in the frontier */
@@ -187,10 +196,14 @@ namespace GraphAlgorithms {
 
 			if (top_to_bottom_state && (m_f > m_u / alpha)) {
 
+				BlockTimer timer("Conversion Top Down to Bottom Up");
+
+				/* Convert the vec to bitmap (Top Down -> Bottom Up) */
 				frontier_bm_r.clear();
 				frontier_bm_w.clear();
 
-				/* Convert the vec to bitmap */
+
+#pragma omp parallel for schedule(static)
 				for (size_t i = 0; i < frontier_vec_r.size(); i++) {
 					frontier_bm_r.set_bit(frontier_vec_r[i]);
 				}
@@ -199,10 +212,22 @@ namespace GraphAlgorithms {
 			}
 			else if (!top_to_bottom_state && (n_f < graph.num_vertices() / beta)) {
 
+				BlockTimer timer("Conversion Bottom Up to Top Down");
+
+				/* Convert the bitmap to vec (Bottom Up -> Top Down) */
+
+				/* Clear the bitmaps */
 				frontier_vec_r.resize(0);
 				frontier_vec_w.resize(0);
 
-				/* Convert the bitmap to vec */
+
+				/* Clear the local write vectors */
+#pragma omp parallel for schedule(static,1)
+				for (size_t i = 0; i < local_write_vecs.size(); i++) {
+					local_write_vecs[i].resize(0);
+				}
+
+
 #pragma omp parallel for schedule(dynamic,4)
 				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
 					uint64_t v = frontier_bm_r.get(i);
@@ -211,12 +236,26 @@ namespace GraphAlgorithms {
 					for (size_t j = 0; j < num_bits; j++) {
 						if ((v & mask) > 0) {
 							size_t vertex = i * num_bits + j;
-#pragma omp critical
-							{
-								frontier_vec_r.push_back(vertex);
-							}
+							local_write_vecs[omp_get_thread_num()].push_back(vertex);
 						}
 						v = v << 1;
+					}
+				}
+
+				/* Copy over the local write frontiers to the write frontier */
+				frontier_vec_w.resize(n_f);
+
+#pragma omp parallel
+				{
+					size_t i = 0;
+
+					for (int j = 0; j < omp_get_thread_num(); j++) {
+						i += local_write_vecs[j].size();
+					}
+
+					std::vector<uint32_t, temp_alloc_type<uint32_t>>& vec = local_write_vecs[omp_get_thread_num()];
+					for (size_t j = 0; j < vec.size(); j++, i++) {
+						frontier_vec_w[i] = vec[j];
 					}
 				}
 
@@ -225,9 +264,18 @@ namespace GraphAlgorithms {
 
 			size_t edges_checked = 0;
 			n_f = 0;
+			m_f = 0;
 
 			/* Top Down BFS */
 			if (top_to_bottom_state) {
+
+				BlockTimer timer("Top Down");
+
+				/* Clear the local write vectors */
+#pragma omp parallel for schedule(static,1)
+				for (size_t i = 0; i < local_write_vecs.size(); i++) {
+					local_write_vecs[i].resize(0);
+				}
 
 				size_t fr_end = frontier_vec_r.size();
 #pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked, n_f, m_f)
@@ -245,19 +293,36 @@ namespace GraphAlgorithms {
 							vertex_depth[neighbor] = level;
 							n_f++;
 							m_f += graph.num_neighbors(neighbor);
-#pragma omp critical
-							{
-								frontier_vec_w.push_back(neighbor);
-							}
+							local_write_vecs[omp_get_thread_num()].push_back(neighbor);
 						}
 					}
 
 					edges_checked += row_index_end - row_index;
 				}
 
+				/* Copy over the local write frontiers to the write frontier */
+				frontier_vec_w.resize(n_f);
+
+#pragma omp parallel
+				{
+					size_t i = 0;
+
+					for (int j = 0; j < omp_get_thread_num(); j++) {
+						i += local_write_vecs[j].size();
+					}
+
+					std::vector<uint32_t, temp_alloc_type<uint32_t>>& vec = local_write_vecs[omp_get_thread_num()];
+					for (size_t j = 0; j < vec.size(); j++, i++) {
+						frontier_vec_w[i] = vec[j];
+					}
+				}
+
+				/* Clear the read frontier */
 				frontier_vec_r.resize(0);
 			}
 			else {
+
+				BlockTimer timer("Bottom Up");
 
 				/* Bottom Up BFS */
 #pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked, n_f, m_f)

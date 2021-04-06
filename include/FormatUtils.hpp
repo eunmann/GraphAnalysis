@@ -16,4 +16,6 @@ namespace FormatUtils {
 		snprintf(buff, size, format.c_str(), args ...);
 		return std::string(buff, buff + size - 1);
 	}
+
+	std::string format_time(int64_t time_ns);
 }

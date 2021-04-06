@@ -55,13 +55,13 @@ int main(int argc, char** argv) {
 			GraphCRS<std::allocator> graph_dram;
 			GraphCRS<PMEM::allocator> graph_pmem;
 
-			printf("Loading graph from %s\n", tp.graph_path.c_str());
+			printf("Loading %s graph from %s\n", tp.graph_name.c_str(), tp.graph_path.c_str());
 			{
 				BlockTimer timer("Graph DRAM Load");
 				graph_dram = GraphUtils::load<std::allocator>(tp.graph_path);
 			}
 			{
-				BlockTimer timer("Graph PMEM Load");
+				BlockTimer timer("Graph PMEM Copy");
 				graph_pmem = GraphCRS<PMEM::allocator>(graph_dram.num_vertices(), graph_dram.num_edges());
 				GraphUtils::copy(graph_dram, graph_pmem);
 			}

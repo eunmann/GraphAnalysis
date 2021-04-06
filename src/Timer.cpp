@@ -1,6 +1,7 @@
 #include "Timer.hpp"
 
 #include <cstdio>
+#include "FormatUtils.hpp"
 
 Timer::Timer(std::string message) : message(message),
 s(std::chrono::steady_clock::now()),
@@ -31,22 +32,5 @@ void Timer::print(const std::string& message) const {
 }
 
 std::string Timer::time_string() const {
-	char unit[][4] = { "ns", "us", "ms", "s", "min" };
-	double ratio[] = { 1000, 1000, 1000, 60, 60 };
-
-	double timeElapsed = this->get_time_elapsed();
-
-	int i;
-	for (i = 0; i < 4; i++) {
-		if (timeElapsed > ratio[i]) {
-			timeElapsed /= ratio[i];
-		}
-		else {
-			break;
-		}
-	}
-
-	char buff[32];
-	snprintf(buff, sizeof(buff), "%.3f %s", timeElapsed, unit[i]);
-	return std::string(buff);
+	return FormatUtils::format_time(this->get_time_elapsed());
 }

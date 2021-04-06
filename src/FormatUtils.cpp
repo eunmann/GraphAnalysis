@@ -43,4 +43,25 @@ namespace FormatUtils {
 
 		return str;
 	}
+
+	std::string format_time(int64_t time_ns) {
+		char unit[][4] = { "ns", "us", "ms", "s", "min" };
+		double ratio[] = { 1000, 1000, 1000, 60, 60 };
+
+		double time_elapsed = time_ns;
+
+		int i;
+		for (i = 0; i < 4; i++) {
+			if (time_elapsed > ratio[i]) {
+				time_elapsed /= ratio[i];
+			}
+			else {
+				break;
+			}
+		}
+
+		char buff[32];
+		snprintf(buff, sizeof(buff), "%.3f %s", time_elapsed, unit[i]);
+		return std::string(buff);
+	}
 }
