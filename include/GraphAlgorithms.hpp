@@ -196,8 +196,6 @@ namespace GraphAlgorithms {
 
 			if (top_to_bottom_state && (m_f > m_u / alpha)) {
 
-				BlockTimer timer("Conversion Top Down to Bottom Up");
-
 				/* Convert the vec to bitmap (Top Down -> Bottom Up) */
 				frontier_bm_r.clear();
 				frontier_bm_w.clear();
@@ -211,8 +209,6 @@ namespace GraphAlgorithms {
 				top_to_bottom_state = false;
 			}
 			else if (!top_to_bottom_state && (n_f < graph.num_vertices() / beta)) {
-
-				BlockTimer timer("Conversion Bottom Up to Top Down");
 
 				/* Convert the bitmap to vec (Bottom Up -> Top Down) */
 
@@ -269,8 +265,6 @@ namespace GraphAlgorithms {
 			/* Top Down BFS */
 			if (top_to_bottom_state) {
 
-				BlockTimer timer("Top Down");
-
 				/* Clear the local write vectors */
 #pragma omp parallel for schedule(static,1)
 				for (size_t i = 0; i < local_write_vecs.size(); i++) {
@@ -321,8 +315,6 @@ namespace GraphAlgorithms {
 				frontier_vec_r.resize(0);
 			}
 			else {
-
-				BlockTimer timer("Bottom Up");
 
 				/* Bottom Up BFS */
 #pragma omp parallel for schedule(dynamic,4) reduction(+:edges_checked, n_f, m_f)
