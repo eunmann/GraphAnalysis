@@ -34,11 +34,11 @@ export test_iterations=10
 export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
 
-if [ $HOSTNAME = "Evan-Ubuntu" ]; then
-	export OMP_PLACES="{0}:24:1"
+if [ $HOSTNAME = "Evan-Ubuntu" ] || [ $HOSTNAME = "EvanPC" ]; then
+	export OMP_PLACES="{0}:24:2"
 	export OMP_NUM_THREADS=24
 else
-	export OMP_PLACES="{0}:36:1"
+	export OMP_PLACES="{0}:36:2"
 	export OMP_NUM_THREADS=36
 fi
 
@@ -46,7 +46,7 @@ echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
 echo Output File: ${final_name}
 
-#./pmem_benchmark
-./pmem_benchmark | tee $final_name
+./pmem_benchmark
+#./pmem_benchmark | tee $final_name
 
 echo Done

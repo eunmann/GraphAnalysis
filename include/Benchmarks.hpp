@@ -56,7 +56,7 @@ namespace Benchmark {
         printf("Iteration, Time Elapsed (s), MTEPS\n");
         for (uint32_t iter = 1; iter <= tp.test_iterations; iter++) {
             Timer timer;
-            GraphAlgorithms::page_rank<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.page_rank_num_dampening_factors, 0.8f));
+            GraphAlgorithms::page_rank_v_neighbors<alloc_type, temp_alloc_type>(graph, tp.page_rank_iterations, std::vector<float>(tp.page_rank_num_dampening_factors, 0.8f));
             timer.end();
 
             double time_elapsed_seconds = timer.get_time_elapsed() / 1e9;
