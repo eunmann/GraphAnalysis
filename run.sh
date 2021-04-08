@@ -36,10 +36,10 @@ export OMP_PROC_BIND=true
 
 if [ $HOSTNAME = "Evan-Ubuntu" ] || [ $HOSTNAME = "EvanPC" ]; then
 	export OMP_PLACES="{0}:24:2"
-	export OMP_NUM_THREADS=24
+	export OMP_NUM_THREADS=12
 else
 	export OMP_PLACES="{0}:36:2"
-	export OMP_NUM_THREADS=36
+	export OMP_NUM_THREADS=18
 fi
 
 echo Starting pmem_benchmark
