@@ -1,0 +1,2 @@
+Number of threads: 18
+Page Rank: Neighbor Vectorization
