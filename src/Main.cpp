@@ -15,6 +15,13 @@ void print_info() {
     printf("Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory\n");
     printf("by Evan Unmann\n");
 
+    printf("OpenMP:\n");
+    printf("\tomp_get_num_procs: %d\n", omp_get_num_procs());
+    printf("\tomp_get_max_threads: %d\n", omp_get_max_threads());
+    printf("\tOMP_PLACES: %s\n", std::getenv("OMP_PLACES"));
+    printf("\tOMP_NUM_THREADS: %s\n", std::getenv("OMP_NUM_THREADS"));
+    printf("\tOMP_PROC_BIND: %s\n", std::getenv("OMP_PROC_BIND"));
+
     printf("PMEM:\n");
     printf("\tVersion: %d.%d\n", PMEM_MAJOR_VERSION, PMEM_MINOR_VERSION);
 
@@ -24,10 +31,6 @@ void print_info() {
     auto p = allocator.allocate(N);
     printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
     allocator.deallocate(p, N);
-
-    printf("OpenMP:\n");
-    printf("\tNumber of Processors: %d\n", omp_get_num_procs());
-    printf("\tMaximum Threads: %d\n", omp_get_max_threads());
 }
 
 int main(int argc, char** argv) {

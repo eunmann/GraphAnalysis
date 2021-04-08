@@ -32,15 +32,16 @@ export test_iterations=10
 
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
-export OMP_PROC_BIND=true
 
-if [ $HOSTNAME = "Evan-Ubuntu" ] || [ $HOSTNAME = "EvanPC" ]; then
-	export OMP_PLACES="{0}:24:2"
-	export OMP_NUM_THREADS=12
-else
-	export OMP_PLACES="{0}:36:2"
-	export OMP_NUM_THREADS=18
-fi
+# Allocates threads to cores
+# export OMP_PLACES=cores
+# export OMP_PROC_BIND=close
+# export OMP_NUM_THREADS=18
+
+# Allocates threads to hyperthreads
+export OMP_PLACES=threads
+export OMP_PROC_BIND=close
+export OMP_NUM_THREADS=36
 
 echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
