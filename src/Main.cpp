@@ -40,6 +40,8 @@ int main(int argc, char** argv) {
 
         print_info();
 
+        return 0;
+
         Benchmark::Parameters tp = Benchmark::get_parameters();
 
         std::vector<std::pair<std::string, std::string>> graph_paths;
