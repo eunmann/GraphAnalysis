@@ -46,7 +46,7 @@ echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
 echo Output File: ${final_name}
 
-./pmem_benchmark
-#./pmem_benchmark | tee $final_name
+#./pmem_benchmark
+./pmem_benchmark | tee $final_name
 
 echo Done
