@@ -23,7 +23,7 @@ namespace Benchmark {
         float graph_max_value = 5;
         uint32_t page_rank_iterations = 100;
         uint32_t page_rank_num_dampening_factors = 4;
-        std::vector<size_t> page_rank_dampening_factors = { 1,2,4,8,16 };
+        std::vector<size_t> page_rank_dampening_factors = { 1,2,4,8,16,32,64 };
         uint32_t test_iterations = 10;
         std::string graph_path = "";
         std::string graph_name = "";

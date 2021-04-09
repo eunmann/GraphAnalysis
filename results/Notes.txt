@@ -57,4 +57,12 @@ April 9th 2021
         Run again, time using only Top-Down and Bottom-Up
         See if the graphs looks like the one from the paper
         DD & PP only
+
+    OMP_PLACES:
+        'threads' and 'cores' options work as described
+        We don't use hyperthreading
+        Orkut is the only graph which does better with hyperthreading
+    
+    OMP_PROC_BIND:
+        'true' vs 'close' seem to be the same
         
