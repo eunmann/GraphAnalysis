@@ -44,3 +44,17 @@ April 6th 2021
         Think of recommendations
         Is this even useful?
         Can there be even more performance?
+
+April 9th 2021
+
+    Page Rank:
+        Rank again for 32 and 64
+        Use my version, can also do 36vs18 threads
+        Use Line charts instead
+    
+    BFS:
+        Need to understand more
+        Run again, time using only Top-Down and Bottom-Up
+        See if the graphs looks like the one from the paper
+        DD & PP only
+        
