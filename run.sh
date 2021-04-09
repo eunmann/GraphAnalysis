@@ -40,7 +40,7 @@ export OMP_DISPLAY_ENV=true
 
 # Allocates threads to hyperthreads
 export OMP_PLACES=threads
-export OMP_PROC_BIND=close
+export OMP_PROC_BIND=true
 export OMP_NUM_THREADS=36
 
 echo Starting pmem_benchmark
