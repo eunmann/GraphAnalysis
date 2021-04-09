@@ -1,0 +1,3473 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+OpenMP:
+	omp_get_num_procs: 72
+	omp_get_max_threads: 18
+	OMP_PLACES: cores
+	OMP_NUM_THREADS: 18
+	OMP_PROC_BIND: true
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+Test Parameters:
+	mem_alloc_size:   1.000GB
+	graph_num_vertices: 100.000K
+	graph_min_degree:  20.00
+	graph_max_degree: 200.00
+	graph_min_value:   1.00
+	graph_max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_num_dampening_factors:   8.00
+	test_iterations:  10.00
+	out_dir: output/2021.04.09.08.33.19/
+Loading Facebook graph from ./graph_examples/facebook_combined.txt
+[ Graph DRAM Load | 15.277 ms ]
+[ Graph PMEM Copy | 13.935 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.030, 584.085
+2, 0.039, 449.369
+3, 0.041, 434.178
+4, 0.043, 411.573
+5, 0.048, 366.447
+6, 0.044, 396.674
+7, 0.046, 385.784
+8, 0.043, 412.746
+9, 0.043, 409.804
+10, 0.044, 398.109
+MTEPS:
+	Minimum: 366.44
+	Maximum: 584.08
+	Average: 424.87
+	STD_DEV:  57.48
+[ Page Rank | 421.561 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.046, 387.312
+2, 0.043, 409.564
+3, 0.052, 337.738
+4, 0.055, 320.567
+5, 0.044, 396.999
+6, 0.054, 327.320
+7, 0.045, 394.466
+8, 0.049, 356.765
+9, 0.053, 331.910
+10, 0.043, 406.965
+MTEPS:
+	Minimum: 320.56
+	Maximum: 409.56
+	Average: 366.96
+	STD_DEV:  33.76
+[ Page Rank | 485.062 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1554.413
+2, 0.011, 1557.202
+3, 0.011, 1564.207
+4, 0.011, 1555.670
+5, 0.011, 1559.717
+6, 0.011, 1558.109
+7, 0.011, 1562.117
+8, 0.011, 1554.446
+9, 0.012, 1479.491
+10, 0.011, 1557.602
+MTEPS:
+	Minimum:   1.479K
+	Maximum:   1.564K
+	Average:   1.550K
+	STD_DEV:  23.79
+[ Page Rank | 113.883 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1549.952
+2, 0.011, 1558.736
+3, 0.011, 1563.750
+4, 0.011, 1562.685
+5, 0.011, 1566.874
+6, 0.011, 1560.858
+7, 0.011, 1566.352
+8, 0.011, 1563.472
+9, 0.011, 1563.602
+10, 0.011, 1557.729
+MTEPS:
+	Minimum:   1.550K
+	Maximum:   1.567K
+	Average:   1.561K
+	STD_DEV:   4.71
+[ Page Rank | 113.043 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.013, 1392.955
+2, 0.013, 1403.059
+3, 0.013, 1402.249
+4, 0.013, 1405.195
+5, 0.013, 1402.986
+6, 0.013, 1401.082
+7, 0.013, 1406.407
+8, 0.013, 1401.087
+9, 0.013, 1403.446
+10, 0.013, 1402.278
+MTEPS:
+	Minimum:   1.393K
+	Maximum:   1.406K
+	Average:   1.402K
+	STD_DEV:   3.42
+[ Page Rank | 125.882 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.125, 141.527
+2, 0.137, 128.399
+3, 0.137, 128.531
+4, 0.139, 127.309
+5, 0.143, 123.222
+6, 0.135, 130.300
+7, 0.132, 134.196
+8, 0.129, 137.087
+9, 0.134, 132.070
+10, 0.142, 124.604
+MTEPS:
+	Minimum: 123.22
+	Maximum: 141.52
+	Average: 130.72
+	STD_DEV:   5.35
+[ Page Rank | 1.352 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.104, 169.536
+2, 0.097, 181.299
+3, 0.105, 167.495
+4, 0.095, 185.413
+5, 0.096, 184.023
+6, 0.111, 158.307
+7, 0.109, 161.448
+8, 0.118, 148.939
+9, 0.104, 169.977
+10, 0.110, 159.875
+MTEPS:
+	Minimum: 148.93
+	Maximum: 185.41
+	Average: 168.63
+	STD_DEV:  11.42
+[ Page Rank | 1.051 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.014, 1268.230
+2, 0.014, 1253.617
+3, 0.014, 1260.603
+4, 0.014, 1265.703
+5, 0.014, 1259.649
+6, 0.014, 1257.872
+7, 0.014, 1257.939
+8, 0.014, 1263.660
+9, 0.014, 1257.725
+10, 0.014, 1258.455
+MTEPS:
+	Minimum:   1.254K
+	Maximum:   1.268K
+	Average:   1.260K
+	STD_DEV:   4.12
+[ Page Rank | 140.056 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.016, 1069.558
+2, 0.017, 1064.055
+3, 0.017, 1063.771
+4, 0.017, 1064.700
+5, 0.017, 1061.513
+6, 0.017, 1062.311
+7, 0.017, 1064.100
+8, 0.017, 1063.249
+9, 0.017, 1068.051
+10, 0.017, 1060.265
+MTEPS:
+	Minimum:   1.060K
+	Maximum:   1.070K
+	Average:   1.064K
+	STD_DEV:   2.66
+[ Page Rank | 165.867 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.023, 771.129
+2, 0.023, 762.481
+3, 0.024, 746.086
+4, 0.023, 760.021
+5, 0.023, 760.890
+6, 0.024, 743.799
+7, 0.023, 763.976
+8, 0.023, 759.523
+9, 0.024, 735.774
+10, 0.023, 761.846
+MTEPS:
+	Minimum: 735.77
+	Maximum: 771.12
+	Average: 756.55
+	STD_DEV:  10.36
+[ Page Rank | 233.337 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.034, 518.747
+2, 0.054, 325.449
+3, 0.069, 256.515
+4, 0.070, 251.122
+5, 0.073, 242.276
+6, 0.057, 310.199
+7, 0.060, 292.811
+8, 0.069, 254.669
+9, 0.053, 334.901
+10, 0.067, 263.952
+MTEPS:
+	Minimum: 242.27
+	Maximum: 518.74
+	Average: 305.06
+	STD_DEV:  77.83
+[ Page Rank | 606.171 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.104, 169.360
+2, 0.116, 152.229
+3, 0.113, 155.613
+4, 0.116, 152.421
+5, 0.113, 156.133
+6, 0.116, 152.545
+7, 0.109, 161.788
+8, 0.113, 156.281
+9, 0.117, 150.189
+10, 0.118, 149.346
+MTEPS:
+	Minimum: 149.34
+	Maximum: 169.36
+	Average: 155.59
+	STD_DEV:   5.72
+[ Page Rank | 1.136 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.012, 1531.404
+2, 0.011, 1540.516
+3, 0.011, 1541.298
+4, 0.011, 1538.794
+5, 0.011, 1537.950
+6, 0.012, 1529.568
+7, 0.012, 1531.304
+8, 0.011, 1535.433
+9, 0.011, 1535.286
+10, 0.011, 1540.967
+MTEPS:
+	Minimum:   1.530K
+	Maximum:   1.541K
+	Average:   1.536K
+	STD_DEV:   4.11
+[ Page Rank | 114.898 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 1547.558
+2, 0.011, 1561.391
+3, 0.011, 1554.411
+4, 0.011, 1563.273
+5, 0.011, 1556.560
+6, 0.011, 1557.218
+7, 0.011, 1562.237
+8, 0.011, 1561.920
+9, 0.011, 1559.480
+10, 0.011, 1557.169
+MTEPS:
+	Minimum:   1.548K
+	Maximum:   1.563K
+	Average:   1.558K
+	STD_DEV:   4.47
+[ Page Rank | 113.282 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.013, 1390.905
+2, 0.013, 1403.623
+3, 0.013, 1406.032
+4, 0.013, 1408.377
+5, 0.013, 1406.680
+6, 0.013, 1407.853
+7, 0.013, 1407.658
+8, 0.013, 1407.039
+9, 0.013, 1404.865
+10, 0.013, 1409.779
+MTEPS:
+	Minimum:   1.391K
+	Maximum:   1.410K
+	Average:   1.405K
+	STD_DEV:   5.07
+[ Page Rank | 125.601 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.196, 89.894
+2, 0.239, 73.780
+3, 0.225, 78.349
+4, 0.210, 84.164
+5, 0.248, 71.028
+6, 0.282, 62.573
+7, 0.218, 80.903
+8, 0.224, 78.769
+9, 0.262, 67.229
+10, 0.258, 68.281
+MTEPS:
+	Minimum:  62.57
+	Maximum:  89.89
+	Average:  75.49
+	STD_DEV:   8.00
+[ Page Rank | 2.364 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.341, 51.748
+2, 0.340, 51.871
+3, 0.331, 53.371
+4, 0.342, 51.535
+5, 0.326, 54.153
+6, 0.305, 57.846
+7, 0.265, 66.480
+8, 0.347, 50.802
+9, 0.346, 51.046
+10, 0.347, 50.787
+MTEPS:
+	Minimum:  50.78
+	Maximum:  66.48
+	Average:  53.96
+	STD_DEV:   4.64
+[ Page Rank | 3.291 s ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.030, 596.075
+2, 0.041, 429.217
+3, 0.038, 460.268
+4, 0.043, 411.834
+5, 0.034, 515.858
+6, 0.036, 484.773
+7, 0.032, 549.251
+8, 0.039, 450.448
+9, 0.043, 407.073
+10, 0.039, 449.927
+MTEPS:
+	Minimum: 407.07
+	Maximum: 596.07
+	Average: 475.47
+	STD_DEV:  58.38
+[ Page Rank | 376.436 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.017, 1046.104
+2, 0.017, 1057.954
+3, 0.017, 1054.627
+4, 0.017, 1051.961
+5, 0.017, 1061.241
+6, 0.017, 1044.989
+7, 0.017, 1060.629
+8, 0.017, 1061.577
+9, 0.017, 1061.033
+10, 0.017, 1061.055
+MTEPS:
+	Minimum:   1.045K
+	Maximum:   1.062K
+	Average:   1.056K
+	STD_DEV:   6.09
+[ Page Rank | 167.141 ms ]
+Page Rank
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.023, 763.173
+2, 0.024, 745.165
+3, 0.023, 754.442
+4, 0.023, 758.944
+5, 0.024, 745.193
+6, 0.023, 759.007
+7, 0.023, 758.490
+8, 0.024, 741.808
+9, 0.023, 761.592
+10, 0.023, 760.084
+MTEPS:
+	Minimum: 741.80
+	Maximum: 763.17
+	Average: 754.79
+	STD_DEV:   7.39
+[ Page Rank | 233.858 ms ]
+[ Page Rank Benchmark | 12.731 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.002, 92.011
+2, 0.001, 117.011
+3, 0.001, 85.377
+4, 0.001, 65.032
+5, 0.001, 106.231
+6, 0.001, 127.057
+7, 0.001, 109.331
+8, 0.001, 95.413
+9, 0.001, 99.298
+10, 0.001, 113.435
+MTEPS:
+	Minimum:  65.03
+	Maximum: 127.05
+	Average: 101.02
+	STD_DEV:  16.85
+[ Breadth First Traversal | 22.990 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.004, 45.377
+2, 0.003, 50.254
+3, 0.004, 29.944
+4, 0.002, 25.356
+5, 0.003, 39.687
+6, 0.002, 34.730
+7, 0.003, 40.628
+8, 0.003, 34.832
+9, 0.002, 35.805
+10, 0.004, 43.969
+MTEPS:
+	Minimum:  25.35
+	Maximum:  50.25
+	Average:  38.05
+	STD_DEV:   7.07
+[ Breadth First Traversal | 30.899 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 110.760
+2, 0.002, 114.181
+3, 0.001, 87.457
+4, 0.001, 68.331
+5, 0.001, 105.524
+6, 0.001, 122.689
+7, 0.001, 110.323
+8, 0.001, 95.414
+9, 0.001, 94.859
+10, 0.001, 135.182
+MTEPS:
+	Minimum:  68.33
+	Maximum: 135.18
+	Average: 104.47
+	STD_DEV:  17.92
+[ Breadth First Traversal | 11.201 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.004, 42.920
+2, 0.004, 48.105
+3, 0.003, 32.017
+4, 0.002, 25.961
+5, 0.003, 41.137
+6, 0.002, 34.423
+7, 0.003, 43.618
+8, 0.003, 33.120
+9, 0.003, 33.796
+10, 0.004, 47.568
+MTEPS:
+	Minimum:  25.96
+	Maximum:  48.10
+	Average:  38.26
+	STD_DEV:   7.02
+[ Breadth First Traversal | 30.589 ms ]
+[ Breadth First Traversal Benchmark | 95.749 ms ]
+Loading Epinions graph from ./graph_examples/soc-Epinions1.txt
+[ Graph DRAM Load | 37.871 ms ]
+[ Graph PMEM Copy | 31.568 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.201, 253.525
+2, 0.196, 259.006
+3, 0.196, 259.228
+4, 0.196, 258.994
+5, 0.196, 258.999
+6, 0.197, 258.931
+7, 0.196, 259.263
+8, 0.196, 258.976
+9, 0.196, 258.983
+10, 0.196, 259.045
+MTEPS:
+	Minimum: 253.52
+	Maximum: 259.26
+	Average: 258.49
+	STD_DEV:   1.66
+[ Page Rank | 1.969 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.193, 264.181
+2, 0.193, 263.843
+3, 0.193, 263.844
+4, 0.193, 263.551
+5, 0.193, 263.078
+6, 0.193, 263.480
+7, 0.193, 263.488
+8, 0.193, 263.676
+9, 0.193, 263.718
+10, 0.193, 263.445
+MTEPS:
+	Minimum: 263.07
+	Maximum: 264.18
+	Average: 263.63
+	STD_DEV:   0.28
+[ Page Rank | 1.930 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.185, 274.860
+2, 0.185, 275.257
+3, 0.185, 274.951
+4, 0.185, 275.139
+5, 0.185, 275.316
+6, 0.185, 275.016
+7, 0.185, 275.671
+8, 0.185, 275.488
+9, 0.185, 275.779
+10, 0.185, 275.535
+MTEPS:
+	Minimum: 274.86
+	Maximum: 275.77
+	Average: 275.30
+	STD_DEV:   0.29
+[ Page Rank | 1.848 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.178, 285.744
+2, 0.178, 285.855
+3, 0.178, 286.311
+4, 0.178, 286.152
+5, 0.178, 286.252
+6, 0.178, 286.034
+7, 0.178, 285.907
+8, 0.178, 286.093
+9, 0.178, 286.079
+10, 0.178, 286.466
+MTEPS:
+	Minimum: 285.74
+	Maximum: 286.46
+	Average: 286.08
+	STD_DEV:   0.20
+[ Page Rank | 1.779 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.179, 284.970
+2, 0.177, 288.068
+3, 0.177, 288.241
+4, 0.183, 277.621
+5, 0.177, 287.911
+6, 0.177, 287.921
+7, 0.177, 287.610
+8, 0.177, 287.672
+9, 0.177, 287.831
+10, 0.177, 287.460
+MTEPS:
+	Minimum: 277.62
+	Maximum: 288.24
+	Average: 286.53
+	STD_DEV:   3.09
+[ Page Rank | 1.776 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.216, 236.047
+2, 0.217, 234.660
+3, 0.216, 235.955
+4, 0.217, 234.070
+5, 0.216, 235.859
+6, 0.216, 235.792
+7, 0.216, 235.160
+8, 0.216, 236.005
+9, 0.217, 234.477
+10, 0.216, 236.064
+MTEPS:
+	Minimum: 234.07
+	Maximum: 236.06
+	Average: 235.40
+	STD_DEV:   0.71
+[ Page Rank | 2.162 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.220, 231.407
+2, 0.224, 226.698
+3, 0.223, 227.723
+4, 0.223, 228.399
+5, 0.224, 227.540
+6, 0.223, 228.640
+7, 0.222, 228.847
+8, 0.222, 228.957
+9, 0.222, 229.089
+10, 0.222, 228.883
+MTEPS:
+	Minimum: 226.69
+	Maximum: 231.40
+	Average: 228.61
+	STD_DEV:   1.18
+[ Page Rank | 2.226 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.227, 224.135
+2, 0.225, 226.079
+3, 0.225, 226.154
+4, 0.226, 225.259
+5, 0.222, 228.869
+6, 0.224, 226.763
+7, 0.226, 225.392
+8, 0.226, 225.267
+9, 0.224, 226.989
+10, 0.225, 226.145
+MTEPS:
+	Minimum: 224.13
+	Maximum: 228.86
+	Average: 226.10
+	STD_DEV:   1.21
+[ Page Rank | 2.251 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.224, 226.841
+2, 0.224, 227.001
+3, 0.225, 226.346
+4, 0.225, 225.799
+5, 0.224, 226.729
+6, 0.225, 226.445
+7, 0.226, 225.587
+8, 0.225, 226.204
+9, 0.225, 226.615
+10, 0.225, 226.077
+MTEPS:
+	Minimum: 225.58
+	Maximum: 227.00
+	Average: 226.36
+	STD_DEV:   0.43
+[ Page Rank | 2.248 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.265, 191.998
+2, 0.265, 191.839
+3, 0.265, 191.810
+4, 0.265, 191.867
+5, 0.266, 191.083
+6, 0.267, 190.772
+7, 0.265, 191.721
+8, 0.267, 190.708
+9, 0.266, 191.225
+10, 0.267, 190.688
+MTEPS:
+	Minimum: 190.68
+	Maximum: 191.99
+	Average: 191.37
+	STD_DEV:   0.50
+[ Page Rank | 2.659 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.201, 253.708
+2, 0.198, 257.556
+3, 0.198, 257.622
+4, 0.197, 257.723
+5, 0.197, 257.680
+6, 0.198, 257.591
+7, 0.197, 257.718
+8, 0.197, 258.009
+9, 0.197, 257.703
+10, 0.197, 257.867
+MTEPS:
+	Minimum: 253.70
+	Maximum: 258.00
+	Average: 257.31
+	STD_DEV:   1.21
+[ Page Rank | 1.978 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.194, 262.847
+2, 0.194, 262.932
+3, 0.194, 262.685
+4, 0.193, 263.058
+5, 0.194, 262.868
+6, 0.194, 262.961
+7, 0.194, 262.294
+8, 0.194, 262.940
+9, 0.194, 262.913
+10, 0.193, 263.247
+MTEPS:
+	Minimum: 262.29
+	Maximum: 263.24
+	Average: 262.87
+	STD_DEV:   0.23
+[ Page Rank | 1.936 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.187, 272.334
+2, 0.186, 273.255
+3, 0.186, 273.149
+4, 0.186, 273.450
+5, 0.186, 273.028
+6, 0.186, 273.111
+7, 0.186, 273.353
+8, 0.186, 273.527
+9, 0.186, 273.629
+10, 0.186, 273.932
+MTEPS:
+	Minimum: 272.33
+	Maximum: 273.93
+	Average: 273.27
+	STD_DEV:   0.40
+[ Page Rank | 1.862 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.180, 282.829
+2, 0.179, 284.473
+3, 0.179, 284.362
+4, 0.179, 284.597
+5, 0.179, 284.411
+6, 0.179, 284.887
+7, 0.179, 284.670
+8, 0.179, 284.448
+9, 0.179, 284.489
+10, 0.179, 284.833
+MTEPS:
+	Minimum: 282.82
+	Maximum: 284.88
+	Average: 284.40
+	STD_DEV:   0.55
+[ Page Rank | 1.789 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.180, 283.389
+2, 0.178, 286.195
+3, 0.178, 286.472
+4, 0.178, 286.372
+5, 0.178, 286.541
+6, 0.178, 286.587
+7, 0.178, 286.413
+8, 0.178, 286.281
+9, 0.178, 286.373
+10, 0.178, 286.658
+MTEPS:
+	Minimum: 283.38
+	Maximum: 286.65
+	Average: 286.12
+	STD_DEV:   0.92
+[ Page Rank | 1.778 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.219, 232.820
+2, 0.218, 233.946
+3, 0.218, 233.332
+4, 0.217, 234.150
+5, 0.218, 233.474
+6, 0.217, 234.007
+7, 0.218, 233.600
+8, 0.217, 234.298
+9, 0.218, 233.766
+10, 0.219, 232.780
+MTEPS:
+	Minimum: 232.78
+	Maximum: 234.29
+	Average: 233.61
+	STD_DEV:   0.49
+[ Page Rank | 2.178 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.221, 229.965
+2, 0.223, 228.577
+3, 0.224, 227.049
+4, 0.223, 228.197
+5, 0.220, 231.027
+6, 0.223, 228.625
+7, 0.223, 228.109
+8, 0.222, 228.994
+9, 0.223, 228.135
+10, 0.221, 229.854
+MTEPS:
+	Minimum: 227.04
+	Maximum: 231.02
+	Average: 228.85
+	STD_DEV:   1.08
+[ Page Rank | 2.224 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.226, 225.256
+2, 0.224, 226.899
+3, 0.223, 227.950
+4, 0.224, 227.627
+5, 0.224, 227.555
+6, 0.224, 227.320
+7, 0.225, 225.732
+8, 0.225, 226.028
+9, 0.224, 227.076
+10, 0.226, 225.636
+MTEPS:
+	Minimum: 225.25
+	Maximum: 227.95
+	Average: 226.70
+	STD_DEV:   0.91
+[ Page Rank | 2.245 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.224, 226.918
+2, 0.224, 226.708
+3, 0.224, 226.754
+4, 0.225, 226.619
+5, 0.223, 227.762
+6, 0.225, 226.002
+7, 0.225, 226.460
+8, 0.225, 225.991
+9, 0.224, 227.098
+10, 0.223, 228.070
+MTEPS:
+	Minimum: 225.99
+	Maximum: 228.07
+	Average: 226.83
+	STD_DEV:   0.63
+[ Page Rank | 2.243 s ]
+Page Rank
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 0.265, 192.046
+2, 0.265, 192.002
+3, 0.267, 190.602
+4, 0.266, 191.262
+5, 0.266, 191.312
+6, 0.266, 191.299
+7, 0.266, 191.338
+8, 0.267, 190.256
+9, 0.265, 192.047
+10, 0.266, 191.296
+MTEPS:
+	Minimum: 190.25
+	Maximum: 192.04
+	Average: 191.34
+	STD_DEV:   0.56
+[ Page Rank | 2.659 s ]
+[ Page Rank Benchmark | 41.738 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.011, 40.777
+2, 0.009, 49.015
+3, 0.010, 43.040
+4, 0.009, 51.177
+5, 0.009, 46.582
+6, 0.009, 53.031
+7, 0.009, 50.208
+8, 0.008, 49.857
+9, 0.009, 51.573
+10, 0.010, 49.325
+MTEPS:
+	Minimum:  40.77
+	Maximum:  53.03
+	Average:  48.45
+	STD_DEV:   3.68
+[ Breadth First Traversal | 107.787 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.027, 17.178
+2, 0.026, 17.510
+3, 0.028, 16.258
+4, 0.027, 17.171
+5, 0.026, 16.316
+6, 0.027, 17.486
+7, 0.027, 17.430
+8, 0.025, 16.861
+9, 0.027, 17.199
+10, 0.028, 16.740
+MTEPS:
+	Minimum:  16.25
+	Maximum:  17.51
+	Average:  17.01
+	STD_DEV:   0.43
+[ Breadth First Traversal | 269.086 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.009, 48.998
+2, 0.010, 47.810
+3, 0.010, 43.071
+4, 0.009, 50.613
+5, 0.010, 45.001
+6, 0.009, 51.065
+7, 0.009, 49.668
+8, 0.008, 50.298
+9, 0.009, 51.348
+10, 0.010, 47.814
+MTEPS:
+	Minimum:  43.07
+	Maximum:  51.34
+	Average:  48.56
+	STD_DEV:   2.58
+[ Breadth First Traversal | 104.325 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.027, 16.935
+2, 0.027, 17.211
+3, 0.028, 16.229
+4, 0.028, 17.084
+5, 0.028, 16.426
+6, 0.026, 17.974
+7, 0.027, 17.652
+8, 0.026, 16.482
+9, 0.026, 17.949
+10, 0.028, 16.775
+MTEPS:
+	Minimum:  16.22
+	Maximum:  17.97
+	Average:  17.07
+	STD_DEV:   0.59
+[ Breadth First Traversal | 271.376 ms ]
+[ Breadth First Traversal Benchmark | 752.633 ms ]
+Loading Pokec graph from ./graph_examples/soc-pokec-relationships.txt
+[ Graph DRAM Load | 2.427 s ]
+[ Graph PMEM Copy | 245.415 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 3.061, 1000.500
+2, 3.055, 1002.491
+3, 3.055, 1002.423
+4, 3.086, 992.270
+5, 3.104, 986.413
+6, 3.054, 1002.707
+7, 3.054, 1002.769
+8, 3.054, 1002.686
+9, 3.054, 1002.724
+10, 3.054, 1002.641
+MTEPS:
+	Minimum: 986.41
+	Maximum:   1.003K
+	Average: 999.76
+	STD_DEV:   5.41
+[ Page Rank | 30.631 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 3.420, 895.435
+2, 3.413, 897.279
+3, 3.420, 895.456
+4, 3.415, 896.659
+5, 3.420, 895.509
+6, 3.415, 896.816
+7, 3.412, 897.423
+8, 3.445, 888.826
+9, 3.413, 897.272
+10, 3.415, 896.611
+MTEPS:
+	Minimum: 888.82
+	Maximum: 897.42
+	Average: 895.72
+	STD_DEV:   2.41
+[ Page Rank | 34.188 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 3.300, 927.868
+2, 3.291, 930.411
+3, 3.289, 930.941
+4, 3.291, 930.586
+5, 3.291, 930.579
+6, 3.291, 930.526
+7, 3.291, 930.357
+8, 3.290, 930.803
+9, 3.291, 930.599
+10, 3.291, 930.557
+MTEPS:
+	Minimum: 927.86
+	Maximum: 930.94
+	Average: 930.32
+	STD_DEV:   0.83
+[ Page Rank | 32.916 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.371, 700.579
+2, 4.361, 702.161
+3, 4.328, 707.598
+4, 4.328, 707.620
+5, 4.329, 707.437
+6, 4.323, 708.424
+7, 4.327, 707.709
+8, 4.325, 708.094
+9, 4.324, 708.275
+10, 4.324, 708.211
+MTEPS:
+	Minimum: 700.57
+	Maximum: 708.42
+	Average: 706.61
+	STD_DEV:   2.66
+[ Page Rank | 43.338 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 6.740, 454.320
+2, 6.790, 450.993
+3, 6.738, 454.475
+4, 6.791, 450.932
+5, 6.741, 454.293
+6, 6.790, 450.991
+7, 6.741, 454.291
+8, 6.811, 449.577
+9, 6.738, 454.506
+10, 6.788, 451.095
+MTEPS:
+	Minimum: 449.57
+	Maximum: 454.50
+	Average: 452.54
+	STD_DEV:   1.87
+[ Page Rank | 1.128 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.001, 765.414
+2, 3.999, 765.820
+3, 4.005, 764.618
+4, 4.005, 764.562
+5, 4.006, 764.439
+6, 4.000, 765.499
+7, 4.006, 764.482
+8, 4.006, 764.353
+9, 4.000, 765.611
+10, 3.998, 765.907
+MTEPS:
+	Minimum: 764.35
+	Maximum: 765.90
+	Average: 765.07
+	STD_DEV:   0.59
+[ Page Rank | 40.026 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.902, 624.729
+2, 4.902, 624.657
+3, 4.907, 624.013
+4, 4.906, 624.192
+5, 4.914, 623.202
+6, 4.910, 623.719
+7, 4.910, 623.631
+8, 4.905, 624.290
+9, 4.907, 624.092
+10, 4.903, 624.513
+MTEPS:
+	Minimum: 623.20
+	Maximum: 624.72
+	Average: 624.10
+	STD_DEV:   0.45
+[ Page Rank | 49.067 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 6.517, 469.895
+2, 6.528, 469.068
+3, 6.534, 468.672
+4, 6.528, 469.124
+5, 6.534, 468.690
+6, 6.531, 468.861
+7, 6.531, 468.884
+8, 6.554, 467.230
+9, 6.549, 467.566
+10, 6.543, 468.035
+MTEPS:
+	Minimum: 467.23
+	Maximum: 469.89
+	Average: 468.60
+	STD_DEV:   0.74
+[ Page Rank | 1.089 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 11.240, 272.431
+2, 11.212, 273.117
+3, 11.094, 276.033
+4, 11.203, 273.337
+5, 11.203, 273.355
+6, 11.059, 276.911
+7, 11.214, 273.079
+8, 11.083, 276.309
+9, 11.228, 272.727
+10, 11.086, 276.228
+MTEPS:
+	Minimum: 272.43
+	Maximum: 276.91
+	Average: 274.35
+	STD_DEV:   1.68
+[ Page Rank | 1.860 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 19.912, 153.788
+2, 19.771, 154.884
+3, 19.780, 154.814
+4, 19.877, 154.063
+5, 19.828, 154.440
+6, 19.932, 153.637
+7, 19.935, 153.612
+8, 19.905, 153.845
+9, 19.895, 153.920
+10, 19.942, 153.561
+MTEPS:
+	Minimum: 153.56
+	Maximum: 154.88
+	Average: 154.05
+	STD_DEV:   0.46
+[ Page Rank | 3.313 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 3.759, 814.551
+2, 3.742, 818.407
+3, 3.741, 818.545
+4, 3.741, 818.515
+5, 3.742, 818.425
+6, 3.741, 818.528
+7, 3.741, 818.520
+8, 3.741, 818.504
+9, 3.741, 818.481
+10, 3.742, 818.402
+MTEPS:
+	Minimum: 814.55
+	Maximum: 818.54
+	Average: 818.08
+	STD_DEV:   1.18
+[ Page Rank | 37.432 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.300, 712.136
+2, 4.295, 712.947
+3, 4.296, 712.809
+4, 4.296, 712.757
+5, 4.296, 712.844
+6, 4.296, 712.879
+7, 4.294, 713.166
+8, 4.294, 713.093
+9, 4.294, 713.145
+10, 4.295, 712.982
+MTEPS:
+	Minimum: 712.13
+	Maximum: 713.16
+	Average: 712.87
+	STD_DEV:   0.28
+[ Page Rank | 42.956 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.632, 661.090
+2, 4.626, 661.962
+3, 4.626, 662.022
+4, 4.624, 662.189
+5, 4.624, 662.215
+6, 4.624, 662.211
+7, 4.626, 662.024
+8, 4.625, 662.169
+9, 4.626, 661.957
+10, 4.626, 661.944
+MTEPS:
+	Minimum: 661.09
+	Maximum: 662.21
+	Average: 661.97
+	STD_DEV:   0.31
+[ Page Rank | 46.259 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 6.316, 484.841
+2, 6.307, 485.522
+3, 6.305, 485.665
+4, 6.306, 485.636
+5, 6.307, 485.569
+6, 6.307, 485.533
+7, 6.306, 485.580
+8, 6.307, 485.511
+9, 6.308, 485.419
+10, 6.307, 485.543
+MTEPS:
+	Minimum: 484.84
+	Maximum: 485.66
+	Average: 485.48
+	STD_DEV:   0.22
+[ Page Rank | 1.051 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 9.530, 321.326
+2, 9.564, 320.188
+3, 9.529, 321.378
+4, 9.569, 320.003
+5, 9.528, 321.410
+6, 9.575, 319.827
+7, 9.531, 321.295
+8, 9.568, 320.043
+9, 9.526, 321.456
+10, 9.559, 320.350
+MTEPS:
+	Minimum: 319.82
+	Maximum: 321.45
+	Average: 320.72
+	STD_DEV:   0.65
+[ Page Rank | 1.591 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 4.905, 624.314
+2, 4.905, 624.325
+3, 4.903, 624.535
+4, 4.911, 623.583
+5, 4.906, 624.210
+6, 4.903, 624.532
+7, 4.902, 624.642
+8, 4.904, 624.439
+9, 4.903, 624.551
+10, 4.905, 624.349
+MTEPS:
+	Minimum: 623.58
+	Maximum: 624.64
+	Average: 624.34
+	STD_DEV:   0.28
+[ Page Rank | 49.047 s ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 6.058, 505.509
+2, 6.062, 505.123
+3, 6.062, 505.175
+4, 6.068, 504.679
+5, 6.076, 503.994
+6, 6.070, 504.501
+7, 6.072, 504.358
+8, 6.072, 504.348
+9, 6.072, 504.351
+10, 6.069, 504.554
+MTEPS:
+	Minimum: 503.99
+	Maximum: 505.50
+	Average: 504.65
+	STD_DEV:   0.44
+[ Page Rank | 1.011 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 8.139, 376.231
+2, 8.184, 374.186
+3, 8.180, 374.349
+4, 8.175, 374.610
+5, 8.171, 374.757
+6, 8.177, 374.514
+7, 8.181, 374.291
+8, 8.176, 374.542
+9, 8.175, 374.589
+10, 8.179, 374.417
+MTEPS:
+	Minimum: 374.18
+	Maximum: 376.23
+	Average: 374.64
+	STD_DEV:   0.55
+[ Page Rank | 1.362 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 13.237, 231.348
+2, 13.143, 232.996
+3, 13.135, 233.129
+4, 13.215, 231.733
+5, 13.240, 231.289
+6, 13.141, 233.033
+7, 13.190, 232.166
+8, 13.256, 231.016
+9, 13.114, 233.519
+10, 13.153, 232.821
+MTEPS:
+	Minimum: 231.01
+	Maximum: 233.51
+	Average: 232.30
+	STD_DEV:   0.85
+[ Page Rank | 2.197 min ]
+Page Rank
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 22.517, 135.998
+2, 22.447, 136.421
+3, 22.628, 135.329
+4, 22.527, 135.938
+5, 22.360, 136.955
+6, 22.481, 136.218
+7, 22.450, 136.406
+8, 22.420, 136.584
+9, 22.612, 135.428
+10, 22.395, 136.741
+MTEPS:
+	Minimum: 135.32
+	Maximum: 136.95
+	Average: 136.20
+	STD_DEV:   0.50
+[ Page Rank | 3.747 min ]
+[ Page Rank Benchmark | 25.116 min ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.173, 163.420
+2, 0.174, 168.286
+3, 0.142, 184.924
+4, 0.129, 185.027
+5, 0.145, 184.815
+6, 0.148, 184.852
+7, 0.131, 183.207
+8, 0.133, 185.009
+9, 0.159, 177.324
+10, 0.174, 169.739
+MTEPS:
+	Minimum: 163.42
+	Maximum: 185.02
+	Average: 178.66
+	STD_DEV:   7.98
+[ Breadth First Traversal | 1.579 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.272, 103.817
+2, 0.300, 97.613
+3, 0.243, 107.870
+4, 0.231, 103.162
+5, 0.250, 107.345
+6, 0.256, 106.440
+7, 0.230, 104.526
+8, 0.235, 104.516
+9, 0.268, 105.078
+10, 0.295, 99.724
+MTEPS:
+	Minimum:  97.61
+	Maximum: 107.87
+	Average: 104.00
+	STD_DEV:   3.06
+[ Breadth First Traversal | 2.587 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.174, 162.514
+2, 0.180, 162.718
+3, 0.148, 177.291
+4, 0.135, 176.362
+5, 0.152, 176.488
+6, 0.154, 177.040
+7, 0.138, 173.913
+8, 0.139, 176.617
+9, 0.164, 171.627
+10, 0.182, 161.707
+MTEPS:
+	Minimum: 161.70
+	Maximum: 177.29
+	Average: 171.62
+	STD_DEV:   6.31
+[ Breadth First Traversal | 1.570 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.270, 104.769
+2, 0.297, 98.777
+3, 0.242, 108.302
+4, 0.227, 104.888
+5, 0.247, 108.910
+6, 0.259, 105.411
+7, 0.230, 104.591
+8, 0.232, 105.756
+9, 0.265, 106.148
+10, 0.299, 98.503
+MTEPS:
+	Minimum:  98.50
+	Maximum: 108.91
+	Average: 104.60
+	STD_DEV:   3.28
+[ Breadth First Traversal | 2.573 s ]
+[ Breadth First Traversal Benchmark | 8.309 s ]
+Loading Stack Overflow graph from ./graph_examples/sx-stackoverflow.txt
+[ Graph DRAM Load | 9.327 s ]
+[ Graph PMEM Copy | 519.388 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 11.809, 537.692
+2, 11.802, 538.013
+3, 11.790, 538.545
+4, 11.802, 538.002
+5, 11.801, 538.068
+6, 11.801, 538.087
+7, 11.801, 538.069
+8, 11.802, 538.026
+9, 11.804, 537.915
+10, 11.804, 537.940
+MTEPS:
+	Minimum: 537.69
+	Maximum: 538.54
+	Average: 538.03
+	STD_DEV:   0.20
+[ Page Rank | 1.967 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 11.814, 537.477
+2, 11.836, 536.480
+3, 11.857, 535.544
+4, 11.814, 537.457
+5, 11.867, 535.052
+6, 11.821, 537.135
+7, 11.868, 535.005
+8, 11.854, 535.646
+9, 11.815, 537.418
+10, 11.832, 536.649
+MTEPS:
+	Minimum: 535.00
+	Maximum: 537.47
+	Average: 536.38
+	STD_DEV:   0.94
+[ Page Rank | 1.973 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 12.366, 513.497
+2, 12.397, 512.195
+3, 12.356, 513.912
+4, 12.330, 514.998
+5, 12.408, 511.751
+6, 12.316, 515.549
+7, 12.364, 513.549
+8, 12.379, 512.939
+9, 12.335, 514.778
+10, 12.335, 514.767
+MTEPS:
+	Minimum: 511.75
+	Maximum: 515.54
+	Average: 513.79
+	STD_DEV:   1.18
+[ Page Rank | 2.060 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 14.197, 447.267
+2, 14.252, 445.542
+3, 14.207, 446.938
+4, 14.279, 444.675
+5, 14.236, 446.021
+6, 14.232, 446.141
+7, 14.193, 447.391
+8, 14.206, 446.975
+9, 14.220, 446.544
+10, 14.230, 446.222
+MTEPS:
+	Minimum: 444.67
+	Maximum: 447.39
+	Average: 446.37
+	STD_DEV:   0.79
+[ Page Rank | 2.371 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 17.872, 355.293
+2, 17.869, 355.343
+3, 17.859, 355.543
+4, 17.878, 355.175
+5, 17.887, 354.998
+6, 17.876, 355.215
+7, 17.884, 355.048
+8, 17.901, 354.711
+9, 17.891, 354.919
+10, 17.867, 355.379
+MTEPS:
+	Minimum: 354.71
+	Maximum: 355.54
+	Average: 355.16
+	STD_DEV:   0.23
+[ Page Rank | 2.980 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 15.287, 415.363
+2, 15.313, 414.661
+3, 15.307, 414.815
+4, 15.404, 412.219
+5, 15.291, 415.266
+6, 15.334, 414.094
+7, 15.301, 414.977
+8, 15.288, 415.327
+9, 15.339, 413.968
+10, 15.311, 414.728
+MTEPS:
+	Minimum: 412.21
+	Maximum: 415.36
+	Average: 414.54
+	STD_DEV:   0.89
+[ Page Rank | 2.553 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 18.138, 350.086
+2, 17.458, 363.704
+3, 17.330, 366.404
+4, 17.349, 365.995
+5, 17.402, 364.883
+6, 17.457, 363.742
+7, 17.327, 366.465
+8, 17.349, 366.007
+9, 17.405, 364.816
+10, 17.423, 364.441
+MTEPS:
+	Minimum: 350.08
+	Maximum: 366.46
+	Average: 363.65
+	STD_DEV:   4.62
+[ Page Rank | 2.911 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 22.620, 280.717
+2, 22.561, 281.447
+3, 22.555, 281.526
+4, 22.584, 281.163
+5, 22.586, 281.129
+6, 23.405, 271.294
+7, 22.616, 280.765
+8, 22.642, 280.442
+9, 22.575, 281.277
+10, 22.498, 282.236
+MTEPS:
+	Minimum: 271.29
+	Maximum: 282.23
+	Average: 280.20
+	STD_DEV:   3.00
+[ Page Rank | 3.777 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 36.966, 171.771
+2, 36.927, 171.955
+3, 37.744, 168.229
+4, 37.022, 171.514
+5, 37.852, 167.750
+6, 37.622, 168.778
+7, 37.045, 171.406
+8, 36.946, 171.864
+9, 36.983, 171.690
+10, 38.424, 165.255
+MTEPS:
+	Minimum: 165.25
+	Maximum: 171.95
+	Average: 170.02
+	STD_DEV:   2.23
+[ Page Rank | 6.226 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 59.247, 107.173
+2, 59.113, 107.417
+3, 59.366, 106.958
+4, 59.336, 107.013
+5, 59.235, 107.196
+6, 58.920, 107.769
+7, 59.194, 107.269
+8, 59.372, 106.947
+9, 59.535, 106.655
+10, 59.508, 106.703
+MTEPS:
+	Minimum: 106.65
+	Maximum: 107.76
+	Average: 107.11
+	STD_DEV:   0.31
+[ Page Rank | 9.880 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 14.017, 453.010
+2, 13.946, 455.295
+3, 13.951, 455.136
+4, 13.945, 455.336
+5, 13.953, 455.087
+6, 13.946, 455.299
+7, 13.951, 455.143
+8, 13.955, 455.014
+9, 13.951, 455.138
+10, 13.953, 455.066
+MTEPS:
+	Minimum: 453.01
+	Maximum: 455.33
+	Average: 454.95
+	STD_DEV:   0.65
+[ Page Rank | 2.326 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 14.499, 437.949
+2, 14.494, 438.083
+3, 14.471, 438.781
+4, 14.472, 438.762
+5, 14.506, 437.720
+6, 14.494, 438.106
+7, 14.471, 438.784
+8, 14.500, 437.911
+9, 14.489, 438.251
+10, 14.468, 438.865
+MTEPS:
+	Minimum: 437.72
+	Maximum: 438.86
+	Average: 438.32
+	STD_DEV:   0.41
+[ Page Rank | 2.414 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 16.199, 391.981
+2, 16.201, 391.937
+3, 16.166, 392.776
+4, 16.175, 392.554
+5, 16.258, 390.560
+6, 16.140, 393.417
+7, 16.155, 393.040
+8, 16.171, 392.653
+9, 16.161, 392.911
+10, 16.171, 392.667
+MTEPS:
+	Minimum: 390.56
+	Maximum: 393.41
+	Average: 392.45
+	STD_DEV:   0.75
+[ Page Rank | 2.697 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 19.391, 327.462
+2, 19.465, 326.204
+3, 19.386, 327.546
+4, 19.464, 326.231
+5, 19.418, 326.994
+6, 19.442, 326.589
+7, 19.426, 326.866
+8, 19.461, 326.276
+9, 19.422, 326.929
+10, 19.532, 325.099
+MTEPS:
+	Minimum: 325.09
+	Maximum: 327.54
+	Average: 326.62
+	STD_DEV:   0.68
+[ Page Rank | 3.240 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 24.624, 257.863
+2, 24.599, 258.126
+3, 24.620, 257.908
+4, 24.594, 258.185
+5, 24.643, 257.665
+6, 24.569, 258.442
+7, 24.634, 257.760
+8, 24.588, 258.247
+9, 24.635, 257.748
+10, 24.590, 258.226
+MTEPS:
+	Minimum: 257.66
+	Maximum: 258.44
+	Average: 258.01
+	STD_DEV:   0.24
+[ Page Rank | 4.102 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 17.123, 370.826
+2, 17.143, 370.407
+3, 17.155, 370.143
+4, 17.137, 370.527
+5, 17.151, 370.229
+6, 17.162, 369.978
+7, 17.141, 370.436
+8, 17.141, 370.450
+9, 17.130, 370.676
+10, 17.124, 370.800
+MTEPS:
+	Minimum: 369.97
+	Maximum: 370.82
+	Average: 370.44
+	STD_DEV:   0.26
+[ Page Rank | 2.857 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 20.735, 306.233
+2, 20.751, 305.998
+3, 20.114, 315.680
+4, 20.160, 314.960
+5, 20.667, 307.234
+6, 20.780, 305.573
+7, 20.140, 315.275
+8, 20.961, 302.926
+9, 20.177, 314.698
+10, 20.132, 315.397
+MTEPS:
+	Minimum: 302.92
+	Maximum: 315.68
+	Average: 310.39
+	STD_DEV:   4.91
+[ Page Rank | 3.410 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 26.754, 237.333
+2, 27.537, 230.587
+3, 27.232, 233.169
+4, 26.708, 237.741
+5, 27.506, 230.848
+6, 26.747, 237.403
+7, 28.373, 223.797
+8, 27.639, 229.737
+9, 26.550, 239.160
+10, 27.474, 231.119
+MTEPS:
+	Minimum: 223.79
+	Maximum: 239.16
+	Average: 233.08
+	STD_DEV:   4.55
+[ Page Rank | 4.542 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 42.469, 149.512
+2, 42.513, 149.360
+3, 42.955, 147.823
+4, 42.210, 150.432
+5, 44.064, 144.102
+6, 43.971, 144.407
+7, 42.118, 150.759
+8, 42.110, 150.787
+9, 42.389, 149.798
+10, 42.394, 149.779
+MTEPS:
+	Minimum: 144.10
+	Maximum: 150.78
+	Average: 148.67
+	STD_DEV:   2.35
+[ Page Rank | 7.120 min ]
+Page Rank
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 65.772, 96.542
+2, 66.207, 95.907
+3, 65.933, 96.306
+4, 66.049, 96.137
+5, 65.404, 97.084
+6, 65.833, 96.451
+7, 65.936, 96.300
+8, 65.473, 96.983
+9, 65.839, 96.443
+10, 66.003, 96.203
+MTEPS:
+	Minimum:  95.90
+	Maximum:  97.08
+	Average:  96.43
+	STD_DEV:   0.34
+[ Page Rank | 10.974 min ]
+[ Page Rank Benchmark | 80.379 min ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.526, 118.910
+2, 0.523, 118.613
+3, 0.525, 118.210
+4, 0.525, 117.507
+5, 0.529, 117.176
+6, 0.528, 118.591
+7, 0.526, 118.317
+8, 0.525, 119.045
+9, 0.528, 118.394
+10, 0.531, 116.366
+MTEPS:
+	Minimum: 116.36
+	Maximum: 119.04
+	Average: 118.11
+	STD_DEV:   0.80
+[ Breadth First Traversal | 27.677 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.930, 67.274
+2, 0.919, 67.461
+3, 0.928, 66.963
+4, 0.922, 66.970
+5, 0.923, 67.253
+6, 0.933, 67.158
+7, 0.930, 66.968
+8, 0.931, 67.103
+9, 0.956, 65.375
+10, 0.923, 67.006
+MTEPS:
+	Minimum:  65.37
+	Maximum:  67.46
+	Average:  66.95
+	STD_DEV:   0.54
+[ Breadth First Traversal | 9.385 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.549, 114.013
+2, 0.539, 115.127
+3, 0.543, 114.285
+4, 0.544, 113.544
+5, 0.546, 113.726
+6, 0.539, 116.180
+7, 0.544, 114.406
+8, 0.541, 115.625
+9, 0.542, 115.361
+10, 0.548, 112.904
+MTEPS:
+	Minimum: 112.90
+	Maximum: 116.18
+	Average: 114.51
+	STD_DEV:   0.97
+[ Breadth First Traversal | 5.461 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.945, 66.226
+2, 0.939, 66.032
+3, 0.943, 65.879
+4, 0.948, 65.110
+5, 0.946, 65.584
+6, 0.953, 65.725
+7, 0.949, 65.630
+8, 0.949, 65.841
+9, 0.957, 65.298
+10, 0.948, 65.216
+MTEPS:
+	Minimum:  65.11
+	Maximum:  66.22
+	Average:  65.65
+	STD_DEV:   0.34
+[ Breadth First Traversal | 9.571 s ]
+[ Breadth First Traversal Benchmark | 52.094 s ]
+Loading Live Journal graph from ./graph_examples/soc-LiveJournal1.txt
+[ Graph DRAM Load | 4.837 s ]
+[ Graph PMEM Copy | 538.077 ms ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 9.557, 721.919
+2, 9.533, 723.721
+3, 9.530, 723.986
+4, 9.525, 724.313
+5, 9.529, 724.028
+6, 9.674, 713.223
+7, 9.526, 724.244
+8, 9.527, 724.224
+9, 9.527, 724.169
+10, 9.528, 724.154
+MTEPS:
+	Minimum: 713.22
+	Maximum: 724.31
+	Average: 722.79
+	STD_DEV:   3.26
+[ Page Rank | 1.591 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 10.116, 682.056
+2, 10.143, 680.208
+3, 10.164, 678.799
+4, 10.161, 678.981
+5, 10.157, 679.305
+6, 10.133, 680.856
+7, 10.142, 680.302
+8, 10.155, 679.423
+9, 10.113, 682.206
+10, 10.123, 681.544
+MTEPS:
+	Minimum: 678.79
+	Maximum: 682.20
+	Average: 680.36
+	STD_DEV:   1.19
+[ Page Rank | 1.690 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 9.981, 691.232
+2, 9.978, 691.475
+3, 9.950, 693.375
+4, 9.964, 692.401
+5, 9.951, 693.317
+6, 9.951, 693.333
+7, 9.950, 693.389
+8, 9.985, 690.998
+9, 9.959, 692.769
+10, 9.953, 693.174
+MTEPS:
+	Minimum: 690.99
+	Maximum: 693.38
+	Average: 692.54
+	STD_DEV:   0.91
+[ Page Rank | 1.660 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 13.012, 530.231
+2, 12.974, 531.802
+3, 13.002, 530.641
+4, 13.105, 526.480
+5, 12.973, 531.809
+6, 12.984, 531.395
+7, 13.014, 530.150
+8, 12.972, 531.882
+9, 13.025, 529.715
+10, 13.005, 530.510
+MTEPS:
+	Minimum: 526.48
+	Maximum: 531.88
+	Average: 530.46
+	STD_DEV:   1.52
+[ Page Rank | 2.168 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 18.615, 370.643
+2, 18.618, 370.579
+3, 18.597, 371.000
+4, 18.618, 370.566
+5, 18.618, 370.566
+6, 18.609, 370.762
+7, 18.588, 371.173
+8, 18.599, 370.962
+9, 18.588, 371.175
+10, 18.592, 371.092
+MTEPS:
+	Minimum: 370.56
+	Maximum: 371.17
+	Average: 370.85
+	STD_DEV:   0.24
+[ Page Rank | 3.101 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 13.942, 494.852
+2, 13.962, 494.138
+3, 13.959, 494.267
+4, 14.071, 490.314
+5, 13.977, 493.617
+6, 13.959, 494.264
+7, 13.957, 494.319
+8, 13.961, 494.203
+9, 13.967, 493.964
+10, 13.970, 493.864
+MTEPS:
+	Minimum: 490.31
+	Maximum: 494.85
+	Average: 493.78
+	STD_DEV:   1.19
+[ Page Rank | 2.329 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 17.257, 399.792
+2, 17.460, 395.162
+3, 17.544, 393.267
+4, 17.527, 393.641
+5, 17.521, 393.775
+6, 17.512, 393.989
+7, 17.529, 393.587
+8, 17.503, 394.193
+9, 17.517, 393.861
+10, 17.524, 393.700
+MTEPS:
+	Minimum: 393.26
+	Maximum: 399.79
+	Average: 394.49
+	STD_DEV:   1.82
+[ Page Rank | 2.915 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 21.898, 315.062
+2, 21.767, 316.964
+3, 21.740, 317.362
+4, 21.748, 317.245
+5, 21.761, 317.058
+6, 21.744, 317.303
+7, 21.811, 316.327
+8, 21.886, 315.244
+9, 21.760, 317.061
+10, 21.790, 316.633
+MTEPS:
+	Minimum: 315.06
+	Maximum: 317.36
+	Average: 316.62
+	STD_DEV:   0.79
+[ Page Rank | 3.632 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 36.605, 188.484
+2, 36.680, 188.096
+3, 36.706, 187.962
+4, 36.664, 188.180
+5, 36.582, 188.602
+6, 36.710, 187.941
+7, 36.592, 188.551
+8, 36.691, 188.040
+9, 36.712, 187.932
+10, 36.496, 189.044
+MTEPS:
+	Minimum: 187.93
+	Maximum: 189.04
+	Average: 188.28
+	STD_DEV:   0.35
+[ Page Rank | 6.107 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 60.609, 113.834
+2, 60.394, 114.239
+3, 60.458, 114.118
+4, 60.643, 113.771
+5, 60.591, 113.868
+6, 60.383, 114.260
+7, 60.413, 114.204
+8, 60.583, 113.883
+9, 60.746, 113.577
+10, 60.229, 114.553
+MTEPS:
+	Minimum: 113.57
+	Maximum: 114.55
+	Average: 114.03
+	STD_DEV:   0.27
+[ Page Rank | 10.084 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 12.921, 533.952
+2, 12.870, 536.070
+3, 12.868, 536.175
+4, 12.869, 536.114
+5, 12.870, 536.093
+6, 12.869, 536.120
+7, 12.869, 536.130
+8, 12.869, 536.107
+9, 12.870, 536.096
+10, 12.871, 536.055
+MTEPS:
+	Minimum: 533.95
+	Maximum: 536.17
+	Average: 535.89
+	STD_DEV:   0.64
+[ Page Rank | 2.146 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 14.267, 483.574
+2, 14.269, 483.508
+3, 14.262, 483.750
+4, 14.258, 483.906
+5, 14.265, 483.656
+6, 14.264, 483.688
+7, 14.259, 483.853
+8, 14.280, 483.147
+9, 14.278, 483.218
+10, 14.268, 483.546
+MTEPS:
+	Minimum: 483.14
+	Maximum: 483.90
+	Average: 483.58
+	STD_DEV:   0.23
+[ Page Rank | 2.378 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 15.744, 438.228
+2, 15.720, 438.880
+3, 15.724, 438.786
+4, 15.725, 438.745
+5, 15.724, 438.786
+6, 15.722, 438.848
+7, 15.719, 438.920
+8, 15.715, 439.029
+9, 15.714, 439.047
+10, 15.718, 438.955
+MTEPS:
+	Minimum: 438.22
+	Maximum: 439.04
+	Average: 438.82
+	STD_DEV:   0.22
+[ Page Rank | 2.620 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 20.154, 342.327
+2, 20.143, 342.515
+3, 20.152, 342.367
+4, 20.172, 342.025
+5, 20.147, 342.459
+6, 20.160, 342.230
+7, 20.161, 342.215
+8, 20.134, 342.665
+9, 20.158, 342.272
+10, 20.150, 342.402
+MTEPS:
+	Minimum: 342.02
+	Maximum: 342.66
+	Average: 342.34
+	STD_DEV:   0.16
+[ Page Rank | 3.359 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 27.325, 252.492
+2, 27.313, 252.606
+3, 27.304, 252.689
+4, 27.304, 252.689
+5, 27.313, 252.602
+6, 27.290, 252.821
+7, 27.312, 252.609
+8, 27.308, 252.651
+9, 27.319, 252.546
+10, 27.315, 252.582
+MTEPS:
+	Minimum: 252.49
+	Maximum: 252.82
+	Average: 252.62
+	STD_DEV:   0.08
+[ Page Rank | 4.552 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 17.383, 396.905
+2, 17.446, 395.479
+3, 17.433, 395.777
+4, 17.427, 395.901
+5, 17.429, 395.864
+6, 17.432, 395.789
+7, 17.428, 395.887
+8, 17.424, 395.979
+9, 17.426, 395.914
+10, 17.432, 395.790
+MTEPS:
+	Minimum: 395.47
+	Maximum: 396.90
+	Average: 395.92
+	STD_DEV:   0.35
+[ Page Rank | 2.904 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 21.628, 319.000
+2, 21.713, 317.758
+3, 21.704, 317.890
+4, 21.696, 318.007
+5, 21.696, 317.997
+6, 21.699, 317.952
+7, 21.700, 317.948
+8, 21.701, 317.936
+9, 21.705, 317.870
+10, 21.699, 317.961
+MTEPS:
+	Minimum: 317.75
+	Maximum: 319.00
+	Average: 318.03
+	STD_DEV:   0.33
+[ Page Rank | 3.616 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 27.815, 248.048
+2, 27.826, 247.943
+3, 27.722, 248.877
+4, 27.689, 249.178
+5, 27.920, 247.109
+6, 27.757, 248.562
+7, 27.938, 246.952
+8, 27.878, 247.482
+9, 27.793, 248.238
+10, 27.802, 248.164
+MTEPS:
+	Minimum: 246.95
+	Maximum: 249.17
+	Average: 248.05
+	STD_DEV:   0.68
+[ Page Rank | 4.636 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 43.113, 160.031
+2, 43.287, 159.388
+3, 43.290, 159.375
+4, 42.903, 160.812
+5, 42.896, 160.839
+6, 43.026, 160.352
+7, 44.419, 155.325
+8, 43.245, 159.543
+9, 42.815, 161.142
+10, 42.981, 160.521
+MTEPS:
+	Minimum: 155.32
+	Maximum: 161.14
+	Average: 159.73
+	STD_DEV:   1.58
+[ Page Rank | 7.200 min ]
+Page Rank
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 68.890, 100.150
+2, 69.522, 99.240
+3, 69.723, 98.954
+4, 69.387, 99.433
+5, 69.423, 99.381
+6, 68.796, 100.288
+7, 69.169, 99.747
+8, 69.446, 99.348
+9, 68.914, 100.116
+10, 68.839, 100.225
+MTEPS:
+	Minimum:  98.95
+	Maximum: 100.28
+	Average:  99.68
+	STD_DEV:   0.45
+[ Page Rank | 11.535 min ]
+[ Page Rank Benchmark | 80.222 min ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.610, 73.789
+2, 0.695, 90.236
+3, 0.603, 91.098
+4, 0.646, 93.798
+5, 0.636, 95.898
+6, 0.504, 85.939
+7, 0.640, 90.601
+8, 0.571, 94.316
+9, 0.664, 92.408
+10, 0.554, 93.009
+MTEPS:
+	Minimum:  73.78
+	Maximum:  95.89
+	Average:  90.10
+	STD_DEV:   6.02
+[ Breadth First Traversal | 6.655 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.794, 56.670
+2, 1.046, 59.940
+3, 0.915, 60.095
+4, 0.975, 62.128
+5, 0.978, 62.327
+6, 0.792, 54.654
+7, 0.975, 59.503
+8, 0.877, 61.434
+9, 1.024, 59.903
+10, 0.865, 59.642
+MTEPS:
+	Minimum:  54.65
+	Maximum:  62.32
+	Average:  59.62
+	STD_DEV:   2.25
+[ Breadth First Traversal | 9.301 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.540, 83.231
+2, 0.712, 88.054
+3, 0.625, 87.906
+4, 0.664, 91.208
+5, 0.653, 93.364
+6, 0.521, 83.031
+7, 0.657, 88.355
+8, 0.590, 91.311
+9, 0.686, 89.394
+10, 0.579, 89.072
+MTEPS:
+	Minimum:  83.03
+	Maximum:  93.36
+	Average:  88.49
+	STD_DEV:   3.13
+[ Breadth First Traversal | 6.240 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.812, 55.382
+2, 1.053, 59.519
+3, 0.925, 59.431
+4, 0.984, 61.545
+5, 0.984, 61.963
+6, 0.791, 54.730
+7, 0.977, 59.400
+8, 0.882, 61.104
+9, 1.034, 59.277
+10, 0.871, 59.190
+MTEPS:
+	Minimum:  54.73
+	Maximum:  61.96
+	Average:  59.15
+	STD_DEV:   2.26
+[ Breadth First Traversal | 9.378 s ]
+[ Breadth First Traversal Benchmark | 31.574 s ]
+Loading Orkut graph from ./graph_examples/com-orkut.ungraph.txt
+[ Graph DRAM Load | 25.647 s ]
+[ Graph PMEM Copy | 1.784 s ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 9.420, 2488.053
+2, 9.405, 2491.869
+3, 9.405, 2491.874
+4, 9.406, 2491.701
+5, 9.407, 2491.512
+6, 9.411, 2490.372
+7, 9.406, 2491.681
+8, 9.406, 2491.747
+9, 9.406, 2491.724
+10, 9.406, 2491.805
+MTEPS:
+	Minimum:   2.488K
+	Maximum:   2.492K
+	Average:   2.491K
+	STD_DEV:   1.14
+[ Page Rank | 1.568 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 10.777, 2174.790
+2, 10.771, 2175.844
+3, 10.769, 2176.314
+4, 10.771, 2175.907
+5, 10.775, 2175.118
+6, 10.781, 2173.819
+7, 10.771, 2175.915
+8, 10.771, 2175.851
+9, 10.771, 2175.950
+10, 10.770, 2176.217
+MTEPS:
+	Minimum:   2.174K
+	Maximum:   2.176K
+	Average:   2.176K
+	STD_DEV:   0.73
+[ Page Rank | 1.795 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 12.998, 1803.121
+2, 13.000, 1802.853
+3, 12.998, 1803.059
+4, 12.999, 1803.049
+5, 13.008, 1801.763
+6, 13.000, 1802.850
+7, 12.998, 1803.153
+8, 12.999, 1802.961
+9, 12.999, 1802.934
+10, 12.999, 1803.055
+MTEPS:
+	Minimum:   1.802K
+	Maximum:   1.803K
+	Average:   1.803K
+	STD_DEV:   0.38
+[ Page Rank | 2.167 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 19.874, 1179.272
+2, 19.859, 1180.198
+3, 19.850, 1180.723
+4, 19.852, 1180.579
+5, 19.853, 1180.528
+6, 19.850, 1180.685
+7, 19.854, 1180.476
+8, 19.853, 1180.504
+9, 19.851, 1180.647
+10, 19.850, 1180.688
+MTEPS:
+	Minimum:   1.179K
+	Maximum:   1.181K
+	Average:   1.180K
+	STD_DEV:   0.41
+[ Page Rank | 3.309 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 34.358, 682.141
+2, 34.301, 683.277
+3, 34.300, 683.299
+4, 34.300, 683.302
+5, 34.298, 683.341
+6, 34.297, 683.356
+7, 34.320, 682.888
+8, 34.299, 683.314
+9, 34.297, 683.360
+10, 34.295, 683.387
+MTEPS:
+	Minimum: 682.14
+	Maximum: 683.38
+	Average: 683.16
+	STD_DEV:   0.36
+[ Page Rank | 5.718 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 12.821, 1827.948
+2, 12.823, 1827.665
+3, 12.882, 1819.417
+4, 12.820, 1828.092
+5, 12.823, 1827.793
+6, 12.821, 1827.964
+7, 12.818, 1828.391
+8, 12.822, 1827.946
+9, 12.826, 1827.369
+10, 12.825, 1827.477
+MTEPS:
+	Minimum:   1.819K
+	Maximum:   1.828K
+	Average:   1.827K
+	STD_DEV:   2.54
+[ Page Rank | 2.138 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 15.800, 1483.329
+2, 15.823, 1481.166
+3, 15.832, 1480.321
+4, 15.826, 1480.903
+5, 15.898, 1474.186
+6, 15.827, 1480.825
+7, 15.827, 1480.829
+8, 15.824, 1481.083
+9, 15.824, 1481.092
+10, 15.827, 1480.805
+MTEPS:
+	Minimum:   1.474K
+	Maximum:   1.483K
+	Average:   1.480K
+	STD_DEV:   2.22
+[ Page Rank | 2.639 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 22.102, 1060.384
+2, 20.897, 1121.529
+3, 21.045, 1113.670
+4, 21.655, 1082.284
+5, 20.687, 1132.940
+6, 20.738, 1130.123
+7, 20.871, 1122.929
+8, 20.838, 1124.700
+9, 20.946, 1118.904
+10, 21.613, 1084.383
+MTEPS:
+	Minimum:   1.060K
+	Maximum:   1.133K
+	Average:   1.109K
+	STD_DEV:  23.28
+[ Page Rank | 3.523 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 47.542, 492.974
+2, 47.597, 492.405
+3, 48.148, 486.771
+4, 47.635, 492.014
+5, 47.676, 491.589
+6, 47.597, 492.404
+7, 47.610, 492.273
+8, 47.746, 490.871
+9, 47.494, 493.469
+10, 47.629, 492.070
+MTEPS:
+	Minimum: 486.77
+	Maximum: 493.46
+	Average: 491.68
+	STD_DEV:   1.76
+[ Page Rank | 7.945 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 109.490, 214.057
+2, 109.342, 214.345
+3, 109.442, 214.150
+4, 109.426, 214.182
+5, 109.267, 214.493
+6, 108.883, 215.250
+7, 109.317, 214.395
+8, 109.555, 213.929
+9, 109.265, 214.497
+10, 109.320, 214.390
+MTEPS:
+	Minimum: 213.92
+	Maximum: 215.25
+	Average: 214.36
+	STD_DEV:   0.34
+[ Page Rank | 18.222 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 14.180, 1652.799
+2, 14.090, 1663.375
+3, 14.092, 1663.183
+4, 14.091, 1663.252
+5, 14.092, 1663.168
+6, 14.095, 1662.773
+7, 14.092, 1663.192
+8, 14.092, 1663.177
+9, 14.092, 1663.166
+10, 14.092, 1663.176
+MTEPS:
+	Minimum:   1.653K
+	Maximum:   1.663K
+	Average:   1.662K
+	STD_DEV:   3.11
+[ Page Rank | 2.350 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 16.372, 1431.525
+2, 16.358, 1432.782
+3, 16.359, 1432.708
+4, 16.359, 1432.703
+5, 16.359, 1432.655
+6, 16.359, 1432.647
+7, 16.359, 1432.690
+8, 16.359, 1432.679
+9, 16.359, 1432.664
+10, 16.360, 1432.619
+MTEPS:
+	Minimum:   1.432K
+	Maximum:   1.433K
+	Average:   1.433K
+	STD_DEV:   0.35
+[ Page Rank | 2.727 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 19.494, 1202.269
+2, 19.473, 1203.561
+3, 19.473, 1203.577
+4, 19.473, 1203.595
+5, 19.472, 1203.624
+6, 19.474, 1203.501
+7, 19.473, 1203.576
+8, 19.473, 1203.557
+9, 19.474, 1203.507
+10, 19.473, 1203.578
+MTEPS:
+	Minimum:   1.202K
+	Maximum:   1.204K
+	Average:   1.203K
+	STD_DEV:   0.39
+[ Page Rank | 3.246 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 28.408, 825.029
+2, 28.367, 826.200
+3, 28.367, 826.220
+4, 28.364, 826.297
+5, 28.366, 826.246
+6, 28.367, 826.195
+7, 28.369, 826.160
+8, 28.367, 826.194
+9, 28.370, 826.127
+10, 28.369, 826.156
+MTEPS:
+	Minimum: 825.02
+	Maximum: 826.29
+	Average: 826.08
+	STD_DEV:   0.35
+[ Page Rank | 4.729 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 46.648, 502.426
+2, 46.570, 503.263
+3, 46.574, 503.217
+4, 46.581, 503.141
+5, 46.571, 503.252
+6, 46.613, 502.796
+7, 46.572, 503.239
+8, 46.572, 503.242
+9, 46.574, 503.226
+10, 46.573, 503.231
+MTEPS:
+	Minimum: 502.42
+	Maximum: 503.26
+	Average: 503.10
+	STD_DEV:   0.26
+[ Page Rank | 7.764 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 17.340, 1351.600
+2, 17.359, 1350.110
+3, 17.359, 1350.168
+4, 17.358, 1350.251
+5, 17.355, 1350.426
+6, 17.355, 1350.480
+7, 17.357, 1350.262
+8, 17.357, 1350.284
+9, 17.357, 1350.255
+10, 17.357, 1350.326
+MTEPS:
+	Minimum:   1.350K
+	Maximum:   1.352K
+	Average:   1.350K
+	STD_DEV:   0.40
+[ Page Rank | 2.893 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 21.560, 1087.083
+2, 21.506, 1089.799
+3, 21.517, 1089.231
+4, 21.506, 1089.766
+5, 21.510, 1089.586
+6, 21.510, 1089.593
+7, 21.506, 1089.808
+8, 21.504, 1089.913
+9, 21.512, 1089.479
+10, 21.509, 1089.658
+MTEPS:
+	Minimum:   1.087K
+	Maximum:   1.090K
+	Average:   1.089K
+	STD_DEV:   0.79
+[ Page Rank | 3.586 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 28.084, 834.546
+2, 27.859, 841.259
+3, 28.313, 827.792
+4, 27.698, 846.166
+5, 28.259, 829.365
+6, 27.560, 850.399
+7, 27.864, 841.124
+8, 27.718, 845.544
+9, 28.571, 820.298
+10, 27.814, 842.626
+MTEPS:
+	Minimum: 820.29
+	Maximum: 850.39
+	Average: 837.91
+	STD_DEV:   9.07
+[ Page Rank | 4.662 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 58.488, 400.714
+2, 55.169, 424.821
+3, 59.003, 397.220
+4, 58.429, 401.118
+5, 55.546, 421.943
+6, 58.147, 403.064
+7, 56.748, 413.004
+8, 55.225, 424.388
+9, 58.242, 402.405
+10, 54.961, 426.433
+MTEPS:
+	Minimum: 397.22
+	Maximum: 426.43
+	Average: 411.51
+	STD_DEV:  11.22
+[ Page Rank | 9.499 min ]
+Page Rank
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 100
+Iteration, Time Elapsed (s), MTEPS
+1, 121.400, 193.056
+2, 121.744, 192.511
+3, 121.938, 192.204
+4, 122.422, 191.445
+5, 122.653, 191.084
+6, 121.747, 192.505
+7, 121.792, 192.435
+8, 122.221, 191.759
+9, 121.597, 192.744
+10, 121.839, 192.360
+MTEPS:
+	Minimum: 191.08
+	Maximum: 193.05
+	Average: 192.21
+	STD_DEV:   0.57
+[ Page Rank | 20.323 min ]
+[ Page Rank Benchmark | 110.801 min ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 1.053, 222.392
+2, 0.643, 362.493
+3, 0.483, 334.241
+4, 0.795, 294.804
+5, 0.611, 249.014
+6, 0.677, 243.857
+7, 0.748, 254.396
+8, 0.776, 291.488
+9, 0.673, 237.791
+10, 0.602, 326.156
+MTEPS:
+	Minimum: 222.39
+	Maximum: 362.49
+	Average: 281.66
+	STD_DEV:  44.97
+[ Breadth First Traversal | 7.163 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 1.445, 162.006
+2, 0.988, 235.820
+3, 0.758, 212.928
+4, 1.211, 193.521
+5, 0.907, 167.958
+6, 0.990, 166.714
+7, 1.088, 174.839
+8, 1.123, 201.401
+9, 0.973, 164.504
+10, 0.928, 211.658
+MTEPS:
+	Minimum: 162.00
+	Maximum: 235.82
+	Average: 189.13
+	STD_DEV:  24.33
+[ Breadth First Traversal | 10.429 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 1.056, 221.744
+2, 0.653, 356.839
+3, 0.512, 315.541
+4, 0.807, 290.302
+5, 0.633, 240.551
+6, 0.700, 235.670
+7, 0.780, 244.039
+8, 0.795, 284.768
+9, 0.692, 231.222
+10, 0.623, 315.618
+MTEPS:
+	Minimum: 221.74
+	Maximum: 356.83
+	Average: 273.62
+	STD_DEV:  43.29
+[ Breadth First Traversal | 7.257 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 1.471, 159.161
+2, 0.999, 233.311
+3, 0.781, 206.740
+4, 1.234, 189.853
+5, 0.919, 165.738
+6, 1.013, 162.892
+7, 1.115, 170.624
+8, 1.147, 197.276
+9, 0.981, 163.282
+10, 0.939, 209.236
+MTEPS:
+	Minimum: 159.16
+	Maximum: 233.31
+	Average: 185.81
+	STD_DEV:  24.01
+[ Breadth First Traversal | 10.618 s ]
+[ Breadth First Traversal Benchmark | 35.468 s ]
+[ Time Elapsed | 300.323 min ]

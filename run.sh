@@ -34,14 +34,14 @@ export test_iterations=10
 export OMP_DISPLAY_ENV=true
 
 # Allocates threads to cores
-#export OMP_PLACES=cores
-#export OMP_PROC_BIND=close
-#export OMP_NUM_THREADS=18
+export OMP_PLACES=cores
+export OMP_PROC_BIND=true
+export OMP_NUM_THREADS=18
 
 # Allocates threads to hyperthreads
-export OMP_PLACES=threads
-export OMP_PROC_BIND=true
-export OMP_NUM_THREADS=36
+#export OMP_PLACES=threads
+#export OMP_PROC_BIND=true
+#export OMP_NUM_THREADS=36
 
 echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}
