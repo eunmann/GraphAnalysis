@@ -1,3 +1,0 @@
-Max Number of Threads: 36
-OMP_PLACES = {0}:36:2
-Page Rank: Neighbor Vectorization

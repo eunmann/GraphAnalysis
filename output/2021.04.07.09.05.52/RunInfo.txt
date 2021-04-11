@@ -1,2 +1,0 @@
-Number of threads: 36
-Page Rank: Complier Vectorization
