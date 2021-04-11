@@ -1,0 +1,789 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+OpenMP:
+	omp_get_num_procs: 72
+	omp_get_max_threads: 18
+	OMP_PLACES: {0}:18:2
+	OMP_NUM_THREADS: 18
+	OMP_PROC_BIND: true
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+Test Parameters:
+	mem_alloc_size:   1.000GB
+	graph_num_vertices: 100.000K
+	graph_min_degree:  20.00
+	graph_max_degree: 200.00
+	graph_min_value:   1.00
+	graph_max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_num_dampening_factors:   8.00
+	test_iterations:  10.00
+	out_dir: output/2021.04.11.11.32.50/
+Loading Facebook graph from ./graph_examples/facebook_combined.txt
+[ Graph DRAM Load | 16.159 ms ]
+[ Graph PMEM Copy | 14.160 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.002, 61.369
+2, 0.002, 77.510
+3, 0.002, 62.609
+4, 0.001, 48.811
+5, 0.002, 74.573
+6, 0.001, 112.065
+7, 0.001, 117.269
+8, 0.001, 105.677
+9, 0.001, 107.151
+10, 0.001, 136.722
+MTEPS:
+	Minimum:  48.81
+	Maximum: 136.72
+	Average:  90.37
+	STD_DEV:  27.59
+[ Breadth First Traversal | 26.007 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.003, 50.601
+2, 0.003, 62.950
+3, 0.003, 39.494
+4, 0.002, 31.762
+5, 0.002, 52.886
+6, 0.002, 40.875
+7, 0.002, 54.615
+8, 0.002, 40.805
+9, 0.002, 43.893
+10, 0.002, 46.393
+MTEPS:
+	Minimum:  31.76
+	Maximum:  62.95
+	Average:  46.42
+	STD_DEV:   8.55
+[ Breadth First Traversal | 23.476 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 140.865
+2, 0.001, 151.438
+3, 0.001, 104.643
+4, 0.001, 77.647
+5, 0.001, 134.797
+6, 0.001, 151.172
+7, 0.001, 135.409
+8, 0.001, 121.329
+9, 0.001, 120.943
+10, 0.001, 151.188
+MTEPS:
+	Minimum:  77.64
+	Maximum: 151.43
+	Average: 128.94
+	STD_DEV:  22.48
+[ Breadth First Traversal | 8.824 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.002, 51.986
+2, 0.003, 65.388
+3, 0.003, 42.359
+4, 0.002, 34.826
+5, 0.002, 51.667
+6, 0.002, 47.183
+7, 0.002, 59.291
+8, 0.002, 43.297
+9, 0.002, 45.552
+10, 0.002, 45.484
+MTEPS:
+	Minimum:  34.82
+	Maximum:  65.38
+	Average:  48.70
+	STD_DEV:   8.33
+[ Breadth First Traversal | 22.223 ms ]
+[ Breadth First Traversal Benchmark | 80.612 ms ]
+Loading Epinions graph from ./graph_examples/soc-Epinions1.txt
+[ Graph DRAM Load | 37.474 ms ]
+[ Graph PMEM Copy | 30.951 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.009, 49.167
+2, 0.008, 56.884
+3, 0.007, 65.085
+4, 0.006, 75.900
+5, 0.007, 71.062
+6, 0.006, 79.029
+7, 0.006, 75.856
+8, 0.006, 76.360
+9, 0.006, 79.522
+10, 0.006, 73.206
+MTEPS:
+	Minimum:  49.16
+	Maximum:  79.52
+	Average:  70.20
+	STD_DEV:   9.60
+[ Breadth First Traversal | 81.509 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.017, 27.944
+2, 0.017, 27.062
+3, 0.018, 24.669
+4, 0.018, 26.677
+5, 0.017, 26.750
+6, 0.017, 27.828
+7, 0.018, 26.641
+8, 0.016, 26.559
+9, 0.017, 27.325
+10, 0.017, 26.998
+MTEPS:
+	Minimum:  24.66
+	Maximum:  27.94
+	Average:  26.84
+	STD_DEV:   0.85
+[ Breadth First Traversal | 172.374 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.007, 68.514
+2, 0.006, 74.052
+3, 0.007, 68.096
+4, 0.006, 75.016
+5, 0.007, 69.569
+6, 0.006, 78.297
+7, 0.006, 74.284
+8, 0.006, 76.895
+9, 0.006, 78.861
+10, 0.007, 71.929
+MTEPS:
+	Minimum:  68.09
+	Maximum:  78.86
+	Average:  73.55
+	STD_DEV:   3.72
+[ Breadth First Traversal | 63.105 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.017, 27.335
+2, 0.017, 26.920
+3, 0.018, 25.480
+4, 0.017, 27.498
+5, 0.017, 26.910
+6, 0.017, 27.660
+7, 0.017, 27.512
+8, 0.016, 26.545
+9, 0.017, 27.497
+10, 0.017, 27.642
+MTEPS:
+	Minimum:  25.48
+	Maximum:  27.66
+	Average:  27.10
+	STD_DEV:   0.64
+[ Breadth First Traversal | 170.600 ms ]
+[ Breadth First Traversal Benchmark | 487.646 ms ]
+Loading Pokec graph from ./graph_examples/soc-pokec-relationships.txt
+[ Graph DRAM Load | 2.420 s ]
+[ Graph PMEM Copy | 275.894 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.126, 224.077
+2, 0.130, 224.641
+3, 0.109, 240.572
+4, 0.102, 234.578
+5, 0.113, 238.371
+6, 0.113, 241.954
+7, 0.103, 233.930
+8, 0.104, 235.320
+9, 0.121, 232.139
+10, 0.132, 222.885
+MTEPS:
+	Minimum: 222.88
+	Maximum: 241.95
+	Average: 232.84
+	STD_DEV:   6.53
+[ Breadth First Traversal | 1.248 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.172, 164.466
+2, 0.183, 160.261
+3, 0.152, 172.629
+4, 0.153, 155.384
+5, 0.162, 165.780
+6, 0.184, 148.454
+7, 0.148, 162.547
+8, 0.155, 158.277
+9, 0.168, 167.155
+10, 0.189, 155.772
+MTEPS:
+	Minimum: 148.45
+	Maximum: 172.62
+	Average: 161.07
+	STD_DEV:   6.59
+[ Breadth First Traversal | 1.672 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.139, 203.869
+2, 0.136, 215.739
+3, 0.115, 228.807
+4, 0.105, 226.180
+5, 0.118, 228.226
+6, 0.118, 231.823
+7, 0.108, 222.783
+8, 0.108, 226.472
+9, 0.125, 224.546
+10, 0.138, 212.999
+MTEPS:
+	Minimum: 203.86
+	Maximum: 231.82
+	Average: 222.14
+	STD_DEV:   8.21
+[ Breadth First Traversal | 1.213 s ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.170, 166.749
+2, 0.186, 157.233
+3, 0.159, 165.335
+4, 0.152, 156.947
+5, 0.160, 167.593
+6, 0.175, 156.295
+7, 0.160, 150.077
+8, 0.164, 150.008
+9, 0.194, 145.192
+10, 0.197, 149.312
+MTEPS:
+	Minimum: 145.19
+	Maximum: 167.59
+	Average: 156.47
+	STD_DEV:   7.54
+[ Breadth First Traversal | 1.722 s ]
+[ Breadth First Traversal Benchmark | 5.854 s ]
+Loading Stack Overflow graph from ./graph_examples/sx-stackoverflow.txt
+[ Graph DRAM Load | 9.450 s ]
+[ Graph PMEM Copy | 585.772 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.487, 128.517
+2, 0.486, 127.545
+3, 0.489, 126.968
+4, 0.488, 126.412
+5, 0.488, 127.071
+6, 0.490, 127.761
+7, 0.491, 126.851
+8, 0.488, 128.013
+9, 0.488, 127.965
+10, 0.490, 126.109
+MTEPS:
+	Minimum: 126.10
+	Maximum: 128.51
+	Average: 127.32
+	STD_DEV:   0.72
+[ Breadth First Traversal | 26.487 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.719, 87.014
+2, 0.705, 87.985
+3, 0.729, 85.161
+4, 0.705, 87.551
+5, 0.708, 87.606
+6, 0.710, 88.253
+7, 0.711, 87.549
+8, 0.711, 87.879
+9, 0.708, 88.196
+10, 0.711, 86.978
+MTEPS:
+	Minimum:  85.16
+	Maximum:  88.25
+	Average:  87.41
+	STD_DEV:   0.85
+[ Breadth First Traversal | 7.143 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.518, 120.892
+2, 0.494, 125.420
+3, 0.497, 124.924
+4, 0.498, 123.938
+5, 0.498, 124.540
+6, 0.497, 126.142
+7, 0.509, 122.364
+8, 0.499, 125.364
+9, 0.498, 125.503
+10, 0.500, 123.756
+MTEPS:
+	Minimum: 120.89
+	Maximum: 126.14
+	Average: 124.28
+	STD_DEV:   1.53
+[ Breadth First Traversal | 5.024 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.727, 86.142
+2, 0.711, 87.220
+3, 0.715, 86.896
+4, 0.716, 86.279
+5, 0.718, 86.442
+6, 0.721, 86.899
+7, 0.722, 86.275
+8, 0.744, 83.976
+9, 0.722, 86.583
+10, 0.716, 86.315
+MTEPS:
+	Minimum:  83.97
+	Maximum:  87.22
+	Average:  86.30
+	STD_DEV:   0.84
+[ Breadth First Traversal | 7.238 s ]
+[ Breadth First Traversal Benchmark | 45.893 s ]
+Loading Live Journal graph from ./graph_examples/soc-LiveJournal1.txt
+[ Graph DRAM Load | 4.860 s ]
+[ Graph PMEM Copy | 641.988 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.452, 99.502
+2, 0.543, 115.393
+3, 0.488, 112.662
+4, 0.514, 117.787
+5, 0.507, 120.260
+6, 0.432, 100.091
+7, 0.512, 113.283
+8, 0.470, 114.613
+9, 0.528, 116.053
+10, 0.459, 112.415
+MTEPS:
+	Minimum:  99.50
+	Maximum: 120.26
+	Average: 112.20
+	STD_DEV:   6.60
+[ Breadth First Traversal | 5.428 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.585, 76.816
+2, 0.703, 89.217
+3, 0.642, 85.677
+4, 0.668, 90.756
+5, 0.664, 91.786
+6, 0.602, 71.886
+7, 0.665, 87.269
+8, 0.617, 87.400
+9, 0.706, 86.871
+10, 0.606, 85.097
+MTEPS:
+	Minimum:  71.88
+	Maximum:  91.78
+	Average:  85.27
+	STD_DEV:   5.91
+[ Breadth First Traversal | 6.476 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.457, 98.505
+2, 0.555, 112.960
+3, 0.503, 109.263
+4, 0.526, 115.240
+5, 0.520, 117.302
+6, 0.442, 98.033
+7, 0.524, 110.722
+8, 0.481, 112.070
+9, 0.543, 112.944
+10, 0.475, 108.459
+MTEPS:
+	Minimum:  98.03
+	Maximum: 117.30
+	Average: 109.55
+	STD_DEV:   6.15
+[ Breadth First Traversal | 5.035 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.592, 75.955
+2, 0.709, 88.441
+3, 0.646, 85.032
+4, 0.673, 89.986
+5, 0.690, 88.314
+6, 0.607, 71.295
+7, 0.696, 83.332
+8, 0.647, 83.248
+9, 0.721, 85.098
+10, 0.641, 80.394
+MTEPS:
+	Minimum:  71.29
+	Maximum:  89.98
+	Average:  83.11
+	STD_DEV:   5.55
+[ Breadth First Traversal | 6.643 s ]
+[ Breadth First Traversal Benchmark | 23.582 s ]
+Loading Orkut graph from ./graph_examples/com-orkut.ungraph.txt
+[ Graph DRAM Load | 25.646 s ]
+[ Graph PMEM Copy | 2.084 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.691, 338.727
+2, 0.461, 505.956
+3, 0.341, 473.644
+4, 0.537, 436.442
+5, 0.423, 359.823
+6, 0.462, 356.877
+7, 0.505, 376.612
+8, 0.522, 433.195
+9, 0.458, 349.322
+10, 0.415, 473.547
+MTEPS:
+	Minimum: 338.72
+	Maximum: 505.95
+	Average: 410.41
+	STD_DEV:  58.09
+[ Breadth First Traversal | 4.872 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.849, 275.944
+2, 0.624, 373.274
+3, 0.487, 331.423
+4, 0.741, 316.305
+5, 0.573, 265.639
+6, 0.617, 267.529
+7, 0.661, 287.905
+8, 0.685, 330.522
+9, 0.608, 263.225
+10, 0.574, 342.009
+MTEPS:
+	Minimum: 263.22
+	Maximum: 373.27
+	Average: 305.37
+	STD_DEV:  36.52
+[ Breadth First Traversal | 6.428 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.703, 333.242
+2, 0.456, 510.756
+3, 0.362, 445.433
+4, 0.558, 420.132
+5, 0.437, 348.484
+6, 0.478, 345.093
+7, 0.524, 363.324
+8, 0.542, 417.595
+9, 0.472, 339.425
+10, 0.432, 454.738
+MTEPS:
+	Minimum: 333.24
+	Maximum: 510.75
+	Average: 397.82
+	STD_DEV:  57.56
+[ Breadth First Traversal | 4.969 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.861, 271.974
+2, 0.636, 366.587
+3, 0.508, 318.055
+4, 0.753, 311.233
+5, 0.585, 260.208
+6, 0.633, 260.593
+7, 0.676, 281.602
+8, 0.698, 324.006
+9, 0.620, 258.374
+10, 0.588, 333.946
+MTEPS:
+	Minimum: 258.37
+	Maximum: 366.58
+	Average: 298.65
+	STD_DEV:  35.48
+[ Breadth First Traversal | 6.569 s ]
+[ Breadth First Traversal Benchmark | 22.839 s ]
+Memory Benchmark
+DRAM
+Memory Size:   1.000GB
+Latency Loads:  25.000MB
+Read Sequential
+Iteration, Time Elapsed (s), Bandwidth (B/s)
+1, 0.010, 97391277247.645
+2, 0.009, 106206404925.938
+3, 0.009, 106369750400.190
+4, 0.009, 106335240987.557
+5, 0.009, 106467246416.312
+6, 0.009, 106204160293.089
+7, 0.009, 106353505225.414
+8, 0.009, 106510247137.857
+9, 0.009, 106463358559.116
+10, 0.009, 106385627046.461
+IGNORE(0)
+Bandwidth:
+	Minimum:  97.391G
+	Maximum: 106.510G
+	Average: 105.469G
+	STD_DEV:   2.694G
+[ Read Sequential | 94.964 ms ]
+Read Random
+Iteration, Time Elapsed (s), Latency (ns)
+1, 2.784, 111.346
+2, 2.827, 113.068
+3, 2.777, 111.079
+4, 2.772, 110.889
+5, 2.815, 112.619
+6, 2.772, 110.879
+7, 2.816, 112.630
+8, 2.773, 110.910
+9, 2.804, 112.155
+10, 2.774, 110.949
+IGNORE( )
+Latency:
+	Minimum: 110.87
+	Maximum: 113.06
+	Average: 111.65
+	STD_DEV:   0.82
+[ Read Random | 27.913 s ]
+Write Sequential
+Iteration, Time Elapsed (s), Bandwidth (B/s)
+1, 0.014, 71053727489.202
+2, 0.014, 73488312345.316
+3, 0.014, 73846266546.918
+4, 0.014, 73881495116.175
+5, 0.014, 73861462486.502
+6, 0.014, 73922778786.824
+7, 0.014, 73814781882.487
+8, 0.014, 73899010056.251
+9, 0.014, 73965109770.140
+10, 0.014, 73976140623.317
+Bandwidth:
+	Minimum:  71.054G
+	Maximum:  73.976G
+	Average:  73.571G
+	STD_DEV: 849.133M
+[ Write Sequential | 135.972 ms ]
+[ Memory Test | 28.144 s ]
+Persistent Memory
+Is pmem: True
+Memory Size:   1.000GB
+Latency Loads:  25.000MB
+Read Sequential
+Iteration, Time Elapsed (s), Bandwidth (B/s)
+1, 0.026, 38029311928.814
+2, 0.032, 30774177363.155
+3, 0.025, 39741837026.675
+4, 0.025, 39567768032.852
+5, 0.026, 38873379490.288
+6, 0.026, 38456531716.928
+7, 0.026, 38885390715.934
+8, 0.026, 39029844521.882
+9, 0.026, 39019907332.402
+10, 0.025, 39265718499.038
+IGNORE(0)
+Bandwidth:
+	Minimum:  30.774G
+	Maximum:  39.742G
+	Average:  38.164G
+	STD_DEV:   2.508G
+[ Read Sequential | 263.443 ms ]
+Read Random
+Iteration, Time Elapsed (s), Latency (ns)
+1, 9.602, 384.087
+2, 9.602, 384.062
+3, 9.604, 384.156
+4, 9.599, 383.949
+5, 9.599, 383.958
+6, 9.602, 384.068
+7, 9.597, 383.886
+8, 9.600, 383.983
+9, 9.602, 384.083
+10, 9.597, 383.868
+IGNORE( )
+Latency:
+	Minimum: 383.86
+	Maximum: 384.15
+	Average: 384.01
+	STD_DEV:   0.09
+[ Read Random | 1.600 min ]
+Write Sequential
+Iteration, Time Elapsed (s), Bandwidth (B/s)
+1, 0.319, 3136653943.666
+2, 0.328, 3051459054.842
+3, 0.327, 3053512407.993
+4, 0.328, 3045075633.406
+5, 0.327, 3062599299.997
+6, 0.329, 3040249381.198
+7, 0.328, 3051194382.566
+8, 0.330, 3034762208.734
+9, 0.328, 3048229455.277
+10, 0.327, 3060374670.592
+Bandwidth:
+	Minimum:   3.035G
+	Maximum:   3.137G
+	Average:   3.058G
+	STD_DEV:  27.273M
+[ Write Sequential | 3.270 s ]
+[ Memory Test | 1.659 min ]
+Read Sequential Bandwith (B/s)
+Minimum:  97.391G,  30.774G, -66.617G, -68.40%
+Maximum: 106.510G,  39.742G, -66.768G, -62.69%
+Average: 105.469G,  38.164G, -67.304G, -63.81%
+STD_DEV:   2.694G,   2.508G, -186.360M, -6.92%
+Read Random Latency (ns)
+Minimum: 110.87, 383.86, 272.98, 246.20%
+Maximum: 113.06, 384.15, 271.08, 239.76%
+Average: 111.65, 384.01, 272.35, 243.93%
+STD_DEV:   0.82,   0.09,  -0.73, -89.07%
+Write Sequential Bandwith (B/s)
+Minimum:  71.054G,   3.035G, -68.019G, -95.73%
+Maximum:  73.976G,   3.137G, -70.839G, -95.76%
+Average:  73.571G,   3.058G, -70.512G, -95.84%
+STD_DEV: 849.133M,  27.273M, -821.860M, -96.79%
+[ Memory Benchmark | 2.139 min ]
+STREAM Benchmark
+DRAM
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 200000000 (elements), Offset = 0 (elements)
+Memory per array = 1525.9 MiB (= 1.5 GiB).
+Total memory required = 4577.6 MiB (= 4.5 GiB).
+Each kernel will be executed 10 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 18
+Number of Threads counted = 18
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 32483 microseconds.
+   (= 32483 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:           66722.5     0.048211     0.047960     0.049918
+Scale:          66640.4     0.048047     0.048019     0.048077
+Add:            75253.8     0.063814     0.063784     0.063855
+Triad:          75304.8     0.063774     0.063741     0.063850
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+PMEM
+-------------------------------------------------------------
+STREAM version $Revision: 5.10 $
+-------------------------------------------------------------
+This system uses 8 bytes per array element.
+-------------------------------------------------------------
+Array size = 200000000 (elements), Offset = 0 (elements)
+Memory per array = 1525.9 MiB (= 1.5 GiB).
+Total memory required = 4577.6 MiB (= 4.5 GiB).
+Each kernel will be executed 10 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+-------------------------------------------------------------
+Number of Threads requested = 18
+Number of Threads counted = 18
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 556472 microseconds.
+   (= 556472 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+Function    Best Rate MB/s  Avg time     Min time     Max time
+Copy:            5521.1     0.581044     0.579598     0.582354
+Scale:           5512.3     0.581948     0.580520     0.584420
+Add:             8125.4     0.594243     0.590741     0.598153
+Triad:           8257.3     0.594426     0.581303     0.599296
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+[ STREAM Benchmark | 30.800 s ]
+[ Time Elapsed | 5.068 min ]

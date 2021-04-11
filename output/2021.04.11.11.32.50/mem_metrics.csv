@@ -1,0 +1,8 @@
+benchmark,dram,pmem
+Read Sequential Bandwidth,105.469GB/s, 38.164GB/s
+Read Random Latency,111.65ns,384.01ns
+Write Sequential Bandwidth, 73.571GB/s,  3.058GB/s
+STREAM Copy, 66.723GB/s,  5.521GB/s
+STREAM Scale, 66.640GB/s,  5.512GB/s
+STREAM Add, 75.254GB/s,  8.125GB/s
+STREAM Triad, 75.305GB/s,  8.257GB/s
