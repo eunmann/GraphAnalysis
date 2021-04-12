@@ -32,7 +32,7 @@ void print_info() {
     printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
     allocator.deallocate(p, N);
 
-    printf("TOP DOWN ONLY BFS\n");
+    printf("BOTTOM UP ONLY BFS\n");
 }
 
 int main(int argc, char** argv) {
@@ -79,8 +79,8 @@ int main(int argc, char** argv) {
             graph_pmem.free();
         }
 
-        Benchmark::benchmark_memory(tp);
-        Benchmark::benchmark_STREAM(tp);
+        //Benchmark::benchmark_memory(tp);
+        //Benchmark::benchmark_STREAM(tp);
     }
     catch (std::exception& e) {
         printf("Exception: %s\n", e.what());

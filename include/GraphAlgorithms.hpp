@@ -161,6 +161,7 @@ namespace GraphAlgorithms {
 
         /* Frontiers for Bottom to Top */
         Bitmap<temp_alloc_type> frontier_bm_1(graph.num_vertices());
+        frontier_bm_1.set_bit(source_vertex);
         Bitmap<temp_alloc_type> frontier_bm_2(graph.num_vertices());
 
         /* Create a write frontier vector for each thread */
@@ -184,7 +185,7 @@ namespace GraphAlgorithms {
         /* Bottom to top tuning parameter */
         double beta = 24;
 
-        bool top_to_bottom_state = true;
+        bool top_to_bottom_state = false;
 
         while (n_f > 0) {
 
