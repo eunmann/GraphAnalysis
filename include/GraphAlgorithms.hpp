@@ -150,6 +150,7 @@ namespace GraphAlgorithms {
     std::vector<int32_t, temp_alloc_type<int32_t>> breadth_first_traversal_hybrid(const GraphCRS<alloc_type>& graph, uint32_t source_vertex) {
 
         std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth(graph.num_vertices(), -1);
+        vertex_depth[source_vertex] = 0;
 
         /* Frontiers for Top to Bottom */
         std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_1;
@@ -218,7 +219,6 @@ namespace GraphAlgorithms {
                 /* Clear the bitmaps */
                 frontier_vec_r.resize(0);
                 frontier_vec_w.resize(0);
-
 
                 /* Clear the local write vectors */
 #pragma omp parallel for schedule(static,1)
@@ -335,10 +335,9 @@ namespace GraphAlgorithms {
                                 n_f++;
                                 m_f += graph.num_neighbors(neighbor);
                                 frontier_bm_w.set_bit(neighbor);
+                                edges_checked++;
                             }
                         }
-
-                        edges_checked += row_index_end - row_index;
                     }
                 }
 
