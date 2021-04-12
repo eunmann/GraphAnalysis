@@ -10,7 +10,7 @@ mkdir ${out_dir}
 export out_dir
 
 # Size of the memory test buffer
-export mem_alloc_size=1000000000
+export mem_alloc_size=10000000000
 
 # Number of vertices to generate for the graph test
 export graph_num_vertices=100000
