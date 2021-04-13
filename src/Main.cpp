@@ -31,8 +31,6 @@ void print_info() {
 	auto p = allocator.allocate(N);
 	printf("\tPMEM Accessible: %s\n", allocator.is_pmem() ? "True" : "False");
 	allocator.deallocate(p, N);
-
-	printf("BOTTOM UP ONLY BFS\n");
 }
 
 int main(int argc, char** argv) {
