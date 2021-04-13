@@ -3,7 +3,7 @@
 #include <vector>
 #include <inttypes.h>
 #include <stdio.h>
-#include <mutex>
+#include <atomic>
 
 template<template<typename> typename alloc_type>
 class Bitmap {
@@ -11,8 +11,7 @@ class Bitmap {
 public:
 
 	Bitmap(size_t size) :
-		m_vec((size + sizeof(uint64_t) * 8) / sizeof(uint64_t) * 8),
-		m_mutexes(m_vec.size()) {
+		m_vec((size + sizeof(uint64_t) * 8) / sizeof(uint64_t) * 8) {
 	}
 
 	void set_bit(size_t bit_index) {
@@ -22,7 +21,6 @@ public:
 		size_t vec_index = bit_index / num_bits;
 		size_t offset = bit_index % num_bits;
 
-		std::lock_guard<std::mutex> lock_guard(this->m_mutexes[vec_index]);
 		this->m_vec[vec_index] |= mask >> offset;
 	}
 
@@ -51,6 +49,5 @@ public:
 	}
 
 private:
-	std::vector<uint64_t, alloc_type<uint64_t>> m_vec;
-	std::vector<std::mutex> m_mutexes;
+	std::vector<std::atomic_uint64_t, alloc_type<std::atomic_uint64_t>> m_vec;
 };

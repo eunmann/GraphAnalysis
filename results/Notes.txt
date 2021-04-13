@@ -65,4 +65,18 @@ April 9th 2021
     
     OMP_PROC_BIND:
         'true' vs 'close' seem to be the same
-        
+
+April 13th, 2021
+
+	Memory Benchmarks:
+	    Ask Dong how writes to PMEM work, does it cache them and would more threads causes more 'slow' writes
+
+	Page Rank:
+		Split up the graphs
+	
+	Bottom Up:
+		Try to use compare and swap atomic operation instead of mutex
+    
+	Start to Schedule Defense:
+		1:30 length
+		Last week a few days before deadline
