@@ -23,7 +23,7 @@ def scale_csv(path, output):
     df.to_csv(output, index=False)
 
 
-directory = "./output/2021.04.13.09.28.06"
+directory = "./output/2021.04.13.09.59.35"
 csv_paths = glob.glob(path.join(directory, "*.csv"))
 
 for csv_path in csv_paths:
