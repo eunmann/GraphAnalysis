@@ -132,11 +132,14 @@ namespace GraphAlgorithms {
 					float d = 1.0f / graph.num_neighbors(neighbor);
 
 					neighbor *= num_dampening_factors;
+
+#pragma omp simd
 					for (size_t j = 0; j < num_dampening_factors; j++) {
 						page_rank_sum[j] += pr_read[neighbor + j] * d;
 					}
 				}
 
+#pragma omp simd
 				for (size_t j = 0; j < num_dampening_factors; j++) {
 					pr_write[vertex * num_dampening_factors + j] = page_rank_sum[j] * dampening_factors[j] + dampening_probs[j];
 				}
@@ -332,6 +335,7 @@ namespace GraphAlgorithms {
 								n_f++;
 								m_f += graph.num_neighbors(neighbor);
 								edges_checked++;
+								break;
 							}
 						}
 					}
