@@ -226,7 +226,6 @@ namespace GraphAlgorithms {
                     local_write_vecs[i].resize(0);
                 }
 
-
 #pragma omp parallel for schedule(dynamic,4)
                 for (size_t i = 0; i < frontier_bm_r.size(); i++) {
                     uint64_t v = frontier_bm_r.get(i);
