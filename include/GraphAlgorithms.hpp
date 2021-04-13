@@ -333,8 +333,8 @@ namespace GraphAlgorithms {
 								frontier_bm_w.set_bit(vertex);
 								vertex_depth[vertex] = vertex_depth[neighbor] + 1;
 								n_f++;
-								m_f += graph.num_neighbors(neighbor);
-								edges_checked++;
+								m_f += graph.num_neighbors(vertex);
+								edges_checked += graph.num_neighbors(neighbor);
 								break;
 							}
 						}
