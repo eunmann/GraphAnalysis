@@ -1,0 +1,2159 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+OpenMP:
+	omp_get_num_procs: 72
+	omp_get_max_threads: 18
+	OMP_PLACES: {0}:18:2
+	OMP_NUM_THREADS: 18
+	OMP_PROC_BIND: true
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+Test Parameters:
+	mem_alloc_size:  10.000GB
+	graph_num_vertices: 100.000K
+	graph_min_degree:  20.00
+	graph_max_degree: 200.00
+	graph_min_value:   1.00
+	graph_max_value:   2.00
+	page_rank_iterations: 100.00
+	page_rank_num_dampening_factors:   8.00
+	test_iterations:   2.00
+	out_dir: output/2021.04.17.13.59.16/
+Loading Facebook graph from ./graph_examples/facebook_combined.txt
+[ Graph DRAM Load | 14.603 ms ]
+[ Graph PMEM Copy | 14.680 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.002, 94.869
+2, 0.001, 120.693
+MTEPS:
+	Minimum:  94.86
+	Maximum: 120.69
+	Average: 107.78
+	STD_DEV:  12.91
+[ Breadth First Traversal | 3.347 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.004, 48.265
+2, 0.003, 60.749
+MTEPS:
+	Minimum:  48.26
+	Maximum:  60.74
+	Average:  54.50
+	STD_DEV:   6.24
+[ Breadth First Traversal | 6.544 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.001, 178.486
+2, 0.001, 149.862
+MTEPS:
+	Minimum: 149.86
+	Maximum: 178.48
+	Average: 164.17
+	STD_DEV:  14.31
+[ Breadth First Traversal | 2.183 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.003, 62.746
+2, 0.003, 68.737
+MTEPS:
+	Minimum:  62.74
+	Maximum:  68.73
+	Average:  65.74
+	STD_DEV:   2.99
+[ Breadth First Traversal | 5.373 ms ]
+[ Breadth First Traversal Benchmark | 17.524 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 22.337 us ]
+[ Top Down Step | 58.333 us ]
+[ Top Down Step | 149.179 us ]
+[ Top Down Step | 119.287 us ]
+[ Top Down Step | 56.314 us ]
+[ Top Down Step | 28.063 us ]
+[ Top Down Step | 31.935 us ]
+1, 0.000, 367.206
+[ Top Down Step | 21.746 us ]
+[ Top Down Step | 33.815 us ]
+[ Top Down Step | 99.846 us ]
+[ Top Down Step | 77.551 us ]
+[ Top Down Step | 176.357 us ]
+[ Top Down Step | 50.235 us ]
+[ Top Down Step | 27.708 us ]
+[ Top Down Step | 32.906 us ]
+2, 0.001, 330.359
+MTEPS:
+	Minimum: 330.35
+	Maximum: 367.20
+	Average: 348.78
+	STD_DEV:  18.42
+[ Breadth First Traversal | 1.057 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 299.427 us ]
+[ Top Down Step | 560.822 us ]
+[ Top Down Step | 699.310 us ]
+[ Top Down Step | 153.618 us ]
+[ Top Down Step | 51.595 us ]
+[ Top Down Step | 28.464 us ]
+[ Top Down Step | 28.998 us ]
+1, 0.003, 63.153
+[ Top Down Step | 100.983 us ]
+[ Top Down Step | 442.497 us ]
+[ Top Down Step | 81.973 us ]
+[ Top Down Step | 737.537 us ]
+[ Top Down Step | 470.984 us ]
+[ Top Down Step | 43.770 us ]
+[ Top Down Step | 31.564 us ]
+[ Top Down Step | 34.356 us ]
+2, 0.003, 62.356
+MTEPS:
+	Minimum:  62.35
+	Maximum:  63.15
+	Average:  62.75
+	STD_DEV:   0.39
+[ Breadth First Traversal | 5.693 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 21.389 us ]
+[ Top Down Step | 43.659 us ]
+[ Top Down Step | 139.091 us ]
+[ Top Down Step | 104.189 us ]
+[ Top Down Step | 59.749 us ]
+[ Top Down Step | 34.039 us ]
+[ Top Down Step | 28.466 us ]
+1, 0.000, 395.566
+[ Top Down Step | 20.756 us ]
+[ Top Down Step | 31.065 us ]
+[ Top Down Step | 111.001 us ]
+[ Top Down Step | 61.709 us ]
+[ Top Down Step | 167.586 us ]
+[ Top Down Step | 44.540 us ]
+[ Top Down Step | 23.302 us ]
+[ Top Down Step | 34.652 us ]
+2, 0.001, 347.709
+MTEPS:
+	Minimum: 347.70
+	Maximum: 395.56
+	Average: 371.63
+	STD_DEV:  23.92
+[ Breadth First Traversal | 992.214 us ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 292.663 us ]
+[ Top Down Step | 528.275 us ]
+[ Top Down Step | 436.462 us ]
+[ Top Down Step | 261.335 us ]
+[ Top Down Step | 49.710 us ]
+[ Top Down Step | 27.905 us ]
+[ Top Down Step | 32.073 us ]
+1, 0.003, 69.373
+[ Top Down Step | 110.499 us ]
+[ Top Down Step | 336.569 us ]
+[ Top Down Step | 91.865 us ]
+[ Top Down Step | 687.308 us ]
+[ Top Down Step | 160.026 us ]
+[ Top Down Step | 45.961 us ]
+[ Top Down Step | 26.522 us ]
+[ Top Down Step | 32.035 us ]
+2, 0.002, 74.503
+MTEPS:
+	Minimum:  69.37
+	Maximum:  74.50
+	Average:  71.93
+	STD_DEV:   2.56
+[ Breadth First Traversal | 4.982 ms ]
+[ Breadth First Traversal Benchmark | 12.775 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 54.031 us ]
+[ Bottom Up Step | 55.943 us ]
+[ Bottom Up Step | 62.494 us ]
+[ Bottom Up Step | 49.053 us ]
+[ Bottom Up Step | 42.576 us ]
+[ Bottom Up Step | 43.695 us ]
+[ Bottom Up Step | 44.114 us ]
+1, 0.000, 476.325
+[ Bottom Up Step | 201.133 us ]
+[ Bottom Up Step | 64.471 us ]
+[ Bottom Up Step | 125.465 us ]
+[ Bottom Up Step | 52.052 us ]
+[ Bottom Up Step | 47.711 us ]
+[ Bottom Up Step | 47.276 us ]
+[ Bottom Up Step | 45.261 us ]
+[ Bottom Up Step | 44.842 us ]
+2, 0.001, 275.448
+MTEPS:
+	Minimum: 275.44
+	Maximum: 476.32
+	Average: 375.88
+	STD_DEV: 100.43
+[ Breadth First Traversal | 1.052 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 50.074 us ]
+[ Bottom Up Step | 45.645 us ]
+[ Bottom Up Step | 57.208 us ]
+[ Bottom Up Step | 45.446 us ]
+[ Bottom Up Step | 47.196 us ]
+[ Bottom Up Step | 47.928 us ]
+[ Bottom Up Step | 45.876 us ]
+1, 0.001, 183.949
+[ Bottom Up Step | 99.869 us ]
+[ Bottom Up Step | 79.443 us ]
+[ Bottom Up Step | 125.343 us ]
+[ Bottom Up Step | 49.360 us ]
+[ Bottom Up Step | 45.487 us ]
+[ Bottom Up Step | 44.555 us ]
+[ Bottom Up Step | 44.383 us ]
+[ Bottom Up Step | 41.480 us ]
+2, 0.001, 149.941
+MTEPS:
+	Minimum: 149.94
+	Maximum: 183.94
+	Average: 166.94
+	STD_DEV:  17.00
+[ Breadth First Traversal | 2.207 ms ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 47.403 us ]
+[ Bottom Up Step | 45.702 us ]
+[ Bottom Up Step | 43.416 us ]
+[ Bottom Up Step | 43.885 us ]
+[ Bottom Up Step | 42.028 us ]
+[ Bottom Up Step | 43.976 us ]
+[ Bottom Up Step | 42.650 us ]
+1, 0.000, 540.163
+[ Bottom Up Step | 67.181 us ]
+[ Bottom Up Step | 102.579 us ]
+[ Bottom Up Step | 69.154 us ]
+[ Bottom Up Step | 44.973 us ]
+[ Bottom Up Step | 43.887 us ]
+[ Bottom Up Step | 43.684 us ]
+[ Bottom Up Step | 43.374 us ]
+[ Bottom Up Step | 42.117 us ]
+2, 0.000, 375.672
+MTEPS:
+	Minimum: 375.67
+	Maximum: 540.16
+	Average: 457.91
+	STD_DEV:  82.24
+[ Breadth First Traversal | 837.935 us ]
+Breadth First Traversal
+Number of Vertices: 4039 =   4.039K
+Number of Edges: 176468 = 176.468K
+Memory Size: 1427904 =   1.428MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 44.810 us ]
+[ Bottom Up Step | 45.877 us ]
+[ Bottom Up Step | 53.283 us ]
+[ Bottom Up Step | 43.120 us ]
+[ Bottom Up Step | 44.737 us ]
+[ Bottom Up Step | 43.451 us ]
+[ Bottom Up Step | 45.471 us ]
+1, 0.001, 188.697
+[ Bottom Up Step | 46.585 us ]
+[ Bottom Up Step | 140.265 us ]
+[ Bottom Up Step | 127.754 us ]
+[ Bottom Up Step | 49.695 us ]
+[ Bottom Up Step | 44.168 us ]
+[ Bottom Up Step | 43.459 us ]
+[ Bottom Up Step | 43.783 us ]
+[ Bottom Up Step | 44.155 us ]
+2, 0.001, 152.587
+MTEPS:
+	Minimum: 152.58
+	Maximum: 188.69
+	Average: 170.64
+	STD_DEV:  18.05
+[ Breadth First Traversal | 2.158 ms ]
+[ Breadth First Traversal Benchmark | 6.299 ms ]
+Loading Epinions graph from ./graph_examples/soc-Epinions1.txt
+[ Graph DRAM Load | 36.974 ms ]
+[ Graph PMEM Copy | 28.506 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.012, 41.597
+2, 0.008, 60.872
+MTEPS:
+	Minimum:  41.59
+	Maximum:  60.87
+	Average:  51.23
+	STD_DEV:   9.63
+[ Breadth First Traversal | 20.835 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.022, 22.769
+2, 0.020, 24.588
+MTEPS:
+	Minimum:  22.76
+	Maximum:  24.58
+	Average:  23.67
+	STD_DEV:   0.90
+[ Breadth First Traversal | 42.552 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.009, 54.160
+2, 0.008, 66.190
+MTEPS:
+	Minimum:  54.16
+	Maximum:  66.19
+	Average:  60.17
+	STD_DEV:   6.01
+[ Breadth First Traversal | 16.899 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.022, 22.405
+2, 0.021, 24.044
+MTEPS:
+	Minimum:  22.40
+	Maximum:  24.04
+	Average:  23.22
+	STD_DEV:   0.82
+[ Breadth First Traversal | 43.377 ms ]
+[ Breadth First Traversal Benchmark | 123.714 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 17.609 us ]
+[ Top Down Step | 65.071 us ]
+[ Top Down Step | 205.858 us ]
+[ Top Down Step | 444.271 us ]
+[ Top Down Step | 426.523 us ]
+[ Top Down Step | 113.409 us ]
+[ Top Down Step | 28.479 us ]
+[ Top Down Step | 16.406 us ]
+[ Top Down Step | 14.389 us ]
+[ Top Down Step | 14.649 us ]
+1, 0.001, 336.637
+[ Top Down Step | 13.425 us ]
+[ Top Down Step | 16.673 us ]
+[ Top Down Step | 14.461 us ]
+[ Top Down Step | 14.768 us ]
+[ Top Down Step | 15.004 us ]
+[ Top Down Step | 20.181 us ]
+[ Top Down Step | 75.707 us ]
+[ Top Down Step | 222.370 us ]
+[ Top Down Step | 536.297 us ]
+[ Top Down Step | 318.880 us ]
+[ Top Down Step | 68.735 us ]
+[ Top Down Step | 21.686 us ]
+[ Top Down Step | 17.810 us ]
+[ Top Down Step | 14.851 us ]
+[ Top Down Step | 14.275 us ]
+2, 0.001, 344.278
+MTEPS:
+	Minimum: 336.63
+	Maximum: 344.27
+	Average: 340.45
+	STD_DEV:   3.82
+[ Breadth First Traversal | 3.022 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 101.573 us ]
+[ Top Down Step | 318.231 us ]
+[ Top Down Step | 774.854 us ]
+[ Top Down Step | 837.074 us ]
+[ Top Down Step | 440.011 us ]
+[ Top Down Step | 114.880 us ]
+[ Top Down Step | 29.278 us ]
+[ Top Down Step | 16.718 us ]
+[ Top Down Step | 15.280 us ]
+[ Top Down Step | 14.195 us ]
+1, 0.007, 63.251
+[ Top Down Step | 91.913 us ]
+[ Top Down Step | 16.151 us ]
+[ Top Down Step | 355.997 us ]
+[ Top Down Step | 848.122 us ]
+[ Top Down Step | 748.681 us ]
+[ Top Down Step | 322.126 us ]
+[ Top Down Step | 69.493 us ]
+[ Top Down Step | 21.121 us ]
+[ Top Down Step | 14.982 us ]
+[ Top Down Step | 15.216 us ]
+[ Top Down Step | 14.792 us ]
+2, 0.007, 65.012
+MTEPS:
+	Minimum:  63.25
+	Maximum:  65.01
+	Average:  64.13
+	STD_DEV:   0.88
+[ Breadth First Traversal | 14.665 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 15.142 us ]
+[ Top Down Step | 50.116 us ]
+[ Top Down Step | 200.797 us ]
+[ Top Down Step | 439.139 us ]
+[ Top Down Step | 427.767 us ]
+[ Top Down Step | 113.756 us ]
+[ Top Down Step | 29.013 us ]
+[ Top Down Step | 16.393 us ]
+[ Top Down Step | 14.209 us ]
+[ Top Down Step | 14.649 us ]
+1, 0.001, 343.781
+[ Top Down Step | 13.978 us ]
+[ Top Down Step | 15.742 us ]
+[ Top Down Step | 82.356 us ]
+[ Top Down Step | 227.703 us ]
+[ Top Down Step | 532.820 us ]
+[ Top Down Step | 315.539 us ]
+[ Top Down Step | 68.341 us ]
+[ Top Down Step | 21.573 us ]
+[ Top Down Step | 16.674 us ]
+[ Top Down Step | 15.028 us ]
+[ Top Down Step | 14.741 us ]
+2, 0.001, 343.400
+MTEPS:
+	Minimum: 343.40
+	Maximum: 343.78
+	Average: 343.59
+	STD_DEV:   0.19
+[ Breadth First Traversal | 2.769 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 96.988 us ]
+[ Top Down Step | 291.836 us ]
+[ Top Down Step | 659.636 us ]
+[ Top Down Step | 859.265 us ]
+[ Top Down Step | 433.624 us ]
+[ Top Down Step | 113.590 us ]
+[ Top Down Step | 29.264 us ]
+[ Top Down Step | 16.393 us ]
+[ Top Down Step | 14.868 us ]
+[ Top Down Step | 15.715 us ]
+1, 0.007, 64.740
+[ Top Down Step | 95.758 us ]
+[ Top Down Step | 49.649 us ]
+[ Top Down Step | 276.088 us ]
+[ Top Down Step | 838.407 us ]
+[ Top Down Step | 737.760 us ]
+[ Top Down Step | 328.642 us ]
+[ Top Down Step | 68.373 us ]
+[ Top Down Step | 21.766 us ]
+[ Top Down Step | 15.397 us ]
+[ Top Down Step | 14.904 us ]
+[ Top Down Step | 15.822 us ]
+2, 0.007, 66.172
+MTEPS:
+	Minimum:  64.74
+	Maximum:  66.17
+	Average:  65.45
+	STD_DEV:   0.71
+[ Breadth First Traversal | 14.370 ms ]
+[ Breadth First Traversal Benchmark | 34.857 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 412.703 us ]
+[ Bottom Up Step | 421.578 us ]
+[ Bottom Up Step | 426.931 us ]
+[ Bottom Up Step | 423.835 us ]
+[ Bottom Up Step | 410.912 us ]
+[ Bottom Up Step | 408.535 us ]
+[ Bottom Up Step | 408.495 us ]
+[ Bottom Up Step | 403.343 us ]
+[ Bottom Up Step | 403.994 us ]
+1, 0.004, 129.995
+[ Bottom Up Step | 407.616 us ]
+[ Bottom Up Step | 405.454 us ]
+[ Bottom Up Step | 401.616 us ]
+[ Bottom Up Step | 418.328 us ]
+[ Bottom Up Step | 431.371 us ]
+[ Bottom Up Step | 424.218 us ]
+[ Bottom Up Step | 416.741 us ]
+[ Bottom Up Step | 407.044 us ]
+[ Bottom Up Step | 406.542 us ]
+[ Bottom Up Step | 403.423 us ]
+[ Bottom Up Step | 404.368 us ]
+[ Bottom Up Step | 405.062 us ]
+2, 0.005, 99.616
+MTEPS:
+	Minimum:  99.61
+	Maximum: 129.99
+	Average: 114.80
+	STD_DEV:  15.19
+[ Breadth First Traversal | 8.982 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 419.469 us ]
+[ Bottom Up Step | 411.342 us ]
+[ Bottom Up Step | 415.329 us ]
+[ Bottom Up Step | 429.847 us ]
+[ Bottom Up Step | 435.137 us ]
+[ Bottom Up Step | 439.462 us ]
+[ Bottom Up Step | 429.343 us ]
+[ Bottom Up Step | 429.909 us ]
+[ Bottom Up Step | 426.351 us ]
+1, 0.017, 29.317
+[ Bottom Up Step | 419.053 us ]
+[ Bottom Up Step | 408.439 us ]
+[ Bottom Up Step | 402.534 us ]
+[ Bottom Up Step | 419.114 us ]
+[ Bottom Up Step | 420.541 us ]
+[ Bottom Up Step | 420.621 us ]
+[ Bottom Up Step | 410.780 us ]
+[ Bottom Up Step | 408.453 us ]
+[ Bottom Up Step | 405.245 us ]
+[ Bottom Up Step | 405.240 us ]
+[ Bottom Up Step | 404.712 us ]
+[ Bottom Up Step | 403.239 us ]
+2, 0.018, 28.266
+MTEPS:
+	Minimum:  28.26
+	Maximum:  29.31
+	Average:  28.79
+	STD_DEV:   0.52
+[ Breadth First Traversal | 35.119 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 410.615 us ]
+[ Bottom Up Step | 421.468 us ]
+[ Bottom Up Step | 424.541 us ]
+[ Bottom Up Step | 421.191 us ]
+[ Bottom Up Step | 409.530 us ]
+[ Bottom Up Step | 408.755 us ]
+[ Bottom Up Step | 402.314 us ]
+[ Bottom Up Step | 401.956 us ]
+[ Bottom Up Step | 402.733 us ]
+1, 0.004, 131.671
+[ Bottom Up Step | 407.089 us ]
+[ Bottom Up Step | 409.798 us ]
+[ Bottom Up Step | 402.813 us ]
+[ Bottom Up Step | 415.458 us ]
+[ Bottom Up Step | 431.423 us ]
+[ Bottom Up Step | 423.078 us ]
+[ Bottom Up Step | 416.847 us ]
+[ Bottom Up Step | 404.478 us ]
+[ Bottom Up Step | 404.502 us ]
+[ Bottom Up Step | 403.612 us ]
+[ Bottom Up Step | 402.448 us ]
+[ Bottom Up Step | 401.289 us ]
+2, 0.005, 99.883
+MTEPS:
+	Minimum:  99.88
+	Maximum: 131.67
+	Average: 115.77
+	STD_DEV:  15.89
+[ Breadth First Traversal | 8.919 ms ]
+Breadth First Traversal
+Number of Vertices: 75888 =  75.888K
+Number of Edges: 508837 = 508.837K
+Memory Size: 4374252 =   4.374MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 455.389 us ]
+[ Bottom Up Step | 413.822 us ]
+[ Bottom Up Step | 413.699 us ]
+[ Bottom Up Step | 417.095 us ]
+[ Bottom Up Step | 409.022 us ]
+[ Bottom Up Step | 413.905 us ]
+[ Bottom Up Step | 405.035 us ]
+[ Bottom Up Step | 403.014 us ]
+[ Bottom Up Step | 402.350 us ]
+1, 0.017, 29.880
+[ Bottom Up Step | 486.539 us ]
+[ Bottom Up Step | 411.961 us ]
+[ Bottom Up Step | 437.544 us ]
+[ Bottom Up Step | 440.112 us ]
+[ Bottom Up Step | 437.526 us ]
+[ Bottom Up Step | 439.209 us ]
+[ Bottom Up Step | 428.664 us ]
+[ Bottom Up Step | 429.290 us ]
+[ Bottom Up Step | 428.608 us ]
+[ Bottom Up Step | 426.116 us ]
+[ Bottom Up Step | 424.029 us ]
+[ Bottom Up Step | 427.027 us ]
+2, 0.018, 27.564
+MTEPS:
+	Minimum:  27.56
+	Maximum:  29.88
+	Average:  28.72
+	STD_DEV:   1.15
+[ Breadth First Traversal | 35.256 ms ]
+[ Breadth First Traversal Benchmark | 88.305 ms ]
+Loading Pokec graph from ./graph_examples/soc-pokec-relationships.txt
+[ Graph DRAM Load | 2.401 s ]
+[ Graph PMEM Copy | 259.364 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.172, 177.988
+2, 0.164, 186.996
+MTEPS:
+	Minimum: 177.98
+	Maximum: 186.99
+	Average: 182.49
+	STD_DEV:   4.50
+[ Breadth First Traversal | 392.315 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.215, 142.156
+2, 0.211, 144.763
+MTEPS:
+	Minimum: 142.15
+	Maximum: 144.76
+	Average: 143.46
+	STD_DEV:   1.30
+[ Breadth First Traversal | 427.731 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.169, 180.895
+2, 0.166, 183.931
+MTEPS:
+	Minimum: 180.89
+	Maximum: 183.93
+	Average: 182.41
+	STD_DEV:   1.51
+[ Breadth First Traversal | 336.323 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.218, 140.151
+2, 0.215, 142.461
+MTEPS:
+	Minimum: 140.15
+	Maximum: 142.46
+	Average: 141.30
+	STD_DEV:   1.15
+[ Breadth First Traversal | 434.317 ms ]
+[ Breadth First Traversal Benchmark | 1.591 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 16.492 us ]
+[ Top Down Step | 13.894 us ]
+[ Top Down Step | 14.824 us ]
+[ Top Down Step | 59.694 us ]
+[ Top Down Step | 806.299 us ]
+[ Top Down Step | 5.582 ms ]
+[ Top Down Step | 16.561 ms ]
+[ Top Down Step | 9.850 ms ]
+[ Top Down Step | 1.868 ms ]
+[ Top Down Step | 219.229 us ]
+[ Top Down Step | 31.703 us ]
+[ Top Down Step | 16.250 us ]
+[ Top Down Step | 14.245 us ]
+[ Top Down Step | 13.969 us ]
+1, 0.036, 849.277
+[ Top Down Step | 14.064 us ]
+[ Top Down Step | 15.738 us ]
+[ Top Down Step | 48.486 us ]
+[ Top Down Step | 599.530 us ]
+[ Top Down Step | 4.468 ms ]
+[ Top Down Step | 15.876 ms ]
+[ Top Down Step | 11.565 ms ]
+[ Top Down Step | 2.099 ms ]
+[ Top Down Step | 241.296 us ]
+[ Top Down Step | 37.796 us ]
+[ Top Down Step | 16.505 us ]
+[ Top Down Step | 14.159 us ]
+[ Top Down Step | 15.030 us ]
+2, 0.036, 847.246
+MTEPS:
+	Minimum: 847.24
+	Maximum: 849.27
+	Average: 848.26
+	STD_DEV:   1.01
+[ Breadth First Traversal | 72.711 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 597.632 us ]
+[ Top Down Step | 77.702 us ]
+[ Top Down Step | 157.558 us ]
+[ Top Down Step | 1.697 ms ]
+[ Top Down Step | 14.114 ms ]
+[ Top Down Step | 17.832 ms ]
+[ Top Down Step | 9.939 ms ]
+[ Top Down Step | 1.881 ms ]
+[ Top Down Step | 227.671 us ]
+[ Top Down Step | 32.734 us ]
+[ Top Down Step | 16.293 us ]
+[ Top Down Step | 15.986 us ]
+[ Top Down Step | 16.503 us ]
+1, 0.061, 495.323
+[ Top Down Step | 1.270 ms ]
+[ Top Down Step | 71.149 us ]
+[ Top Down Step | 175.947 us ]
+[ Top Down Step | 1.402 ms ]
+[ Top Down Step | 12.000 ms ]
+[ Top Down Step | 18.510 ms ]
+[ Top Down Step | 11.712 ms ]
+[ Top Down Step | 2.116 ms ]
+[ Top Down Step | 243.108 us ]
+[ Top Down Step | 36.413 us ]
+[ Top Down Step | 15.332 us ]
+[ Top Down Step | 14.732 us ]
+[ Top Down Step | 14.691 us ]
+2, 0.063, 476.930
+MTEPS:
+	Minimum: 476.93
+	Maximum: 495.32
+	Average: 486.12
+	STD_DEV:   9.19
+[ Breadth First Traversal | 125.126 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 15.635 us ]
+[ Top Down Step | 16.819 us ]
+[ Top Down Step | 67.921 us ]
+[ Top Down Step | 876.896 us ]
+[ Top Down Step | 9.034 ms ]
+[ Top Down Step | 25.481 ms ]
+[ Top Down Step | 11.078 ms ]
+[ Top Down Step | 1.984 ms ]
+[ Top Down Step | 229.376 us ]
+[ Top Down Step | 32.533 us ]
+[ Top Down Step | 15.590 us ]
+[ Top Down Step | 14.577 us ]
+[ Top Down Step | 15.050 us ]
+1, 0.050, 605.493
+[ Top Down Step | 13.808 us ]
+[ Top Down Step | 14.478 us ]
+[ Top Down Step | 49.075 us ]
+[ Top Down Step | 731.694 us ]
+[ Top Down Step | 5.773 ms ]
+[ Top Down Step | 23.424 ms ]
+[ Top Down Step | 13.107 ms ]
+[ Top Down Step | 2.250 ms ]
+[ Top Down Step | 249.205 us ]
+[ Top Down Step | 38.345 us ]
+[ Top Down Step | 15.392 us ]
+[ Top Down Step | 13.987 us ]
+[ Top Down Step | 14.474 us ]
+2, 0.046, 651.747
+MTEPS:
+	Minimum: 605.49
+	Maximum: 651.74
+	Average: 628.62
+	STD_DEV:  23.12
+[ Breadth First Traversal | 96.644 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 599.267 us ]
+[ Top Down Step | 71.591 us ]
+[ Top Down Step | 165.202 us ]
+[ Top Down Step | 1.783 ms ]
+[ Top Down Step | 17.304 ms ]
+[ Top Down Step | 27.039 ms ]
+[ Top Down Step | 11.703 ms ]
+[ Top Down Step | 2.017 ms ]
+[ Top Down Step | 236.762 us ]
+[ Top Down Step | 32.707 us ]
+[ Top Down Step | 15.698 us ]
+[ Top Down Step | 15.149 us ]
+[ Top Down Step | 14.868 us ]
+1, 0.075, 400.785
+[ Top Down Step | 1.329 ms ]
+[ Top Down Step | 58.727 us ]
+[ Top Down Step | 160.461 us ]
+[ Top Down Step | 1.537 ms ]
+[ Top Down Step | 14.428 ms ]
+[ Top Down Step | 27.881 ms ]
+[ Top Down Step | 14.032 ms ]
+[ Top Down Step | 2.310 ms ]
+[ Top Down Step | 246.486 us ]
+[ Top Down Step | 38.700 us ]
+[ Top Down Step | 15.213 us ]
+[ Top Down Step | 18.273 us ]
+[ Top Down Step | 17.941 us ]
+2, 0.078, 387.859
+MTEPS:
+	Minimum: 387.85
+	Maximum: 400.78
+	Average: 394.32
+	STD_DEV:   6.46
+[ Breadth First Traversal | 154.050 ms ]
+[ Breadth First Traversal Benchmark | 448.582 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 8.787 ms ]
+[ Bottom Up Step | 8.801 ms ]
+[ Bottom Up Step | 8.737 ms ]
+[ Bottom Up Step | 8.705 ms ]
+[ Bottom Up Step | 8.697 ms ]
+[ Bottom Up Step | 9.235 ms ]
+[ Bottom Up Step | 9.138 ms ]
+[ Bottom Up Step | 8.725 ms ]
+[ Bottom Up Step | 8.561 ms ]
+[ Bottom Up Step | 8.534 ms ]
+[ Bottom Up Step | 8.523 ms ]
+[ Bottom Up Step | 8.517 ms ]
+[ Bottom Up Step | 8.501 ms ]
+1, 0.110, 279.493
+[ Bottom Up Step | 8.708 ms ]
+[ Bottom Up Step | 8.742 ms ]
+[ Bottom Up Step | 8.675 ms ]
+[ Bottom Up Step | 8.671 ms ]
+[ Bottom Up Step | 9.292 ms ]
+[ Bottom Up Step | 9.165 ms ]
+[ Bottom Up Step | 8.717 ms ]
+[ Bottom Up Step | 8.557 ms ]
+[ Bottom Up Step | 8.520 ms ]
+[ Bottom Up Step | 8.519 ms ]
+[ Bottom Up Step | 8.518 ms ]
+[ Bottom Up Step | 8.531 ms ]
+2, 0.109, 280.235
+MTEPS:
+	Minimum: 279.49
+	Maximum: 280.23
+	Average: 279.86
+	STD_DEV:   0.37
+[ Breadth First Traversal | 233.293 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 10.027 ms ]
+[ Bottom Up Step | 9.095 ms ]
+[ Bottom Up Step | 8.821 ms ]
+[ Bottom Up Step | 8.719 ms ]
+[ Bottom Up Step | 8.890 ms ]
+[ Bottom Up Step | 9.053 ms ]
+[ Bottom Up Step | 8.680 ms ]
+[ Bottom Up Step | 8.519 ms ]
+[ Bottom Up Step | 8.494 ms ]
+[ Bottom Up Step | 8.474 ms ]
+[ Bottom Up Step | 8.475 ms ]
+[ Bottom Up Step | 8.487 ms ]
+1, 0.177, 172.791
+[ Bottom Up Step | 11.072 ms ]
+[ Bottom Up Step | 9.494 ms ]
+[ Bottom Up Step | 8.954 ms ]
+[ Bottom Up Step | 8.892 ms ]
+[ Bottom Up Step | 9.136 ms ]
+[ Bottom Up Step | 9.128 ms ]
+[ Bottom Up Step | 8.712 ms ]
+[ Bottom Up Step | 8.557 ms ]
+[ Bottom Up Step | 8.535 ms ]
+[ Bottom Up Step | 8.519 ms ]
+[ Bottom Up Step | 8.522 ms ]
+[ Bottom Up Step | 8.522 ms ]
+2, 0.174, 175.436
+MTEPS:
+	Minimum: 172.79
+	Maximum: 175.43
+	Average: 174.11
+	STD_DEV:   1.32
+[ Breadth First Traversal | 352.724 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 12.942 ms ]
+[ Bottom Up Step | 11.885 ms ]
+[ Bottom Up Step | 11.331 ms ]
+[ Bottom Up Step | 10.624 ms ]
+[ Bottom Up Step | 10.289 ms ]
+[ Bottom Up Step | 9.398 ms ]
+[ Bottom Up Step | 8.759 ms ]
+[ Bottom Up Step | 8.579 ms ]
+[ Bottom Up Step | 8.534 ms ]
+[ Bottom Up Step | 8.530 ms ]
+[ Bottom Up Step | 8.524 ms ]
+[ Bottom Up Step | 8.524 ms ]
+1, 0.123, 248.406
+[ Bottom Up Step | 11.265 ms ]
+[ Bottom Up Step | 11.245 ms ]
+[ Bottom Up Step | 11.057 ms ]
+[ Bottom Up Step | 10.621 ms ]
+[ Bottom Up Step | 10.249 ms ]
+[ Bottom Up Step | 9.398 ms ]
+[ Bottom Up Step | 8.721 ms ]
+[ Bottom Up Step | 8.556 ms ]
+[ Bottom Up Step | 8.525 ms ]
+[ Bottom Up Step | 8.520 ms ]
+[ Bottom Up Step | 8.525 ms ]
+[ Bottom Up Step | 8.514 ms ]
+2, 0.123, 247.916
+MTEPS:
+	Minimum: 247.91
+	Maximum: 248.40
+	Average: 248.16
+	STD_DEV:   0.24
+[ Breadth First Traversal | 247.320 ms ]
+Breadth First Traversal
+Number of Vertices: 1632804 =   1.633M
+Number of Edges: 30622564 =  30.623M
+Memory Size: 251511732 = 251.512MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 13.482 ms ]
+[ Bottom Up Step | 11.596 ms ]
+[ Bottom Up Step | 11.313 ms ]
+[ Bottom Up Step | 10.946 ms ]
+[ Bottom Up Step | 10.167 ms ]
+[ Bottom Up Step | 9.434 ms ]
+[ Bottom Up Step | 8.779 ms ]
+[ Bottom Up Step | 8.572 ms ]
+[ Bottom Up Step | 8.541 ms ]
+[ Bottom Up Step | 8.535 ms ]
+[ Bottom Up Step | 8.524 ms ]
+[ Bottom Up Step | 8.511 ms ]
+1, 0.179, 171.146
+[ Bottom Up Step | 14.703 ms ]
+[ Bottom Up Step | 11.526 ms ]
+[ Bottom Up Step | 11.497 ms ]
+[ Bottom Up Step | 11.508 ms ]
+[ Bottom Up Step | 10.789 ms ]
+[ Bottom Up Step | 9.509 ms ]
+[ Bottom Up Step | 8.771 ms ]
+[ Bottom Up Step | 8.594 ms ]
+[ Bottom Up Step | 8.551 ms ]
+[ Bottom Up Step | 8.558 ms ]
+[ Bottom Up Step | 8.541 ms ]
+[ Bottom Up Step | 8.553 ms ]
+2, 0.185, 165.096
+MTEPS:
+	Minimum: 165.09
+	Maximum: 171.14
+	Average: 168.12
+	STD_DEV:   3.02
+[ Breadth First Traversal | 365.439 ms ]
+[ Breadth First Traversal Benchmark | 1.199 s ]
+Loading Stack Overflow graph from ./graph_examples/sx-stackoverflow.txt
+[ Graph DRAM Load | 9.371 s ]
+[ Graph PMEM Copy | 505.040 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.557, 113.097
+2, 0.427, 147.522
+MTEPS:
+	Minimum: 113.09
+	Maximum: 147.52
+	Average: 130.30
+	STD_DEV:  17.21
+[ Breadth First Traversal | 1.016 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.761, 82.760
+2, 0.633, 99.639
+MTEPS:
+	Minimum:  82.76
+	Maximum:  99.63
+	Average:  91.20
+	STD_DEV:   8.44
+[ Breadth First Traversal | 1.400 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.565, 111.476
+2, 0.435, 145.007
+MTEPS:
+	Minimum: 111.47
+	Maximum: 145.00
+	Average: 128.24
+	STD_DEV:  16.76
+[ Breadth First Traversal | 1.002 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.770, 81.722
+2, 0.642, 98.105
+MTEPS:
+	Minimum:  81.72
+	Maximum:  98.10
+	Average:  89.91
+	STD_DEV:   8.19
+[ Breadth First Traversal | 1.419 s ]
+[ Breadth First Traversal Benchmark | 4.838 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 18.556 us ]
+[ Top Down Step | 38.109 us ]
+[ Top Down Step | 1.056 ms ]
+[ Top Down Step | 15.341 ms ]
+[ Top Down Step | 37.050 ms ]
+[ Top Down Step | 10.441 ms ]
+[ Top Down Step | 342.276 us ]
+[ Top Down Step | 21.467 us ]
+[ Top Down Step | 14.111 us ]
+1, 0.066, 949.051
+[ Top Down Step | 15.379 us ]
+[ Top Down Step | 14.077 us ]
+[ Top Down Step | 197.034 us ]
+[ Top Down Step | 3.245 ms ]
+[ Top Down Step | 24.019 ms ]
+[ Top Down Step | 31.416 ms ]
+[ Top Down Step | 2.605 ms ]
+[ Top Down Step | 92.498 us ]
+[ Top Down Step | 16.368 us ]
+2, 0.064, 987.792
+MTEPS:
+	Minimum: 949.05
+	Maximum: 987.79
+	Average: 968.42
+	STD_DEV:  19.37
+[ Breadth First Traversal | 136.897 ms ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 675.818 us ]
+[ Top Down Step | 2.214 ms ]
+[ Top Down Step | 33.156 ms ]
+[ Top Down Step | 46.468 ms ]
+[ Top Down Step | 11.569 ms ]
+[ Top Down Step | 358.994 us ]
+[ Top Down Step | 22.673 us ]
+[ Top Down Step | 14.924 us ]
+1, 0.149, 423.504
+[ Top Down Step | 754.289 us ]
+[ Top Down Step | 51.054 us ]
+[ Top Down Step | 744.623 us ]
+[ Top Down Step | 11.962 ms ]
+[ Top Down Step | 43.613 ms ]
+[ Top Down Step | 36.020 ms ]
+[ Top Down Step | 2.852 ms ]
+[ Top Down Step | 96.714 us ]
+[ Top Down Step | 16.487 us ]
+2, 0.146, 431.038
+MTEPS:
+	Minimum: 423.50
+	Maximum: 431.03
+	Average: 427.27
+	STD_DEV:   3.76
+[ Breadth First Traversal | 300.741 ms ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 33.632 us ]
+[ Top Down Step | 963.353 us ]
+[ Top Down Step | 20.109 ms ]
+[ Top Down Step | 62.149 ms ]
+[ Top Down Step | 13.048 ms ]
+[ Top Down Step | 387.151 us ]
+[ Top Down Step | 22.714 us ]
+[ Top Down Step | 14.273 us ]
+1, 0.100, 629.616
+[ Top Down Step | 16.723 us ]
+[ Top Down Step | 14.707 us ]
+[ Top Down Step | 185.309 us ]
+[ Top Down Step | 4.094 ms ]
+[ Top Down Step | 42.020 ms ]
+[ Top Down Step | 46.717 ms ]
+[ Top Down Step | 3.178 ms ]
+[ Top Down Step | 100.902 us ]
+[ Top Down Step | 17.463 us ]
+2, 0.099, 639.498
+MTEPS:
+	Minimum: 629.61
+	Maximum: 639.49
+	Average: 634.55
+	STD_DEV:   4.94
+[ Breadth First Traversal | 201.674 ms ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 653.577 us ]
+[ Top Down Step | 2.254 ms ]
+[ Top Down Step | 42.652 ms ]
+[ Top Down Step | 76.816 ms ]
+[ Top Down Step | 15.382 ms ]
+[ Top Down Step | 435.287 us ]
+[ Top Down Step | 24.242 us ]
+[ Top Down Step | 14.554 us ]
+1, 0.200, 315.511
+[ Top Down Step | 860.921 us ]
+[ Top Down Step | 15.241 us ]
+[ Top Down Step | 849.728 us ]
+[ Top Down Step | 14.090 ms ]
+[ Top Down Step | 67.313 ms ]
+[ Top Down Step | 55.692 ms ]
+[ Top Down Step | 3.381 ms ]
+[ Top Down Step | 106.323 us ]
+[ Top Down Step | 17.224 us ]
+2, 0.207, 305.004
+MTEPS:
+	Minimum: 305.00
+	Maximum: 315.51
+	Average: 310.25
+	STD_DEV:   5.25
+[ Breadth First Traversal | 413.997 ms ]
+[ Breadth First Traversal Benchmark | 1.053 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 32.834 ms ]
+[ Bottom Up Step | 32.518 ms ]
+[ Bottom Up Step | 31.288 ms ]
+[ Bottom Up Step | 31.949 ms ]
+[ Bottom Up Step | 32.596 ms ]
+[ Bottom Up Step | 32.037 ms ]
+[ Bottom Up Step | 31.805 ms ]
+[ Bottom Up Step | 31.678 ms ]
+[ Bottom Up Step | 31.585 ms ]
+[ Bottom Up Step | 31.540 ms ]
+1, 0.304, 206.977
+[ Bottom Up Step | 32.537 ms ]
+[ Bottom Up Step | 32.109 ms ]
+[ Bottom Up Step | 31.211 ms ]
+[ Bottom Up Step | 31.799 ms ]
+[ Bottom Up Step | 32.607 ms ]
+[ Bottom Up Step | 32.190 ms ]
+[ Bottom Up Step | 31.998 ms ]
+[ Bottom Up Step | 31.940 ms ]
+[ Bottom Up Step | 31.930 ms ]
+[ Bottom Up Step | 31.914 ms ]
+2, 0.344, 182.911
+MTEPS:
+	Minimum: 182.91
+	Maximum: 206.97
+	Average: 194.94
+	STD_DEV:  12.03
+[ Breadth First Traversal | 703.069 ms ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 34.396 ms ]
+[ Bottom Up Step | 44.158 ms ]
+[ Bottom Up Step | 33.206 ms ]
+[ Bottom Up Step | 33.791 ms ]
+[ Bottom Up Step | 32.255 ms ]
+[ Bottom Up Step | 31.980 ms ]
+[ Bottom Up Step | 31.937 ms ]
+[ Bottom Up Step | 31.904 ms ]
+[ Bottom Up Step | 31.935 ms ]
+1, 0.568, 110.743
+[ Bottom Up Step | 36.172 ms ]
+[ Bottom Up Step | 33.344 ms ]
+[ Bottom Up Step | 32.605 ms ]
+[ Bottom Up Step | 33.067 ms ]
+[ Bottom Up Step | 33.894 ms ]
+[ Bottom Up Step | 32.449 ms ]
+[ Bottom Up Step | 32.030 ms ]
+[ Bottom Up Step | 32.031 ms ]
+[ Bottom Up Step | 32.020 ms ]
+[ Bottom Up Step | 32.021 ms ]
+2, 0.569, 110.640
+MTEPS:
+	Minimum: 110.64
+	Maximum: 110.74
+	Average: 110.69
+	STD_DEV:   0.05
+[ Breadth First Traversal | 1.144 s ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 37.997 ms ]
+[ Bottom Up Step | 32.633 ms ]
+[ Bottom Up Step | 33.074 ms ]
+[ Bottom Up Step | 34.742 ms ]
+[ Bottom Up Step | 34.153 ms ]
+[ Bottom Up Step | 33.879 ms ]
+[ Bottom Up Step | 33.873 ms ]
+[ Bottom Up Step | 33.885 ms ]
+[ Bottom Up Step | 33.883 ms ]
+1, 0.341, 184.569
+[ Bottom Up Step | 37.345 ms ]
+[ Bottom Up Step | 36.968 ms ]
+[ Bottom Up Step | 33.871 ms ]
+[ Bottom Up Step | 32.826 ms ]
+[ Bottom Up Step | 34.501 ms ]
+[ Bottom Up Step | 34.242 ms ]
+[ Bottom Up Step | 33.943 ms ]
+[ Bottom Up Step | 33.914 ms ]
+[ Bottom Up Step | 33.941 ms ]
+[ Bottom Up Step | 33.922 ms ]
+2, 0.363, 173.255
+MTEPS:
+	Minimum: 173.25
+	Maximum: 184.56
+	Average: 178.91
+	STD_DEV:   5.65
+[ Breadth First Traversal | 707.324 ms ]
+Breadth First Traversal
+Number of Vertices: 6024271 =   6.024M
+Number of Edges: 63497050 =  63.497M
+Memory Size: 532073488 = 532.073MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 39.442 ms ]
+[ Bottom Up Step | 36.497 ms ]
+[ Bottom Up Step | 37.491 ms ]
+[ Bottom Up Step | 38.471 ms ]
+[ Bottom Up Step | 36.024 ms ]
+[ Bottom Up Step | 35.294 ms ]
+[ Bottom Up Step | 35.125 ms ]
+[ Bottom Up Step | 35.117 ms ]
+[ Bottom Up Step | 35.122 ms ]
+1, 0.616, 102.177
+[ Bottom Up Step | 42.734 ms ]
+[ Bottom Up Step | 39.482 ms ]
+[ Bottom Up Step | 37.670 ms ]
+[ Bottom Up Step | 37.649 ms ]
+[ Bottom Up Step | 38.558 ms ]
+[ Bottom Up Step | 36.285 ms ]
+[ Bottom Up Step | 35.465 ms ]
+[ Bottom Up Step | 35.269 ms ]
+[ Bottom Up Step | 35.204 ms ]
+[ Bottom Up Step | 35.266 ms ]
+2, 0.621, 101.398
+MTEPS:
+	Minimum: 101.39
+	Maximum: 102.17
+	Average: 101.78
+	STD_DEV:   0.38
+[ Breadth First Traversal | 1.243 s ]
+[ Breadth First Traversal Benchmark | 3.797 s ]
+Loading Live Journal graph from ./graph_examples/soc-LiveJournal1.txt
+[ Graph DRAM Load | 4.836 s ]
+[ Graph PMEM Copy | 563.529 ms ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.612, 112.087
+2, 0.594, 115.481
+MTEPS:
+	Minimum: 112.08
+	Maximum: 115.48
+	Average: 113.78
+	STD_DEV:   1.69
+[ Breadth First Traversal | 1.208 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.778, 88.172
+2, 0.770, 89.030
+MTEPS:
+	Minimum:  88.17
+	Maximum:  89.03
+	Average:  88.60
+	STD_DEV:   0.42
+[ Breadth First Traversal | 1.552 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.608, 112.878
+2, 0.601, 114.072
+MTEPS:
+	Minimum: 112.87
+	Maximum: 114.07
+	Average: 113.47
+	STD_DEV:   0.59
+[ Breadth First Traversal | 1.211 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.791, 86.768
+2, 0.808, 84.915
+MTEPS:
+	Minimum:  84.91
+	Maximum:  86.76
+	Average:  85.84
+	STD_DEV:   0.92
+[ Breadth First Traversal | 1.602 s ]
+[ Breadth First Traversal Benchmark | 5.573 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 89.622 us ]
+[ Top Down Step | 52.902 us ]
+[ Top Down Step | 695.059 us ]
+[ Top Down Step | 7.145 ms ]
+[ Top Down Step | 32.038 ms ]
+[ Top Down Step | 46.093 ms ]
+[ Top Down Step | 17.460 ms ]
+[ Top Down Step | 2.686 ms ]
+[ Top Down Step | 418.975 us ]
+[ Top Down Step | 86.224 us ]
+[ Top Down Step | 29.436 us ]
+[ Top Down Step | 17.863 us ]
+[ Top Down Step | 14.665 us ]
+[ Top Down Step | 14.465 us ]
+[ Top Down Step | 14.228 us ]
+1, 0.114, 596.339
+[ Top Down Step | 15.852 us ]
+[ Top Down Step | 14.047 us ]
+[ Top Down Step | 37.311 us ]
+[ Top Down Step | 355.411 us ]
+[ Top Down Step | 5.119 ms ]
+[ Top Down Step | 28.720 ms ]
+[ Top Down Step | 46.612 ms ]
+[ Top Down Step | 19.646 ms ]
+[ Top Down Step | 3.238 ms ]
+[ Top Down Step | 491.414 us ]
+[ Top Down Step | 93.338 us ]
+[ Top Down Step | 29.878 us ]
+[ Top Down Step | 19.168 us ]
+[ Top Down Step | 15.156 us ]
+[ Top Down Step | 14.528 us ]
+[ Top Down Step | 14.584 us ]
+2, 0.106, 642.085
+MTEPS:
+	Minimum: 596.33
+	Maximum: 642.08
+	Average: 619.21
+	STD_DEV:  22.87
+[ Breadth First Traversal | 222.019 ms ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 858.212 us ]
+[ Top Down Step | 192.194 us ]
+[ Top Down Step | 1.802 ms ]
+[ Top Down Step | 19.529 ms ]
+[ Top Down Step | 49.637 ms ]
+[ Top Down Step | 54.005 ms ]
+[ Top Down Step | 18.888 ms ]
+[ Top Down Step | 2.851 ms ]
+[ Top Down Step | 425.739 us ]
+[ Top Down Step | 84.738 us ]
+[ Top Down Step | 29.870 us ]
+[ Top Down Step | 17.481 us ]
+[ Top Down Step | 14.907 us ]
+[ Top Down Step | 15.091 us ]
+[ Top Down Step | 15.160 us ]
+1, 0.200, 341.503
+[ Top Down Step | 720.687 us ]
+[ Top Down Step | 68.694 us ]
+[ Top Down Step | 189.013 us ]
+[ Top Down Step | 1.255 ms ]
+[ Top Down Step | 14.925 ms ]
+[ Top Down Step | 48.027 ms ]
+[ Top Down Step | 53.792 ms ]
+[ Top Down Step | 21.301 ms ]
+[ Top Down Step | 3.398 ms ]
+[ Top Down Step | 505.171 us ]
+[ Top Down Step | 91.433 us ]
+[ Top Down Step | 30.340 us ]
+[ Top Down Step | 20.638 us ]
+[ Top Down Step | 16.870 us ]
+[ Top Down Step | 14.221 us ]
+[ Top Down Step | 14.670 us ]
+2, 0.193, 353.774
+MTEPS:
+	Minimum: 341.50
+	Maximum: 353.77
+	Average: 347.63
+	STD_DEV:   6.13
+[ Breadth First Traversal | 395.488 ms ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 17.406 us ]
+[ Top Down Step | 40.429 us ]
+[ Top Down Step | 608.302 us ]
+[ Top Down Step | 8.783 ms ]
+[ Top Down Step | 47.494 ms ]
+[ Top Down Step | 63.426 ms ]
+[ Top Down Step | 19.619 ms ]
+[ Top Down Step | 2.857 ms ]
+[ Top Down Step | 433.906 us ]
+[ Top Down Step | 87.854 us ]
+[ Top Down Step | 30.566 us ]
+[ Top Down Step | 17.677 us ]
+[ Top Down Step | 14.549 us ]
+[ Top Down Step | 14.357 us ]
+[ Top Down Step | 14.577 us ]
+1, 0.146, 466.190
+[ Top Down Step | 15.882 us ]
+[ Top Down Step | 14.917 us ]
+[ Top Down Step | 34.169 us ]
+[ Top Down Step | 380.933 us ]
+[ Top Down Step | 6.392 ms ]
+[ Top Down Step | 44.507 ms ]
+[ Top Down Step | 64.804 ms ]
+[ Top Down Step | 22.229 ms ]
+[ Top Down Step | 3.437 ms ]
+[ Top Down Step | 508.892 us ]
+[ Top Down Step | 93.404 us ]
+[ Top Down Step | 30.843 us ]
+[ Top Down Step | 19.334 us ]
+[ Top Down Step | 14.407 us ]
+[ Top Down Step | 15.152 us ]
+[ Top Down Step | 14.195 us ]
+2, 0.144, 472.550
+MTEPS:
+	Minimum: 466.19
+	Maximum: 472.55
+	Average: 469.37
+	STD_DEV:   3.18
+[ Breadth First Traversal | 292.041 ms ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 747.839 us ]
+[ Top Down Step | 172.010 us ]
+[ Top Down Step | 1.422 ms ]
+[ Top Down Step | 20.458 ms ]
+[ Top Down Step | 70.614 ms ]
+[ Top Down Step | 77.607 ms ]
+[ Top Down Step | 22.263 ms ]
+[ Top Down Step | 2.986 ms ]
+[ Top Down Step | 448.144 us ]
+[ Top Down Step | 87.719 us ]
+[ Top Down Step | 29.343 us ]
+[ Top Down Step | 18.698 us ]
+[ Top Down Step | 14.530 us ]
+[ Top Down Step | 15.617 us ]
+[ Top Down Step | 15.380 us ]
+1, 0.246, 277.698
+[ Top Down Step | 960.854 us ]
+[ Top Down Step | 74.483 us ]
+[ Top Down Step | 239.101 us ]
+[ Top Down Step | 1.331 ms ]
+[ Top Down Step | 18.410 ms ]
+[ Top Down Step | 71.104 ms ]
+[ Top Down Step | 79.136 ms ]
+[ Top Down Step | 25.765 ms ]
+[ Top Down Step | 3.638 ms ]
+[ Top Down Step | 525.323 us ]
+[ Top Down Step | 93.523 us ]
+[ Top Down Step | 30.544 us ]
+[ Top Down Step | 19.465 us ]
+[ Top Down Step | 16.637 us ]
+[ Top Down Step | 15.707 us ]
+[ Top Down Step | 16.393 us ]
+2, 0.246, 277.214
+MTEPS:
+	Minimum: 277.21
+	Maximum: 277.69
+	Average: 277.45
+	STD_DEV:   0.24
+[ Breadth First Traversal | 494.790 ms ]
+[ Breadth First Traversal Benchmark | 1.404 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 68.565 ms ]
+[ Bottom Up Step | 26.229 ms ]
+[ Bottom Up Step | 25.796 ms ]
+[ Bottom Up Step | 26.496 ms ]
+[ Bottom Up Step | 27.629 ms ]
+[ Bottom Up Step | 26.854 ms ]
+[ Bottom Up Step | 26.183 ms ]
+[ Bottom Up Step | 25.958 ms ]
+[ Bottom Up Step | 25.913 ms ]
+[ Bottom Up Step | 25.900 ms ]
+[ Bottom Up Step | 25.867 ms ]
+[ Bottom Up Step | 25.878 ms ]
+[ Bottom Up Step | 25.867 ms ]
+1, 0.412, 166.920
+[ Bottom Up Step | 26.290 ms ]
+[ Bottom Up Step | 26.241 ms ]
+[ Bottom Up Step | 26.250 ms ]
+[ Bottom Up Step | 26.044 ms ]
+[ Bottom Up Step | 26.138 ms ]
+[ Bottom Up Step | 27.712 ms ]
+[ Bottom Up Step | 27.284 ms ]
+[ Bottom Up Step | 26.344 ms ]
+[ Bottom Up Step | 26.023 ms ]
+[ Bottom Up Step | 25.944 ms ]
+[ Bottom Up Step | 25.907 ms ]
+[ Bottom Up Step | 25.912 ms ]
+[ Bottom Up Step | 25.891 ms ]
+[ Bottom Up Step | 25.907 ms ]
+2, 0.382, 179.763
+MTEPS:
+	Minimum: 166.92
+	Maximum: 179.76
+	Average: 173.34
+	STD_DEV:   6.42
+[ Breadth First Traversal | 795.323 ms ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 27.983 ms ]
+[ Bottom Up Step | 27.174 ms ]
+[ Bottom Up Step | 26.989 ms ]
+[ Bottom Up Step | 27.117 ms ]
+[ Bottom Up Step | 28.205 ms ]
+[ Bottom Up Step | 27.602 ms ]
+[ Bottom Up Step | 26.857 ms ]
+[ Bottom Up Step | 26.588 ms ]
+[ Bottom Up Step | 26.436 ms ]
+[ Bottom Up Step | 26.395 ms ]
+[ Bottom Up Step | 26.343 ms ]
+[ Bottom Up Step | 26.366 ms ]
+[ Bottom Up Step | 26.356 ms ]
+1, 0.532, 129.085
+[ Bottom Up Step | 29.986 ms ]
+[ Bottom Up Step | 27.149 ms ]
+[ Bottom Up Step | 27.184 ms ]
+[ Bottom Up Step | 27.195 ms ]
+[ Bottom Up Step | 27.118 ms ]
+[ Bottom Up Step | 28.026 ms ]
+[ Bottom Up Step | 27.812 ms ]
+[ Bottom Up Step | 26.993 ms ]
+[ Bottom Up Step | 26.618 ms ]
+[ Bottom Up Step | 26.458 ms ]
+[ Bottom Up Step | 26.383 ms ]
+[ Bottom Up Step | 26.378 ms ]
+[ Bottom Up Step | 26.360 ms ]
+[ Bottom Up Step | 26.346 ms ]
+2, 0.540, 127.273
+MTEPS:
+	Minimum: 127.27
+	Maximum: 129.08
+	Average: 128.17
+	STD_DEV:   0.90
+[ Breadth First Traversal | 1.075 s ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 32.949 ms ]
+[ Bottom Up Step | 32.195 ms ]
+[ Bottom Up Step | 31.083 ms ]
+[ Bottom Up Step | 29.824 ms ]
+[ Bottom Up Step | 29.262 ms ]
+[ Bottom Up Step | 27.875 ms ]
+[ Bottom Up Step | 27.000 ms ]
+[ Bottom Up Step | 26.749 ms ]
+[ Bottom Up Step | 26.665 ms ]
+[ Bottom Up Step | 26.643 ms ]
+[ Bottom Up Step | 26.611 ms ]
+[ Bottom Up Step | 26.596 ms ]
+[ Bottom Up Step | 26.588 ms ]
+1, 0.385, 178.214
+[ Bottom Up Step | 32.723 ms ]
+[ Bottom Up Step | 32.229 ms ]
+[ Bottom Up Step | 32.274 ms ]
+[ Bottom Up Step | 31.809 ms ]
+[ Bottom Up Step | 30.279 ms ]
+[ Bottom Up Step | 29.960 ms ]
+[ Bottom Up Step | 28.395 ms ]
+[ Bottom Up Step | 27.149 ms ]
+[ Bottom Up Step | 26.817 ms ]
+[ Bottom Up Step | 26.694 ms ]
+[ Bottom Up Step | 26.650 ms ]
+[ Bottom Up Step | 26.619 ms ]
+[ Bottom Up Step | 26.604 ms ]
+[ Bottom Up Step | 26.641 ms ]
+2, 0.419, 163.971
+MTEPS:
+	Minimum: 163.97
+	Maximum: 178.21
+	Average: 171.09
+	STD_DEV:   7.12
+[ Breadth First Traversal | 806.050 ms ]
+Breadth First Traversal
+Number of Vertices: 4847571 =   4.848M
+Number of Edges: 68993773 =  68.994M
+Memory Size: 571340472 = 571.340MB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 35.462 ms ]
+[ Bottom Up Step | 33.826 ms ]
+[ Bottom Up Step | 34.009 ms ]
+[ Bottom Up Step | 32.890 ms ]
+[ Bottom Up Step | 31.645 ms ]
+[ Bottom Up Step | 29.134 ms ]
+[ Bottom Up Step | 27.767 ms ]
+[ Bottom Up Step | 27.346 ms ]
+[ Bottom Up Step | 27.045 ms ]
+[ Bottom Up Step | 26.906 ms ]
+[ Bottom Up Step | 26.893 ms ]
+[ Bottom Up Step | 26.877 ms ]
+[ Bottom Up Step | 26.877 ms ]
+1, 0.584, 117.605
+[ Bottom Up Step | 36.900 ms ]
+[ Bottom Up Step | 33.845 ms ]
+[ Bottom Up Step | 33.931 ms ]
+[ Bottom Up Step | 34.192 ms ]
+[ Bottom Up Step | 33.775 ms ]
+[ Bottom Up Step | 32.527 ms ]
+[ Bottom Up Step | 29.974 ms ]
+[ Bottom Up Step | 28.077 ms ]
+[ Bottom Up Step | 27.514 ms ]
+[ Bottom Up Step | 27.216 ms ]
+[ Bottom Up Step | 27.077 ms ]
+[ Bottom Up Step | 27.038 ms ]
+[ Bottom Up Step | 27.042 ms ]
+[ Bottom Up Step | 26.973 ms ]
+2, 0.596, 115.208
+MTEPS:
+	Minimum: 115.20
+	Maximum: 117.60
+	Average: 116.40
+	STD_DEV:   1.19
+[ Breadth First Traversal | 1.184 s ]
+[ Breadth First Traversal Benchmark | 3.861 s ]
+Loading Orkut graph from ./graph_examples/com-orkut.ungraph.txt
+[ Graph DRAM Load | 25.864 s ]
+[ Graph PMEM Copy | 1.842 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.269, 870.129
+2, 0.394, 595.137
+MTEPS:
+	Minimum: 595.13
+	Maximum: 870.12
+	Average: 732.63
+	STD_DEV: 137.49
+[ Breadth First Traversal | 674.492 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: hybrid
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.453, 516.993
+2, 0.553, 423.941
+MTEPS:
+	Minimum: 423.94
+	Maximum: 516.99
+	Average: 470.46
+	STD_DEV:  46.52
+[ Breadth First Traversal | 1.008 s ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.273, 857.351
+2, 0.403, 581.073
+MTEPS:
+	Minimum: 581.07
+	Maximum: 857.35
+	Average: 719.21
+	STD_DEV: 138.13
+[ Breadth First Traversal | 677.595 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: hybrid
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+1, 0.447, 524.047
+2, 0.576, 406.720
+MTEPS:
+	Minimum: 406.72
+	Maximum: 524.04
+	Average: 465.38
+	STD_DEV:  58.66
+[ Breadth First Traversal | 1.025 s ]
+[ Breadth First Traversal Benchmark | 3.385 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 17.924 us ]
+[ Top Down Step | 18.286 us ]
+[ Top Down Step | 27.638 us ]
+[ Top Down Step | 159.942 us ]
+[ Top Down Step | 4.530 ms ]
+[ Top Down Step | 33.692 ms ]
+[ Top Down Step | 62.733 ms ]
+[ Top Down Step | 416.066 us ]
+[ Top Down Step | 13.160 us ]
+1, 0.103, 2286.243
+[ Top Down Step | 15.595 us ]
+[ Top Down Step | 31.995 us ]
+[ Top Down Step | 1.855 ms ]
+[ Top Down Step | 21.395 ms ]
+[ Top Down Step | 38.459 ms ]
+[ Top Down Step | 31.820 ms ]
+[ Top Down Step | 3.996 ms ]
+[ Top Down Step | 34.508 us ]
+2, 0.099, 2375.452
+MTEPS:
+	Minimum:   2.286K
+	Maximum:   2.375K
+	Average:   2.331K
+	STD_DEV:  44.60
+[ Breadth First Traversal | 203.835 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: top_down
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 724.197 us ]
+[ Top Down Step | 103.887 us ]
+[ Top Down Step | 507.771 us ]
+[ Top Down Step | 11.557 ms ]
+[ Top Down Step | 70.627 ms ]
+[ Top Down Step | 66.375 ms ]
+[ Top Down Step | 416.553 us ]
+[ Top Down Step | 13.569 us ]
+1, 0.220, 1067.060
+[ Top Down Step | 1.297 ms ]
+[ Top Down Step | 309.283 us ]
+[ Top Down Step | 6.194 ms ]
+[ Top Down Step | 41.869 ms ]
+[ Top Down Step | 53.387 ms ]
+[ Top Down Step | 33.258 ms ]
+[ Top Down Step | 4.014 ms ]
+[ Top Down Step | 40.283 us ]
+2, 0.205, 1143.974
+MTEPS:
+	Minimum:   1.067K
+	Maximum:   1.144K
+	Average:   1.106K
+	STD_DEV:  38.45
+[ Breadth First Traversal | 426.211 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 17.012 us ]
+[ Top Down Step | 28.379 us ]
+[ Top Down Step | 151.295 us ]
+[ Top Down Step | 5.407 ms ]
+[ Top Down Step | 57.698 ms ]
+[ Top Down Step | 121.611 ms ]
+[ Top Down Step | 528.045 us ]
+[ Top Down Step | 14.019 us ]
+1, 0.187, 1251.843
+[ Top Down Step | 16.534 us ]
+[ Top Down Step | 32.660 us ]
+[ Top Down Step | 1.755 ms ]
+[ Top Down Step | 36.606 ms ]
+[ Top Down Step | 69.350 ms ]
+[ Top Down Step | 60.109 ms ]
+[ Top Down Step | 5.067 ms ]
+[ Top Down Step | 41.408 us ]
+2, 0.174, 1346.870
+MTEPS:
+	Minimum:   1.252K
+	Maximum:   1.347K
+	Average:   1.299K
+	STD_DEV:  47.51
+[ Breadth First Traversal | 361.945 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: top_down
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Top Down Step | 997.097 us ]
+[ Top Down Step | 134.008 us ]
+[ Top Down Step | 558.499 us ]
+[ Top Down Step | 11.193 ms ]
+[ Top Down Step | 94.140 ms ]
+[ Top Down Step | 124.164 ms ]
+[ Top Down Step | 529.651 us ]
+[ Top Down Step | 14.189 us ]
+1, 0.306, 765.491
+[ Top Down Step | 1.558 ms ]
+[ Top Down Step | 256.138 us ]
+[ Top Down Step | 6.538 ms ]
+[ Top Down Step | 60.363 ms ]
+[ Top Down Step | 92.026 ms ]
+[ Top Down Step | 63.755 ms ]
+[ Top Down Step | 5.277 ms ]
+[ Top Down Step | 41.740 us ]
+2, 0.297, 789.114
+MTEPS:
+	Minimum: 765.49
+	Maximum: 789.11
+	Average: 777.30
+	STD_DEV:  11.81
+[ Breadth First Traversal | 605.319 ms ]
+[ Breadth First Traversal Benchmark | 1.597 s ]
+Breadth First Traversal Benchmark
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 33.131 ms ]
+[ Bottom Up Step | 31.410 ms ]
+[ Bottom Up Step | 31.392 ms ]
+[ Bottom Up Step | 31.151 ms ]
+[ Bottom Up Step | 26.359 ms ]
+[ Bottom Up Step | 19.811 ms ]
+[ Bottom Up Step | 16.058 ms ]
+[ Bottom Up Step | 15.914 ms ]
+[ Bottom Up Step | 15.906 ms ]
+1, 0.197, 1192.444
+[ Bottom Up Step | 31.383 ms ]
+[ Bottom Up Step | 31.349 ms ]
+[ Bottom Up Step | 26.873 ms ]
+[ Bottom Up Step | 21.522 ms ]
+[ Bottom Up Step | 17.923 ms ]
+[ Bottom Up Step | 16.695 ms ]
+[ Bottom Up Step | 15.948 ms ]
+[ Bottom Up Step | 15.940 ms ]
+2, 0.186, 1258.665
+MTEPS:
+	Minimum:   1.192K
+	Maximum:   1.259K
+	Average:   1.226K
+	STD_DEV:  33.11
+[ Breadth First Traversal | 426.903 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: bottom_up
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 33.935 ms ]
+[ Bottom Up Step | 31.691 ms ]
+[ Bottom Up Step | 31.448 ms ]
+[ Bottom Up Step | 26.556 ms ]
+[ Bottom Up Step | 17.952 ms ]
+[ Bottom Up Step | 16.190 ms ]
+[ Bottom Up Step | 15.903 ms ]
+[ Bottom Up Step | 15.902 ms ]
+1, 0.382, 613.205
+[ Bottom Up Step | 40.312 ms ]
+[ Bottom Up Step | 33.022 ms ]
+[ Bottom Up Step | 27.645 ms ]
+[ Bottom Up Step | 21.690 ms ]
+[ Bottom Up Step | 17.512 ms ]
+[ Bottom Up Step | 16.723 ms ]
+[ Bottom Up Step | 16.042 ms ]
+[ Bottom Up Step | 16.032 ms ]
+2, 0.384, 610.094
+MTEPS:
+	Minimum: 610.09
+	Maximum: 613.20
+	Average: 611.65
+	STD_DEV:   1.55
+[ Breadth First Traversal | 768.367 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 62.638 ms ]
+[ Bottom Up Step | 61.186 ms ]
+[ Bottom Up Step | 60.659 ms ]
+[ Bottom Up Step | 49.097 ms ]
+[ Bottom Up Step | 23.750 ms ]
+[ Bottom Up Step | 16.098 ms ]
+[ Bottom Up Step | 15.919 ms ]
+[ Bottom Up Step | 15.941 ms ]
+1, 0.315, 743.550
+[ Bottom Up Step | 61.337 ms ]
+[ Bottom Up Step | 61.115 ms ]
+[ Bottom Up Step | 51.869 ms ]
+[ Bottom Up Step | 34.595 ms ]
+[ Bottom Up Step | 21.558 ms ]
+[ Bottom Up Step | 17.029 ms ]
+[ Bottom Up Step | 15.960 ms ]
+[ Bottom Up Step | 15.910 ms ]
+2, 0.288, 813.973
+MTEPS:
+	Minimum: 743.55
+	Maximum: 813.97
+	Average: 778.76
+	STD_DEV:  35.21
+[ Breadth First Traversal | 603.813 ms ]
+Breadth First Traversal
+Number of Vertices: 3072627 =   3.073M
+Number of Edges: 234370166 = 234.370M
+Memory Size: 1887251840 =   1.887GB
+Direction: bottom_up
+Function Templates: [with alloc_type = PMEM::allocator; temp_alloc_type = PMEM::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Iteration, Time Elapsed (s), MTEPS
+[ Bottom Up Step | 62.559 ms ]
+[ Bottom Up Step | 61.708 ms ]
+[ Bottom Up Step | 61.448 ms ]
+[ Bottom Up Step | 51.069 ms ]
+[ Bottom Up Step | 24.657 ms ]
+[ Bottom Up Step | 16.334 ms ]
+[ Bottom Up Step | 15.948 ms ]
+[ Bottom Up Step | 15.971 ms ]
+1, 0.465, 503.547
+[ Bottom Up Step | 66.621 ms ]
+[ Bottom Up Step | 61.616 ms ]
+[ Bottom Up Step | 53.366 ms ]
+[ Bottom Up Step | 37.004 ms ]
+[ Bottom Up Step | 23.931 ms ]
+[ Bottom Up Step | 17.150 ms ]
+[ Bottom Up Step | 16.033 ms ]
+[ Bottom Up Step | 15.981 ms ]
+2, 0.455, 514.871
+MTEPS:
+	Minimum: 503.54
+	Maximum: 514.87
+	Average: 509.20
+	STD_DEV:   5.66
+[ Breadth First Traversal | 923.093 ms ]
+[ Breadth First Traversal Benchmark | 2.722 s ]
+[ Time Elapsed | 1.293 min ]
