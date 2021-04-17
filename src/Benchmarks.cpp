@@ -162,9 +162,9 @@ namespace Benchmark {
 		std::vector<double> metrics_PP;
 
 		metrics_DD = run_breadth_first_traversal<std::allocator, std::allocator>(tp, graph_dram, start_vertices);
-		//metrics_DP = run_breadth_first_traversal<std::allocator, PMEM::allocator>(tp, graph_dram, start_vertices);
-		//metrics_PD = run_breadth_first_traversal<PMEM::allocator, std::allocator>(tp, graph_pmem, start_vertices);
-		//metrics_PP = run_breadth_first_traversal<PMEM::allocator, PMEM::allocator>(tp, graph_pmem, start_vertices);
+		metrics_DP = run_breadth_first_traversal<std::allocator, PMEM::allocator>(tp, graph_dram, start_vertices);
+		metrics_PD = run_breadth_first_traversal<PMEM::allocator, std::allocator>(tp, graph_pmem, start_vertices);
+		metrics_PP = run_breadth_first_traversal<PMEM::allocator, PMEM::allocator>(tp, graph_pmem, start_vertices);
 
 		std::string csv_path = tp.out_dir;
 		csv_path += "/bfs_metrics_";
