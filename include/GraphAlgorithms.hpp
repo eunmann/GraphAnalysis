@@ -482,32 +482,31 @@ namespace GraphAlgorithms {
 					for (; row_index < row_index_end; row_index++) {
 						uint32_t neighbor = graph.col_ind[row_index];
 
-						/*
 						if (frontier_vec_r[neighbor] == 1) {
 							frontier_vec_w[vertex] = 1;
 							vertex_depth[vertex] = level;
 							n_f++;
 							break;
 						}
-						*/
+
+						/*
 						if (frontier_bm_r.get_bit(neighbor) == 1) {
 							frontier_bm_w.set_bit(vertex);
 							vertex_depth[vertex] = level;
 							n_f++;
 							break;
 						}
+						*/
 					}
 				}
 			}
 
-			frontier_bm_r.clear();
+			//frontier_bm_r.clear();
 
-			/*
-			#pragma omp parallel for schedule(static)
-						for (size_t i = 0; i < frontier_vec_r.size(); i++) {
-							frontier_vec_r[i] = 0;
-						}
-						*/
+#pragma omp parallel for schedule(static)
+			for (size_t i = 0; i < frontier_vec_r.size(); i++) {
+				frontier_vec_r[i] = 0;
+			}
 
 			level++;
 		}
