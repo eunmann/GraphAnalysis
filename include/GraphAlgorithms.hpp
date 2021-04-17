@@ -7,7 +7,6 @@
 #include <immintrin.h>
 #include "InstructionUtils.hpp"
 #include "omp.h"
-#include "Bitmap.hpp"
 #include "FormatUtils.hpp"
 #include "BlockTimer.hpp"
 
@@ -156,7 +155,7 @@ namespace GraphAlgorithms {
 		std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth(graph.num_vertices(), -1);
 		vertex_depth[source_vertex] = 0;
 
-		/* Frontiers for Top to Bottom */
+		/* Frontiers for Top Down */
 		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_1;
 		frontier_vec_1.reserve(graph.num_vertices() / 2);
 		frontier_vec_1.push_back(source_vertex);
@@ -164,10 +163,10 @@ namespace GraphAlgorithms {
 		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_2;
 		frontier_vec_2.reserve(graph.num_vertices() / 2);
 
-		/* Frontiers for Bottom to Top */
-		Bitmap<temp_alloc_type> frontier_bm_1(graph.num_vertices());
-		frontier_bm_1.set_bit(source_vertex);
-		Bitmap<temp_alloc_type> frontier_bm_2(graph.num_vertices());
+		/* Frontiers for Bottom up */
+		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_bm_1(graph.num_vertices(), 0);
+		frontier_bm_1[source_vertex] = 1;
+		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_bm_2(graph.num_vertices(), 0);
 
 		/* Create a write frontier vector for each thread */
 		std::vector < std::vector<uint32_t, temp_alloc_type<uint32_t>>, temp_alloc_type<std::vector<uint32_t, temp_alloc_type<uint32_t>>>> local_write_vecs;
@@ -197,19 +196,21 @@ namespace GraphAlgorithms {
 			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
 			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
 
-			Bitmap<temp_alloc_type>& frontier_bm_r = level % 2 == 1 ? frontier_bm_1 : frontier_bm_2;
-			Bitmap<temp_alloc_type>& frontier_bm_w = level % 2 == 0 ? frontier_bm_1 : frontier_bm_2;
+			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_bm_r = level % 2 == 1 ? frontier_bm_1 : frontier_bm_2;
+			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_bm_w = level % 2 == 0 ? frontier_bm_1 : frontier_bm_2;
 
 			if (top_to_bottom_state && (m_f > m_u / alpha)) {
 
 				/* Convert the vec to bitmap (Top Down -> Bottom Up) */
-				frontier_bm_r.clear();
-				frontier_bm_w.clear();
-
+#pragma omp parallel for schedule(static)
+				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
+					frontier_bm_r[i] = 0;
+					frontier_bm_w[i] = 0;
+				}
 
 #pragma omp parallel for schedule(static)
 				for (size_t i = 0; i < frontier_vec_r.size(); i++) {
-					frontier_bm_r.set_bit(frontier_vec_r[i]);
+					frontier_bm_r[frontier_vec_r[i]] = 1;
 				}
 
 				top_to_bottom_state = false;
@@ -230,15 +231,8 @@ namespace GraphAlgorithms {
 
 #pragma omp parallel for schedule(dynamic,4)
 				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
-					uint64_t v = frontier_bm_r.get(i);
-					const size_t num_bits = sizeof(uint64_t) * 8;
-					const uint64_t mask = 1ul << (num_bits - 1);
-					for (size_t j = 0; j < num_bits; j++) {
-						if ((v & mask) > 0) {
-							size_t vertex = i * num_bits + j;
-							local_write_vecs[omp_get_thread_num()].push_back(vertex);
-						}
-						v = v << 1;
+					if (frontier_bm_r[i] == 1) {
+						local_write_vecs[omp_get_thread_num()].push_back(i);
 					}
 				}
 
@@ -330,9 +324,9 @@ namespace GraphAlgorithms {
 
 						for (; row_index < row_index_end; row_index++) {
 							uint32_t neighbor = graph.col_ind[row_index];
-							if (frontier_bm_r.get_bit(neighbor) > 0) {
-								frontier_bm_w.set_bit(vertex);
-								vertex_depth[vertex] = vertex_depth[neighbor] + 1;
+							if (frontier_bm_r[neighbor] == 1) {
+								frontier_bm_w[vertex] = 1;
+								vertex_depth[vertex] = level;
 								n_f++;
 								m_f += graph.num_neighbors(vertex);
 								edges_checked += graph.num_neighbors(neighbor);
@@ -342,7 +336,10 @@ namespace GraphAlgorithms {
 					}
 				}
 
-				frontier_bm_r.clear();
+#pragma omp parallel for schedule(static)
+				for (size_t i = 0; i < frontier_bm_r.size(); i++) {
+					frontier_bm_r[i] = 0;
+				}
 			}
 
 			level++;
@@ -379,8 +376,6 @@ namespace GraphAlgorithms {
 		size_t n_f = 1;
 
 		while (n_f > 0) {
-
-			BlockTimer timer("Top Down Step");
 
 			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
 			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
@@ -446,10 +441,6 @@ namespace GraphAlgorithms {
 		vertex_depth[source_vertex] = 0;
 
 		/* Frontiers for Bottom to Top */
-		Bitmap<temp_alloc_type> frontier_bm_1(graph.num_vertices());
-		frontier_bm_1.set_bit(source_vertex);
-		Bitmap<temp_alloc_type> frontier_bm_2(graph.num_vertices());
-
 		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_vec_1(graph.num_vertices(), 0);
 		frontier_vec_1[source_vertex] = 1;
 		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_vec_2(graph.num_vertices(), 0);
@@ -460,11 +451,6 @@ namespace GraphAlgorithms {
 		size_t n_f = 1;
 
 		while (n_f > 0) {
-
-			BlockTimer timer("Bottom Up Step");
-
-			Bitmap<temp_alloc_type>& frontier_bm_r = level % 2 == 1 ? frontier_bm_1 : frontier_bm_2;
-			Bitmap<temp_alloc_type>& frontier_bm_w = level % 2 == 0 ? frontier_bm_1 : frontier_bm_2;
 
 			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
 			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
@@ -488,20 +474,9 @@ namespace GraphAlgorithms {
 							n_f++;
 							break;
 						}
-
-						/*
-						if (frontier_bm_r.get_bit(neighbor) == 1) {
-							frontier_bm_w.set_bit(vertex);
-							vertex_depth[vertex] = level;
-							n_f++;
-							break;
-						}
-						*/
 					}
 				}
 			}
-
-			//frontier_bm_r.clear();
 
 #pragma omp parallel for schedule(static)
 			for (size_t i = 0; i < frontier_vec_r.size(); i++) {
