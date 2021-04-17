@@ -28,19 +28,19 @@ export page_rank_iterations=100
 export page_rank_num_dampening_factors=8
 
 # Number of iterations for each test
-export test_iterations=10
+export test_iterations=2
 
 # OMP environment variables
 export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
 
 # Allocates threads to hardware threads (using hyperthreading)
-export OMP_PLACES={0}:36
-export OMP_NUM_THREADS=36
+#export OMP_PLACES={0}:36
+#export OMP_NUM_THREADS=36
 
 # Allocates threads to cores
-#export OMP_PLACES={0}:18:2
-#export OMP_NUM_THREADS=18
+export OMP_PLACES={0}:18:2
+export OMP_NUM_THREADS=18
 
 echo Starting pmem_benchmark
 echo Output Directory: ${out_dir}

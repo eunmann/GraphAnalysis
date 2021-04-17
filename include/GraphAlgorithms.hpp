@@ -9,6 +9,7 @@
 #include "omp.h"
 #include "Bitmap.hpp"
 #include "FormatUtils.hpp"
+#include "BlockTimer.hpp"
 
 namespace GraphAlgorithms {
 
@@ -346,6 +347,169 @@ namespace GraphAlgorithms {
 
 			level++;
 			m_u -= edges_checked;
+		}
+
+		return vertex_depth;
+	}
+
+	template<template<class> class alloc_type, template<class> class temp_alloc_type>
+	std::vector<int32_t, temp_alloc_type<int32_t>> breadth_first_traversal_top_down(const GraphCRS<alloc_type>& graph, uint32_t source_vertex) {
+
+		std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth(graph.num_vertices(), -1);
+		vertex_depth[source_vertex] = 0;
+
+		/* Frontiers */
+		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_1;
+		frontier_vec_1.reserve(graph.num_vertices() / 2);
+		frontier_vec_1.push_back(source_vertex);
+
+		std::vector<uint32_t, temp_alloc_type<uint32_t>> frontier_vec_2;
+		frontier_vec_2.reserve(graph.num_vertices() / 2);
+
+		/* Create a write frontier vector for each thread */
+		std::vector < std::vector<uint32_t, temp_alloc_type<uint32_t>>, temp_alloc_type<std::vector<uint32_t, temp_alloc_type<uint32_t>>>> local_write_vecs;
+		local_write_vecs.resize(omp_get_max_threads());
+		for (auto& vec : local_write_vecs) {
+			vec.reserve(graph.num_vertices() / (2 * omp_get_max_threads()));
+		}
+
+		/* The depth from the source vertex */
+		int32_t level = 1;
+		/* The number of vertices in the frontier */
+		size_t n_f = 1;
+
+		while (n_f > 0) {
+
+			BlockTimer timer("Top Down Step");
+
+			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
+			std::vector<uint32_t, temp_alloc_type<uint32_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
+
+			/* Clear the local write vectors */
+#pragma omp parallel for schedule(static,1)
+			for (size_t i = 0; i < local_write_vecs.size(); i++) {
+				local_write_vecs[i].resize(0);
+			}
+
+			n_f = 0;
+
+			size_t fr_end = frontier_vec_r.size();
+#pragma omp parallel for schedule(dynamic,4) reduction(+:n_f) 
+			for (size_t i = 0; i < fr_end; i++) {
+
+				uint32_t vertex = frontier_vec_r[i];
+
+				uint32_t row_index = graph.row_ind[vertex];
+				uint32_t row_index_end = graph.row_ind[vertex + 1];
+
+				/* For each neighbor */
+				for (; row_index < row_index_end; row_index++) {
+					uint32_t neighbor = graph.col_ind[row_index];
+					if (vertex_depth[neighbor] == -1) {
+						vertex_depth[neighbor] = level;
+						n_f++;
+						local_write_vecs[omp_get_thread_num()].push_back(neighbor);
+					}
+				}
+			}
+
+			/* Copy over the local write frontiers to the write frontier */
+			frontier_vec_w.resize(n_f);
+
+#pragma omp parallel
+			{
+				size_t i = 0;
+
+				for (int j = 0; j < omp_get_thread_num(); j++) {
+					i += local_write_vecs[j].size();
+				}
+
+				std::vector<uint32_t, temp_alloc_type<uint32_t>>& vec = local_write_vecs[omp_get_thread_num()];
+				for (size_t j = 0; j < vec.size(); j++, i++) {
+					frontier_vec_w[i] = vec[j];
+				}
+			}
+
+			/* Clear the read frontier */
+			frontier_vec_r.resize(0);
+
+			level++;
+		}
+
+		return vertex_depth;
+	}
+
+	template<template<class> class alloc_type, template<class> class temp_alloc_type>
+	std::vector<int32_t, temp_alloc_type<int32_t>> breadth_first_traversal_bottom_up(const GraphCRS<alloc_type>& graph, uint32_t source_vertex) {
+
+		std::vector<int32_t, temp_alloc_type<int32_t>> vertex_depth(graph.num_vertices(), -1);
+		vertex_depth[source_vertex] = 0;
+
+		/* Frontiers for Bottom to Top */
+		Bitmap<temp_alloc_type> frontier_bm_1(graph.num_vertices());
+		frontier_bm_1.set_bit(source_vertex);
+		Bitmap<temp_alloc_type> frontier_bm_2(graph.num_vertices());
+
+		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_vec_1(graph.num_vertices(), 0);
+		frontier_vec_1[source_vertex] = 1;
+		std::vector<int8_t, temp_alloc_type<int8_t>> frontier_vec_2(graph.num_vertices(), 0);
+
+		/* The depth from the source vertex */
+		int32_t level = 1;
+		/* The number of vertices in the frontier */
+		size_t n_f = 1;
+
+		while (n_f > 0) {
+
+			BlockTimer timer("Bottom Up Step");
+
+			Bitmap<temp_alloc_type>& frontier_bm_r = level % 2 == 1 ? frontier_bm_1 : frontier_bm_2;
+			Bitmap<temp_alloc_type>& frontier_bm_w = level % 2 == 0 ? frontier_bm_1 : frontier_bm_2;
+
+			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_vec_r = level % 2 == 1 ? frontier_vec_1 : frontier_vec_2;
+			std::vector<int8_t, temp_alloc_type<int8_t>>& frontier_vec_w = level % 2 == 0 ? frontier_vec_1 : frontier_vec_2;
+
+			n_f = 0;
+
+			/* Bottom Up BFS */
+#pragma omp parallel for schedule(dynamic,16) reduction(+:n_f)
+			for (size_t vertex = 0; vertex < graph.num_vertices(); vertex++) {
+				if (vertex_depth[vertex] == -1) {
+
+					uint32_t row_index = graph.row_ind[vertex];
+					uint32_t row_index_end = graph.row_ind[vertex + 1];
+
+					for (; row_index < row_index_end; row_index++) {
+						uint32_t neighbor = graph.col_ind[row_index];
+
+						/*
+						if (frontier_vec_r[neighbor] == 1) {
+							frontier_vec_w[vertex] = 1;
+							vertex_depth[vertex] = level;
+							n_f++;
+							break;
+						}
+						*/
+						if (frontier_bm_r.get_bit(neighbor) == 1) {
+							frontier_bm_w.set_bit(vertex);
+							vertex_depth[vertex] = level;
+							n_f++;
+							break;
+						}
+					}
+				}
+			}
+
+			frontier_bm_r.clear();
+
+			/*
+			#pragma omp parallel for schedule(static)
+						for (size_t i = 0; i < frontier_vec_r.size(); i++) {
+							frontier_vec_r[i] = 0;
+						}
+						*/
+
+			level++;
 		}
 
 		return vertex_depth;

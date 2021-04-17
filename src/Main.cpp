@@ -71,6 +71,14 @@ int main(int argc, char** argv) {
 
 			//Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);
 			//Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
+
+			//tp.bfs_direction = Benchmark::BFS_DIRECTION::HYBRID;
+			//Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
+
+			tp.bfs_direction = Benchmark::BFS_DIRECTION::TOP_DOWN;
+			Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
+
+			tp.bfs_direction = Benchmark::BFS_DIRECTION::BOTTOM_UP;
 			Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 
 			graph_dram.free();
