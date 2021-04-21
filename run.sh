@@ -35,8 +35,8 @@ export OMP_DISPLAY_ENV=true
 export OMP_PROC_BIND=true
 
 # Allocates threads to hardware threads (using hyperthreading)
-# export OMP_PLACES={0}:36
-# export OMP_NUM_THREADS=36
+#export OMP_PLACES={0}:36
+#export OMP_NUM_THREADS=36
 
 # Allocates threads to cores
 export OMP_PLACES={0}:18:2

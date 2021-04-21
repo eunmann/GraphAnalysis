@@ -43,7 +43,7 @@
 				},
 				{
 					"name": "page_rank_iterations",
-					"value": "20"
+					"value": "5"
 				},
 				{
 					"name": "page_rank_dampening_factor",
@@ -51,7 +51,7 @@
 				},
 				{
 					"name": "test_iterations",
-					"value": "1"
+					"value": "3"
 				}
 			],
 			"externalConsole": false,
