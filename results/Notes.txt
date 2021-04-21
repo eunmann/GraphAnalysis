@@ -65,4 +65,12 @@ April 9th 2021
     
     OMP_PROC_BIND:
         'true' vs 'close' seem to be the same
+
+April 21 2021:
+
+	Make the Second chapter about machine "Experiemental Setting"
+	Then the memory benchmarks become a tool to describe the machine.
+	
+	Introduction
+		Big data -> Solutions for it -> PMEM -> how efficient is PMEM
         
