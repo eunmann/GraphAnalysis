@@ -49,7 +49,7 @@ asm/%.s: src/%.cpp | dir_make
 dir_make:
 	@mkdir -p obj asm obj/PMEM asm/PMEM obj/GNUPlot asm/GNUPlot tmp output
 
-.PHONY: clean clean_pm
+.PHONY: clean
 
 # Clean
 clean:
