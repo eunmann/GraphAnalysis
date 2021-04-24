@@ -1,0 +1,151 @@
+Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
+by Evan Unmann
+OpenMP:
+	omp_get_num_procs: 72
+	omp_get_max_threads: 18
+	OMP_PLACES: {0}:18:2
+	OMP_NUM_THREADS: 18
+	OMP_PROC_BIND: true
+PMEM:
+	Version: 1.1
+	PMEM Accessible: True
+Test Parameters:
+	mem_alloc_size:  10.000GB
+	graph_num_vertices: 100.000K
+	graph_min_degree:  20.00
+	graph_max_degree: 200.00
+	graph_min_value:   1.00
+	graph_max_value:   2.00
+	page_rank_iterations:   1.00
+	page_rank_num_dampening_factors:   8.00
+	test_iterations:  10.00
+	out_dir: output/2021.04.24.09.50.04/
+Loading Friendster graph from ./graph_examples/com-friendster.ungraph.txt
+[ Graph DRAM Load | 11.235 min ]
+[ Graph PMEM Copy | 28.990 s ]
+Page Rank Benchmark
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 1
+Number of Iterations: 1
+Iteration, Time Elapsed (s), MTEPS
+1, 6.068, 595.272
+2, 5.624, 642.274
+3, 5.704, 633.236
+4, 5.693, 634.534
+5, 6.633, 544.537
+6, 5.757, 627.408
+7, 5.960, 606.087
+8, 6.381, 566.049
+9, 5.727, 630.719
+10, 6.060, 596.030
+MTEPS:
+	Minimum: 544.53
+	Maximum: 642.27
+	Average: 607.61
+	STD_DEV:  30.82
+[ Page Rank | 59.608 s ]
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 2
+Number of Iterations: 1
+Iteration, Time Elapsed (s), MTEPS
+1, 6.760, 534.323
+2, 6.419, 562.750
+3, 6.247, 578.179
+4, 6.456, 559.497
+5, 6.515, 554.434
+6, 6.361, 567.829
+7, 6.199, 582.690
+8, 6.388, 565.469
+9, 6.360, 567.979
+10, 6.438, 561.072
+MTEPS:
+	Minimum: 534.32
+	Maximum: 582.69
+	Average: 563.42
+	STD_DEV:  12.57
+[ Page Rank | 1.069 min ]
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 4
+Number of Iterations: 1
+Iteration, Time Elapsed (s), MTEPS
+1, 8.772, 411.794
+2, 8.258, 437.400
+3, 8.484, 425.770
+4, 8.235, 438.654
+5, 8.280, 436.235
+6, 8.425, 428.732
+7, 8.189, 441.109
+8, 8.176, 441.815
+9, 8.607, 419.674
+10, 8.170, 442.139
+MTEPS:
+	Minimum: 411.79
+	Maximum: 442.13
+	Average: 432.33
+	STD_DEV:   9.91
+[ Page Rank | 1.393 min ]
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 8
+Number of Iterations: 1
+Iteration, Time Elapsed (s), MTEPS
+1, 13.015, 277.532
+2, 12.306, 293.529
+3, 12.290, 293.909
+4, 12.663, 285.254
+5, 12.296, 293.754
+6, 12.188, 296.376
+7, 12.663, 285.256
+8, 12.239, 295.125
+9, 12.266, 294.487
+10, 12.335, 292.828
+MTEPS:
+	Minimum: 277.53
+	Maximum: 296.37
+	Average: 290.80
+	STD_DEV:   5.75
+[ Page Rank | 2.071 min ]
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::allocator; Benchmark::Parameters = Benchmark::Parameters]
+Number of Page Ranks: 16
+Number of Iterations: 1
+Iteration, Time Elapsed (s), MTEPS
+1, 23.211, 155.622
+2, 22.660, 159.407
+3, 22.515, 160.434
+4, 22.572, 160.028
+5, 22.530, 160.326
+6, 22.663, 159.383
+7, 22.775, 158.602
+8, 22.645, 159.514
+9, 22.679, 159.275
+10, 22.526, 160.357
+MTEPS:
+	Minimum: 155.62
+	Maximum: 160.43
+	Average: 159.29
+	STD_DEV:   1.34
+[ Page Rank | 3.780 min ]
+Page Rank
+Number of Vertices: 124836180 = 124.836M
+Number of Edges: 3612134270 =   3.612G
+Memory Size: 29396418884 =  29.396GB
+Function Templates: [with alloc_type = std::allocator; temp_alloc_type = std::all
