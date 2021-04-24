@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 dir_name=$(date "+%Y.%m.%d.%H.%M.%S")
 file_name=output.txt
 out_dir=output/${dir_name}/
