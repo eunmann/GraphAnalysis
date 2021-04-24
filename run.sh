@@ -24,7 +24,7 @@ export graph_min_value=1
 export graph_max_value=2
 
 # Page Rank Parameters
-export page_rank_iterations=100
+export page_rank_iterations=1
 export page_rank_num_dampening_factors=8
 
 # Number of iterations for each test
