@@ -4,28 +4,41 @@ import os
 from os import path
 
 
-def transpose_csv(path, outpath):
-    pd.read_csv(path, header=None).T.to_csv(outpath, header=False, index=False)
+def scale_pr(directory):
+
+    csv_paths = glob.glob(path.join(directory, "page_rank_*_T.csv"))
+
+    for csv_path in csv_paths:
+
+        df = pd.read_csv(csv_path)
+
+        col_names = ['DD', 'DP', 'PD', 'PP']
+        for col_name in col_names:
+            scalor = 1.0
+            col = df[col_name]
+            for i in range(len(col)):
+                col[i] = col[i] * scalor
+                scalor *= 2
+
+        df.to_csv(csv_path[:-4] + "_S.csv", index=False)
 
 
-def scale_csv(path, output):
+def rename_files(dir):
 
-    df = pd.read_csv(path)
+    csv_paths = glob.glob(path.join(directory, "*.csv"))
 
-    col_names = ['DD', 'DP', 'PD', 'PP']
-    for col_name in col_names:
-        scalor = 1.0
-        col = df[col_name]
-        for i in range(len(col)):
-            col[i] = col[i] * scalor
-            scalor *= 2
-
-    df.to_csv(output, index=False)
+    for csv_path in csv_paths:
+        os.rename(csv_path, csv_path[:-4] + "_cores.csv")
 
 
-directory = "./output/2021.04.13.09.59.35"
-csv_paths = glob.glob(path.join(directory, "*.csv"))
+def transpose_pr(dir):
+    csv_paths = glob.glob(path.join(directory, "page_rank_*.csv"))
 
-for csv_path in csv_paths:
-    trans_path = csv_path[:-4] + "_T.csv"
-    transpose_csv(csv_path, trans_path)
+    for csv_path in csv_paths:
+        pd.read_csv(csv_path, header=None).T.to_csv(csv_path[:-4] + "_T.csv", header=False, index=False)
+
+
+directory = "./output/2021.04.24.12.40.54"
+
+transpose_pr(directory)
+scale_pr(directory)
