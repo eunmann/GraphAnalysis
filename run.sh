@@ -39,7 +39,7 @@ export OMP_PROC_BIND=true
 #export OMP_NUM_THREADS=36
 
 # Allocates threads to cores
-export OMP_PLACES={32}:18:2
+export OMP_PLACES={36}:18:2
 export OMP_NUM_THREADS=18
 
 echo Starting pmem_benchmark
