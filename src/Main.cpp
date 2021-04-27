@@ -43,12 +43,12 @@ int main(int argc, char** argv) {
         Benchmark::Parameters tp = Benchmark::get_parameters();
 
         std::vector<std::pair<std::string, std::string>> graph_paths;
-        graph_paths.push_back(std::make_pair("./graph_examples/facebook_combined.txt", "Facebook"));
-        graph_paths.push_back(std::make_pair("./graph_examples/soc-Epinions1.txt", "Epinions"));
-        graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
-        graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
-        graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
-        graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/facebook_combined.txt", "Facebook"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/soc-Epinions1.txt", "Epinions"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/soc-pokec-relationships.txt", "Pokec"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/sx-stackoverflow.txt", "Stack Overflow"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/soc-LiveJournal1.txt", "Live Journal"));
+        //graph_paths.push_back(std::make_pair("./graph_examples/com-orkut.ungraph.txt", "Orkut"));
         //graph_paths.push_back(std::make_pair("./graph_examples/com-friendster.ungraph.txt", "Friendster"));
 
         for (const auto& graph_path : graph_paths) {
@@ -70,23 +70,23 @@ int main(int argc, char** argv) {
             }
 
             //Benchmark::benchmark_page_rank(tp, graph_dram, graph_pmem);
-            Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
+            //Benchmark::benchmark_page_rank_sizes(tp, graph_dram, graph_pmem);
 
             //tp.bfs_direction = Benchmark::BFS_DIRECTION::HYBRID;
             //Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 
             tp.bfs_direction = Benchmark::BFS_DIRECTION::TOP_DOWN;
-            Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
+            //Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 
             tp.bfs_direction = Benchmark::BFS_DIRECTION::BOTTOM_UP;
-            Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
+            //Benchmark::benchmark_breadth_first_traversal(tp, graph_dram, graph_pmem);
 
             graph_dram.free();
             graph_pmem.free();
         }
 
-        //Benchmark::benchmark_memory(tp);
-        //Benchmark::benchmark_STREAM(tp);
+        Benchmark::benchmark_memory(tp);
+        Benchmark::benchmark_STREAM(tp);
     }
     catch (std::exception& e) {
         printf("Exception: %s\n", e.what());
