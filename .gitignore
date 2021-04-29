@@ -39,3 +39,4 @@ pmem_benchmark
 tmp/
 graph_examples/
 output/debug/
+output/
