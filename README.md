@@ -1,13 +1,13 @@
 Performance Analytics of Graph Algorithms using Intel Optane DC Persistent Memory
 ===
 
-This project conducts a benchmark of memory and benchmarks graph algorithm performance. It compares using DRAM against using PMEM in different scenarios.
+This project conducts a benchmark of memory and graph algorithms. It compares DRAM against persistent memory, PMEM.
 
 Dependencies
 ---
 ___
 Linux OS \
-C++11 compliant compiler. (g++ 7.5.0 was used for this project) \
+C++14 compliant compiler. (g++ 7.5.0 was used for this project) \
 [PDMK](https://github.com/pmem/pmdk/) (libpmem 1.1) 
 
 Build
