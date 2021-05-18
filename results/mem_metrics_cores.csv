@@ -1,8 +1,0 @@
-,benchmark,dram,pmem,ratio
-0,Read Bandwidth, 106.815 GB/s, 40.161 GB/s,0.38
-1,Read Latency, 137.14 ns, 403.70 ns,2.94
-2,Write Bandwidth, 73.715 GB/s,  3.047 GB/s,0.04
-3,STREAM Copy, 66.715 GB/s, 5.523 GB/s,0.08
-4,STREAM Scale, 66.717 GB/s, 5.555 GB/s,0.08
-5,STREAM Add, 75.298 GB/s, 8.093 GB/s,0.11
-6,STREAM Triad, 75.367 GB/s, 8.185 GB/s,0.11
